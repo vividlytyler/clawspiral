@@ -1,0 +1,33 @@
+---
+interface Props {
+  category: string;
+}
+
+const { category } = Astro.props;
+
+const labels: Record<string, string> = {
+  'home-automation': 'Home Automation',
+  'research': 'Research',
+  'development': 'Development',
+  'productivity': 'Productivity',
+  'creative': 'Creative',
+  'experimental': 'Experimental',
+};
+
+const colors: Record<string, string> = {
+  'home-automation': 'bg-emerald-900 text-emerald-300',
+  'research': 'bg-violet-900 text-violet-300',
+  'development': 'bg-blue-900 text-blue-300',
+  'productivity': 'bg-amber-900 text-amber-300',
+  'creative': 'bg-pink-900 text-pink-300',
+  'experimental': 'bg-orange-900 text-orange-300',
+};
+
+const slug = category;
+const label = labels[slug] ?? slug;
+const color = colors[slug] ?? 'bg-slate-700 text-slate-300';
+---
+
+<span class={`inline-block px-2 py-0.5 rounded text-xs font-medium ${color}`}>
+  {label}
+</span>
