@@ -1,0 +1,48 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import { getCollection } from 'astro:content';
+
+const allNews = await getCollection('news', ({ data }) => !data.draft);
+const newsItems = allNews.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+
+<PageLayout title="News">
+  <div class="mb-8">
+    <h1 class="text-3xl font-bold mb-4">OpenClaw News</h1>
+    <p class="text-slate-400 max-w-xl">
+      Daily updates on what's new with OpenClaw — releases, features, community developments, 
+      and practical use cases discovered in the wild.
+    </p>
+  </div>
+
+  <div class="space-y-8">
+    {newsItems.map((item) => (
+      <article class="border-b border-slate-800 pb-8 last:border-0">
+        <div class="flex items-center gap-3 mb-3">
+          <time 
+            datetime={item.data.pubDate.toISOString()} 
+            class="text-sm text-slate-500"
+          >
+            {item.data.pubDate.toLocaleDateString('en-US', { 
+              year: 'numeric', 
+              month: 'long', 
+              day: 'numeric' 
+            })}
+          </time>
+        </div>
+        <h2 class="text-xl font-semibold mb-2">{item.data.title}</h2>
+        <p class="text-slate-300 mb-4">{item.data.description}</p>
+        <a 
+          href={`/news/${item.id}`}
+          class="text-sky-400 hover:underline text-sm"
+        >
+          Read more →
+        </a>
+      </article>
+    ))}
+  </div>
+
+  {newsItems.length === 0 && (
+    <p class="text-slate-500">No news posts yet. Check back soon!</p>
+  )}
+</PageLayout>
