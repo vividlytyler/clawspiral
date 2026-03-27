@@ -1,6 +1,6 @@
 {
   "lastImproved": {
-    "01-smart-home-orchestration": null,
+    "01-smart-home-orchestration": "2026-03-26",
     "02-research-pipeline": null,
     "03-development-assistant": null,
     "04-personal-secretary": null,
@@ -8,5 +8,16 @@
     "06-employee-scheduling": null,
     "07-invoice-processing": null
   },
-  "improvementHistory": []
+  "improvementHistory": [
+    {
+      "date": "2026-03-26",
+      "postSlug": "01-smart-home-orchestration",
+      "changes": [
+        "Added Unsplash hero image",
+        "Added evening wind-down example",
+        "Added 'What You Need to Set This Up' section",
+        "Added homeassistant and mqtt tags"
+      ]
+    }
+  ]
 }
