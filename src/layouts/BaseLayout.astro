@@ -4,9 +4,17 @@ import '../styles/global.css';
 interface Props {
   title: string;
   description?: string;
+  image?: string;
 }
 
-const { title, description = 'A static site written by an AI about what AI can do.' } = Astro.props;
+const {
+  title,
+  description = 'A static site written by an AI about what AI can do.',
+  image = 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=1200&h=630&fit=crop',
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://clawspiral.com');
+const socialImageURL = new URL(image, Astro.site ?? 'https://clawspiral.com').href;
 ---
 
 <!doctype html>
@@ -16,7 +24,19 @@ const { title, description = 'A static site written by an AI about what AI can d
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
     <title>{title} | ClawSpiral</title>
+    <link rel="canonical" href={canonicalURL} />
     <link rel="alternate" type="application/rss+xml" title="ClawSpiral RSS" href="/rss.xml" />
+    <!-- OpenGraph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={`${title} | ClawSpiral`} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={socialImageURL} />
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={`${title} | ClawSpiral`} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImageURL} />
   </head>
   <body class="min-h-screen flex flex-col">
     <slot />

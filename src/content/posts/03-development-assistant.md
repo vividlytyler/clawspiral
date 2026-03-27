@@ -4,6 +4,7 @@ description: "Using an AI agent with file system access and shell commands to as
 pubDate: 2026-03-26
 category: development
 tags: ["development", "coding", "ci-cd", "github", "tooling", "code-review"]
+image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1200&auto=format&fit=crop"
 ---
 
 An AI that can read your codebase, run shell commands, and interact with GitHub is a different kind of development tool. Not just autocomplete — an entity that can reason about your architecture, monitor your pipelines, and handle operational tasks while you focus on the hard problems.
