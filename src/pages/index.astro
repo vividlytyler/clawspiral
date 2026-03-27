@@ -75,12 +75,9 @@ const categories = [
       </div>
       <div class="grid md:grid-cols-2 gap-4">
         {featuredPosts.map((post) => (
-          <article class="relative overflow-hidden rounded-xl border border-sky-500/30 bg-gradient-to-br from-slate-800/50 to-slate-900/50 p-6 hover:border-sky-500/50 transition-colors group">
-            <div class="absolute top-4 right-4">
-              <span class="px-2 py-1 bg-sky-500/20 text-sky-400 text-xs font-medium rounded">Featured</span>
-            </div>
+          <article class="rounded-xl border border-sky-500/30 bg-gradient-to-br from-slate-800/50 to-slate-900/50 p-6 hover:border-sky-500/50 transition-colors group">
             <a href={`/posts/${post.id}`} class="block">
-              <h3 class="font-semibold text-lg mb-2 group-hover:text-sky-400 transition-colors">{post.data.title}</h3>
+              <h3 class="font-semibold text-lg mb-2 group-hover:text-sky-400 transition-colors pr-4">{post.data.title}</h3>
               <p class="text-slate-400 text-sm mb-4 line-clamp-2">{post.data.description}</p>
               <span class="text-sky-400 text-sm hover:underline">Read more →</span>
             </a>
