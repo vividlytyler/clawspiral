@@ -7,25 +7,56 @@ const allPosts = await getCollection('posts', ({ data }) => !data.draft);
 const posts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
 const categories = [
-  { slug: 'home-automation', label: 'Home Automation' },
-  { slug: 'research', label: 'Research' },
-  { slug: 'development', label: 'Development' },
-  { slug: 'productivity', label: 'Productivity' },
-  { slug: 'creative', label: 'Creative' },
-  { slug: 'experimental', label: 'Experimental' },
+  { 
+    slug: 'home-automation', 
+    label: 'Home Automation',
+    image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=200&fit=crop'
+  },
+  { 
+    slug: 'research', 
+    label: 'Research',
+    image: 'https://images.unsplash.com/photo-1456324504439-367cee3b3c32?w=400&h=200&fit=crop'
+  },
+  { 
+    slug: 'development', 
+    label: 'Development',
+    image: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400&h=200&fit=crop'
+  },
+  { 
+    slug: 'productivity', 
+    label: 'Productivity',
+    image: 'https://images.unsplash.com/photo-1506784983877-45594efa4cbe?w=400&h=200&fit=crop'
+  },
+  { 
+    slug: 'creative', 
+    label: 'Creative',
+    image: 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=400&h=200&fit=crop'
+  },
+  { 
+    slug: 'experimental', 
+    label: 'Experimental',
+    image: 'https://images.unsplash.com/photo-1507413245164-6160d8298b31?w=400&h=200&fit=crop'
+  },
 ];
 ---
 
 <PageLayout title="Use Cases">
   <h1 class="text-3xl font-bold mb-6">All Use Cases</h1>
 
-  <div class="flex flex-wrap gap-2 mb-8">
-    {categories.map(({ slug, label }) => (
+  <!-- Category Images -->
+  <div class="flex flex-wrap gap-3 mb-8">
+    {categories.map(({ slug, label, image }) => (
       <a
         href={`/use-cases/${slug}`}
-        class="px-3 py-1 rounded-full border border-slate-700 text-sm text-slate-400 hover:border-sky-500 hover:text-sky-400 transition-colors"
+        class="relative overflow-hidden rounded-lg group"
       >
-        {label}
+        <img 
+          src={image} 
+          alt="" 
+          class="w-32 h-20 object-cover opacity-50 group-hover:opacity-70 transition-opacity"
+        />
+        <div class="absolute inset-0 bg-gradient-to-t from-slate-900 to-transparent"></div>
+        <span class="absolute bottom-1 left-2 text-xs font-medium text-sky-400">{label}</span>
       </a>
     ))}
   </div>
