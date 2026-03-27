@@ -4,6 +4,7 @@ description: "How OpenClaw can handle accounts payable and receivable — receiv
 pubDate: 2026-03-26
 category: productivity
 tags: ["invoicing", "accounting", "ocr", "ap", "ar", "automation", "email"]
+featured: true
 ---
 
 Invoice processing is repetitive, error-prone, and takes real time. OpenClaw can receive invoices, extract the key data, and prepare it for import into accounting software — or maintain a simple bookkeeping file directly.

@@ -18,6 +18,7 @@ const posts = defineCollection({
     ]),
     draft: z.boolean().default(false),
     tags: z.array(z.string()).optional(),
+    featured: z.boolean().default(false),
   }),
 });
 
