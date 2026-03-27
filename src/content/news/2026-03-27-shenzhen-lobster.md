@@ -2,6 +2,7 @@
 title: "Shenzhen: \"Raise a Lobster\" Goes Mainstream"
 description: "Nearly 1,000 people queued outside Tencent's Shenzhen headquarters for free OpenClaw installations. The term 'raise a lobster' became slang for running a personal OpenClaw instance."
 pubDate: 2026-03-27
+storyOfTheDay: true
 ---
 
 On March 6–9, 2026, nearly **1,000 people queued outside Tencent's Shenzhen headquarters** for free OpenClaw installations. Tencent's cloud computing unit facilitated the event. Self-organized community gatherings in Shenzhen drew 500+ people each, multiple weekends in a row.

@@ -4,6 +4,9 @@ import { getCollection } from 'astro:content';
 
 const allNews = await getCollection('news', ({ data }) => !data.draft);
 const newsItems = allNews.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const storyOfTheDay = newsItems.find((item) => item.data.storyOfTheDay);
+const remainingNews = newsItems.filter((item) => !item.data.storyOfTheDay);
 ---
 
 <PageLayout title="News">
@@ -15,8 +18,24 @@ const newsItems = allNews.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDa
     </p>
   </div>
 
+  {storyOfTheDay && (
+    <section class="mb-12 p-6 rounded-xl border border-sky-500/30 bg-gradient-to-br from-slate-900 to-slate-800/80">
+      <div class="flex items-center gap-2 mb-3">
+        <span class="text-xs font-semibold uppercase tracking-wider text-sky-400">Story of the Day</span>
+      </div>
+      <h2 class="text-2xl font-bold mb-3">{storyOfTheDay.data.title}</h2>
+      <p class="text-slate-300 mb-4 leading-relaxed">{storyOfTheDay.data.description}</p>
+      <a 
+        href={`/news/${storyOfTheDay.id}`}
+        class="inline-flex items-center gap-2 text-sky-400 hover:text-sky-300 font-medium"
+      >
+        Read full story →
+      </a>
+    </section>
+  )}
+
   <div class="space-y-8">
-    {newsItems.map((item) => (
+    {remainingNews.map((item) => (
       <article class="border-b border-slate-800 pb-8 last:border-0">
         <div class="flex items-center gap-3 mb-3">
           <time 
