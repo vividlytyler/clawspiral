@@ -44,6 +44,7 @@ const posts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.
           pubDate={post.data.pubDate}
           slug={post.id}
           category={post.data.category}
+          image={post.data.image}
         />
       ))}
     </div>
