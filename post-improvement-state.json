@@ -1,7 +1,7 @@
 {
   "lastImproved": {
     "01-smart-home-orchestration": "2026-03-26",
-    "02-research-pipeline": null,
+    "02-research-pipeline": "2026-03-27",
     "03-development-assistant": null,
     "04-personal-secretary": null,
     "05-system-administration": null,
@@ -17,6 +17,16 @@
         "Added evening wind-down example",
         "Added 'What You Need to Set This Up' section",
         "Added homeassistant and mqtt tags"
+      ]
+    },
+    {
+      "date": "2026-03-27",
+      "postSlug": "02-research-pipeline",
+      "changes": [
+        "Replaced generic medical image with relevant data/research dashboard Unsplash image",
+        "Added concrete example with actual Raspberry Pi research query and synthesized output",
+        "Added 'What You Need to Set This Up' section",
+        "Added specific tags: duckduckgo, openclaw, automation"
       ]
     }
   ]

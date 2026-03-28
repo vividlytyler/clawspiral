@@ -3,8 +3,8 @@ title: "Research Pipeline: From Question to Report"
 description: "How OpenClaw can research a topic end-to-end — web search, content extraction, synthesis, and delivery. A framework for turning scattered information into coherent reports."
 pubDate: 2026-03-26
 category: research
-tags: ["research", "web-search", "synthesis", "pipeline", "llm"]
-image: "https://images.unsplash.com/photo-1456324504439-367cee3b3c32?w=1200&auto=format&fit=crop"
+tags: ["research", "web-search", "synthesis", "pipeline", "llm", "duckduckgo", "openclaw", "automation"]
+image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&auto=format&fit=crop"
 ---
 
 OpenClaw's web search and fetch capabilities make it a capable research assistant. But the value isn't in answering simple questions — it's in building repeatable pipelines that transform raw web content into structured knowledge.
@@ -67,6 +67,38 @@ For a technical research query, something like:
 3. **Tradeoffs** — Honest assessment of limitations or competing options
 4. **Sources** — Linked references with brief notes on each
 5. **Confidence** — Explicit statement on how certain the synthesis is
+
+## A Concrete Example
+
+Here's what an actual research turn looks like:
+
+**User asks:** "What's the state of local LLM inference on Raspberry Pi in 2026? Looking for something I can actually run, not a demo."
+
+**Pipeline execution:**
+
+1. `web_search` — queries "Raspberry Pi 5 local LLM inference Ollama 2026" → returns 8 ranked results with snippets
+2. `web_fetch` — pulls content from top 3 sources (Ollama docs, Tom's Hardware benchmarks, Reddit r/LocalLLM)
+3. LLM synthesizes: compares Gemma 3B vs Llama 3.2 3B vs Mistral Nano performance, notes RAM constraints, flags one source that turned out to be from 2025
+
+**Output:**
+> **Bottom line:** A Raspberry Pi 5 with 8GB RAM can run Llama 3.2 1B or Mistral Nano at ~15 tokens/sec — usable for simple agents, frustrating for anything requiring context. For anything serious, stick to a Mini PC with 32GB.
+>
+> **Key findings:**
+> - Ollama 0.5+ supports Pi ARM builds natively
+> - Gemma 3B hits ~8 tok/sec — too slow for interactive use
+> - 4-bit quantized models fit in RAM but quality suffers
+> - Mini PC (Beelink EQ12, ~$200) outperforms Pi 5x at similar power draw
+>
+> **Confidence:** High — three independent sources agree. The Reddit thread has one dissenting voice but no benchmark data to back it up.
+
+## What You Need to Set This Up
+
+- **OpenClaw** with `web_search` and `web_fetch` tools enabled (default in most setups)
+- **No API keys required** — DuckDuckGo search is built in
+- **Optional:** A second brain / notes app (Obsidian, Notion) to store findings if you want persistence beyond the session
+- **Nice to have:** A way to pipe output somewhere (email, Telegram, a doc) so research doesn't get lost in chat history
+
+The pipeline is the same whether you're researching once or fifty times. The setup cost is zero.
 
 ## When It Breaks
 
