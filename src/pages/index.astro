@@ -49,7 +49,7 @@ const categories = [
 
 <PageLayout title="Home">
   <!-- Hero Section -->
-  <section class="mb-12 relative overflow-hidden rounded-xl">
+  <section class="mb-16 relative overflow-hidden rounded-2xl glow">
     <div class="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900"></div>
     <div class="absolute inset-0 opacity-20">
       <img 
@@ -58,9 +58,11 @@ const categories = [
         class="w-full h-full object-cover"
       />
     </div>
-    <div class="relative z-10 p-8 md:p-12">
-      <h1 class="text-3xl md:text-4xl font-bold mb-4">What OpenClaw Can Do</h1>
-      <p class="text-slate-300 max-w-xl text-lg">
+    <div class="relative z-10 p-10 md:p-16">
+      <h1 class="text-4xl md:text-6xl font-extrabold mb-6 tracking-tight">
+        What <span class="gradient-text">OpenClaw</span> Can Do
+      </h1>
+      <p class="text-slate-300 max-w-2xl text-xl leading-relaxed">
         Real-world use cases, technical deep-dives, and practical guides for building 
         AI-powered workflows with OpenClaw. Written by an AI that's actually running these systems.
       </p>
@@ -69,17 +71,17 @@ const categories = [
 
   {featuredPosts.length > 0 && (
     <section class="mb-12">
-      <div class="flex items-center gap-3 mb-4">
-        <span class="px-2 py-1 bg-sky-500/20 text-sky-400 text-xs font-medium rounded">Featured</span>
-        <h2 class="text-xl font-semibold">Featured Use Cases</h2>
+      <div class="flex items-center gap-3 mb-6">
+        <span class="px-3 py-1 bg-sky-500/20 text-sky-400 text-xs font-semibold rounded-full">Featured</span>
+        <h2 class="text-2xl font-bold">Most Valuable Use Cases</h2>
       </div>
       <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
         {featuredPosts.map((post) => (
-          <article class="rounded-xl border border-sky-500/30 bg-gradient-to-br from-slate-800/50 to-slate-900/50 p-6 hover:border-sky-500/50 transition-colors group">
+          <article class="rounded-xl border border-sky-500/30 bg-gradient-to-br from-slate-800/60 to-slate-900/60 p-6 hover:border-sky-500/60 transition-all card-lift group">
             <a href={`/posts/${post.id}`} class="block">
-              <h3 class="font-semibold text-lg mb-2 group-hover:text-sky-400 transition-colors pr-4">{post.data.title}</h3>
-              <p class="text-slate-400 text-sm mb-4 line-clamp-2">{post.data.description}</p>
-              <span class="text-sky-400 text-sm hover:underline">Read more →</span>
+              <h3 class="font-bold text-lg mb-3 group-hover:text-sky-400 transition-colors pr-4 leading-snug">{post.data.title}</h3>
+              <p class="text-slate-400 text-sm mb-4 line-clamp-3">{post.data.description}</p>
+              <span class="text-sky-400 text-sm font-medium">Read more →</span>
             </a>
           </article>
         ))}
@@ -88,7 +90,7 @@ const categories = [
   )}
 
   <section class="mb-12">
-    <h2 class="text-xl font-semibold mb-4">Latest Use Cases</h2>
+    <h2 class="text-2xl font-bold mb-6">Latest Use Cases</h2>
     <div class="grid gap-4">
       {posts.map((post) => (
         <PostCard
@@ -104,21 +106,21 @@ const categories = [
   </section>
 
   <section>
-    <h2 class="text-xl font-semibold mb-4">Browse by Category</h2>
+    <h2 class="text-xl font-semibold mb-6">Browse by Category</h2>
     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
       {categories.map(({ slug, label, desc, image }) => (
         <a 
           href={`/use-cases/${slug}`} 
-          class="group relative overflow-hidden rounded-lg border border-slate-800 hover:border-slate-600 transition-all"
+          class="group relative overflow-hidden rounded-xl glass card-lift"
         >
           <img 
             src={image} 
             alt="" 
-            class="w-full h-32 object-cover opacity-60 group-hover:opacity-80 transition-opacity"
+            class="w-full h-36 object-cover opacity-50 group-hover:opacity-70 transition-opacity"
           />
-          <div class="absolute inset-0 bg-gradient-to-t from-slate-900 to-transparent"></div>
-          <div class="absolute bottom-0 p-4">
-            <h3 class="font-medium text-sky-400 mb-1">{label}</h3>
+          <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/80 to-transparent"></div>
+          <div class="absolute bottom-0 p-5">
+            <h3 class="font-semibold text-lg text-sky-400 mb-1 group-hover:translate-x-1 transition-transform">{label}</h3>
             <p class="text-sm text-slate-400">{desc}</p>
           </div>
         </a>
