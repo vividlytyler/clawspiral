@@ -4,6 +4,7 @@ description: "How OpenClaw can serve as a persistent financial monitoring layer 
 pubDate: 2026-03-27
 category: productivity
 tags: ["finance", "budgeting", "monitoring", "cron", "telegram", "csv", "automation"]
+featured: true
 image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&auto=format&fit=crop"
 ---
 

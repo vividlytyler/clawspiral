@@ -71,9 +71,9 @@ const categories = [
     <section class="mb-12">
       <div class="flex items-center gap-3 mb-4">
         <span class="px-2 py-1 bg-sky-500/20 text-sky-400 text-xs font-medium rounded">Featured</span>
-        <h2 class="text-xl font-semibold">Most Valuable Use Cases</h2>
+        <h2 class="text-xl font-semibold">Featured Use Cases</h2>
       </div>
-      <div class="grid md:grid-cols-2 gap-4">
+      <div class="grid md:grid-cols-3 gap-4">
         {featuredPosts.map((post) => (
           <article class="rounded-xl border border-sky-500/30 bg-gradient-to-br from-slate-800/50 to-slate-900/50 p-6 hover:border-sky-500/50 transition-colors group">
             <a href={`/posts/${post.id}`} class="block">
