@@ -4,6 +4,7 @@ description: "Most nutrition apps die in a drawer. OpenClaw turns your existing 
 pubDate: 2026-03-28
 category: productivity
 tags: ["nutrition", "health", "macros", "image-analysis", "telegram", "whatsapp", "automation", "diet"]
+featured: true
 image: "https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=1200&auto=format&fit=crop"
 ---
 

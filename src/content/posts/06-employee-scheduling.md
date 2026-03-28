@@ -4,7 +4,6 @@ description: "How OpenClaw can automate weekly scheduling — collecting availab
 pubDate: 2026-03-26
 category: productivity
 tags: ["scheduling", "small-business", "telegram", "whatsapp", "automation", "hr"]
-featured: true
 image: "https://images.unsplash.com/photo-1506784983877-45594efa4cbe?w=1200&auto=format&fit=crop"
 ---
 
