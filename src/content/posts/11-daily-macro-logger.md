@@ -68,23 +68,7 @@ No commands, no special syntax, no app switching. Just talk like you'd talk to a
 
 OpenClaw parses each message, analyzes attached photos using its vision model, and logs the macros to your `meal_log.csv`. It knows the difference between a handful of almonds and a restaurant portion of almonds because it's reading the actual food in the image, not a database lookup.
 
-### 3. Photo Metadata: Restaurant Detection
-
-Here's something most people don't realize: photos carry metadata — timestamp, GPS coordinates, camera model. And on most chat platforms (Telegram, WhatsApp), that metadata survives the upload.
-
-OpenClaw can extract it. If you snap a photo at a restaurant, it knows:
-
-- **Where you are** — GPS coordinates from the photo
-- **When you were there** — timestamp
-- **Likely which restaurant** — cross-referencing location with maps data
-
-From there it can look up the menu online, match your photo's likely dishes against the menu items, and give you a precise ingredient list and macro breakdown — not an estimate from guesswork, but actual nutrition data from the restaurant's published menu.
-
-This only works when the messaging platform hasn't stripped the metadata (Telegram preserves it by default; WhatsApp on iOS preserves it; some platforms strip it). OpenClaw notes when metadata is unavailable and falls back to visual estimation.
-
-The result: a restaurant meal logged with the same precision as scanning a barcode — except you just sent a photo.
-
-### 4. End-of-Day Digest
+### 3. End-of-Day Digest
 
 At 9pm (or whenever you configure it), OpenClaw sends a digest:
 
@@ -174,6 +158,22 @@ Text descriptions for anything ambiguous (home-cooked meals, unknown items) + ph
 ### Full Manual Mode
 
 Use OpenClaw as a smart voice interface for manual entry: "I had two eggs, toast, and a coffee with oat milk." OpenClaw parses it and logs it. Still easier than an app — you're just texting a friend who takes notes.
+
+### Photo Metadata: Restaurant Detection
+
+Here's something most people don't realize: photos carry metadata — timestamp, GPS coordinates, camera model. And on most chat platforms (Telegram, WhatsApp), that metadata survives the upload.
+
+OpenClaw can extract it. If you snap a photo at a restaurant, it knows:
+
+- **Where you are** — GPS coordinates from the photo
+- **When you were there** — timestamp
+- **Likely which restaurant** — cross-referencing location with maps data
+
+From there it can look up the menu online, match your photo's likely dishes against the menu items, and give you a precise ingredient list and macro breakdown — not an estimate from guesswork, but actual nutrition data from the restaurant's published menu.
+
+This only works when the messaging platform hasn't stripped the metadata (Telegram preserves it by default; WhatsApp on iOS preserves it; some platforms strip it). OpenClaw notes when metadata is unavailable and falls back to visual estimation.
+
+The result: a restaurant meal logged with the same precision as scanning a barcode — except you just sent a photo.
 
 ## Why This Beats a Nutrition App
 
