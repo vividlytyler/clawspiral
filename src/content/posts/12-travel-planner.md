@@ -86,6 +86,4 @@ It also can't visit a physical location and tell you if a hotel room is louder t
 
 But for the hours of research that come before booking — the part that determines whether your trip goes well — it's a significant time saver with actual judgment applied.
 
----
 
-*Next up in this series: [Daily Macro Logger](/posts/daily-macro-logger) — nutrition tracking without the app fatigue.*
