@@ -56,21 +56,37 @@ When `npm ci` fails on Cloudflare Pages but works locally, OpenClaw can:
 - Suggest which packages need updating
 - Verify the fix before you push
 
-## The Docker Development Stack
+## Concrete Example: Code Review in Practice
 
-For developers running local Docker stacks:
+Here's what an actual code review session looks like:
 
-- **Watchtower** integration: OpenClaw can monitor for container updates and alert you
-- **Portainer** or **Docker CLI**: Check container health, view logs, restart services
-- **LinuxServer containers**: Manage media servers, network storage, Plex/Jellyfin
+> "Review the changes in branch `feature/payment-retry` for the billing service."
 
-This turns your home server into a development environment with full observability.
+OpenClaw will:
+1. Read the diff and changed files
+2. Identify that the new `retryPayment()` function doesn't have a timeout
+3. Flag that the existing `maxAttempts` constant is 3, but the error log at line 47 references 5
+4. Note the new dependency on `payment-sdk` isn't documented in the PR description
+5. Report back a structured review with severity levels
+
+You paste that into the PR thread. The author catches the timeout issue before it reaches production.
+
+## What You Need to Set This Up
+
+- **OpenClaw** with `exec` tool enabled and file system access
+- **GitHub account** — fine-grained Personal Access Token with repo read permissions (or broader if you want it to comment on PRs)
+- **CI/CD access** — webhook integration or API token for GitHub Actions, GitLab CI, etc.
+- **Isolated execution environment** — never run OpenClaw as root on production systems; use a dedicated service account or container
+- **Optional: Docker CLI** — if you want container health monitoring via Portainer or the Docker API
+
+For the Docker stack described above, you already have Watchtower and Portainer running — OpenClaw can connect to the Docker socket or Portainer's API to check container health, tail logs, and restart services.
 
 ## Limitations
 
-- **Security**: File system access is powerful but risky. Use appropriate isolation.
-- **No native IDE integration**: OpenClaw edits files directly, not through VS Code or similar
-- **Context windows**: Large codebases may exceed what can fit in a single prompt
-- **Not a compiler**: It can't actually run your code (unless you set up execution), only reason about it
+- **Security is non-negotiable**: File system + shell access is root-level trust. Use a dedicated service account with minimal permissions, not your main user. Consider running OpenClaw inside a container with read-only filesystem where possible.
+- **No native IDE integration**: OpenClaw edits files directly. If you use VS Code's diff view or local Git hooks, you'll need to pull changes manually.
+- **Context windows**: A 50-file refactor won't fit in a single prompt. Work in focused chunks — one module, one PR at a time.
+- **Not a compiler**: It can read test output, parse error messages, and suggest fixes — but it can't replace your local `npm test` loop.
+- **GitHub API rate limits**: Automated monitoring can hit rate limits on free-tier accounts. Fine-grained PATs get higher limits than classic tokens.
 
 The sweet spot is operational tasks, code review, and debugging — where the AI can leverage its broad knowledge to complement your specific codebase knowledge.

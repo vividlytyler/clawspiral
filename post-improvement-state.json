@@ -2,13 +2,23 @@
   "lastImproved": {
     "01-smart-home-orchestration": "2026-03-26",
     "02-research-pipeline": "2026-03-27",
-    "03-development-assistant": null,
+    "03-development-assistant": "2026-03-28",
     "04-personal-secretary": null,
     "05-system-administration": null,
     "06-employee-scheduling": null,
     "07-invoice-processing": null
   },
   "improvementHistory": [
+    {
+      "date": "2026-03-28",
+      "postSlug": "03-development-assistant",
+      "changes": [
+        "Added concrete code review example with feature/payment-retry scenario",
+        "Added 'What You Need to Set This Up' section with prerequisites",
+        "Expanded Limitations section with security hardening detail, context window behavior, and GitHub API rate limit caveat",
+        "Connected Docker stack section to the What You Need section"
+      ]
+    },
     {
       "date": "2026-03-26",
       "postSlug": "01-smart-home-orchestration",
