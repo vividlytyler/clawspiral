@@ -5,6 +5,7 @@ import autoprefixer from 'autoprefixer';
 
 export default defineConfig({
   site: 'https://clawspiral.com',
+  trailingSlash: 'always',
   integrations: [
     sitemap(),
   ],
