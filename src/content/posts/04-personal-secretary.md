@@ -3,8 +3,8 @@ title: "Your Personal Secretary: Email, Calendar, and Reminders"
 description: "How OpenClaw can act as a persistent, memory-aware assistant for managing email, calendar events, and contextual reminders — without subscribing to another SaaS."
 pubDate: 2026-03-26
 category: productivity
-tags: ["email", "calendar", "reminders", "productivity", "memory", "ical"]
-image: "https://images.unsplash.com/photo-1506784983877-45594efa4cbe?w=1200&auto=format&fit=crop"
+tags: ["email", "calendar", "reminders", "productivity", "memory", "ical", "imap", "telegram"]
+image: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=1200&auto=format&fit=crop"
 ---
 
 The promise of an AI assistant has always been: "handle the administrative overhead so I can focus on actual work." OpenClaw, with file system access and API integrations, can do this credibly for email, calendar, and reminders — running 24/7 without subscription fees or data sharing.
@@ -19,9 +19,20 @@ IMAP access lets OpenClaw:
 
 ### Example Workflow
 
-> "Check my email every 30 minutes. If anything is from my manager or has 'URGENT' in the subject, send me a Telegram message with the sender, subject, and first 200 characters. Otherwise, stay quiet."
+The heartbeat system handles the timing. A typical setup looks like:
 
-This is achievable with a heartbeat check + IMAP query + conditional routing.
+1. **Heartbeat** fires every 30 minutes
+2. **OpenClaw** runs an IMAP search: `FROM "manager" OR SUBJECT "URGENT" UNSEEN`
+3. **Conditional routing** — matching emails trigger a Telegram message; no matches, no message
+
+A real Telegram alert looks like:
+
+> **📬 Urgent email from: Sarah Chen**
+> *Re: Q2 budget review — action needed*
+>
+> Hi Tyler, just circling back on the budget numbers. We need your sign-off before EOD Friday or the Q2 forecast gets delayed. Let me know if you want to hop on a quick call...
+
+That's 200 characters of context, enough to decide whether to drop what you're doing.
 
 ### Limitations
 
@@ -67,14 +78,38 @@ With cron scheduling, OpenClaw can:
 
 These deliver directly to your configured channel (Telegram, Discord, etc.).
 
-## What's Not Built In
+## What You Need to Set This Up
 
-- **Native Gmail API** — requires IMAP or API setup
-- **Native calendar sync** — .ics files need to be kept updated manually or via external sync
-- **SMTP sending** — can't send emails directly, but can draft them for you to send
-- **Natural language calendar commands** — "schedule a meeting with John next Tuesday" requires integration work
+Getting this running requires a bit of upfront configuration:
 
-The primitives are there. The integrations are setup work on your end.
+- **IMAP access** — any email provider that supports IMAP (Gmail, Fastmail, self-hosted). You'll need an app password if 2FA is enabled.
+- **Calendar file (.ics)** — export your calendar as an `.ics` file and keep it updated. Some calendar apps (Fastmail, Zoho) support automatic `.ics` URL refresh; others need a manual re-export on changes.
+- **Telegram bot** — set up a bot via [@BotFather](https://t.me/BotFather) and grab your chat ID. This is how OpenClaw delivers messages to you directly.
+- **Weather data** — `wttr.in` requires no key and is free. If you want more control, Open-Meteo is a free alternative with an API.
+- **File system access** — OpenClaw needs read/write access to a memory directory where it stores `.ics` files, daily logs, and your MEMORY.md.
+
+## A Real Morning Brief
+
+Here's what the output actually looks like. At 7:30 AM, OpenClaw checks everything and sends you one message:
+
+> **Good morning, Tyler. Here's your day:**
+>
+> ☀️ **Weather:** 14°C, partly cloudy in Vancouver. No rain.
+>
+> 📅 **Today:** Team standup at 9:30 AM (1h), 1:1 with Sarah at 2:00 PM (30m)
+>
+> 📬 **Urgent email:** [None — you have 3 unread, all from newsletters]
+>
+> 📝 **Notes:** Your last session mentioned the Cloudflare Workers deploy is still pending — want to revisit that today?
+
+That's the level of coherence you can achieve. It reads your `.ics`, checks weather, queries IMAP, and combines it with your personal memory files.
+
+## Limitations
+
+- **No native Gmail API** — IMAP works but lacks real-time push. For instant email alerts, consider Gmail's IMAP idle or a push gateway.
+- **No calendar write-back** — OpenClaw reads your `.ics` but can't modify it. For natural language scheduling ("book a call with John tomorrow at 3"), you'd need a full Calendar API integration.
+- **No SMTP sending** — can't send emails directly. It can draft them and save them as files, or route them through Telegram, but outbound email requires an external service.
+- **IMAP polling frequency** — email checks are pull-based. A heartbeat every 15–30 minutes is reasonable; tighter intervals increase API load and may hit rate limits.
 
 ## The Real Value
 

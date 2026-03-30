@@ -3,12 +3,24 @@
     "01-smart-home-orchestration": "2026-03-26",
     "02-research-pipeline": "2026-03-27",
     "03-development-assistant": "2026-03-28",
-    "04-personal-secretary": null,
+    "04-personal-secretary": "2026-03-29",
     "05-system-administration": null,
     "06-employee-scheduling": null,
     "07-invoice-processing": null
   },
   "improvementHistory": [
+    {
+      "date": "2026-03-29",
+      "postSlug": "04-personal-secretary",
+      "changes": [
+        "Replaced hero image with a more desk/productivity-focused Unsplash image",
+        "Added tags: imap, telegram",
+        "Added concrete 'A Real Morning Brief' section showing actual Telegram message output",
+        "Expanded email workflow example with realistic Telegram alert format",
+        "Replaced 'What's Not Built In' with actionable 'What You Need to Set This Up' section",
+        "Expanded Limitations section with IMAP polling frequency caveat"
+      ]
+    },
     {
       "date": "2026-03-28",
       "postSlug": "03-development-assistant",
