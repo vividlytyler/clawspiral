@@ -4,11 +4,21 @@
     "02-research-pipeline": "2026-03-27",
     "03-development-assistant": "2026-03-28",
     "04-personal-secretary": "2026-03-29",
-    "05-system-administration": null,
+    "05-system-administration": "2026-03-30",
     "06-employee-scheduling": null,
     "07-invoice-processing": null
   },
   "improvementHistory": [
+    {
+      "date": "2026-03-30",
+      "postSlug": "05-system-administration",
+      "changes": [
+        "Added tags: watchtower, cron, self-hosted",
+        "Added 'What You Need to Set This Up' section with prerequisites (OpenClaw, Docker, Watchtower, ncdu, apcupsd)",
+        "Added concrete Jellyfin container troubleshooting example to Log Analysis section",
+        "Added explicit 'Limitations' section covering polling gaps, hardware failures, compounding mistakes, context window limits, and production monitoring gaps"
+      ]
+    },
     {
       "date": "2026-03-29",
       "postSlug": "04-personal-secretary",
