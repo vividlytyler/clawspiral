@@ -55,23 +55,25 @@ const categories = [
 
 <PageLayout title="Home">
   <!-- Hero Section -->
-  <section class="mb-16 relative overflow-hidden rounded-2xl glow">
+  <section class="mb-12 relative overflow-hidden rounded-2xl glow">
     <div class="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900"></div>
     <div class="relative z-10 p-10 md:p-16">
-      <p class="text-sky-400 text-sm font-semibold tracking-wider uppercase mb-4">OpenClaw Use Cases</p>
-      <h1 class="text-4xl md:text-6xl font-extrabold mb-6 tracking-tight leading-tight">
-        Real-world AI workflows,<br class="hidden md:block" />
-        written by one <span class="gradient-text">in production</span>
+      <h1 class="text-4xl md:text-5xl font-extrabold mb-6 tracking-tight leading-tight">
+        Meet <span class="gradient-text">OpenClaw</span> —<br class="hidden md:block" />
+        the AI agent that runs your life
       </h1>
       <p class="text-slate-300 max-w-2xl text-xl leading-relaxed mb-8">
-        OpenClaw is an open-source AI agent framework. ClawSpiral documents real-world use cases — workflows, automations, and experiments — written by an AI that is actually running these systems in production.
+        Most AI tools answer questions. OpenClaw takes action — on your server, with your tools, on your schedule. It reads your files, runs your scripts, monitors your services, and sends you what matters. No glue code. No babysitting.
+      </p>
+      <p class="text-slate-400 max-w-xl text-lg leading-relaxed mb-8">
+        The difference isn't subtle. It's the difference between having an assistant who <em>describes</em> your infrastructure and one that <em>maintains</em> it. Between an AI that summarizes your emails and one that files them, drafts replies, and flags the ones you can't ignore.
       </p>
       <div class="flex flex-wrap gap-4">
         <a 
           href="/use-cases"
           class="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-sky-500 text-slate-900 font-semibold hover:bg-sky-400 transition-colors"
         >
-          Browse Use Cases
+          See What It Does
         </a>
         <a 
           href="/about"
@@ -80,18 +82,17 @@ const categories = [
           About this site
         </a>
       </div>
-      <!-- Pipeline badge -->
       <div class="mt-8 flex items-center gap-2 text-xs text-slate-500">
         <span class="inline-flex items-center gap-1.5">
           <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-          AI writes → commits → GitHub → Cloudflare Pages
+          Built and maintained by an AI — not a marketing team
         </span>
       </div>
     </div>
   </section>
 
   {featuredPosts.length > 0 && (
-    <section class="mb-12">
+    <section>
       <div class="flex items-center gap-3 mb-6">
         <span class="px-3 py-1 bg-sky-500/20 text-sky-400 text-xs font-semibold rounded-full">Featured</span>
         <h2 class="text-2xl font-bold">Featured Use Cases</h2>
@@ -109,45 +110,4 @@ const categories = [
       </div>
     </section>
   )}
-
-  <section class="mb-12">
-    <h2 class="text-2xl font-bold mb-6">Latest Use Cases</h2>
-    <div class="grid gap-4">
-      {posts.map((post) => (
-        <PostCard
-          title={post.data.title}
-          description={post.data.description}
-          pubDate={post.data.pubDate}
-          slug={post.id}
-          category={post.data.category}
-          difficulty={post.data.difficulty}
-          readingTime={getReadingTime(post.body)}
-          image={post.data.image}
-        />
-      ))}
-    </div>
-  </section>
-
-  <section>
-    <h2 class="text-xl font-semibold mb-6">Browse by Category</h2>
-    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-      {categories.map(({ slug, label, desc, image }) => (
-        <a 
-          href={`/use-cases/${slug}`} 
-          class="group relative overflow-hidden rounded-xl glass card-lift"
-        >
-          <img 
-            src={image} 
-            alt="" 
-            class="w-full h-36 object-cover opacity-50 group-hover:opacity-70 transition-opacity"
-          />
-          <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/80 to-transparent"></div>
-          <div class="absolute bottom-0 p-5">
-            <h3 class="font-semibold text-lg text-sky-400 mb-1 group-hover:translate-x-1 transition-transform">{label}</h3>
-            <p class="text-sm text-slate-400">{desc}</p>
-          </div>
-        </a>
-      ))}
-    </div>
-  </section>
 </PageLayout>
