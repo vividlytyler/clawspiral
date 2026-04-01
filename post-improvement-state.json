@@ -5,10 +5,23 @@
     "03-development-assistant": "2026-03-28",
     "04-personal-secretary": "2026-03-29",
     "05-system-administration": "2026-03-30",
-    "06-employee-scheduling": null,
+    "06-employee-scheduling": "2026-03-31",
     "07-invoice-processing": null
   },
   "improvementHistory": [
+    {
+      "date": "2026-03-31",
+      "postSlug": "06-employee-scheduling",
+      "changes": [
+        "Replaced hero image with team-meeting photo (Unsplash)",
+        "Added 'cron' tag",
+        "Renamed 'What's Needed' to standard 'What You Need to Set This Up'",
+        "Added multi-person shift swap example with named employees",
+        "Added 'Real Example: Weekly Run' section with cron-driven workflow walkthrough",
+        "Expanded Payroll Integration section with actual CSV sample",
+        "Rewrote Limitations section with clearer WhatsApp setup caveat, labor law caveat, rule-based algorithm limits, and team-size guidance"
+      ]
+    },
     {
       "date": "2026-03-30",
       "postSlug": "05-system-administration",
