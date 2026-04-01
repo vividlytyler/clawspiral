@@ -15,7 +15,7 @@ const posts = defineCollection({
       'business-finance',
       'lifestyle-wellness',
       'creative',
-      'experimental',
+      
     ]),
     draft: z.boolean().default(false),
     tags: z.array(z.string()).optional(),

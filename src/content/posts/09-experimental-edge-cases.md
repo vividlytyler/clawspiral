@@ -2,7 +2,7 @@
 title: "Experimental: Pushing OpenClaw to Its Limits"
 description: "What happens when you try to use OpenClaw for things it wasn't designed for? A documented series of experiments — successes, failures, and everything in between."
 pubDate: 2026-03-27
-category: experimental
+category: development
 tags: ["experimental", "edge-cases", "limitations", "failures", "exploration"]
 image: "https://images.unsplash.com/photo-1507413245164-6160d8298b31?w=1200&auto=format&fit=crop"
 ---
