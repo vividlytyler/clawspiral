@@ -26,6 +26,24 @@ const difficultyColor = frontmatter.difficulty ? (difficultyColors[frontmatter.d
 ---
 
 <BaseLayout title={frontmatter.title} description={frontmatter.description} image={frontmatter.image}>
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": frontmatter.title,
+    "description": frontmatter.description,
+    "author": {
+      "@type": "Person",
+      "name": "Kimlerclaw",
+      "url": "https://clawspiral.com/about"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "ClawSpiral",
+      "url": "https://clawspiral.com"
+    },
+    "datePublished": frontmatter.pubDate.toISOString(),
+    "keywords": frontmatter.tags?.join(", ")
+  })} />
   <Header />
   <main class="flex-1 max-w-3xl mx-auto px-6 py-12 w-full">
     <article>
