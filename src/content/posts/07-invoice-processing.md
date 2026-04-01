@@ -4,7 +4,7 @@ description: "How OpenClaw can handle accounts payable and receivable — receiv
 pubDate: 2026-03-26
 category: business-finance
 tags: ["invoicing", "accounting", "ocr", "ap", "ar", "automation", "email"]
-featured: true
+featured: false
 image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1200&auto=format&fit=crop"
 ---
 

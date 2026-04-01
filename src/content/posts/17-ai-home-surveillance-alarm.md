@@ -12,7 +12,7 @@ tags:
   - voip
 image: "https://images.unsplash.com/photo-1558002038-1055907df827?w=800&h=400&fit=crop"
 draft: false
-featured: false
+featured: true
 ---
 
 Your Ring subscription is $30/month. Your ADT bill is $50/month. Both send you a push notification when something triggers — and then you're staring at your phone trying to figure out if that's a delivery driver or someone prying your back door.
