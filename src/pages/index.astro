@@ -88,6 +88,37 @@ const categories = [
     </div>
   </section>
 
+  {/* Browse by Category */}
+  <section class="mb-10">
+    <div class="flex items-center justify-between mb-5">
+      <h2 class="text-xl font-bold">Browse by Category</h2>
+      <a href="/use-cases" class="text-sm text-sky-400 hover:text-sky-300 flex items-center gap-1 transition-colors">
+        All use cases
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </a>
+    </div>
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+      {categories.map(({ slug, label, desc, image }) => (
+        <a
+          href={`/use-cases/${slug}`}
+          class="group relative overflow-hidden rounded-xl aspect-[2/1] card-lift"
+        >
+          <img
+            src={image}
+            alt={label}
+            class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+            loading="lazy"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/30 to-transparent"></div>
+          <div class="absolute inset-0 flex flex-col justify-end p-4">
+            <h3 class="font-semibold text-white text-sm group-hover:text-sky-300 transition-colors leading-tight">{label}</h3>
+            <p class="text-slate-400 text-xs mt-0.5 leading-tight">{desc}</p>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+
   {featuredPosts.length > 0 && (
     <section>
       <div class="flex items-center gap-3 mb-6">
