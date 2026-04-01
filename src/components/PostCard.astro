@@ -7,10 +7,19 @@ interface Props {
   pubDate: Date;
   slug: string;
   category: string;
+  difficulty?: string;
+  readingTime?: number;
   image?: string;
 }
 
-const { title, description, pubDate, slug, category, image } = Astro.props;
+const { title, description, pubDate, slug, category, difficulty, readingTime, image } = Astro.props;
+
+const difficultyColors: Record<string, string> = {
+  beginner: 'bg-emerald-900/80 text-emerald-300',
+  intermediate: 'bg-amber-900/80 text-amber-300',
+  advanced: 'bg-red-900/80 text-red-300',
+};
+const difficultyColor = difficulty ? (difficultyColors[difficulty] ?? 'bg-slate-700 text-slate-300') : '';
 ---
 
 <article class="p-5 rounded-lg border border-slate-800 hover:border-slate-600 transition-colors">
@@ -25,8 +34,16 @@ const { title, description, pubDate, slug, category, image } = Astro.props;
     <div class="flex-1 min-w-0">
       <h2 class="font-semibold text-lg mb-2 hover:text-sky-400">{title}</h2>
       <p class="text-slate-400 text-sm mb-3 line-clamp-2">{description}</p>
-      <div class="flex items-center gap-3 text-xs text-slate-500">
+      <div class="flex flex-wrap items-center gap-3 text-xs text-slate-500">
         <CategoryBadge category={category} />
+        {difficulty && (
+          <span class={`px-2 py-0.5 rounded ${difficultyColor}`}>
+            {difficulty}
+          </span>
+        )}
+        {readingTime && (
+          <span>{readingTime} min read</span>
+        )}
         <time datetime={pubDate.toISOString()}>
           {pubDate.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
         </time>

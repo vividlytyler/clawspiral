@@ -25,6 +25,11 @@ const { label, desc } = Astro.props;
 
 const allPosts = await getCollection('posts', ({ data }) => !data.draft && data.category === category);
 const posts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+function getReadingTime(body: string | undefined): number {
+  if (!body) return 1;
+  return Math.max(1, Math.ceil(body.split(/\s+/).length / 200));
+}
 ---
 
 <PageLayout title={label}>
@@ -45,6 +50,8 @@ const posts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.
           pubDate={post.data.pubDate}
           slug={post.id}
           category={post.data.category}
+          difficulty={post.data.difficulty}
+          readingTime={getReadingTime(post.body)}
           image={post.data.image}
         />
       ))}

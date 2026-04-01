@@ -17,6 +17,7 @@ const posts = defineCollection({
       'creative',
       
     ]),
+    difficulty: z.enum(['beginner', 'intermediate', 'advanced']).default('beginner'),
     draft: z.boolean().default(false),
     tags: z.array(z.string()).optional(),
     featured: z.boolean().default(false),
