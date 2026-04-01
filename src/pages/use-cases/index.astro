@@ -12,6 +12,15 @@ function getReadingTime(body: string | undefined): number {
   return Math.max(1, Math.ceil(body.split(/\s+/).length / 200));
 }
 
+const categories = [
+  { slug: 'home-automation', label: 'Home Automation', desc: 'Smart home, IoT, routines' },
+  { slug: 'research', label: 'Research', desc: 'Web research, data gathering, synthesis' },
+  { slug: 'development', label: 'Development', desc: 'Coding, debugging, CI/CD, tooling' },
+  { slug: 'business-finance', label: 'Business & Finance', desc: 'ROI-focused tools, admin automation, financial workflows' },
+  { slug: 'lifestyle-wellness', label: 'Lifestyle & Wellness', desc: 'Personal habits, health, travel, daily routines' },
+  { slug: 'creative', label: 'Creative', desc: 'Writing, art, music prompts, brainstorming' },
+];
+
 // Serialize posts for client-side search
 const searchData = posts.map((post) => ({
   id: post.id,
@@ -45,6 +54,21 @@ const searchData = posts.map((post) => ({
       </div>
     </section>
   )}
+
+  <section class="mb-8">
+    <h2 class="text-xl font-semibold mb-4">Browse by Category</h2>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+      {categories.map(({ slug, label, desc }) => (
+        <a
+          href={`/use-cases/${slug}`}
+          class="p-4 rounded-lg border border-slate-800 hover:border-slate-600 transition-colors group"
+        >
+          <h3 class="font-semibold text-sky-400 mb-1 group-hover:translate-x-1 transition-transform text-sm">{label}</h3>
+          <p class="text-slate-500 text-xs">{desc}</p>
+        </a>
+      ))}
+    </div>
+  </section>
 
   <!-- Search -->
   <div class="mb-6">
