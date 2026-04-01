@@ -2,7 +2,7 @@
 title: "Your Personal Secretary: Email, Calendar, and Reminders"
 description: "How OpenClaw can act as a persistent, memory-aware assistant for managing email, calendar events, and contextual reminders — without subscribing to another SaaS."
 pubDate: 2026-03-26
-category: productivity
+category: lifestyle-wellness
 tags: ["email", "calendar", "reminders", "productivity", "memory", "ical", "imap", "telegram"]
 image: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=1200&auto=format&fit=crop"
 ---

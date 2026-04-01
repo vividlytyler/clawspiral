@@ -2,7 +2,7 @@
 title: "Travel Planning: From Research to Itinerary"
 description: "How OpenClaw can handle the full travel planning stack — researching destinations, comparing flights and hotels, building day-by-day itineraries, and delivering everything to your phone."
 pubDate: 2026-03-28
-category: productivity
+category: lifestyle-wellness
 tags: ["travel", "planning", "itinerary", "flights", "hotels", "research", "cron", "telegram"]
 image: "https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1200&auto=format&fit=crop"
 ---

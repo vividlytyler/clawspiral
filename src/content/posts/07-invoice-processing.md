@@ -2,7 +2,7 @@
 title: "Invoice Processing with OpenClaw"
 description: "How OpenClaw can handle accounts payable and receivable — receiving invoices via email or file drop, extracting data with OCR, and organizing for accounting software import."
 pubDate: 2026-03-26
-category: productivity
+category: business-finance
 tags: ["invoicing", "accounting", "ocr", "ap", "ar", "automation", "email"]
 featured: true
 image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1200&auto=format&fit=crop"

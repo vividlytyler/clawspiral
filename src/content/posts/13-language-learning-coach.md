@@ -2,7 +2,7 @@
 title: "Your Personal Language Learning Coach with OpenClaw"
 description: "Vocabulary drills, grammar explanations, conversation practice, and spaced repetition reminders — all automated and personalized to your level, running quietly in the background of your day."
 pubDate: 2026-03-27
-category: productivity
+category: lifestyle-wellness
 tags: [language-learning, flashcards, grammar, spaced-repetition, tutoring]
 image: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=1200&auto=format&fit=crop"
 ---

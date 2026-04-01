@@ -2,7 +2,7 @@
 title: "Personal Knowledge Management: Build a Second Brain"
 description: "Capture ideas, organize notes, and retrieve what you've learned — all through chat. OpenClaw becomes your always-on knowledge manager, reading your files and surfacing what matters."
 pubDate: 2026-03-30
-category: productivity
+category: lifestyle-wellness
 tags: [knowledge-management, notes, productivity, memory, telegram]
 image: "https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=1200&auto=format&fit=crop"
 ---

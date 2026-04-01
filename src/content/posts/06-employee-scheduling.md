@@ -2,7 +2,7 @@
 title: "Employee Scheduling for Small Businesses"
 description: "How OpenClaw can automate weekly scheduling — collecting availability, building schedules based on business rules, and delivering shift assignments via Telegram or WhatsApp."
 pubDate: 2026-03-26
-category: productivity
+category: business-finance
 tags: ["scheduling", "small-business", "telegram", "whatsapp", "automation", "hr"]
 image: "https://images.unsplash.com/photo-1506784983877-45594efa4cbe?w=1200&auto=format&fit=crop"
 featured: true
