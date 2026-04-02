@@ -6,9 +6,10 @@ category: development
 difficulty: advanced
 tags: [privacy, ollama, local-llm, security, air-gap, self-hosted, sensitive-data]
 featured: false
+image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1200&auto=format&fit=crop"
 ---
 
-![Air-gapped architecture diagram](/assets/air-gapped-diagram.svg)
+![Air-gapped architecture comparison diagram](/assets/air-gapped-diagram.svg)
 
 *For when "we promise the data isn't stored" isn't good enough.*
 
@@ -16,50 +17,53 @@ featured: false
 
 Cloud AI is convenient. It's also a permanent, uncontrolled data leak.
 
-When you send your employee records to OpenAI to summarize, or paste a legal contract into Claude, that data travels to someone else's servers. Theirs. Their subcontractors. Their training pipelines. You have no visibility and no recall. For most business work, that's fine. For HR documents, medical records, financial statements, proprietary source code, or anything with PII — it's a compliance nightmare dressed up as productivity.
+When you send employee records to an AI API to summarize, or paste a legal contract into an online model — that data travels to someone else's servers. Theirs. Their subcontractors. Their training pipelines. You have no visibility and no recall. For most business work that's fine. For HR documents, medical records, financial statements, proprietary source code, or anything with PII — it's a compliance nightmare dressed up as productivity.
 
 The answer isn't "be more careful." The answer is architecture: **the data never leaves the machine.**
 
 ## What This Setup Does
 
-You run OpenClaw on a machine that has no network access whatsoever. Ollama handles the LLM inference locally. OpenClaw handles the workflow, tool access, and orchestration. No outbound connections. No API calls. No data leaves.
+You run OpenClaw on a machine that has zero network access. Ollama handles LLM inference locally. OpenClaw handles the workflow, tool access, and orchestration. No outbound connections. No API calls. No data leaves.
 
 ```
-┌─────────────────────────────────────────────┐
-│              AIR-GAPPED MACHINE              │
-│                                             │
-│   ┌──────────────┐    ┌──────────────┐     │
-│   │  OpenClaw    │───▶│   Ollama     │     │
-│   │  (agent)     │    │  (local LLM) │     │
-│   └──────────────┘    └──────────────┘     │
-│                                             │
-│   All processing happens locally.           │
-│   Zero network access.                      │
-└─────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────┐
+│              AIR-GAPPED MACHINE                 │
+│                                                 │
+│   ┌──────────────┐      ┌──────────────┐        │
+│   │  OpenClaw   │─────▶│   Ollama    │        │
+│   │  (agent)    │◀─────│  (local LLM) │        │
+│   └──────────────┘      └──────────────┘        │
+│                                                 │
+│   All processing happens locally.                │
+│   Zero network access. Zero data egress.        │
+└─────────────────────────────────────────────────┘
 ```
 
 ## How It Works
 
 ### 1. Set Up Ollama
 
-Install Ollama on your isolated machine. Pull a capable model — Llama 3.3, Mistral, Qwen2.5, whatever fits your hardware:
+Install Ollama on your isolated machine and pull a capable model before severing the network:
 
 ```bash
 # Install Ollama
 curl -fsSL https://ollama.com/install.sh | sh
 
-# Pull a model (do this before cutting network access)
-ollama pull llama3.3
+# Pull a model that fits your hardware (do this before air-gapping)
+ollama pull llama3.3        # 4.9GB — great all-rounder, 8GB RAM minimum
+ollama pull mistral-small   # 4.1GB — fastest inference, tight RAM budgets
+ollama pull qwen2.5:14b     # 9GB — best for coding, 16GB+ RAM
+ollama pull deepseek-r1:32b # 23GB — strongest reasoning, 32GB+ RAM server
 
-# Start the local API server
+# Start the local API (looks like OpenAI API — drop-in compatible)
 ollama serve
 ```
 
-Ollama runs a local API at `http://localhost:11434` that looks like the OpenAI API. Your tools can point to it without changing code.
+Ollama's local API runs at `http://localhost:11434`. Point your OpenClaw config to it with no changes to prompt structure.
 
 ### 2. Configure OpenClaw to Use the Local Engine
 
-In your OpenClaw config, point the LLM provider to your local Ollama endpoint:
+In your OpenClaw config, route sensitive tasks to your local Ollama endpoint:
 
 ```yaml
 # openclaw.yaml
@@ -68,48 +72,45 @@ providers:
     provider: ollama
     api_base: http://localhost:11434
     model: llama3.3
-```
 
-Then assign your air-gapped tasks to use `ollama-local`:
-
-```yaml
 tasks:
   sensitive-document-review:
     provider: ollama-local
-    prompt: "Review this HR document and flag any compliance issues..."
+    prompt: |
+      Review this HR document and flag any compliance issues,
+      missing fields, or language that could create liability.
+      Summarize findings in a table, flag critical issues first.
 ```
 
 ### 3. Sever the Network
 
-This is the critical step. Remove all network access from the machine:
-
-**Option A — Hardware air-gap:** Physically remove or disable the Wi-Fi card and ethernet adapter. For a server, don't connect it to any network at all. Boot from a read-only USB if you want to be thorough.
+**Option A — Hardware air-gap (strongest):** Physically remove or disable the Wi-Fi card and ethernet adapter. For a server, don't connect it to any network at all. Boot from read-only media for maximum integrity.
 
 **Option B — Software firewall (belt and suspenders):**
 ```bash
-# Block all outbound traffic — this is your last line of defense
+# Block all outbound traffic — last line of defense
 sudo iptables -P INPUT DROP
 sudo iptables -P FORWARD DROP
 sudo iptables -P OUTPUT DROP
-sudo iptables -A INPUT -i lo -j ACCEPT   # local loopback only
+sudo iptables -A INPUT -i lo -j ACCEPT    # loopback only
 sudo iptables -A OUTPUT -o lo -j ACCEPT
 ```
 
-**Option C — Dedicated VLAN:** If you can't fully air-gap, isolate the machine on a private VLAN with no internet egress and no access to other sensitive network segments.
+**Option C — Dedicated VLAN:** Isolate the machine on a private VLAN with no internet egress and no access to sensitive network segments.
 
-For anything touching real sensitive data: use Option A or add Option B on top of whatever network segmentation you already have.
+For anything touching genuinely sensitive data: Option A + Option B.
 
 ### 4. Run Your Workflows
 
-Now OpenClaw processes everything locally. Feed it documents, run analysis, generate reports — all the LLM capability, none of the data exposure.
+Now OpenClaw processes everything locally. Documents, analysis, reports — all the LLM capability, none of the data exposure.
 
-Example task: HR document review
+Example: HR document review every weekday morning
 ```yaml
 tasks:
   hr-document-review:
     provider: ollama-local
     triggers:
-      - cron: "0 9 * * 1-5"  # weekday mornings
+      - cron: "0 9 * * 1-5"
     steps:
       - read: "/data/hr/pending/*.pdf"
       - prompt: |
@@ -117,53 +118,70 @@ tasks:
           - Compliance gaps vs. current labor law
           - Missing required fields or signatures
           - Language that could create liability
-          Summarize findings in a table, flag critical issues.
+          Summarize findings in a table. Flag critical issues first.
       - write: "/data/hr/reviews/daily-summary.md"
 ```
 
-## What You Can Process This Way
+## Which Local Model Should You Run?
 
-This setup is purpose-built for data that has no business leaving your control:
+The open-source landscape has shifted dramatically. As of early 2026, open-weight models match or beat proprietary alternatives on most benchmarks — and run entirely offline.
+
+| Model | Size | RAM Required | Context | Best For |
+|-------|------|-------------|---------|----------|
+| **Llama 3.3 8B** | 4.9 GB | 8 GB | 128K | General use, daily tasks, consumer hardware |
+| **Mistral Small 4** | ~7 GB | 8-12 GB | 256K | Fast inference, best speed/cost ratio |
+| **Qwen 2.5 14B** | 9 GB | 16 GB | 128K | Coding, multilingual, technical documents |
+| **Qwen 3 32B** | 20 GB | 24 GB | 128K | Complex reasoning, higher accuracy |
+| **DeepSeek R1** | 23 GB | 32 GB | 128K | Hard reasoning tasks, math, analysis |
+| **Gemma 3 27B** | 18 GB | 24 GB | 128K | Multimodal, Google's best open weights |
+| **Llama 4 Scout** | ~17 GB active | 24 GB | 10M tokens | Massive context, Meta's latest |
+
+For a typical workstation: start with **Llama 3.3 8B** or **Mistral Small 4**. Move to **Qwen 2.5 14B** or **DeepSeek R1** when you need more reasoning muscle and have the RAM.
+
+## What You Can Process This Way
 
 - **HR documents** — employment contracts, performance reviews, compensation details, termination letters
 - **Legal files** — NDAs, M&A documents, regulatory filings, attorney-client privileged materials
 - **Financial records** — audit documents, board financials, acquisition targets, trading data
-- **Medical records** — patient data for internal流程 automation, HIPAA-adjacent workflows
+- **Medical records** — patient data for internal workflow automation
 - **Proprietary code** — source code for security review, architecture analysis, without IP leaving your org
 - **PII databases** — any dataset that can't be anonymized before processing
 
 ## Traditional Setup vs. Air-Gapped
 
-| | Traditional Cloud | Air-Gapped Local |
+| | Cloud AI (GPT-4o, Claude, Gemini) | Air-Gapped Local |
 |---|---|---|
 | Data leaves your network | ✅ Always | ❌ Never |
 | API costs | ✅ Per-token fees | ❌ Zero |
-| Latency | Depends on connection | ✅ Local, consistently fast |
-| Compliance (GDPR, HIPAA, etc.) | ⚠️ Complex DPA required | ✅ Data residency guaranteed |
 | Internet required | ✅ | ❌ |
-| Model capability | Slightly higher (frontier models) | ✅ Excellent (Llama 3.3, Mistral, Qwen) |
+| Compliance (GDPR, HIPAA, etc.) | ⚠️ Complex DPA required | ✅ Guaranteed |
+| Model capability | Frontier — best on hard reasoning | ✅ Excellent for most tasks |
+| Real-time information | ✅ Web access | ❌ None (by design) |
+| Hardware requirements | None | ✅ RAM + disk |
+
+The capability gap has largely closed for document processing, summarization, and classification tasks. The remaining frontier advantage is concentrated on the hardest reasoning problems — and for those, you can run **DeepSeek R1** or **Qwen 3 32B** locally with 32GB+ RAM. The tradeoff is almost gone.
 
 ## Limitations to Know
 
-- **Model capability gap:** Frontier models (GPT-4o, Sonnet 4, Gemini 2.5) are slightly ahead of open weights models on hard reasoning tasks. For document processing, summarization, and classification — local models are close enough that the tradeoff is worth it.
-- **No real-time information:** Your local LLM can't browse the web. If you need current data as part of a workflow, you'll need a second (less sensitive) OpenClaw instance for that, with proper data separation.
-- **Hardware requirements:** Ollama needs RAM and VRAM like any LLM. Llama 3.3 at 70B needs ~64GB RAM minimum. A mid-range setup (Mistral 7B, Qwen2.5 14B) runs on consumer hardware.
-- **No automatic updates:** The machine is isolated. Model updates require physical media or a one-time controlled transfer. Build that into your operational procedure.
+- **Frontier reasoning gap:** On very hard multi-step reasoning (PhD-level math, cutting-edge code), frontier cloud models still lead. For document review, classification, and summarization — local models are at parity.
+- **No real-time information:** Your local LLM can't browse. If workflows need current data, run a second OpenClaw instance with internet access for that work only, with proper data separation.
+- **Hardware investment:** Ollama needs RAM. Llama 3.3 8B needs ~8GB minimum. DeepSeek R1 at full accuracy needs 32GB+. Budget accordingly.
+- **No automatic updates:** The machine is isolated. Model updates require physical media or a one-time controlled transfer.
 
 ## What This Doesn't Replace
 
-Air-gapping is a physical security control, not a magic privacy button. It doesn't protect against:
+Air-gapping is a physical security control — not a magic privacy button. It doesn't protect against:
 
 - A malicious local user with terminal access
-- Keyloggers or other malware on the machine itself
-- Physical theft of the machine (full-disk encryption helps here)
+- Keyloggers or malware on the machine itself
+- Physical theft (full-disk encryption mitigates this)
 - Insiders with legitimate access who misuse it
 
 Combine air-gapping with standard access controls, audit logging, and need-to-know principles. The air-gap is your last line of defense — not your only one.
 
 ## Is This Overkill?
 
-For most people, yes. For the data that actually matters — the stuff you'd lose sleep over if it leaked — it's the only architecture that actually guarantees what you need.
+For most people, yes. For data that actually matters — the stuff you'd lose sleep over if it leaked — it's the only architecture that actually guarantees what you need.
 
 Most "private AI" solutions are really just "we promise." Air-gapping is "we couldn't send this data out even if we wanted to."
 
