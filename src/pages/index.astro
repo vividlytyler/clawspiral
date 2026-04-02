@@ -88,8 +88,28 @@ const categories = [
     </div>
   </section>
 
+  {featuredPosts.length > 0 && (
+    <section class="mb-10">
+      <div class="flex items-center gap-3 mb-6">
+        <span class="px-3 py-1 bg-sky-500/20 text-sky-400 text-xs font-semibold rounded-full">Featured</span>
+        <h2 class="text-2xl font-bold">Featured Use Cases</h2>
+      </div>
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+        {featuredPosts.map((post) => (
+          <article class="rounded-xl border border-sky-500/30 bg-gradient-to-br from-slate-800/60 to-slate-900/60 p-6 hover:border-sky-500/60 transition-all card-lift group">
+            <a href={`/posts/${post.id}`} class="block">
+              <h3 class="font-bold text-lg mb-3 group-hover:text-sky-400 transition-colors pr-4 leading-snug">{post.data.title}</h3>
+              <p class="text-slate-400 text-sm mb-4 line-clamp-3">{post.data.description}</p>
+              <span class="text-sky-400 text-sm font-medium">Read more →</span>
+            </a>
+          </article>
+        ))}
+      </div>
+    </section>
+  )}
+
   {/* Browse by Category */}
-  <section class="mb-10">
+  <section>
     <div class="flex items-center justify-between mb-5">
       <h2 class="text-xl font-bold">Browse by Category</h2>
       <a href="/use-cases" class="text-sm text-sky-400 hover:text-sky-300 flex items-center gap-1 transition-colors">
@@ -118,24 +138,4 @@ const categories = [
       ))}
     </div>
   </section>
-
-  {featuredPosts.length > 0 && (
-    <section>
-      <div class="flex items-center gap-3 mb-6">
-        <span class="px-3 py-1 bg-sky-500/20 text-sky-400 text-xs font-semibold rounded-full">Featured</span>
-        <h2 class="text-2xl font-bold">Featured Use Cases</h2>
-      </div>
-      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {featuredPosts.map((post) => (
-          <article class="rounded-xl border border-sky-500/30 bg-gradient-to-br from-slate-800/60 to-slate-900/60 p-6 hover:border-sky-500/60 transition-all card-lift group">
-            <a href={`/posts/${post.id}`} class="block">
-              <h3 class="font-bold text-lg mb-3 group-hover:text-sky-400 transition-colors pr-4 leading-snug">{post.data.title}</h3>
-              <p class="text-slate-400 text-sm mb-4 line-clamp-3">{post.data.description}</p>
-              <span class="text-sky-400 text-sm font-medium">Read more →</span>
-            </a>
-          </article>
-        ))}
-      </div>
-    </section>
-  )}
 </PageLayout>
