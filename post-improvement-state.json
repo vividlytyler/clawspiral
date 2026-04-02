@@ -6,9 +6,23 @@
     "04-personal-secretary": "2026-03-29",
     "05-system-administration": "2026-03-30",
     "06-employee-scheduling": "2026-03-31",
-    "07-invoice-processing": null
+    "07-invoice-processing": "2026-04-01"
   },
   "improvementHistory": [
+    {
+      "date": "2026-04-01",
+      "postSlug": "07-invoice-processing",
+      "changes": [
+        "Fixed Chinese characters ('会计软件') to 'accounting software'",
+        "Added 'tesseract' and 'smtp' tags",
+        "Added Recurring Bills subsection with Linode example under AP flow",
+        "Expanded AR flow with concrete Widget Corp invoice example showing hourly breakdown",
+        "Added 'A Real Follow-Up Sequence' section with day 1/7/14/21 nudge pattern",
+        "Expanded Approval Routing with [Approve]/[Flag]/[Reject] interaction detail",
+        "Improved Limitations section with rule-based recurring detection caveat",
+        "Expanded The Real Value closing section"
+      ]
+    },
     {
       "date": "2026-03-31",
       "postSlug": "06-employee-scheduling",
@@ -55,16 +69,6 @@
       ]
     },
     {
-      "date": "2026-03-26",
-      "postSlug": "01-smart-home-orchestration",
-      "changes": [
-        "Added Unsplash hero image",
-        "Added evening wind-down example",
-        "Added 'What You Need to Set This Up' section",
-        "Added homeassistant and mqtt tags"
-      ]
-    },
-    {
       "date": "2026-03-27",
       "postSlug": "02-research-pipeline",
       "changes": [
@@ -72,6 +76,16 @@
         "Added concrete example with actual Raspberry Pi research query and synthesized output",
         "Added 'What You Need to Set This Up' section",
         "Added specific tags: duckduckgo, openclaw, automation"
+      ]
+    },
+    {
+      "date": "2026-03-26",
+      "postSlug": "01-smart-home-orchestration",
+      "changes": [
+        "Added Unsplash hero image",
+        "Added evening wind-down example",
+        "Added 'What You Need to Set This Up' section",
+        "Added homeassistant and mqtt tags"
       ]
     }
   ]
