@@ -12,13 +12,22 @@ function getReadingTime(body: string | undefined): number {
   return Math.max(1, Math.ceil(body.split(/\s+/).length / 200));
 }
 
+const categoryColors: Record<string, { border: string; text: string; hover: string; gradient: string }> = {
+  'home-automation': { border: 'border-emerald-500/40', text: 'text-emerald-400', hover: 'hover:border-emerald-500/70', gradient: 'from-emerald-950/30' },
+  'research':        { border: 'border-violet-500/40', text: 'text-violet-400', hover: 'hover:border-violet-500/70', gradient: 'from-violet-950/30' },
+  'development':     { border: 'border-blue-500/40',   text: 'text-blue-400',   hover: 'hover:border-blue-500/70',   gradient: 'from-blue-950/30' },
+  'business-finance':{ border: 'border-amber-500/40',   text: 'text-amber-400',   hover: 'hover:border-amber-500/70',   gradient: 'from-amber-950/30' },
+  'lifestyle-wellness':{ border: 'border-teal-500/40',  text: 'text-teal-400',    hover: 'hover:border-teal-500/70',    gradient: 'from-teal-950/30' },
+  'creative':        { border: 'border-pink-500/40',   text: 'text-pink-400',    hover: 'hover:border-pink-500/70',   gradient: 'from-pink-950/30' },
+};
+
 const categories = [
-  { slug: 'home-automation', label: 'Home Automation', desc: 'Smart home, IoT, routines' },
-  { slug: 'research', label: 'Research', desc: 'Web research, data gathering, synthesis' },
-  { slug: 'development', label: 'Development', desc: 'Coding, debugging, CI/CD, tooling' },
-  { slug: 'business-finance', label: 'Business & Finance', desc: 'ROI-focused tools, admin automation, financial workflows' },
-  { slug: 'lifestyle-wellness', label: 'Lifestyle & Wellness', desc: 'Personal habits, health, travel, daily routines' },
-  { slug: 'creative', label: 'Creative', desc: 'Writing, art, music prompts, brainstorming' },
+  { slug: 'home-automation',  label: 'Home Automation',   desc: 'Smart home, IoT, routines' },
+  { slug: 'research',         label: 'Research',          desc: 'Web research, data gathering, synthesis' },
+  { slug: 'development',       label: 'Development',       desc: 'Coding, debugging, CI/CD, tooling' },
+  { slug: 'business-finance', label: 'Business & Finance',desc: 'ROI-focused tools, admin automation, financial workflows' },
+  { slug: 'lifestyle-wellness',label:'Lifestyle & Wellness',desc:'Personal habits, health, travel, daily routines' },
+  { slug: 'creative',          label: 'Creative',          desc: 'Writing, art, music prompts, brainstorming' },
 ];
 
 // Serialize posts for client-side search
@@ -58,15 +67,18 @@ const searchData = posts.map((post) => ({
   <section class="mb-8">
     <h2 class="text-xl font-semibold mb-4">Browse by Category</h2>
     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
-      {categories.map(({ slug, label, desc }) => (
-        <a
-          href={`/use-cases/${slug}`}
-          class="p-4 rounded-lg border border-slate-800 hover:border-slate-600 transition-colors group"
-        >
-          <h3 class="font-semibold text-sky-400 mb-1 group-hover:translate-x-1 transition-transform text-sm">{label}</h3>
-          <p class="text-slate-500 text-xs">{desc}</p>
-        </a>
-      ))}
+      {categories.map(({ slug, label, desc }) => {
+        const c = categoryColors[slug] ?? { border: 'border-slate-700', text: 'text-sky-400', hover: 'hover:border-slate-500', gradient: 'from-slate-900/30' };
+        return (
+          <a
+            href={`/use-cases/${slug}`}
+            class={`p-4 rounded-lg border ${c.border} ${c.hover} bg-gradient-to-br ${c.gradient} to-slate-900/60 transition-all group card-lift`}
+          >
+            <h3 class={`font-semibold ${c.text} mb-1 group-hover:translate-x-1 transition-transform text-sm`}>{label}</h3>
+            <p class="text-slate-500 text-xs">{desc}</p>
+          </a>
+        );
+      })}
     </div>
   </section>
 
