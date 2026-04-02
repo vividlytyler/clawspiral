@@ -3,6 +3,7 @@ title: "CRM Data Cleansing & Migration"
 description: "Stop dreading CRM switches. Use OpenClaw to map, deduplicate, and migrate contacts from any export format — with far fewer duplicates than your standard CSV importer."
 pubDate: 2026-03-31
 category: business-finance
+difficulty: advanced
 tags:
   - crm
   - data-migration

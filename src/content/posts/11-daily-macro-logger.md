@@ -3,6 +3,7 @@ title: "Daily Macro Logger: Nutrition Tracking Without the App Fatigue"
 description: "Most nutrition apps die in a drawer. OpenClaw turns your existing chat apps into a passive nutrition logger — snap a photo, send it, and let the model handle the rest."
 pubDate: 2026-03-28
 category: lifestyle-wellness
+difficulty: intermediate
 tags: ["nutrition", "health", "macros", "image-analysis", "telegram", "whatsapp", "automation", "diet"]
 featured: true
 image: "https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=1200&auto=format&fit=crop"

@@ -3,6 +3,7 @@ title: "System Administration with OpenClaw"
 description: "Using an AI agent as a always-on system administrator — monitoring server health, managing Docker containers, analyzing logs, and handling maintenance tasks."
 pubDate: 2026-03-26
 category: lifestyle-wellness
+difficulty: intermediate
 tags: ["system-admin", "docker", "server", "monitoring", "linux", "ubuntu", "watchtower", "cron", "self-hosted"]
 image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1200&auto=format&fit=crop"
 ---

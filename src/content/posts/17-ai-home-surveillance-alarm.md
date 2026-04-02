@@ -3,6 +3,7 @@ title: "AI Home Surveillance & Alarm Replacement"
 description: "Replace your $30/month alarm monitoring service with an OpenClaw agent that watches your cameras, talks to strangers, and calls the cops — with a natural voice."
 pubDate: 2026-03-31
 category: home-automation
+difficulty: advanced
 tags:
   - surveillance
   - security

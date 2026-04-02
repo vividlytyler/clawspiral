@@ -3,6 +3,7 @@ title: "Automated Code Review and Test Generation"
 description: "How OpenClaw can act as a tireless code reviewer and test generator — catching issues before they reach production and filling gaps in your test suite automatically."
 pubDate: 2026-03-31
 category: development
+difficulty: intermediate
 tags: ["development", "testing", "code-review", "automation", "quality", "github", "ci-cd"]
 image: "https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=1200&auto=format&fit=crop"
 ---
