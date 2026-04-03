@@ -10,9 +10,24 @@ interface Props {
   difficulty?: string;
   readingTime?: number;
   image?: string;
+  borderColor?: string;
 }
 
-const { title, description, pubDate, slug, category, difficulty, readingTime, image } = Astro.props;
+const { title, description, pubDate, slug, category, difficulty, readingTime, image, borderColor } = Astro.props;
+
+// Map category slugs to border colors (matches site color scheme)
+const categoryColors: Record<string, string> = {
+  'home-automation': '#10b981',   // emerald-500
+  'research':        '#8b5cf6',   // violet-500
+  'development':     '#3b82f6',   // blue-500
+  'business-finance':'#f59e0b',  // amber-500
+  'lifestyle-wellness':'#14b8a6', // teal-500
+  'creative':        '#ec4899',   // pink-500
+};
+const resolvedColor = borderColor ?? categoryColors[category] ?? null;
+const borderStyle = resolvedColor
+  ? `border-left: 3px solid ${resolvedColor};`
+  : '';
 
 const difficultyColors: Record<string, string> = {
   beginner: 'bg-emerald-900/80 text-emerald-300',
@@ -22,7 +37,7 @@ const difficultyColors: Record<string, string> = {
 const difficultyColor = difficulty ? (difficultyColors[difficulty] ?? 'bg-slate-700 text-slate-300') : '';
 ---
 
-<article class="p-5 rounded-lg border border-slate-800 hover:border-slate-600 transition-colors">
+<article class="p-5 rounded-lg border border-slate-800 hover:border-slate-600 transition-colors" style={borderStyle}>
   <a href={`/posts/${slug}`} class="flex gap-4">
     {image && (
       <img 
