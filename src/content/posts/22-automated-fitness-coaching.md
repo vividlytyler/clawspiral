@@ -2,7 +2,7 @@
 title: "Automated Fitness Coaching: Periodized Training Without the Personal Trainer Price Tag"
 description: "How OpenClaw can serve as a programming layer for your fitness — delivering periodized workouts, adjusting for fatigue and recovery, and handling the logistics of a structured training life."
 pubDate: 2026-04-03
-category: productivity
+category: lifestyle-wellness
 tags: ["fitness", "training", "workouts", "nutrition", "cron", "telegram", "automation", "coaching"]
 image: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1200&auto=format&fit=crop"
 ---

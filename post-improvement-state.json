@@ -1,6 +1,6 @@
 {
   "lastImproved": {
-    "01-smart-home-orchestration": "2026-03-26",
+    "01-smart-home-orchestration": "2026-04-03",
     "02-research-pipeline": "2026-03-27",
     "03-development-assistant": "2026-03-28",
     "04-personal-secretary": "2026-03-29",
@@ -9,6 +9,15 @@
     "07-invoice-processing": "2026-04-01"
   },
   "improvementHistory": [
+    {
+      "date": "2026-04-03",
+      "postSlug": "01-smart-home-orchestration",
+      "changes": [
+        "Added smartthings tag",
+        "Added concrete 'Movie Mode Scene' section with multi-device branching logic example",
+        "Expanded Limitations section with network dependency, latency, state/intent mismatch, and rule conflict caveats"
+      ]
+    },
     {
       "date": "2026-04-01",
       "postSlug": "07-invoice-processing",
