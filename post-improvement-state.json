@@ -1,7 +1,7 @@
 {
   "lastImproved": {
     "01-smart-home-orchestration": "2026-04-03",
-    "02-research-pipeline": "2026-03-27",
+    "02-research-pipeline": "2026-04-04",
     "03-development-assistant": "2026-03-28",
     "04-personal-secretary": "2026-03-29",
     "05-system-administration": "2026-03-30",
@@ -9,6 +9,14 @@
     "07-invoice-processing": "2026-04-01"
   },
   "improvementHistory": [
+    {
+      "date": "2026-04-04",
+      "postSlug": "02-research-pipeline",
+      "changes": [
+        "Added 'knowledge-management' tag",
+        "Added structured Limitations section covering training cutoff dependency, no cross-session memory, paywalled content, synthesized confidence errors, and token costs at scale"
+      ]
+    },
     {
       "date": "2026-04-03",
       "postSlug": "01-smart-home-orchestration",

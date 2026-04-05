@@ -3,7 +3,7 @@ title: "Research Pipeline: From Question to Report"
 description: "How OpenClaw can research a topic end-to-end — web search, content extraction, synthesis, and delivery. A framework for turning scattered information into coherent reports."
 pubDate: 2026-03-26
 category: research
-tags: ["research", "web-search", "synthesis", "pipeline", "llm", "duckduckgo", "openclaw", "automation"]
+tags: ["research", "web-search", "synthesis", "pipeline", "llm", "duckduckgo", "openclaw", "automation", "knowledge-management"]
 image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&auto=format&fit=crop"
 ---
 
@@ -99,6 +99,20 @@ Here's what an actual research turn looks like:
 - **Nice to have:** A way to pipe output somewhere (email, Telegram, a doc) so research doesn't get lost in chat history
 
 The pipeline is the same whether you're researching once or fifty times. The setup cost is zero.
+
+## Limitations
+
+The research pipeline handles information gathering well, but it has real limits:
+
+- **Training cutoff dependency** — Synthesis can conflate what it learned during training with what it found in web search. When sources contradict known training data, it may lean toward the former. Cross-check claims against multiple fresh sources.
+
+- **No persistent memory across sessions** — Each pipeline run starts from scratch. OpenClaw doesn't remember what it found last week about the same topic. Use an external store (Obsidian, Notion) for ongoing research threads.
+
+- **Paywalled and restricted content** — Can't fetch behind login walls, paywalls, or JavaScript-heavy SPAs without server-side rendering. Academic papers behind JSTOR/PubMed are mostly inaccessible.
+
+- **Synthesized confidence can be wrong** — When sources conflict and the LLM picks a "winner," it may be wrong. Low confidence doesn't mean the answer is useless — it means you need to verify.
+
+- **Token costs at scale** — Running 50 research queries a day costs tokens. For ongoing monitoring (daily news on a topic), a dedicated RSS/newsletter tool is cheaper than running the pipeline repeatedly.
 
 ## When It Breaks
 
