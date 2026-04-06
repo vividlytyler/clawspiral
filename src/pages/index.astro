@@ -1,6 +1,7 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
 import PostCard from '../components/PostCard.astro';
+import CategoryBadge from '../components/CategoryBadge.astro';
 import { getCollection } from 'astro:content';
 
 const allPosts = await getCollection('posts', ({ data }) => !data.draft);
@@ -110,15 +111,25 @@ const categories = [
         <h2 class="text-2xl font-bold">Featured Use Cases</h2>
       </div>
       <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {featuredPosts.map((post) => (
-          <article class="rounded-xl border border-sky-500/30 bg-gradient-to-br from-slate-800/60 to-slate-900/60 p-6 hover:border-sky-500/60 transition-all card-lift group">
+        {featuredPosts.map((post) => {
+          const rt = getReadingTime(post.body);
+          const diffColors = { beginner: 'bg-emerald-900/80 text-emerald-300', intermediate: 'bg-amber-900/80 text-amber-300', advanced: 'bg-red-900/80 text-red-300' };
+          const diffColor = post.data.difficulty ? (diffColors[post.data.difficulty] ?? 'bg-slate-700 text-slate-300') : '';
+          return (
+          <article class="rounded-xl border border-sky-500/30 bg-gradient-to-br from-slate-800/60 to-slate-900/60 p-5 hover:border-sky-500/60 transition-all card-lift group">
             <a href={`/posts/${post.id}`} class="block">
-              <h3 class="font-bold text-lg mb-3 group-hover:text-sky-400 transition-colors pr-4 leading-snug">{post.data.title}</h3>
-              <p class="text-slate-400 text-sm mb-4 line-clamp-3">{post.data.description}</p>
-              <span class="text-sky-400 text-sm font-medium">Read more →</span>
+              <div class="flex flex-wrap items-center gap-2 mb-3">
+                <CategoryBadge category={post.data.category} />
+                {post.data.difficulty && <span class={`px-2 py-0.5 rounded text-xs font-medium ${diffColor}`}>{post.data.difficulty}</span>}
+                <span class="text-xs text-slate-500 ml-auto">{rt} min</span>
+              </div>
+              <h3 class="font-bold text-base mb-2 group-hover:text-sky-400 transition-colors pr-4 leading-snug">{post.data.title}</h3>
+              <p class="text-slate-400 text-sm line-clamp-3">{post.data.description}</p>
+              <span class="text-sky-400 text-sm font-medium mt-3 block">Read more →</span>
             </a>
           </article>
-        ))}
+        );
+        })}
       </div>
     </section>
   )}
