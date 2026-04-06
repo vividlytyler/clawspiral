@@ -3,7 +3,7 @@ title: "OpenClaw as a Development Assistant"
 description: "Using an AI agent with file system access and shell commands to assist with development tasks — code review, repository management, CI/CD monitoring, and automated tooling."
 pubDate: 2026-03-26
 category: development
-tags: ["development", "coding", "ci-cd", "github", "tooling", "code-review"]
+tags: ["development", "coding", "ci-cd", "github", "tooling", "code-review", "testing", "pull-requests"]
 image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1200&auto=format&fit=crop"
 ---
 
@@ -40,6 +40,8 @@ GitHub fine-grained PATs allow specific permissions. OpenClaw can:
 - Monitor for stale branches and suggest cleanup
 - Sync repos and handle merge conflicts locally
 
+**Quick win — PR Description Review:** Before merging, drop the PR description into OpenClaw and ask: *"What questions does this leave unanswered? What would a reviewer need to know that isn't here?"* It catches the stuff the author is too close to see. Common gaps: missing context on why a change was made (not just what), no link to the original issue, no migration steps for schema changes.
+
 ### CI/CD Monitoring
 
 Connect OpenClaw to your GitHub Actions or other CI system and it can:
@@ -56,6 +58,28 @@ When `npm ci` fails on Cloudflare Pages but works locally, OpenClaw can:
 - Suggest which packages need updating
 - Verify the fix before you push
 
+A few real failure modes it handles well:
+
+- **Lockfile drift** — `package-lock.json` was updated but not committed, causing CI to resolve different versions than local
+- **Node version mismatch** — `.nvmrc` exists but CI is using a different default (check `engines` in `package.json`)
+- **Platform-specific native modules** — `bcrypt` or `sharp` binaries built for the wrong architecture
+
+### Automated Testing
+
+OpenClaw can run your test suite and report results, but it can also help before you even write tests:
+
+- **Generate test stubs** for a new function — give it the function signature and ask for edge case coverage
+- **Review test quality** — check if your existing tests actually assert meaningful behavior or just exercise code paths
+- **Fill coverage gaps** — run coverage reports, identify untested branches, ask OpenClaw to write tests for specific lines
+
+Example workflow:
+
+> "Run `npx vitest --coverage` and tell me which files in `src/api/` have below 60% branch coverage."
+
+OpenClaw runs the suite, parses the output, and identifies the gaps. You can then ask it to write tests for those specific paths without running the full suite again.
+
+This works particularly well with Vitest, Jest, and pytest — the output formats are consistent and easy to parse.
+
 ## Concrete Example: Code Review in Practice
 
 Here's what an actual code review session looks like:
@@ -70,6 +94,31 @@ OpenClaw will:
 5. Report back a structured review with severity levels
 
 You paste that into the PR thread. The author catches the timeout issue before it reaches production.
+
+### What the Output Looks Like
+
+```markdown
+## Code Review: `feature/payment-retry` → `main`
+
+### 🔴 High: Missing timeout on `retryPayment()`
+`src/billing/payment.ts:23` — The new function retries on failure but has no 
+timeout. A network partition could cause it to hang indefinitely.
+
+**Suggestion:** Add `AbortSignal.timeout(5000)` to the fetch call.
+
+### 🟡 Medium: Log/inconsistency  
+`src/billing/payment.ts:47` — Error log references `maxAttempts: 5`, but 
+`src/config/constants.ts:12` defines `MAX_RETRY_ATTEMPTS = 3`.
+
+### 🟡 Medium: Missing PR documentation  
+`package.json` adds `payment-sdk` as a dependency. The PR description doesn't 
+mention this. Add a note explaining why it's needed.
+
+### ✅ Low: Test coverage looks adequate  
+New code paths are covered by existing tests in `tests/billing.test.ts`.
+```
+
+That review takes ~30 seconds to generate and covers stuff that slips through in teams without automated linting gates.
 
 ## What You Need to Set This Up
 
