@@ -3,12 +3,21 @@
     "01-smart-home-orchestration": "2026-04-03",
     "02-research-pipeline": "2026-04-04",
     "03-development-assistant": "2026-04-05",
-    "04-personal-secretary": "2026-03-29",
+    "04-personal-secretary": "2026-04-06",
     "05-system-administration": "2026-03-30",
     "06-employee-scheduling": "2026-03-31",
     "07-invoice-processing": "2026-04-01"
   },
   "improvementHistory": [
+    {
+      "date": "2026-04-06",
+      "postSlug": "04-personal-secretary",
+      "changes": [
+        "Added 'Automated Email Processing' section with invoice routing example (vendor parse, approved-vendors.json cross-reference, threshold routing, Telegram confirmation)",
+        "Added 'Follow-up Tracking with Memory Files' section showing file-based todo system with daily heartbeat check and done/reply workflow",
+        "Added tags: follow-up, workflow"
+      ]
+    },
     {
       "date": "2026-04-05",
       "postSlug": "03-development-assistant",

@@ -3,7 +3,7 @@ title: "Your Personal Secretary: Email, Calendar, and Reminders"
 description: "How OpenClaw can act as a persistent, memory-aware assistant for managing email, calendar events, and contextual reminders — without subscribing to another SaaS."
 pubDate: 2026-03-26
 category: lifestyle-wellness
-tags: ["email", "calendar", "reminders", "productivity", "memory", "ical", "imap", "telegram"]
+tags: ["email", "calendar", "reminders", "productivity", "memory", "ical", "imap", "telegram", "follow-up", "workflow"]
 image: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=1200&auto=format&fit=crop"
 ---
 
@@ -33,6 +33,34 @@ A real Telegram alert looks like:
 > Hi Tyler, just circling back on the budget numbers. We need your sign-off before EOD Friday or the Q2 forecast gets delayed. Let me know if you want to hop on a quick call...
 
 That's 200 characters of context, enough to decide whether to drop what you're doing.
+
+### Automated Email Processing
+
+Beyond passive monitoring, OpenClaw can actively process email threads. A realistic scenario:
+
+**The situation:** A vendor (Widget Corp) sends an invoice, you forward it to OpenClaw, and it:
+1. Parses line items using a prompt template
+2. Cross-references with an `approved-vendors.json` memory file
+3. Checks for overdue invoices in a local `accounts-receivable.md`
+4. Routes accordingly — flags for approval if over $2,000, auto-archives if approved
+
+```
+Subject: Invoice #4892 - Widget Corp
+From: billing@widgetcorp.example
+
+OpenClaw extracts:
+  Vendor: Widget Corp
+  Amount: $1,847.00
+  Due: 2026-04-15
+  Line items: 3x server racks, 1x UPS backup
+
+Approved vendor? ✓ (from approved-vendors.json)
+Overdue balance? None
+Amount under $2,000 threshold → Auto-archived to paid/ folder.
+Telegram sent: "Invoice #4892 from Widget Corp auto-archived ($1,847)."
+```
+
+This requires no browser, no SaaS subscription, and the routing rules live in plain text files you can edit directly.
 
 ### Limitations
 
@@ -77,6 +105,17 @@ With cron scheduling, OpenClaw can:
 - **Conditional alerts** — "if the bill hasn't been paid by the 15th, ping me"
 
 These deliver directly to your configured channel (Telegram, Discord, etc.).
+
+### Follow-up Tracking with Memory Files
+
+The simplest reliable follow-up system is file-based:
+
+1. **OpenClaw creates** `follow-ups/2026-04.md` on startup
+2. **Each entry** is a line: `- [ ] Reply to Sarah about Q2 budget — due 2026-04-10`
+3. **Daily heartbeat** checks due items and sends reminders
+4. **When done**, you reply "done" and OpenClaw marks it `[x]` and files it to `follow-ups/2026-04-done.md`
+
+No database. No Notion. No dependencies beyond a text file and a cron job. The same file is readable by you at any time with any editor.
 
 ## What You Need to Set This Up
 
