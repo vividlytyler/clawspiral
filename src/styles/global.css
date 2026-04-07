@@ -80,3 +80,18 @@ a:hover {
   pointer-events: none;
   z-index: 0;
 }
+
+/* Hero mesh gradient — layered blurred orbs for depth */
+.hero-mesh::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  filter: blur(30px);
+  background:
+    radial-gradient(ellipse 50% 60% at 80% 50%, rgba(56, 189, 248, 0.18) 0%, transparent 55%),
+    radial-gradient(ellipse 45% 55% at 20% 60%, rgba(139, 92, 246, 0.14) 0%, transparent 55%),
+    radial-gradient(ellipse 40% 50% at 60% 80%, rgba(192, 132, 252, 0.10) 0%, transparent 55%);
+  border-radius: inherit;
+}
