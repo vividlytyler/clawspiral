@@ -4,11 +4,22 @@
     "02-research-pipeline": "2026-04-04",
     "03-development-assistant": "2026-04-05",
     "04-personal-secretary": "2026-04-06",
-    "05-system-administration": "2026-03-30",
+    "05-system-administration": "2026-04-07",
     "06-employee-scheduling": "2026-03-31",
     "07-invoice-processing": "2026-04-01"
   },
   "improvementHistory": [
+    {
+      "date": "2026-04-07",
+      "postSlug": "05-system-administration",
+      "changes": [
+        "Replaced hero image with a monitoring-dashboard-style Unsplash image",
+        "Added 'ssh' tag",
+        "Added 'Common Maintenance Tasks' section with specific commands (ncdu, SMART, apt security, docker prune, auth failure grep, systemctl --failed)",
+        "Added 'A Real Cron Configuration' section with two JSON cron examples (30-min health check, weekly maintenance)",
+        "Added 'Backup Strategy with OpenClaw' section covering daily backup verification, offsite sync checks, and config tar backup example"
+      ]
+    },
     {
       "date": "2026-04-06",
       "postSlug": "04-personal-secretary",

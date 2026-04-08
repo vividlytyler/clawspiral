@@ -4,8 +4,8 @@ description: "Using an AI agent as a always-on system administrator — monitori
 pubDate: 2026-03-26
 category: lifestyle-wellness
 difficulty: intermediate
-tags: ["system-admin", "docker", "server", "monitoring", "linux", "ubuntu", "watchtower", "cron", "self-hosted"]
-image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1200&auto=format&fit=crop"
+tags: ["system-admin", "docker", "server", "monitoring", "linux", "ubuntu", "watchtower", "cron", "self-hosted", "ssh"]
+image: "https://images.unsplash.com/photo-1600267204026-85c3cc8e96cd?w=1200&auto=format&fit=crop"
 ---
 
 A server that never sleeps deserves an admin that never forgets. OpenClaw running on a home server or VPS can monitor system health, manage containers, analyze logs, and handle routine maintenance — with the judgment to know when to alert you and when to fix it automatically.
@@ -81,7 +81,70 @@ First of Monday of each month:
 - Check for security updates
 - Backup important config files
 
-## Server Monitoring Dashboard
+### A Real Cron Configuration
+
+Here's what an actual OpenClaw cron setup looks like for a home server:
+
+**Health check (every 30 minutes):**
+```json
+{
+  "name": "Server Health Check",
+  "schedule": { "kind": "cron", "expr": "*/30 * * * *", "tz": "America/Vancouver" },
+  "payload": { "kind": "agentTurn", "message": "Run a quick server health check: docker ps, df -h, free -m, uptime. If anything looks wrong (disk >85%, memory >90%, any stopped containers), send me a Telegram alert with details." },
+  "sessionTarget": "isolated"
+}
+```
+
+**Weekly maintenance (Sunday 3 AM):**
+```json
+{
+  "name": "Weekly Server Maintenance",
+  "schedule": { "kind": "cron", "expr": "0 3 * * 0" },
+  "payload": { "kind": "agentTurn", "message": "Run weekly maintenance: (1) docker image prune -a --filter "until=168h" to remove unused images, (2) journalctl --vacuum-time=30d, (3) check for apt updates, (4) verify backup ran successfully, (5) report findings." }
+}
+```
+
+This two-job setup gives you constant visibility without micromanaging.
+
+## Common Maintenance Tasks
+
+Here are specific tasks you can hand off to OpenClaw with the exact commands it runs under the hood:
+
+**Find what's eating disk space:**
+```
+ncdu -x / --exclude=/proc --exclude=/sys
+```
+OpenClaw interprets the output, identifies large unused directories (old backups, Docker build cache, unused images), and asks to clean up.
+
+**Check for failed services:**
+```
+systemctl --failed
+```
+Hand off to OpenClaw to explain each failure and attempt restart or surface the root cause.
+
+**Review authentication failures:**
+```
+grep "Failed password" /var/log/auth.log | tail -20
+```
+OpenClaw can spot patterns — a single IP hammering SSH, a user mistyping their password repeatedly — and update your firewall rules or alert you.
+
+**Docker prune safely:**
+```
+docker image prune -af --filter "until=168h" && docker container prune -f && docker volume prune -f
+```
+Removes images older than a week, stopped containers, and unused volumes. Safe because it's time-based — you won't accidentally nuke today's build.
+
+**Check SMART status on a drive:**
+```
+smartctl -a /dev/sda
+```
+OpenClaw parses the output and tells you if any attributes (reallocated sectors, pending sectors, UDMA CRC errors) warrant attention.
+
+**Security update check:**
+```
+apt list --upgradable 2>/dev/null | grep -i security
+```
+Only shows security patches, avoiding recommended but non-critical package updates.
 
 With a simple file-based output, OpenClaw can maintain a status page:
 
@@ -96,6 +159,39 @@ With a simple file-based output, OpenClaw can maintain a status page:
 ```
 
 This can be served as a static page via Cloudflare Pages or similar.
+
+## Backup Strategy with OpenClaw
+
+Backups are only valuable if you know they're working. OpenClaw can own the verification loop:
+
+**Daily backup check:**
+```
+# Verify borgmatic/restic backup completed last night
+borg list /path/to/repo | tail -1
+restatic snapshots 2>/dev/null | tail -1
+# Check backup destination has space
+df -h /backup-drive
+```
+
+OpenClaw can then message you: *"Backup from 02:00 verified: 847MB snapshot, 14 days retention intact, destination has 180GB free."*
+
+**Monthly offsite sync check:**
+If you're syncing backups to B2/Backblaze or rsync.net:
+```
+restic -r b2:bucket:backups snapshots --json | jq '.[] | .time' | head -1
+```
+Verifies your offsite copy is actually current. OpenClaw catches cases where local backups work but the sync job silently failed for weeks.
+
+**Config file backup:**
+Back up your Docker Compose files, cron configs, and `/etc/` selectively:
+```bash
+tar czf /backups/configs-$(date +%Y%m%d).tar.gz \
+  /home/user/docker-compose \
+  /etc/cron.d \
+  /etc/nginx \
+  ~/.config/openclaw
+```
+OpenClaw can schedule this weekly and upload to your backup destination.
 
 ## What You Need to Set This Up
 
