@@ -36,16 +36,39 @@ OpenClaw parses these messages, stores availability in a file per employee, and 
 
 ### Building the Schedule
 
-The owner sets business rules once:
-- Minimum staff per shift (e.g., always 2 people)
-- Peak hours coverage requirements
-- Employee certifications/roles (only certified staff can close)
-- Maximum hours per employee per week
+The owner sets business rules once in a config file. Here's a real example for a 6-person coffee shop:
+
+```json
+{
+  "shifts": [
+    { "name": "morning",    "start": "06:00", "end": "14:00", "minStaff": 2 },
+    { "name": "afternoon",  "start": "14:00", "end": "22:00", "minStaff": 2 }
+  ],
+  "rules": {
+    "maxHoursPerWeek": 40,
+    "minRestBetweenShifts": "10h",
+    "consecutiveDays": 5,
+    "roles": {
+      "closer": ["Maria Garcia", "Chris Walsh"],
+      "opener": ["Priya Patel", "James Lee", "Sofia Reyes", "Tom Nguyen"]
+    }
+  },
+  "peakCoverage": {
+    "sat": { "morning": 3, "afternoon": 3 },
+    "sun": { "morning": 2, "afternoon": 2 }
+  },
+  "fixedOff": [
+    { "employee": "Tom Nguyen", "day": "Sunday" }
+  ]
+}
+```
 
 OpenClaw then generates a schedule that:
 - Maximizes coverage during business needs
 - Respects employee availability and preferences
 - Flags conflicts or under-staffed shifts for human review
+
+If two employees both want Saturday morning off, OpenClaw scores them by hours worked so far that week and gives the conflict flag to whoever has fewer hours — the owner approves or overrides in 30 seconds.
 
 ### Delivering the Schedule
 
@@ -75,6 +98,15 @@ Bot: "Priya — you're all set for Sun 9am-2pm."
 ```
 
 OpenClaw logs the swap, updates the schedule file, and confirms with all affected employees. No manager involvement needed unless no one volunteers.
+
+When multiple people volunteer for the same shift, OpenClaw applies the same hours-scoring logic and awards it to whoever has the lighter week so far — then notifies the runner-up they're on standby in case the first person flakes:
+
+```
+Chris: "I can do Sat afternoon"
+Priya: "I can do Sat afternoon too"
+Bot: "Chris has fewer hours this week — Chris you're up for Sat 2pm-8pm."
+Bot: "Priya — you're first backup. I'll ping you if Chris drops out."
+```
 
 ### Real Example: Weekly Run
 
@@ -114,12 +146,28 @@ This drops into QuickBooks Time Tracking, Wave Payroll, Gusto, or a shared Googl
 - **Schedule output template** (customize the message format)
 - **CSV export** — can be imported into QuickBooks, Wave, Gusto, etc.
 
+### Getting Started Timeline
+
+Here's what the first week looks like in practice:
+
+**Day 1 — Config:** Write the business rules file (the JSON above takes 20–30 minutes). Set up the Telegram bot. Add all 6 employees with their contact info and availability patterns.
+
+**Day 2–4 — Availability collection:** Employees message the bot their preferences for the upcoming week. OpenClaw stores each response in `employees/maria.json`, `employees/chris.json`, etc.
+
+**Day 5 — First draft:** Cron fires Sunday evening. Manager gets the conflict list (if any). They resolve them in under 5 minutes via Telegram replies.
+
+**Day 6 — Schedule delivered:** Monday morning, each employee gets their personalized shift list. Manager sends one message to the team: "Schedule's out — any issues let me know."
+
+**Week 2 onward:** OpenClaw handles it. You review conflicts. That's it.
+
 ## Limitations
 
 - **WhatsApp requires setup** — OpenClaw speaks Telegram natively; WhatsApp needs WhatsApp Business API (paid, Meta-verified account required)
 - **Complex labor law** — union rules, multi-state overtime, or CBA requirements need human review; OpenClaw won't catch legal nuances on its own
 - **Scheduling algorithm is rule-based** — it optimizes by the rules you give it, but can't "intuit" that Priya and Chris work better together on Fridays. For complex rostering with soft preferences, a dedicated tool is faster
 - **Right-sized for small teams** — 5–20 employees is the sweet spot; at 50+, the interaction overhead of managing availability via chat becomes its own problem
+- **Timezone handling** — if your team spans time zones, you need to standardize on one (UTC or your shop's local time) and be consistent; OpenClaw won't auto-detect or convert
+- **No shift differential** — the CSV export shows hours worked, but overtime rate calculations or weekend/night shift differential pay need to be handled in your payroll tool
 
 ## The Real Value
 
