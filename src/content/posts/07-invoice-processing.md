@@ -18,11 +18,49 @@ Invoice processing is repetitive, error-prone, and takes real time. OpenClaw can
 
 OpenClaw handles both, with slightly different flows.
 
+### How It Connects: A Concrete Config
+
+The pieces that make this work (as OpenClaw config):
+
+```json
+{
+  "invoices": {
+    "ap": {
+      "watchFolder": "~/invoices/ap",
+      "archiveFolder": "~/invoices/ap/archive",
+      "threshold": 1000,
+      "approvalChannel": "telegram",
+      "ledger": "~/invoices/ledger.csv"
+    },
+    "ar": {
+      "outboundFolder": "~/invoices/outbound",
+      "smtpFrom": "invoices@yourdomain.com",
+      "trackingLog": "~/invoices/ar-tracking.json"
+    }
+  }
+}
+```
+
+A file lands in `~/invoices/ap/`, OpenClaw:
+1. Runs OCR if it's an image, or parses directly if it's a text PDF
+2. Extracts structured fields (vendor, amount, date, due, number)
+3. Checks duplicate invoice numbers against the ledger
+4. If amount > threshold → Telegram approval before anything else
+5. Else → writes directly to ledger and archives
+
+The IMAP watcher runs on a cron (every 15 minutes is typical) checking `invoices@yourdomain.com` for new messages with PDF attachments. The file watcher is immediate — drop a file, it processes right away.
+
 ## Receiving Invoices: AP Flow
 
 ### Via Email
 
 Set up a dedicated email address (e.g., `invoices@yourdomain.com`) or a filter that forwards invoices to a processing address. OpenClaw monitors via IMAP.
+
+**Gmail/Google Workspace filter example** (for auto-forwarding vendor invoices):
+- `from:(@acme.com OR @serverco.com)` + `has attachment` → forward to `invoices@yourdomain.com`
+- Or label invoices `invoices-to-process` and have OpenClaw watch that label via IMAP
+
+This means vendors don't need to change how they send — you capture everything through routing rules.
 
 ```
 Subject: Invoice #INV-2024-0892 from Acme Supplies
@@ -49,6 +87,18 @@ OpenClaw can:
 - Extract fields: vendor, amount, date, due date, invoice number, line items
 
 For simple invoices, regex patterns work well. For complex ones with dense tables or unusual layouts, an LLM can analyze the raw text and extract structured data. Run a few samples through and compare regex vs. LLM output to see which is worth the cost.
+
+#### Duplicate Detection
+
+Same vendor, same invoice number within 90 days? That's almost certainly a duplicate. OpenClaw checks the ledger before recording anything:
+
+```
+Duplicate check: INV-2024-0892 from Acme Supplies
+  → Found in ledger: Mar 15, $1,247.50 (status: PAID)
+  → SKIPPING. Telegram alert: "Possible duplicate — INV-2024-0892 from Acme Supplies ($1,247.50) already in ledger as PAID."
+```
+
+You decide: re-process, archive as paid, or flag for review.
 
 ### What Happens Next
 
@@ -135,6 +185,8 @@ Day 21 (final notice): "This is the final notice for INV-2024-0892. Please arran
 
 Each message is pre-approved by you and sent only if the invoice is genuinely overdue. You can customize the tone, delay intervals, and cutoff point.
 
+**How the timing works:** The AR tracking log records `due_date` for each invoice. A daily cron (e.g., 9 AM weekdays) runs a query against overdue invoices, calculates days elapsed since `due_date`, and sends the appropriate nudge based on the interval. OpenClaw reads the tracking log, not your email — so it knows an invoice is overdue even if the client never replied.
+
 ## Tracking Payment Status
 
 OpenClaw maintains a live status log you can query at any time:
@@ -165,6 +217,8 @@ Weekly summary (every Monday morning):
 - No native integration with most accounting software — CSV export is the realistic default; API connections require per-platform OAuth setup
 - Tax calculation (VAT, HST, GST) requires jurisdiction-specific logic and isn't built in
 - Recurring bill detection is rule-based — unusual charges won't auto-flag without explicit rules
+- Multi-currency invoices need manual exchange rate handling or a configured rate source; OpenClaw doesn't fetch live FX rates by default
+- Invoice number collisions across different vendors can cause false duplicate alerts if you use invoice number alone as the dedup key — vendor+invoice number together is more reliable
 
 ## The Real Value
 

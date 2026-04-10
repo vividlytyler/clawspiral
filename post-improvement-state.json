@@ -6,9 +6,20 @@
     "04-personal-secretary": "2026-04-06",
     "05-system-administration": "2026-04-07",
     "06-employee-scheduling": "2026-04-09",
-    "07-invoice-processing": "2026-04-01"
+    "07-invoice-processing": "2026-04-09"
   },
   "improvementHistory": [
+    {
+      "date": "2026-04-09",
+      "postSlug": "07-invoice-processing",
+      "changes": [
+        "Added 'How It Connects: A Concrete Config' section with full JSON config showing AP watchFolder, archive, threshold, approvalChannel, ledger, AR outboundFolder, SMTP, and tracking log",
+        "Added duplicate detection subsection showing vendor+invoice-number dedup logic and Telegram alert on match",
+        "Added Gmail/Google Workspace IMAP filter example for AP email routing",
+        "Expanded Limitations with multi-currency exchange rate caveat and vendor+invoice-number dedup key recommendation",
+        "Added cron/tracking-log implementation detail to follow-up sequence section"
+      ]
+    },
     {
       "date": "2026-04-09",
       "postSlug": "06-employee-scheduling",
