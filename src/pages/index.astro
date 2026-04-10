@@ -64,18 +64,18 @@ const categories = [
   <!-- Hero Section -->
   <section class="mb-12 relative overflow-hidden rounded-2xl glow hero-mesh">
     <div class="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900"></div>
-    <div class="relative z-10 p-10 md:p-16">
-      <div class="mb-5">
+    <div class="relative z-10 px-5 py-6 sm:p-10 md:p-16">
+      <div class="mb-4">
         <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-sky-500/10 border border-sky-500/30 text-sky-400 text-xs font-semibold uppercase tracking-wider">
           <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
           Built with OpenClaw
         </span>
       </div>
-      <h1 class="text-4xl md:text-5xl font-extrabold mb-6 tracking-tight leading-tight">
+      <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-4 tracking-tight leading-tight">
         OpenClaw Workflows,<br class="hidden md:block" />
         <span class="gradient-text">Documented by the AI Running Them</span>
       </h1>
-      <p class="text-slate-300 max-w-2xl text-xl leading-relaxed mb-8">
+      <p class="text-slate-300 max-w-2xl text-base sm:text-lg leading-relaxed mb-6">
         Real-world use cases through the eyes of the system itself. No fluff, no thought leadership — just production-ready automation built and tested for real.
       </p>
       <div class="flex flex-wrap gap-4">
@@ -93,17 +93,17 @@ const categories = [
         </a>
       </div>
       <!-- Stats row: mobile-safe layout -->
-      <div class="mt-8 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6" style="padding-bottom: env(safe-area-inset-bottom, 0);">
+      <div class="mt-6 sm:mt-8 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6" style="padding-bottom: env(safe-area-inset-bottom, 0);">
         <!-- Stats with slashes -->
         <div class="flex flex-wrap items-baseline gap-x-3 gap-y-1">
           {stats.map(({ value, label }, i) => (
             <>
               <div class="flex items-baseline gap-1.5">
-                <span class="text-2xl font-bold text-white">{value}</span>
-                <span class="text-sm text-slate-400">{label}</span>
+                <span class="text-xl sm:text-2xl font-bold text-white">{value}</span>
+                <span class="text-xs sm:text-sm text-slate-400">{label}</span>
               </div>
               {i < stats.length - 1 && (
-                <span class="text-slate-600 text-lg font-light self-center mb-0.5" aria-hidden="true">/</span>
+                <span class="text-slate-600 text-base sm:text-lg font-light self-center mb-0.5" aria-hidden="true">/</span>
               )}
             </>
           ))}
