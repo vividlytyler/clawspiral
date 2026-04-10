@@ -2,7 +2,7 @@
 title: "Personal Reading List Manager: Never Lose a Book Again"
 description: "How OpenClaw can serve as your persistent reading list manager — tracking books to read, logging what you've finished, and surfacing recommendations based on your actual taste."
 pubDate: 2026-04-07
-category: productivity
+category: lifestyle-wellness
 tags: ["reading", "books", "list", "notes", "recommendations", "memory", "telegram", "automation"]
 image: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=1200&auto=format&fit=crop"
 ---
