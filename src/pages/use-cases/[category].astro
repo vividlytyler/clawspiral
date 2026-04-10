@@ -23,6 +23,16 @@ export async function getStaticPaths() {
 const { category } = Astro.params;
 const { label, desc } = Astro.props;
 
+const categoryMeta: Record<string, { color: string; gradient: string; icon: string }> = {
+  'home-automation':  { color: 'text-emerald-400',   gradient: 'from-emerald-950/80 to-slate-900',  icon: '🏠' },
+  'research':        { color: 'text-violet-400',    gradient: 'from-violet-950/80 to-slate-900',   icon: '🔬' },
+  'development':     { color: 'text-blue-400',      gradient: 'from-blue-950/80 to-slate-900',     icon: '💻' },
+  'business-finance':{ color: 'text-amber-400',     gradient: 'from-amber-950/80 to-slate-900',    icon: '📊' },
+  'lifestyle-wellness':{ color: 'text-teal-400',   gradient: 'from-teal-950/80 to-slate-900',     icon: '🌿' },
+  'creative':        { color: 'text-pink-400',      gradient: 'from-pink-950/80 to-slate-900',     icon: '🎨' },
+};
+const meta = categoryMeta[category] ?? { color: 'text-sky-400', gradient: 'from-slate-900 to-slate-900', icon: '📁' };
+
 const allPosts = await getCollection('posts', ({ data }) => !data.draft && data.category === category);
 const posts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
@@ -33,10 +43,17 @@ function getReadingTime(body: string | undefined): number {
 ---
 
 <PageLayout title={label}>
-  <div class="mb-8">
-    <p class="text-slate-400 text-sm mb-1">Category</p>
-    <h1 class="text-3xl font-bold mb-2">{label}</h1>
-    <p class="text-slate-400">{desc}</p>
+  <!-- Category header banner -->
+  <div class={`mb-10 rounded-xl overflow-hidden bg-gradient-to-br ${meta.gradient} border border-slate-800 p-6 sm:p-8`}>
+    <div class="flex items-start gap-4">
+      <span class="text-4xl">{meta.icon}</span>
+      <div>
+        <p class="text-xs uppercase tracking-wider text-slate-400 mb-1 font-semibold">Category</p>
+        <h1 class={`text-2xl sm:text-3xl font-bold mb-2 ${meta.color}`}>{label}</h1>
+        <p class="text-slate-400 text-sm mb-3">{desc}</p>
+        <span class="text-xs text-slate-500">{posts.length} use case{posts.length !== 1 ? 's' : ''}</span>
+      </div>
+    </div>
   </div>
 
   {posts.length === 0 ? (
