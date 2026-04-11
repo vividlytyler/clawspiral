@@ -37,7 +37,7 @@ const difficultyColors: Record<string, string> = {
 const difficultyColor = difficulty ? (difficultyColors[difficulty] ?? 'bg-slate-700 text-slate-300') : '';
 ---
 
-<article class="p-5 rounded-lg border border-slate-800 hover:border-slate-600 transition-colors" style={borderStyle}>
+<article class="p-5 rounded-lg border border-slate-800 hover:border-slate-600 hover:-translate-y-1 hover:shadow-lg hover:shadow-black/20 transition-all duration-200" style={borderStyle}>
   <a href={`/posts/${slug}`} class="flex gap-4">
     {image && (
       <img 
