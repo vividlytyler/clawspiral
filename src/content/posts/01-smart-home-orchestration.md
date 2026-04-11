@@ -4,10 +4,10 @@ description: "How OpenClaw can serve as the brain behind a smart home — coordi
 pubDate: 2026-03-26
 category: home-automation
 tags: ["home-automation", "iot", "routines", "voice", "docker", "homeassistant", "mqtt", "smartthings"]
-image: "https://images.unsplash.com/photo-1558002038-1055907df827?w=1200&auto=format&fit=crop"
+image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&auto=format&fit=crop"
 ---
 
-![Smart home control panel](https://images.unsplash.com/photo-1558002038-1055907df827?w=1200&auto=format&fit=crop)
+![Smart home evening scene with warm lighting](https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&auto=format&fit=crop)
 
 OpenClaw isn't just a chatbot with a server. When connected to your smart home infrastructure, it becomes a 24/7 reasoning layer that can coordinate devices, respond to conditions, and handle complexity that rigid automation rules can't.
 
@@ -41,6 +41,38 @@ OpenClaw parses this, creates the schedule, and handles the logic — including 
 
 Under the hood, this might mean: calling a weather API, evaluating a condition, firing a HomeAssistant script for the lights, toggling a smart plug for the coffee maker, and dropping a news briefing into your morning report. You didn't wire any of that together — you just said what you wanted.
 
+Here's what that Morning Routine might look like as a HomeAssistant script that OpenClaw would call:
+
+```yaml
+morning_routine:
+  sequence:
+    - service: weather.get_forecasts
+      target:
+        entity_id: weather.home
+      data:
+        type: hourly
+    - condition: template
+      value_template: >
+        {% set rain_expected = states('weather.home')
+           | parse_json[0].precipitation_probability > 50 %}
+        {{ rain_expected }}
+    - service: notify.telegram
+      data:
+        message: "☔ Rain expected this morning — take the umbrella."
+    - service: light.turn_on
+      target:
+        entity_id: light.bedroom
+      data:
+        brightness_pct: 30
+        color_temp: 2500
+    - service: switch.turn_on
+      target:
+        entity_id: switch.coffee_maker
+    - service: shell_command.news_briefing
+```
+
+OpenClaw generates and manages that YAML or equivalent REST calls based on your description. You write the intent; OpenClaw translates it into device instructions.
+
 ## Movie Mode Scene
 
 Here's where multi-device coordination pays off. You want "movie mode" — but that means different things depending on time and context. Instead of a rigid scene, you describe the intent:
@@ -51,6 +83,20 @@ OpenClaw handles the branching logic. You say "movie mode" on a Saturday at 9 PM
 
 This is hard to build in standard automation platforms without pre-programming every permutation. OpenClaw reasons through the context at execution time.
 
+## Voice Interaction: What It Actually Looks Like
+
+The natural language layer is the point. Here's what an actual exchange might sound like after wiring OpenClaw to HomeAssistant:
+
+> **You (Telegram):** "Hey, can you check if any doors are unlocked?"
+>
+> **OpenClaw:** "Front door is unlocked, garage side door is locked, back door is locked. Want me to lock the front door?"
+>
+> **You:** "Yes"
+>
+> **OpenClaw:** "Done. Front door is now locked. Also — your living room motion sensor picked up movement at 2:34 AM and I didn't trigger anything. Just flagging it in case that wasn't you."
+
+That's HomeAssistant state query → decision → action → cross-sensor correlation. No custom skill, no pre-wired intent. You could ask the same thing differently ("are all doors secure?") and get the same result.
+
 ## Evening Wind-Down Example
 
 The same approach works for night routines:
@@ -58,6 +104,14 @@ The same approach works for night routines:
 > "After 10 PM, if any media server containers have been running for more than 24 hours without a restart, flag them in my morning summary. Dim the office lights to 10%. And if the front door is still unlocked after 11 PM, remind me."
 
 This is the kind of conditional logic — time + state + device history — that breaks in standard automation builders. OpenClaw holds the context and reasons through it.
+
+## Vacation Mode
+
+Smart homes get awkward when you leave. You want the house to look lived-in, but you also want to know if something actually goes wrong. OpenClaw handles both:
+
+> "While I'm away on vacation, randomize the living room and kitchen lights between 6 PM and 10 PM — different times each day. If the front door unlocks more than twice in a single day, take a snapshot from the porch camera and send it to me. And if the temperature in the house drops below 45°F, text me — pipes could be an issue."
+
+That's randomization (which standard automations can't do without scripting), exception-based alerting (door unlocks are rare, so any spike is notable), and environmental risk detection. OpenClaw holds the logic and fires the appropriate API calls to HomeAssistant for each condition.
 
 ## The Docker Advantage
 
