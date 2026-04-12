@@ -2,7 +2,7 @@
 title: "Never Lose Track of a Free Trial Again"
 description: "OpenClaw maintains your subscription inventory, alerts you before free trials convert to paid, flags price changes, and tells you what you're actually paying for every month."
 pubDate: 2026-04-11
-category: productivity
+category: business-finance
 tags: ["subscriptions", "free-trials", "budget", "automation", "cron", "reminders", "finance", "personal-finance"]
 image: "https://images.unsplash.com/photo-1554224155-6726b3e8587f?w=1200&auto=format&fit=crop"
 ---
