@@ -1,7 +1,7 @@
 {
   "lastImproved": {
     "01-smart-home-orchestration": "2026-04-10",
-    "02-research-pipeline": "2026-04-04",
+    "02-research-pipeline": "2026-04-11",
     "03-development-assistant": "2026-04-05",
     "04-personal-secretary": "2026-04-06",
     "05-system-administration": "2026-04-07",
@@ -9,6 +9,16 @@
     "07-invoice-processing": "2026-04-09"
   },
   "improvementHistory": [
+    {
+      "date": "2026-04-11",
+      "postSlug": "02-research-pipeline",
+      "changes": [
+        "Added image section with research dashboard Unsplash image and caption",
+        "Added 'note-taking' tag",
+        "Added 'Handling Conflicting Sources' section with concrete example showing how synthesis surfaces and flags source disagreements instead of smoothing them over",
+        "Added 'Running Research on a Schedule' section with use case examples and a concrete OpenClaw cron JSON config for weekly AI news briefing"
+      ]
+    },
     {
       "date": "2026-04-09",
       "postSlug": "07-invoice-processing",

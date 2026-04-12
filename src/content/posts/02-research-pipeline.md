@@ -3,9 +3,14 @@ title: "Research Pipeline: From Question to Report"
 description: "How OpenClaw can research a topic end-to-end — web search, content extraction, synthesis, and delivery. A framework for turning scattered information into coherent reports."
 pubDate: 2026-03-26
 category: research
-tags: ["research", "web-search", "synthesis", "pipeline", "llm", "duckduckgo", "openclaw", "automation", "knowledge-management"]
+tags: ["research", "web-search", "synthesis", "pipeline", "llm", "duckduckgo", "openclaw", "automation", "knowledge-management", "note-taking"]
 image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&auto=format&fit=crop"
+imageCaption: "Research Pipeline — from scattered sources to structured synthesis"
 ---
+
+![Research Pipeline Flow](https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&auto=format&fit=crop)
+
+*From raw search results to synthesized report — OpenClaw handles the connective tissue.*
 
 OpenClaw's web search and fetch capabilities make it a capable research assistant. But the value isn't in answering simple questions — it's in building repeatable pipelines that transform raw web content into structured knowledge.
 
@@ -90,6 +95,61 @@ Here's what an actual research turn looks like:
 > - Mini PC (Beelink EQ12, ~$200) outperforms Pi 5x at similar power draw
 >
 > **Confidence:** High — three independent sources agree. The Reddit thread has one dissenting voice but no benchmark data to back it up.
+
+## Handling Conflicting Sources
+
+Real research queries often surface sources that disagree. Here's how to think about it:
+
+**Scenario:** You search "best self-hosted bookmark manager 2026" and get three sources with completely different recommendations — one praises Shaarr because of its UI, another dismisses it as abandonware, and a third recommends LinkStack but only mentions it in a GitHub issue from 2024.
+
+**What synthesis does:**
+1. Identifies the conflict explicitly ("Source A recommends X, Source B explicitly warns against it")
+2. Looks for corroborating evidence within and across sources (is the warning in Source B backed by dates and issues, or is it just an opinion?)
+3. Attaches a confidence flag ("Low: two of three sources directly contradict each other on a core claim")
+
+**What synthesis doesn't do:** Pick a winner and present it as settled fact. That's your call to make.
+
+The output structure should make the conflict visible rather than smoothing it over:
+
+```
+**Bookmark Manager Recommendation**
+- **LinkStack** — most actively maintained (last commit: Feb 2026), full-featured
+- **Shaarr** — good UI but last release was Oct 2024; use with caution
+- **Shiori** — minimal, SQLite-based, actively maintained, good for individuals
+
+**Confidence: Medium** — two of three sources agree on LinkStack but
+none directly compare it against Shaarr in 2025-2026.
+```
+
+## Running Research on a Schedule
+
+One-time research is useful. Scheduled research is a competitive advantage.
+
+**Use cases for scheduled research:**
+- Daily competitor monitoring (product updates, pricing changes)
+- Weekly industry news summary
+- Monthly technology landscape review
+- Ongoing legal/regulatory tracking
+
+**Setup with OpenClaw cron:**
+
+```json
+{
+  "name": "weekly-ai-news-research",
+  "schedule": { "kind": "cron", "expr": "0 9 * * 1", "tz": "America/Vancouver" },
+  "payload": {
+    "kind": "agentTurn",
+    "message": "Research the week's most significant AI/ML developments. Focus on: (1) new model releases or updates, (2) research paper highlights, (3) industry applications with real numbers. Output a structured brief — bottom line first, then key findings with sources. Send to Telegram.",
+    "timeoutSeconds": 300
+  },
+  "delivery": { "mode": "announce", "channel": "telegram" },
+  "sessionTarget": "isolated"
+}
+```
+
+The cron fires every Monday at 9 AM, OpenClaw runs the research, and you get a briefing before you check your email.
+
+**Important caveat:** Scheduled research still has the same limitations (paywalls, JS-heavy sites, training cutoff conflation). For news monitoring specifically, complement it with RSS feeds for sources you control — they're more reliable for detecting new content than web search alone.
 
 ## What You Need to Set This Up
 
