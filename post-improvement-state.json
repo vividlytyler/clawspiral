@@ -2,13 +2,22 @@
   "lastImproved": {
     "01-smart-home-orchestration": "2026-04-10",
     "02-research-pipeline": "2026-04-11",
-    "03-development-assistant": "2026-04-05",
+    "03-development-assistant": "2026-04-12",
     "04-personal-secretary": "2026-04-06",
     "05-system-administration": "2026-04-07",
     "06-employee-scheduling": "2026-04-09",
     "07-invoice-processing": "2026-04-09"
   },
   "improvementHistory": [
+    {
+      "date": "2026-04-12",
+      "postSlug": "03-development-assistant",
+      "changes": [
+        "Added tags: debugging, production",
+        "Added concrete 'Coverage Gap Workflow in Practice' subsection with specific npx vitest command example and real parsed output showing identified coverage gaps and the generated test prompt",
+        "Added 'Debugging Production Issues' section with a concrete TypeError scenario showing how OpenClaw cross-references error logs, source files, and git history to identify a field-rename mismatch between code and database schema"
+      ]
+    },
     {
       "date": "2026-04-11",
       "postSlug": "02-research-pipeline",

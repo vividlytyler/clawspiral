@@ -3,7 +3,7 @@ title: "OpenClaw as a Development Assistant"
 description: "Using an AI agent with file system access and shell commands to assist with development tasks — code review, repository management, CI/CD monitoring, and automated tooling."
 pubDate: 2026-03-26
 category: development
-tags: ["development", "coding", "ci-cd", "github", "tooling", "code-review", "testing", "pull-requests"]
+tags: ["development", "coding", "ci-cd", "github", "tooling", "code-review", "testing", "pull-requests", "debugging", "production"]
 image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1200&auto=format&fit=crop"
 ---
 
@@ -50,6 +50,25 @@ Connect OpenClaw to your GitHub Actions or other CI system and it can:
 - Open follow-up issues with relevant context
 - Track deployment status across environments
 
+### Debugging Production Issues
+
+This is where an AI agent with context access pays off differently than a chat tool. When a production error lands in your logs, OpenClaw can:
+
+- **Pull the relevant source file** and reason about what conditions could produce the error
+- **Cross-reference the git history** to see what changed recently in that code path
+- **Check environment differences** between production and your local setup
+- **Suggest a reproduction case** based on the actual stack trace
+
+Example scenario: your Node.js API starts returning 500s on `/api/orders`. Error log shows `TypeError: Cannot read property 'price' of undefined`.
+
+OpenClaw is given the error, the endpoint handler file, and the recent git log for that file. It finds:
+
+- The handler was refactored 2 days ago to read `order.items` instead of `order.lineItems` — a field rename that didn't update this code path
+- The production database has a different data shape than the test fixtures (orders created before the rename still use `lineItems`)
+- The fix is to add a fallback: `const items = order.items ?? order.lineItems`
+
+Without access to both the error log and your codebase simultaneously, you'd spend time triangulating. OpenClaw does it in one pass.
+
 ### Local Build Troubleshooting
 
 When `npm ci` fails on Cloudflare Pages but works locally, OpenClaw can:
@@ -79,6 +98,28 @@ Example workflow:
 OpenClaw runs the suite, parses the output, and identifies the gaps. You can then ask it to write tests for those specific paths without running the full suite again.
 
 This works particularly well with Vitest, Jest, and pytest — the output formats are consistent and easy to parse.
+
+### Coverage Gap Workflow in Practice
+
+Here's a specific sequence for the coverage gap workflow:
+
+```bash
+# 1. Run coverage on a specific directory
+npx vitest run --coverage --coverage.include='src/api/**'
+
+# 2. OpenClaw parses the output, identifies files below threshold
+
+# 3. Ask it to generate tests for a specific uncovered function
+```
+
+Real example output from that workflow:
+
+> "Three files in `src/api/` are below 60% branch coverage:
+> `src/api/users.ts` (41%), `src/api/billing.ts` (52%), `src/api/search.ts` (58%). 
+> `users.ts` has an uncovered branch at line 78 — a `role === 'admin'` check in `getUser()` 
+> that has no test for the non-admin path. Want me to write that test?"
+
+You say yes. OpenClaw writes the test, runs it to confirm it passes, and reports back. You commit.
 
 ## Concrete Example: Code Review in Practice
 
