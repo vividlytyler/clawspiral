@@ -2,7 +2,7 @@
 title: "Automated Project Retrospectives"
 description: "OpenClaw monitors your project's health all sprint, then generates a structured retrospective summary — surfacing what slipped, what slowed the team, and what to fix next."
 pubDate: 2026-04-13
-category: productivity
+category: development
 tags: ["project-management", "retrospective", "agile", "automation", "cron", "development", "sprint", "team"]
 image: "https://images.unsplash.com/photo-1484557052118-f32bd25b45b5?w=1200&auto=format&fit=crop"
 ---
