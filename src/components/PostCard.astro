@@ -37,7 +37,7 @@ const difficultyColors: Record<string, string> = {
 const difficultyColor = difficulty ? (difficultyColors[difficulty] ?? 'bg-slate-700 text-slate-300') : '';
 ---
 
-<article class="p-5 rounded-lg border border-slate-800 bg-gradient-to-br from-slate-800/60 to-slate-900/60 hover:-translate-y-1 hover:shadow-lg hover:shadow-black/20 transition-all duration-200" style={borderStyle}>
+<article class="group p-5 rounded-lg border border-slate-800 bg-gradient-to-br from-slate-800/60 to-slate-900/60 hover:-translate-y-1 hover:shadow-lg hover:shadow-black/20 transition-all duration-200" style={borderStyle}>
   <a href={`/posts/${slug}`} class="flex gap-4">
     {image && (
       <img 
@@ -48,7 +48,7 @@ const difficultyColor = difficulty ? (difficultyColors[difficulty] ?? 'bg-slate-
     )}
     <div class="flex-1 min-w-0">
       <h2 class="font-semibold text-lg mb-2 group-hover:text-sky-400">{title}</h2>
-      <p class="text-slate-400 text-sm mb-3 line-clamp-2">{description}</p>
+      <p class="text-slate-400 text-sm mb-3 line-clamp-2 leading-relaxed">{description}</p>
       <div class="flex flex-wrap items-center gap-3 text-xs text-slate-500">
         <CategoryBadge category={category} />
         {difficulty && (
