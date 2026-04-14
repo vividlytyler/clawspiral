@@ -3,7 +3,7 @@ title: "Your Personal Secretary: Email, Calendar, and Reminders"
 description: "How OpenClaw can act as a persistent, memory-aware assistant for managing email, calendar events, and contextual reminders — without subscribing to another SaaS."
 pubDate: 2026-03-26
 category: lifestyle-wellness
-tags: ["email", "calendar", "reminders", "productivity", "memory", "ical", "imap", "telegram", "follow-up", "workflow"]
+tags: ["email", "calendar", "reminders", "productivity", "memory", "ical", "imap", "telegram", "follow-up", "workflow", "cron"]
 image: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=1200&auto=format&fit=crop"
 ---
 
@@ -24,6 +24,20 @@ The heartbeat system handles the timing. A typical setup looks like:
 1. **Heartbeat** fires every 30 minutes
 2. **OpenClaw** runs an IMAP search: `FROM "manager" OR SUBJECT "URGENT" UNSEEN`
 3. **Conditional routing** — matching emails trigger a Telegram message; no matches, no message
+
+### Conditional Alert Rules
+
+The IMAP search criteria can be as specific as you need. Real filter rules:
+
+| Rule | IMAP Search |
+|------|-------------|
+| Boss or executive | `FROM "ceo@company.com" OR FROM "cto@company.com"` |
+| Urgent by header | `OR FROM "boss" SUBJECT "urgent" UNSEEN` |
+| Large attachments | `SUBJECT "receipt" OR SUBJECT "invoice" LARGER 1000000` |
+| Vendor contracts | `FROM "@lawfirm.com" OR (SUBJECT "agreement" SUBJECT "signature")` |
+| Travel confirmations | `FROM "airline" OR FROM "booking@" OR SUBJECT "itinerary"` |
+
+The heartbeat runs the appropriate search based on time of day — work hours use the full executive/vendor filter, evenings filter for anything flagged urgent. You can configure as many rules as you want, each with its own Telegram template.
 
 A real Telegram alert looks like:
 
@@ -72,6 +86,55 @@ Calendar files (`.ics`) are plain text and easy to parse. OpenClaw can:
 - **Read upcoming events** — extract tomorrow's meetings, flag scheduling conflicts
 - **Summarize the day** — provide a morning brief of what's coming
 - **Track availability** — help coordinate meeting times across time zones
+- **Prepare for meetings** — pull relevant context before you walk in
+
+### Reading a Calendar File
+
+A parsed `.ics` event looks like this when OpenClaw reads it:
+
+```
+BEGIN:VEVENT
+DTSTART:20260415T140000Z
+DTEND:20260415T143000Z
+SUMMARY:Q2 Budget Review
+DESCRIPTION:Attendees: Sarah Chen\, Jordan Lee\, Tyler
+LOCATION:Zoom — https://zoom.us/j/928174
+END:VEVENT
+```
+
+OpenClaw extracts the relevant fields (time, title, attendees, location) and formats them for the morning brief. For all-day events or multi-day conferences, it surfaces those separately so they don't clutter the day's schedule.
+
+### Conflict Detection
+
+When two events overlap, OpenClaw flags it:
+
+```
+⚠️ Conflict detected: "Q2 Budget Review" (2:00–2:30 PM) overlaps with
+"Deep Work Block" (1:00–3:00 PM). Suggest moving the block to start at 3:30 PM.
+```
+
+This is especially useful if you maintain a personal `.ics` alongside a work one — OpenClaw can read both and catch cross-calendar conflicts before you're double-booked.
+
+### Meeting Preparation
+
+Before a meeting, OpenClaw can pull context from your memory files so you're not walking in cold:
+
+```
+Upcoming: Q2 Budget Review in 30 minutes (Sarah Chen, Jordan Lee)
+
+📋 Previous context from memory:
+- Last discussed: Q1 variance was +$4,200 under budget (2026-03-18)
+- Action item open: Tyler to present revised Q2 forecast
+- Sarah mentioned wanting to discuss headcount additions
+
+🔗 Last email in thread:
+"Sarah: Looking forward to your revised numbers. The board is
+specifically asking about the software line — can you address that?"
+```
+
+OpenClaw scans your `memory/` directory for any sessions mentioning the meeting title or attendees, and appends the last relevant email snippet. It won't have everything — but even one relevant note from two weeks ago is better than nothing.
+
+This requires no CRM. It works from plain text files and your email thread history.
 
 ### Morning Brief Integration
 
@@ -86,6 +149,8 @@ This is straightforward to build with:
 2. Parse local `.ics` file for calendar
 3. IMAP query for recent emails
 4. Format and send via Telegram
+
+![Morning brief pipeline — weather, calendar, email, and memory feeding into a single Telegram message](https://images.unsplash.com/photo-1512438248247-f0f2a5a8b7f0?w=1200&auto=format&fit=crop&q=80)
 
 ## Memory and Context
 

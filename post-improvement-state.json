@@ -3,12 +3,24 @@
     "01-smart-home-orchestration": "2026-04-10",
     "02-research-pipeline": "2026-04-11",
     "03-development-assistant": "2026-04-12",
-    "04-personal-secretary": "2026-04-06",
+    "04-personal-secretary": "2026-04-13",
     "05-system-administration": "2026-04-07",
     "06-employee-scheduling": "2026-04-09",
     "07-invoice-processing": "2026-04-09"
   },
   "improvementHistory": [
+    {
+      "date": "2026-04-13",
+      "postSlug": "04-personal-secretary",
+      "changes": [
+        "Added cron tag",
+        "Added Unsplash morning brief pipeline image (distinct from hero)",
+        "Expanded Calendar Management section with .ics parsing example showing extracted fields (time, title, attendees, location)",
+        "Added Conflict Detection subsection with cross-calendar overlap example and suggested resolution",
+        "Added Meeting Preparation subsection showing how OpenClaw pulls context from memory files and email threads before meetings — real example with Q2 Budget Review",
+        "Added Conditional Alert Rules table with 5 real IMAP filter rules (executive, urgent, large attachments, vendor contracts, travel confirmations)"
+      ]
+    },
     {
       "date": "2026-04-12",
       "postSlug": "03-development-assistant",
