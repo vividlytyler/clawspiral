@@ -2,7 +2,7 @@
 title: "Digital Legacy Vault: Automated Family History and Memory Archiving"
 description: "OpenClaw acts as a persistent family historian — collecting stories via voice, organizing important documents, and maintaining a searchable archive that outlasts any cloud service."
 pubDate: 2026-04-13
-category: productivity
+category: lifestyle-wellness
 tags: ["family", "memory", "archive", "documents", "voice", "telegram", "legacy", "organization", "photos"]
 image: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=1200&auto=format&fit=crop"
 ---

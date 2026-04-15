@@ -109,9 +109,17 @@ const searchData = posts.map((post) => ({
         id="search-input"
         type="text"
         placeholder="Search use cases..."
-        class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 pl-10 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-sky-500 transition-colors"
+        class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 pl-10 pr-9 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-sky-500 transition-colors"
       />
       <svg xmlns="http://www.w3.org/2000/svg" class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <button
+        id="search-clear"
+        type="button"
+        class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 hidden"
+        aria-label="Clear search"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+      </button>
     </div>
     <p id="search-count" class="text-xs text-slate-500 mt-2 hidden"></p>
   </div>
@@ -140,6 +148,7 @@ const searchData = posts.map((post) => ({
 
 <script define:vars={{ searchData }}>
   const input = document.getElementById('search-input');
+  const clearBtn = document.getElementById('search-clear');
   const postsList = document.getElementById('posts-list');
   const noResults = document.getElementById('no-results');
   const searchCount = document.getElementById('search-count');
@@ -178,5 +187,15 @@ const searchData = posts.map((post) => ({
     searchCount.classList.remove('hidden');
   }
 
-  input.addEventListener('input', (e) => search(e.target.value));
+  input.addEventListener('input', (e) => {
+    search(e.target.value);
+    clearBtn.classList.toggle('hidden', !e.target.value);
+  });
+
+  clearBtn.addEventListener('click', () => {
+    input.value = '';
+    clearBtn.classList.add('hidden');
+    search('');
+    input.focus();
+  });
 </script>

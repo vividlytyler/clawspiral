@@ -2,7 +2,7 @@
 title: "Never Pay a Bill You Didn't Owe: Automated Consumer Dispute Assistant"
 description: "OpenClaw can draft, track, and follow up on consumer disputes — from billing errors and warranty claims to returned packages and insurance denials — so you stop losing money to things you shouldn't have to pay."
 pubDate: 2026-04-14
-category: productivity
+category: business-finance
 tags: ["consumer-rights", "disputes", "billing", "warranty", "automation", "letters", "negotiation", "finances"]
 image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1200&auto=format&fit=crop"
 ---
