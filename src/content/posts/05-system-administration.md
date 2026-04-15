@@ -4,7 +4,7 @@ description: "Using an AI agent as a always-on system administrator — monitori
 pubDate: 2026-03-26
 category: lifestyle-wellness
 difficulty: intermediate
-tags: ["system-admin", "docker", "server", "monitoring", "linux", "ubuntu", "watchtower", "cron", "self-hosted", "ssh"]
+tags: ["system-admin", "docker", "server", "monitoring", "linux", "ubuntu", "watchtower", "cron", "self-hosted", "ssh", "portainer", "incident-response"]
 image: "https://images.unsplash.com/photo-1600267204026-85c3cc8e96cd?w=1200&auto=format&fit=crop"
 ---
 
@@ -28,6 +28,8 @@ With elevated (sudo) permissions:
 
 For users running Docker containers (Watchtower, Portainer, LinuxServer suite, etc.):
 
+![Server monitoring dashboard showing container health](https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&auto=format&fit=crop)
+
 ### Health Monitoring
 
 OpenClaw can periodically check:
@@ -43,6 +45,22 @@ Configure conditional responses:
 - **High memory usage** → identify the culprit, suggest or execute cleanup
 - **Disk space low** → find large files, suggest removal targets
 - **Update available** → trigger Watchtower update, verify container restarts cleanly
+
+### A Real Incident: Container Crash Workflow
+
+Here's what an actual failure-and-recovery cycle looks like:
+
+1. **4:12 AM — Sonarr stops.** OpenClaw's 30-minute health cron detects `docker ps | grep sonarr` returns empty. It runs `docker logs sonarr --since 6h` and finds: `sqlite3.OperationalError: database is locked`.
+
+2. **4:13 AM — Diagnosis.** OpenClaw cross-references this with `docker ps -a` and finds a stuck Radarr container also holding a SQLite lock. It concludes: "Radarr and Sonarr both tried to write to the same `sonarr.db` at ~4:08 AM. Radarr won."
+
+3. **4:13 AM — Resolution attempt.** OpenClaw stops Radarr first, then starts Sonarr. `docker start radarr` follows. Both containers are up by 4:14 AM.
+
+4. **4:30 AM — Health check passes.** OpenClaw confirms both containers running, no new errors in logs.
+
+5. **5:00 AM — Morning brief includes:** *"Sonarr restarted at 4:14 AM after a SQLite lock conflict with Radarr. No data loss. Consider setting up a lock timeout or migrating both to a dedicated PostgreSQL instance if this repeats."*
+
+This is the full loop — detect, diagnose, fix, verify, report — without you touching anything.
 
 ### Log Analysis
 
@@ -232,3 +250,19 @@ OpenClaw is a reasoning layer on top of standard Linux tools. It:
 - **Should** be configured conservatively until you trust the automation
 
 It's infrastructure for building your own automated ops stack — not a magic wand.
+
+## A Day in the Life
+
+Here's how a typical day with OpenClaw managing your server plays out:
+
+**6:00 AM — Morning health check.** OpenClaw runs through docker ps, df -h, free -m, and uptime. Everything looks fine — 3% CPU idle, 58% disk used, all 14 containers running. You get a brief Telegram message: *"Morning — all clear. Disk at 58%, memory at 6.1G/32G, uptime 90 days."*
+
+**9:47 AM — Anomaly detected.** The 30-minute cron catches that your SWAG (reverse proxy) container has restarted 3 times in the last hour. OpenClaw digs into `docker logs swag --since 2h`, finds SSL certificate renewal failures due to a misconfigured DNS challenge. It messages you: *"SWAG restarted 3x in 60 min — Let's Encrypt renewal failing due to Cloudflare DNS plugin error. Fix available: update the docker-compose env var for CF_DNS_API_TOKEN. Want me to apply it?"*
+
+**10:15 AM — You approve.** OpenClaw updates the env file, recreates the container, verifies the SSL cert renewed successfully, and confirms all 6 proxied services are responding on HTTPS.
+
+**2:00 PM — Log rollup.** Weekly cron runs a digest: "This week: 2 container restarts (both self-healed), 0 auth failures from external IPs (fail2ban working), 847MB apt packages pending, Jellyfin transcoding 12 hours total." You reply "clean up the packages" — it runs `apt-get autoremove -y && apt-get autoclean` and confirms 1.2GB freed.
+
+**10:00 PM — Nightly backup verification.** borgmatic ran at 2 AM. OpenClaw checks `borg list /backup/borg | tail -1`, verifies the snapshot timestamp and size, and writes the result to a status file that your dashboard reads.
+
+No alerts for most of the day — OpenClaw handled the routine. The two things that needed human judgment (SSL fix, package cleanup) came to you with context and a clear recommendation.

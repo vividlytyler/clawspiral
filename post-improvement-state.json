@@ -4,11 +4,21 @@
     "02-research-pipeline": "2026-04-11",
     "03-development-assistant": "2026-04-12",
     "04-personal-secretary": "2026-04-13",
-    "05-system-administration": "2026-04-07",
+    "05-system-administration": "2026-04-14",
     "06-employee-scheduling": "2026-04-09",
     "07-invoice-processing": "2026-04-09"
   },
   "improvementHistory": [
+    {
+      "date": "2026-04-14",
+      "postSlug": "05-system-administration",
+      "changes": [
+        "Added monitoring-dashboard Unsplash image to Docker Stack Management section",
+        "Added tags: portainer, incident-response",
+        "Added 'A Real Incident: Container Crash Workflow' — concrete SQLite lock conflict between Sonarr and Radarr, showing the full detect/diagnose/fix/verify/report loop at specific times",
+        "Added 'A Day in the Life' section with a realistic full-day timeline: morning health check, SWAG SSL failure detection and fix, afternoon log rollup, nightly backup verification"
+      ]
+    },
     {
       "date": "2026-04-13",
       "postSlug": "04-personal-secretary",
