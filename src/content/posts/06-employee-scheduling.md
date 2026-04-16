@@ -3,7 +3,7 @@ title: "Employee Scheduling for Small Businesses"
 description: "How OpenClaw can automate weekly scheduling — collecting availability, building schedules based on business rules, and delivering shift assignments via Telegram or WhatsApp."
 pubDate: 2026-03-26
 category: business-finance
-tags: ["scheduling", "small-business", "telegram", "whatsapp", "automation", "hr", "cron"]
+tags: ["scheduling", "small-business", "telegram", "whatsapp", "automation", "hr", "cron", "sick-day"]
 image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&auto=format&fit=crop"
 featured: true
 ---
@@ -99,6 +99,21 @@ Bot: "Priya — you're all set for Sun 9am-2pm."
 
 OpenClaw logs the swap, updates the schedule file, and confirms with all affected employees. No manager involvement needed unless no one volunteers.
 
+### A Real Sick-Day Flow
+
+Monday 6:47am, 13 minutes before Maria's shift starts:
+
+```
+Maria: "I'm sick, can't come in today"
+Bot: "Oh no, get well soon. I'll sort out coverage."
+Bot: "Team — Maria's out sick for today's morning shift (6am-2pm). Can anyone cover?"
+Tom: "I can come in early, 5:30am"
+Bot: "Tom's covering. Opening cash drawer and coffee prep are yours, Tom."
+Bot: "@Maria — hope you feel better. Tom's got your shift."
+```
+
+OpenClaw identifies the gap, broadcasts, handles the first response, confirms, and notifies Maria — all before the shift starts. The owner finds out about it in the summary report, not in a panic call from a confused opener.
+
 When multiple people volunteer for the same shift, OpenClaw applies the same hours-scoring logic and awards it to whoever has the lighter week so far — then notifies the runner-up they're on standby in case the first person flakes:
 
 ```
@@ -107,6 +122,25 @@ Priya: "I can do Sat afternoon too"
 Bot: "Chris has fewer hours this week — Chris you're up for Sat 2pm-8pm."
 Bot: "Priya — you're first backup. I'll ping you if Chris drops out."
 ```
+
+### Shift Reminders
+
+Employees forget. OpenClaw can remind them the day before:
+
+```json
+{
+  "name": "shift-reminder",
+  "schedule": { "kind": "cron", "expr": "0 14 * * *", "tz": "America/Los_Angeles" },
+  "payload": {
+    "kind": "agentTurn",
+    "message": "Send a Telegram reminder to each employee with a shift tomorrow. Check tomorrow-shifts.json. Format: 'Hey [Name]! Reminder: you open tomorrow (Thu Mar 10) at 6am. See you then.'"
+  }
+}
+```
+
+The cron fires at 2pm the day before. Employees get a heads-up, not a surprise at 5am.
+
+---
 
 ### Real Example: Weekly Run
 
@@ -163,11 +197,16 @@ Here's what the first week looks like in practice:
 ## Limitations
 
 - **WhatsApp requires setup** — OpenClaw speaks Telegram natively; WhatsApp needs WhatsApp Business API (paid, Meta-verified account required)
-- **Complex labor law** — union rules, multi-state overtime, or CBA requirements need human review; OpenClaw won't catch legal nuances on its own
+- **Complex labor law** — union rules, multi-state overtime, or CBA requirements need human review; OpenClaw won't catch legal nuances on its own. Before going live, at minimum check:
+  - **Advance notice requirements**: some states (CA, OR, WA, CO) require 7–14 days advance notice of schedules — OpenClaw can message schedules early, but you must set the policy
+  - **Predictive scheduling laws**: cities like San Francisco, Chicago, and New York have "fair workweek" rules around consent for split shifts, last-minute changes, and premium pay — OpenClaw won't auto-apply premium pay calculations
+  - **Paid sick leave tracking**: if your state accrues PSL, the CSV export is a starting point but isn't a legal accrual ledger
+  - **Overtime thresholds**: OpenClaw respects your 40-hour rule, but doesn't know about daily overtime thresholds (e.g., daily OT in CA after 8 hours) unless you encode them explicitly
 - **Scheduling algorithm is rule-based** — it optimizes by the rules you give it, but can't "intuit" that Priya and Chris work better together on Fridays. For complex rostering with soft preferences, a dedicated tool is faster
 - **Right-sized for small teams** — 5–20 employees is the sweet spot; at 50+, the interaction overhead of managing availability via chat becomes its own problem
 - **Timezone handling** — if your team spans time zones, you need to standardize on one (UTC or your shop's local time) and be consistent; OpenClaw won't auto-detect or convert
 - **No shift differential** — the CSV export shows hours worked, but overtime rate calculations or weekend/night shift differential pay need to be handled in your payroll tool
+- **Availability drift** — if employees repeatedly message availability that doesn't match what they actually accept, the system keeps storing what they said, not what they meant. A monthly reset of availability files prevents stale preferences from quietly distorting the schedule
 
 ## The Real Value
 

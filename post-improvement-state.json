@@ -5,10 +5,20 @@
     "03-development-assistant": "2026-04-12",
     "04-personal-secretary": "2026-04-13",
     "05-system-administration": "2026-04-14",
-    "06-employee-scheduling": "2026-04-09",
+    "06-employee-scheduling": "2026-04-15",
     "07-invoice-processing": "2026-04-09"
   },
   "improvementHistory": [
+    {
+      "date": "2026-04-15",
+      "postSlug": "06-employee-scheduling",
+      "changes": [
+        "Added 'sick-day' tag",
+        "Added 'Shift Reminders' section with concrete cron JSON example firing 18h before shifts at 2pm the day prior",
+        "Added 'A Real Sick-Day Flow' section — concrete Monday morning Telegram exchange showing Maria calling in sick, OpenClaw broadcasting to team, Tom volunteering, schedule updated, and Maria notified — all before the shift starts",
+        "Expanded Limitations with a concrete compliance checklist covering advance notice laws (CA/OR/WA/CO), predictive scheduling laws (SF/Chicago/NYC), paid sick leave tracking, and daily overtime thresholds — plus availability drift caveat about stale preference files"
+      ]
+    },
     {
       "date": "2026-04-14",
       "postSlug": "05-system-administration",
