@@ -2,7 +2,7 @@
 title: "Never Walk Into a Meeting Cold: The Auto-Prep Briefing"
 description: "OpenClaw synthesizes everything it knows before every meeting — past conversations, relevant emails, project files, and research — and delivers a prep brief to your phone before you walk in."
 pubDate: 2026-04-15
-category: productivity
+category: business-finance
 tags: ["meetings", "preparation", "context", "memory", "calendar", "research", "telegram", "productivity", "workflow"]
 image: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=1200&auto=format&fit=crop"
 ---
