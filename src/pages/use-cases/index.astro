@@ -136,6 +136,7 @@ const searchData = posts.map((post) => ({
           difficulty={post.data.difficulty}
           readingTime={getReadingTime(post.body)}
           image={post.data.image}
+          borderColor={categoryColors[post.data.category]?.border.replace('/40', '/100') ?? undefined}
         />
       </div>
     ))}
