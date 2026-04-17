@@ -88,6 +88,14 @@ OpenClaw can:
 
 For simple invoices, regex patterns work well. For complex ones with dense tables or unusual layouts, an LLM can analyze the raw text and extract structured data. Run a few samples through and compare regex vs. LLM output to see which is worth the cost.
 
+**Improving OCR output:** Tesseract accuracy drops on angled, low-resolution, or crumpled scans. Before running OCR:
+- **Deskew the image** with `ImageMagick`: `convert input.jpg -deskew 40% output.jpg`
+- **Increase DPI**: scan at 300 DPI minimum, not 72–150
+- **Pre-process for contrast**: `convert input.jpg -normalize -threshold 50% output.jpg`
+- **Use language models**: `tesseract input.jpg stdout -l eng+deu` (add languages for multi-language invoices)
+
+If Tesseract still produces garbled output for a recurring vendor, that vendor's invoice format is worth capturing manually once to identify the preprocessing step that fixes it — then script that preprocessing as part of your intake pipeline.
+
 #### Duplicate Detection
 
 Same vendor, same invoice number within 90 days? That's almost certainly a duplicate. OpenClaw checks the ledger before recording anything:
@@ -133,6 +141,23 @@ Due: Apr 20
 ```
 
 Small invoices (under your threshold) go straight to the ledger. You decide what the threshold is and it can be vendor-specific — always approve a known vendor, always flag a new one over $500.
+
+#### Vendor-Specific Approval Rules
+
+Rather than a single global threshold, build rules around vendors you trust vs. ones you don't:
+
+```json
+{
+  "approvalRules": [
+    { "vendor": "Acme Supplies",    "threshold": 5000, "autoApprove": true },
+    { "vendor": "ServerCo",          "threshold": 1000, "autoApprove": false },
+    { "vendor": "New Vendor",        "threshold": 0,    "alwaysFlag": true },
+    { "vendor": "CloudHost Pro",     "threshold": 2000, "autoApprove": true, "category": "hosting" }
+  ]
+}
+```
+
+New vendors (not in your vendor list) always get flagged regardless of amount — you confirm the bank details and entity before any money leaves. Known vendors with a good payment history get a higher implicit threshold.
 
 ### Recurring Bills
 
@@ -199,6 +224,57 @@ INV-2024-0890 | ServerCo       | $3,840.00 | SENT | DUE: Apr 20 | PENDING ✓
 
 Weekly summary (every Monday morning):
 > "You have 3 invoices due in the next 7 days totaling $4,891.00. 1 overdue invoice (Acme Supplies, $1,247.50, 7 days late)."
+
+## Recording Payments & Reconciliation
+
+Getting an invoice into the ledger is only half the loop. Recording when it actually gets paid closes it.
+
+### Payment Recording
+
+When you pay a bill — by bank transfer, check, or credit card — tell OpenClaw:
+
+```
+/paid INV-2024-0892
+/paid INV-2024-0892 --date 2026-04-14 --method "Bank transfer" --ref "TXN-8841"
+```
+
+OpenClaw updates the ledger:
+
+```
+Acme Supplies,INV-2024-0892,2024-03-15,2024-04-14,1247.50,office supplies,TRUE,2026-04-14,Bank transfer,TXN-8841
+```
+
+The `paid_date`, `payment_method`, and `payment_ref` fields go from empty to populated. Now your ledger shows a clean audit trail.
+
+### Bank Reconciliation
+
+A daily cron matches ledger entries against your bank transaction feed (CSV export from your bank). If OpenClaw sees a debit to `Acme Supplies` for $1,247.50 on or around April 14, it can auto-match and close the loop without you doing anything:
+
+```
+Bank feed entry: Apr 14 — DR Acme Supplies — $1,247.50
+Matched ledger: INV-2024-0892, due Apr 14, $1,247.50
+→ Marking PAID. Telegram: "INV-2024-0892 paid and reconciled."
+```
+
+Unmatched debits get flagged: something left your account that isn't in the ledger.
+
+### Partial Payments & Payment Plans
+
+Some invoices get paid in chunks. Record each payment against the invoice:
+
+```
+/partial INV-2024-0892 --amount 500.00 --date 2026-04-10 --method "Bank transfer"
+/partial INV-2024-0892 --amount 747.50 --date 2026-04-14 --method "Bank transfer"
+```
+
+OpenClaw tracks applied amounts and flags when the balance is paid off:
+
+```
+INV-2024-0892 | Acme Supplies | $1,247.50 | PARTIAL: $500.00 paid | Balance: $747.50
+INV-2024-0892 | Acme Supplies | $1,247.50 | PAID IN FULL ✓
+```
+
+For payment plans (e.g., Net-60 split into two equal payments), OpenClaw can auto-generate the schedule on invoice entry and send reminders at each milestone.
 
 ## What You Need to Set This Up
 

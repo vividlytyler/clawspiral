@@ -6,9 +6,19 @@
     "04-personal-secretary": "2026-04-13",
     "05-system-administration": "2026-04-14",
     "06-employee-scheduling": "2026-04-15",
-    "07-invoice-processing": "2026-04-09"
+    "07-invoice-processing": "2026-04-16"
   },
   "improvementHistory": [
+    {
+      "date": "2026-04-16",
+      "postSlug": "07-invoice-processing",
+      "changes": [
+        "Added Vendor-Specific Approval Rules subsection with JSON config example (autoApprove thresholds per vendor, alwaysFlag for new vendors)",
+        "Added 'Recording Payments & Reconciliation' section covering payment commands, bank feed auto-matching, and Telegram confirmation",
+        "Added partial payments and payment plans subsection with multi-payment tracking example",
+        "Expanded OCR tips with ImageMagick deskew/contrast preprocessing, 300 DPI guidance, multi-language tesseract, and preprocessing scripting approach"
+      ]
+    },
     {
       "date": "2026-04-15",
       "postSlug": "06-employee-scheduling",
