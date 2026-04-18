@@ -6,6 +6,11 @@ import { getCollection } from 'astro:content';
 
 const allPosts = await getCollection('posts', ({ data }) => !data.draft);
 const featuredPosts = allPosts.filter((post) => post.data.featured).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const featuredIds = new Set(featuredPosts.map((p) => p.id));
+const recentPosts = allPosts
+  .filter((post) => !featuredIds.has(post.id))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 4);
 const posts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()).slice(0, 5);
 
 const stats = [
@@ -138,6 +143,32 @@ const categories = [
           </article>
         );
         })}
+      </div>
+    </section>
+  )}
+
+  {recentPosts.length > 0 && (
+    <section class="mb-10">
+      <div class="flex items-center justify-between mb-5">
+        <h2 class="text-xl font-bold">More Use Cases</h2>
+        <a href="/use-cases" class="text-sm text-sky-400 hover:text-sky-300 flex items-center gap-1 transition-colors">
+          View all
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+      </div>
+      <div class="grid sm:grid-cols-2 gap-4">
+        {recentPosts.map((post) => (
+          <PostCard
+            title={post.data.title}
+            description={post.data.description}
+            pubDate={post.data.pubDate}
+            slug={post.id}
+            category={post.data.category}
+            difficulty={post.data.difficulty}
+            readingTime={getReadingTime(post.body)}
+            image={post.data.image}
+          />
+        ))}
       </div>
     </section>
   )}

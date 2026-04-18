@@ -2,7 +2,7 @@
 title: "Personal Digital Archive Manager: Your Lifetime Memory Layer"
 description: "OpenClaw can act as your persistent digital archivist — organizing years of files, surfacing what you need before you know you need it, and building a searchable, queryable history of your life."
 pubDate: 2026-04-17
-category: productivity
+category: research
 tags: ["archives", "documents", "organization", "memory", "search", "automation", "files", "retrieval"]
 image: "https://images.unsplash.com/photo-1554415707-6e8cfc93a23b?w=1200&auto=format&fit=crop"
 ---
