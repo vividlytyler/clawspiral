@@ -1,6 +1,6 @@
 {
   "lastImproved": {
-    "01-smart-home-orchestration": "2026-04-10",
+    "01-smart-home-orchestration": "2026-04-17",
     "02-research-pipeline": "2026-04-11",
     "03-development-assistant": "2026-04-12",
     "04-personal-secretary": "2026-04-13",
@@ -9,6 +9,15 @@
     "07-invoice-processing": "2026-04-16"
   },
   "improvementHistory": [
+    {
+      "date": "2026-04-17",
+      "postSlug": "01-smart-home-orchestration",
+      "changes": [
+        "Added 'Security Monitoring' section with Unsplash night security camera image and two concrete Telegram exchange examples — overnight door unlock with camera clip correlation, and morning auto-lock of back door left unlocked all night",
+        "Added 'Energy & Power Monitoring' section with Unsplash solar panel image covering power-hungry device surfacing, unusual consumption alerting (freezer example), vampire power estimation, and solar production correlation with cleaning reminders",
+        "Added tags: security, energy-management"
+      ]
+    },
     {
       "date": "2026-04-16",
       "postSlug": "07-invoice-processing",

@@ -3,7 +3,7 @@ title: "Smart Home Orchestration with OpenClaw"
 description: "How OpenClaw can serve as the brain behind a smart home — coordinating devices, automating routines, and providing a natural language interface to your entire setup."
 pubDate: 2026-03-26
 category: home-automation
-tags: ["home-automation", "iot", "routines", "voice", "docker", "homeassistant", "mqtt", "smartthings"]
+tags: ["home-automation", "iot", "routines", "voice", "docker", "homeassistant", "mqtt", "smartthings", "security", "energy-management"]
 image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&auto=format&fit=crop"
 ---
 
@@ -83,6 +83,26 @@ OpenClaw handles the branching logic. You say "movie mode" on a Saturday at 9 PM
 
 This is hard to build in standard automation platforms without pre-programming every permutation. OpenClaw reasons through the context at execution time.
 
+## Security Monitoring
+
+Smart home security gets interesting when OpenClaw correlates multiple signals — a motion sensor firing, a door unlocking, a camera detecting movement — and decides what's worth flagging. The door/motion example in the section above hints at this; it deserves its own framing.
+
+Here's a concrete overnight exchange:
+
+> **OpenClaw (3:12 AM):** "Your front door was unlocked at 3:12 AM and the porch camera picked up movement — but no one rang the doorbell. I didn't trigger any lights or alerts since the motion was outside. Want me to save the 14-second clip?"
+>
+> **You:** "Yes"
+>
+> **OpenClaw:** "Saved. Movement was ~180cm tall, moving toward the gate. Could be the neighbor's cat. Flagging this event in your security log."
+
+That's HomeAssistant state query → camera event correlation → decision logic (suppress unless anomalous) → user confirmation → file preservation. OpenClaw isn't just firing alarms — it's triaging. You only get pinged for things that might actually matter, and you have the final say on what happens to the evidence.
+
+> **OpenClaw (7:43 AM):** "Also — your back door was unlocked all night. I locked it at 7:40 AM. You might have forgotten when you took out the trash last night."
+
+This is the "exception that proves the rule" logic. A door unlocking at 3 AM triggers a camera check. A door left unlocked for hours triggers an auto-lock + morning heads-up. The same sensor, different response based on context you didn't have to pre-program.
+
+![Security camera monitoring a home at night](https://images.unsplash.com/photo-1558000142-fd8f0a890f0e?w=1200&auto=format&fit=crop)
+
 ## Voice Interaction: What It Actually Looks Like
 
 The natural language layer is the point. Here's what an actual exchange might sound like after wiring OpenClaw to HomeAssistant:
@@ -112,6 +132,24 @@ Smart homes get awkward when you leave. You want the house to look lived-in, but
 > "While I'm away on vacation, randomize the living room and kitchen lights between 6 PM and 10 PM — different times each day. If the front door unlocks more than twice in a single day, take a snapshot from the porch camera and send it to me. And if the temperature in the house drops below 45°F, text me — pipes could be an issue."
 
 That's randomization (which standard automations can't do without scripting), exception-based alerting (door unlocks are rare, so any spike is notable), and environmental risk detection. OpenClaw holds the logic and fires the appropriate API calls to HomeAssistant for each condition.
+
+## Energy & Power Monitoring
+
+Beyond convenience, smart homes are energy systems — and OpenClaw can watch them. Plug load monitoring, solar production tracking, and vampire power drain are all tractable with the right sensors and HomeAssistant integrations.
+
+A few things OpenClaw can do without custom scripting:
+
+**Surface power-hungry devices.** After a month of data, you can ask: "What devices used the most power this week?" OpenClaw queries HomeAssistant's energy dashboard sensors and gives you a ranked breakdown — no opening a separate app.
+
+**Flag unusual consumption.** Set a rule like: "If the garage freezer pulls more than 800W for more than 30 minutes, text me." That's a potential compressor failure before it becomes spoiled food.
+
+**Estimate vampire power.** "How much do all my always-on devices draw at night?" OpenClaw can sum up known plug loads and give you a nightly standby estimate.
+
+**Solar production correlation.** "On days when solar production drops below 200W between 11 AM and 2 PM, check if the panels need cleaning." OpenClaw correlates weather and production data and can remind you on a schedule or on condition.
+
+![Solar panels on a home roof](https://images.unsplash.com/photo-1509391366360-2e9597845e76?w=1200&auto=format&fit=crop)
+
+The energy data exists in HomeAssistant; OpenClaw just makes it queryable in plain English.
 
 ## The Docker Advantage
 
