@@ -81,6 +81,15 @@ a:hover {
   z-index: 0;
 }
 
+/* 404 page spin animation */
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.animate-spin-slow {
+  animation: spin-slow linear infinite;
+}
+
 /* Hero mesh gradient — layered blurred orbs for depth */
 .hero-mesh::after {
   content: '';
