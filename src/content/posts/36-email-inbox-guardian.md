@@ -2,7 +2,7 @@
 title: "Email Inbox Guardian: Never Miss What Matters"
 description: "OpenClaw acts as a persistent email triage layer — reading your inbox on a schedule, surfacing what needs your attention, auto-filing noise, and reminding you about emails you've been avoiding."
 pubDate: 2026-04-18
-category: productivity
+category: lifestyle-wellness
 tags: ["email", "inbox-zero", "triage", "automation", "cron", "productivity", "imap", "telegram"]
 image: "https://images.unsplash.com/photo-1596526131083-e8c633c948d2?w=1200&auto=format&fit=crop"
 ---
