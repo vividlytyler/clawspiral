@@ -45,6 +45,26 @@ Key capability: it handles most sites well, including:
 
 Limitation: JavaScript-rendered pages (React/Next.js apps without SSR) may return empty results.
 
+Here's what actual fetched content looks like. For a query on "Pi-hole DNS filtering," `web_fetch` on the official docs returns clean markdown:
+
+```markdown
+# Pi-hole Docs
+
+## Overview
+Pi-hole is a DNS sinkhole that blocks ads and trackers at the network level...
+
+## Installation
+### Automatic Installation
+`curl -sSL https://install.pi-hole.net | bash`
+
+### Manual Installation
+Requires a Linux system with Git, `make`, and `net-tools`...
+```
+
+The extraction is clean enough to read directly, but you're still getting the full page. That's where synthesis earns its keep — it identifies the relevant bits and discards the rest.
+
+**Practical tip:** For documentation sites, fetch with `extractMode: "markdown"` to get the structure without HTML artifacts. For news articles, `"text"` often produces more readable output by stripping boilerplate.
+
 ## Step 3: Synthesis
 
 This is where the LLM reasoning matters. Synthesis isn't just summarizing — it's:
@@ -150,6 +170,20 @@ One-time research is useful. Scheduled research is a competitive advantage.
 The cron fires every Monday at 9 AM, OpenClaw runs the research, and you get a briefing before you check your email.
 
 **Important caveat:** Scheduled research still has the same limitations (paywalls, JS-heavy sites, training cutoff conflation). For news monitoring specifically, complement it with RSS feeds for sources you control — they're more reliable for detecting new content than web search alone.
+
+## Real-World Applications
+
+The research pipeline shines for anything that normally requires 20 browser tabs and an hour of reading:
+
+**Vendor evaluation** — Research a tool before buying. Ask OpenClaw to compare three options on dimensions that matter to you (pricing model, self-hosting options, privacy policy, community size). It fetches the actual docs and pricing pages, not just marketing material.
+
+**Technical due diligence** — Before committing to a new library or service, run it through the pipeline. Ask about known issues, maintenance velocity (check commit frequency, issue response times), and common complaints from real users. Reddit threads and GitHub issues are gold here — `web_fetch` pulls them directly.
+
+**Competitive monitoring** — Set a weekly cron to monitor specific companies or products. Track their blog for product updates, their GitHub for new releases, news sites for coverage. The "Running Research on a Schedule" section above has the setup details.
+
+**Fact-checking before decisions** — "The CTO says Postgres can't handle our load." Research it. Run benchmarks, find comparable case studies, check what Shopify or Discord actually use. You'd be surprised how often the conventional wisdom is wrong.
+
+**Travel and purchase research** — Not just "best laptop for coding" — drill into real reviews, teardown videos, reliability data. The Pi example above is typical of how specific the output can get.
 
 ## What You Need to Set This Up
 

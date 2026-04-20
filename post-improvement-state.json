@@ -1,7 +1,7 @@
 {
   "lastImproved": {
     "01-smart-home-orchestration": "2026-04-17",
-    "02-research-pipeline": "2026-04-11",
+    "02-research-pipeline": "2026-04-19",
     "03-development-assistant": "2026-04-12",
     "04-personal-secretary": "2026-04-13",
     "05-system-administration": "2026-04-14",
@@ -9,6 +9,14 @@
     "07-invoice-processing": "2026-04-16"
   },
   "improvementHistory": [
+    {
+      "date": "2026-04-19",
+      "postSlug": "02-research-pipeline",
+      "changes": [
+        "Added concrete fetched content example (Pi-hole docs) showing what web_fetch actually returns and how extractMode affects output",
+        "Added 'Real-World Applications' section with 5 concrete use cases: vendor evaluation, technical due diligence, competitive monitoring, fact-checking, and travel/purchase research"
+      ]
+    },
     {
       "date": "2026-04-17",
       "postSlug": "01-smart-home-orchestration",
