@@ -2,7 +2,7 @@
 title: "Never Lose a Professional Connection Again"
 description: "OpenClaw acts as your career relationship manager — tracking who you've connected with, spotting when relationships go cold, drafting personalized re-engagement messages, and keeping your network alive."
 pubDate: 2026-04-20
-category: productivity
+category: business-finance
 tags: ["career", "networking", "linkedin", "relationships", "follow-ups", "outreach", "automation", "productivity"]
 image: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=1200&auto=format&fit=crop"
 ---
