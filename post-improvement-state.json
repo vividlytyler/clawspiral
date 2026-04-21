@@ -2,7 +2,7 @@
   "lastImproved": {
     "01-smart-home-orchestration": "2026-04-17",
     "02-research-pipeline": "2026-04-19",
-    "03-development-assistant": "2026-04-12",
+    "03-development-assistant": "2026-04-20",
     "04-personal-secretary": "2026-04-13",
     "05-system-administration": "2026-04-14",
     "06-employee-scheduling": "2026-04-15",
@@ -10,6 +10,15 @@
   },
   "improvementHistory": [
     {
+      "date": "2026-04-20",
+      "postSlug": "03-development-assistant",
+      "changes": [
+        "Added 'Handling Merge Conflicts' section with concrete Telegram exchange showing semantic conflict resolution approach — reading both sides, identifying intent, producing resolved version",
+        "Added 'Monitoring Your Own Code' section with Unsplash image (developer workflow) and concrete 5-minute detection-to-diagnosis scenario for Flask 502s caused by Postgres volume full",
+        "Expanded CI/CD Monitoring section with real Cloudflare Pages TypeScript build failure scenario showing commit cross-reference and fix location",
+        "Added 'logs' tag"
+      ]
+    },
       "date": "2026-04-19",
       "postSlug": "02-research-pipeline",
       "changes": [

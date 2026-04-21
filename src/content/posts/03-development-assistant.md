@@ -3,7 +3,7 @@ title: "OpenClaw as a Development Assistant"
 description: "Using an AI agent with file system access and shell commands to assist with development tasks — code review, repository management, CI/CD monitoring, and automated tooling."
 pubDate: 2026-03-26
 category: development
-tags: ["development", "coding", "ci-cd", "github", "tooling", "code-review", "testing", "pull-requests", "debugging", "production"]
+tags: ["development", "coding", "ci-cd", "github", "tooling", "code-review", "testing", "pull-requests", "debugging", "production", "logs"]
 image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1200&auto=format&fit=crop"
 ---
 
@@ -42,6 +42,27 @@ GitHub fine-grained PATs allow specific permissions. OpenClaw can:
 
 **Quick win — PR Description Review:** Before merging, drop the PR description into OpenClaw and ask: *"What questions does this leave unanswered? What would a reviewer need to know that isn't here?"* It catches the stuff the author is too close to see. Common gaps: missing context on why a change was made (not just what), no link to the original issue, no migration steps for schema changes.
 
+### Handling Merge Conflicts
+
+When a long-running feature branch picks up conflicts on merge, OpenClaw can take a different approach than the usual "accept theirs / accept ours" binary:
+
+- **Read both versions** — it reads the local and incoming versions of the conflicting file and reasons about what each change was trying to accomplish
+- **Identify the semantic intent** — a conflict on `src/api/orders.ts` where both sides added different fields to a response object is usually trivially resolvable by keeping both; a conflict on a conditional in a payment flow is worth reading carefully
+- **Produce a resolved version** with a brief explanation of why each piece was kept or adapted
+
+Example Telegram exchange:
+
+> **You:** `git status` shows conflicts in `src/billing/subscription.ts`. Here's the content — can you resolve it?
+>
+> **OpenClaw:** Got it. Read both sides. Here's what's happening:
+> - Your branch adds a `status: 'past_due'` field to the subscription response
+> - `main` moved that field to a nested `billing_status` object as part of a broader response restructuring
+> - The fields aren't actually in conflict — your addition just needs to land inside the new nested structure
+>
+> I'll resolve and show you the result. Check `src/billing/subscription.ts` and confirm before you `git add`.
+
+You review, spot-check, and `git add`. No manual three-way merge reading required.
+
 ### CI/CD Monitoring
 
 Connect OpenClaw to your GitHub Actions or other CI system and it can:
@@ -49,6 +70,19 @@ Connect OpenClaw to your GitHub Actions or other CI system and it can:
 - Suggest fixes based on the error output
 - Open follow-up issues with relevant context
 - Track deployment status across environments
+
+**A real failure scenario:** Your Cloudflare Pages deploy fails with a cryptic build error. OpenClaw reads the deploy log:
+
+```
+✘ [ERROR] ../components/checkout/tender-type.tsx:37:14
+TS2322: Type 'string | undefined' is not assignable to type 'string'.
+```
+
+It cross-references the file, finds the same component imported in three other files, checks which one was recently changed (commit `a4f2c91` — "refactor tender type logic"), then reports:
+
+> "Build failure in `tender-type.tsx:37` is a type mismatch introduced in commit `a4f2c91`. The `tenderType` field was changed from `string` to `string | undefined` but the destructuring in the checkout component doesn't handle the undefined case. Fix: add a fallback or non-null assertion at the point of use. This likely passed CI on the feature branch if the test suite doesn't cover that code path — check the coverage report for `components/checkout/`."
+
+Without having to search through the codebase yourself, you get the root cause and a specific fix location.
 
 ### Debugging Production Issues
 
@@ -170,6 +204,26 @@ That review takes ~30 seconds to generate and covers stuff that slips through in
 - **Optional: Docker CLI** — if you want container health monitoring via Portainer or the Docker API
 
 For the Docker stack described above, you already have Watchtower and Portainer running — OpenClaw can connect to the Docker socket or Portainer's API to check container health, tail logs, and restart services.
+
+![Development workflow with code review and merge tools](https://images.unsplash.com/photo-1556075798-3e55a0ad1a2c?w=1200&auto=format&fit=crop)
+
+### Monitoring Your Own Code
+
+Beyond CI pipelines, OpenClaw can monitor custom application logs if you point it at log files or a central logging setup:
+
+- **Parse application error logs** stored in `/var/log/` or a container's stdout
+- **Correlate log timestamps with deploy events** — if errors spike right after a deploy, flag the correlation
+- **Check application health endpoints** — hit `/health` or `/ready` on your services and alert if they return unexpected status codes
+
+Example: a Flask app running in a Docker container starts returning 502s. OpenClaw is configured to check `/health` on each container every 5 minutes via a cron job. When the 502 fires, it:
+
+1. Checks the container health endpoint (`curl http://localhost:5001/health`)
+2. Reads the container logs (`docker logs flask-app --tail 50`)
+3. Finds a database connection timeout error happening every 30 seconds
+4. Checks if the database container is still running (`docker inspect postgres`)
+5. Reports: "Flask app is 502ing due to database connection timeouts. Postgres container has been restarting every 30s — likely the database volume is full. Run `docker exec postgres df -h` to confirm and expand the volume."
+
+That's a 5-minute detection-to-diagnosis cycle instead of waiting for a user to report the issue.
 
 ## Limitations
 
