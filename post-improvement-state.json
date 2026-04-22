@@ -3,12 +3,20 @@
     "01-smart-home-orchestration": "2026-04-17",
     "02-research-pipeline": "2026-04-19",
     "03-development-assistant": "2026-04-20",
-    "04-personal-secretary": "2026-04-13",
+    "04-personal-secretary": "2026-04-21",
     "05-system-administration": "2026-04-14",
     "06-employee-scheduling": "2026-04-15",
     "07-invoice-processing": "2026-04-16"
   },
   "improvementHistory": [
+    {
+      "date": "2026-04-21",
+      "postSlug": "04-personal-secretary",
+      "changes": [
+        "Added 'A Concrete Reminder Example' section with real one-shot JSON cron example and a recurring Monday 9am weekly review agentTurn config",
+        "Added 'Calendar Refresh Cycle' section covering automatic .ics refresh via curl, manual export workflow, and daily heartbeat sync strategy"
+      ]
+    },
     {
       "date": "2026-04-20",
       "postSlug": "03-development-assistant",

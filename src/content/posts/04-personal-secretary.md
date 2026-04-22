@@ -104,6 +104,19 @@ END:VEVENT
 
 OpenClaw extracts the relevant fields (time, title, attendees, location) and formats them for the morning brief. For all-day events or multi-day conferences, it surfaces those separately so they don't clutter the day's schedule.
 
+### Calendar Refresh Cycle
+
+The `.ics` file is a snapshot — it doesn't update automatically unless your calendar app supports it. A few approaches:
+
+**Automatic refresh (Fastmail, Zoho):** Some providers give you a URL that exports a live `.ics`. Set a cron job to re-fetch it every hour:
+```bash
+curl -s "https://mail.fastmail.com/user/calendar.ics" -o "$HOME/calendar/work.ics"
+```
+
+**Manual export (Google, Apple):** Download and replace the file when you know something changed — new events, cancelled meetings. Or set a weekly reminder to re-export.
+
+**Calendar check:** If you're adding events via a different tool and want OpenClaw to notice, a daily heartbeat at an odd hour (after you'd normally add events) is a reasonable sync point.
+
 ### Conflict Detection
 
 When two events overlap, OpenClaw flags it:
@@ -181,6 +194,34 @@ The simplest reliable follow-up system is file-based:
 4. **When done**, you reply "done" and OpenClaw marks it `[x]` and files it to `follow-ups/2026-04-done.md`
 
 No database. No Notion. No dependencies beyond a text file and a cron job. The same file is readable by you at any time with any editor.
+
+### A Concrete Reminder Example
+
+Here's what a real one-shot reminder looks like in practice:
+
+**You say:** *"Remind me in 2 hours to check the laundry."*
+
+OpenClaw creates a timed cron job:
+```json
+{
+  "name": "Laundry reminder",
+  "schedule": { "kind": "at", "at": "2026-04-22T14:30:00-07:00" },
+  "payload": { "kind": "systemEvent", "text": "Reminder: Check the laundry (set 2h ago by Tyler)" }
+}
+```
+
+At 2:30 PM, you get: *"🔔 Reminder: Check the laundry."* You open the machine, switch loads, done. The job self-deletes after firing — no orphaned cron entries.
+
+**Recurring example — weekly review every Monday at 9 AM:**
+```json
+{
+  "name": "Weekly review",
+  "schedule": { "kind": "cron", "expr": "0 9 * * 1", "tz": "America/Vancouver" },
+  "payload": { "kind": "agentTurn", "message": "Run your weekly review: (1) check follow-ups/ pending items, (2) scan calendar for the week ahead, (3) flag anything due this week, (4) report to Tyler via Telegram." }
+}
+```
+
+The agentTurn payload runs OpenClaw in isolation, so it does the reasoning and delivers a summary — not just a static message.
 
 ## What You Need to Set This Up
 
