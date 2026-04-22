@@ -2,7 +2,7 @@
 title: "Personal Insurance Policy Manager"
 description: "Stop losing track of your insurance policies. OpenClaw maintains a living inventory of every policy you own — coverage limits, deductibles, renewal dates, claims history, and gaps in protection."
 pubDate: 2026-04-21
-category: productivity
+category: business-finance
 tags: ["insurance", "policy", "home", "auto", "life", "life-admin", "renewals", "reminders", "productivity"]
 image: "https://images.unsplash.com/photo-1450105629163-e0a8bfd6b4e8?w=1200&auto=format&fit=crop"
 ---
