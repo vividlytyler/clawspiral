@@ -4,11 +4,20 @@
     "02-research-pipeline": "2026-04-19",
     "03-development-assistant": "2026-04-20",
     "04-personal-secretary": "2026-04-21",
-    "05-system-administration": "2026-04-14",
+    "05-system-administration": "2026-04-22",
     "06-employee-scheduling": "2026-04-15",
     "07-invoice-processing": "2026-04-16"
   },
   "improvementHistory": [
+    {
+      "date": "2026-04-22",
+      "postSlug": "05-system-administration",
+      "changes": [
+        "Added 'Network Monitoring' section with Unsplash server rack image, port/firewall/Docker network commands, and a real SSH brute-force Telegram alert example",
+        "Added 'Alert Routing and Escalation' section with severity triage table (immediate/batch/log patterns), escalation path with apcupsd example, and notification fatigue prevention via batching",
+        "Added 'When OpenClaw Isn't Available' section covering known gaps (health cron misses, crashes mid-command, HTTP actions failing), mitigations (Watchtower, Uptime Kuma, preserve fail2ban/apcupsd), and recovery procedure"
+      ]
+    },
     {
       "date": "2026-04-21",
       "postSlug": "04-personal-secretary",

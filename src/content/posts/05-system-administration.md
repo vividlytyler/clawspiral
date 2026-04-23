@@ -222,6 +222,79 @@ OpenClaw can schedule this weekly and upload to your backup destination.
 
 Start without elevated permissions. Add sudo access only for specific tasks once you've verified the behavior is correct.
 
+## Network Monitoring
+
+![Server rack with network cables](https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1200&auto=format&fit=crop)
+
+OpenClaw can watch your network stack alongside the server itself:
+
+**Monitor listening ports:**
+```
+ss -tulpn | grep LISTEN
+```
+OpenClaw compares the output against a known-good baseline and alerts on unexpected listeners — a new service you don't remember installing, or a port that should be firewalled.
+
+**Check firewall status:**
+```
+ufw status numbered
+iptables -L -n --line-numbers
+```
+Hand off to OpenClaw when you suspect an unauthorized rule was added or an existing rule is too permissive.
+
+**Docker network topology:**
+```
+docker network ls
+docker network inspect bridge
+```
+OpenClaw can map which containers can reach which others, useful for diagnosing unexpected service-to-service communication.
+
+**A real network alert:**
+You wake up to: *"Port 22 has received 847 failed SSH attempts in the last 30 minutes from 14 different IPs, mostly from 103.152.220.x range. fail2ban has already banned 11 of them. Recommend confirming your own IP is not blocked: `fail2ban-client status sshd`. If you need to whitelist your address, let me know."*
+
+OpenClaw didn't stop the brute force — fail2ban did — but it synthesized the event, gave you the context to understand it, and flagged the action you might need to take.
+
+## Alert Routing and Escalation
+
+Not every alert should hit you the same way. OpenClaw can tier its notifications:
+
+**Triage by severity:**
+
+| Event | Action |
+|-------|--------|
+| Disk >90% | Immediate Telegram alert with cleanup targets |
+| Container down (critical service) | Immediate alert with restart command ready to run |
+| Container down (non-critical) | Log it, restart it, mention in next brief |
+| Failed auth attempts spike | Immediate alert if >50 in 10 min, otherwise mention in daily rollup |
+| Backup verification failed | Immediate alert with last known good snapshot time |
+
+**Escalation path:**
+```
+# Power status check
+apcupsd → OpenClaw heartbeat → Telegram alert (immediate)
+          ↓ if no response in 5 min
+          Email via external SMTP (e.g., ntfy.sh or SendGrid)
+```
+
+**Notification fatigue prevention:**
+OpenClaw batches similar events. Rather than sending 20 messages about a flaky container, you get one: *"Plex restarted 4 times today between 14:00–16:00. Each time it self-healed within 2 minutes. Likely a transcoding memory issue — recommend increasing the container memory limit from 4G to 8G."* One message, one actionable recommendation.
+
+## When OpenClaw Isn't Available
+
+A gap worth planning for: what happens when OpenClaw is down for maintenance, a model outage, or a bug?
+
+**Known gaps:**
+- Health cron doesn't fire → no monitoring during that window (detectable by checking cron runs list)
+- If OpenClaw crashes mid-command → the command may or may not complete; check `docker ps` to verify
+- Network/HTTP actions may fail while OpenClaw is restarting (notifications, web fetches)
+
+**Mitigations:**
+- Keep Watchtower on so containers auto-restart even without OpenClaw
+- Use `systemctl status openclaw` in a separate monitoring tool (Uptime Kuma, Grafana) to detect OpenClaw itself being down
+- Preserve critical automations (fail2ban, UPS apcupsd) outside OpenClaw — those should survive even if OpenClaw is offline
+
+**Recovery procedure:**
+When OpenClaw comes back after an outage, it will read its memory files and notice the gap. It will typically run a catch-up health check and report anything that needs attention.
+
 ## Security Considerations
 
 Running an AI with elevated permissions is powerful but risky:
@@ -240,6 +313,7 @@ The tradeoff is between capability and security. Full OS access enables full aut
 - **Can compound mistakes** — if a command does something unexpected (e.g., `rm -rf` with a bad path), OpenClaw will execute it; always verify destructive operations before running them
 - **Context window limits** — very large log files get truncated; for multi-GB logs, use `grep`/`awk` pre-filtering to pass only relevant lines
 - **Not a replacement for production-grade monitoring** — Grafana + Prometheus, Datadog, or similar tools offer much richer metrics and alerting; OpenClaw complements them, not replaces them
+- **Single point of failure** — if OpenClaw itself goes down, the automated ops layer goes with it; layer redundant monitoring for critical workloads
 
 OpenClaw is a reasoning layer on top of standard Linux tools. It:
 - **Can** monitor, analyze, and respond to conditions
