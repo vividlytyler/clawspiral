@@ -2,7 +2,7 @@
 title: "Stop Forgotten Service Accounts From Becoming Liabilities"
 description: "OpenClaw maintains a living inventory of your online accounts — including the bots, integrations, and one-time signups you forgot about — and alerts you when they become security risks."
 pubDate: 2026-04-22
-category: productivity
+category: business-finance
 tags: ["security", "accounts", "automation", "privacy", "api-keys", "dormant-accounts", "personal-infrastructure"]
 image: "https://images.unsplash.com/photo-1529655683826-aba9b3e77383?w=1200&auto=format&fit=crop"
 ---
