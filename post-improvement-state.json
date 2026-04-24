@@ -5,10 +5,19 @@
     "03-development-assistant": "2026-04-20",
     "04-personal-secretary": "2026-04-21",
     "05-system-administration": "2026-04-22",
-    "06-employee-scheduling": "2026-04-15",
+    "06-employee-scheduling": "2026-04-23",
     "07-invoice-processing": "2026-04-16"
   },
   "improvementHistory": [
+    {
+      "date": "2026-04-23",
+      "postSlug": "06-employee-scheduling",
+      "changes": [
+        "Added 'Time Off and Exception Handling' section covering vacation/personal day request flow, pre-schedule conflict surfacing with manager decision prompt, and holiday handling via holidays.json override with open/closed/reduced policies",
+        "Added concrete holiday-week Telegram exchange showing Christmas Eve/Day closed policy and Maria's Dec 23 coverage offer",
+        "Added team-planning Unsplash image (whiteboard/tablet coffee shop setting) before Real Example: Weekly Run section"
+      ]
+    },
     {
       "date": "2026-04-22",
       "postSlug": "05-system-administration",

@@ -140,7 +140,63 @@ Employees forget. OpenClaw can remind them the day before:
 
 The cron fires at 2pm the day before. Employees get a heads-up, not a surprise at 5am.
 
+### Time Off and Exception Handling
+
+Sick days and swaps are acute problems. Time-off requests — vacation, personal days, holidays — are a different kind of planning. OpenClaw handles both through the same interface, with a key difference: time-off requests typically come with advance notice, so OpenClaw can surface conflicts before the schedule is built rather than scrambling after.
+
+**Requesting time off** looks the same as availability updates:
+
+```
+James: "Need May 15-17 off, it's a family trip"
+Bot: "Got it — May 15 (Thu), 16 (Fri), 17 (Sat). I'll flag those dates in your file."
+Bot: "Fri and Sat affect peak coverage — I'll bring this to [Manager] if there's a conflict."
+```
+
+OpenClaw stores the dates and checks them against upcoming schedules at generation time. If the coffee shop is already understaffed on Friday morning, the manager gets an alert before the draft goes out:
+
+```
+Bot: "Draft schedule conflict — James Lee has requested May 16 off, but Fri morning 
+has only 1 staff against a minimum of 2. Options: (1) Maria or Chris picks up Fri morning, 
+(2) bring in a temp, (3) reduce Fri morning hours. What's your call?"
+```
+
+If the manager approves the time off with no conflict, it's recorded and excluded from the next schedule run automatically. No one enters it into a spreadsheet; no one forgets to check.
+
+**Holiday handling** deserves special mention. Most small businesses see a spike in time-off requests around major holidays, and the rules are different:
+
+- Some shops stay open and need maximum coverage
+- Others close entirely
+- Some have reduced hours with skeleton crews
+
+OpenClaw handles this through a simple `holidays.json` override file:
+
+```json
+[
+  { "date": "2026-12-24", "policy": "closed" },
+  { "date": "2026-12-25", "policy": "closed" },
+  { "date": "2026-12-31", "policy": "reduced", "minStaff": 1, "shifts": ["morning"] }
+]
+```
+
+When the schedule generator runs for a week containing a holiday, it applies the policy instead of the normal rules — no staff required on closed days, skeleton crew on reduced days. Employees who want those days off don't need to request them; the system already knows.
+
+**A real holiday-week flow:**
+
+```
+Bot: "Reminder — Christmas week schedule is being built. Dec 24 and 25 the shop is closed 
+per holiday policy. If you want either of those days off, no action needed — you're already off."
+Tom: "Wait, am I scheduled for Christmas Eve?"
+Bot: "No — closed, so no shifts that day. You're all set."
+Maria: "I can work Dec 23 morning if someone needs it"
+Bot: "Thanks Maria. Dec 23 is a regular open day with normal coverage — I'll note the offer 
+in case we need a last-minute fill."
+```
+
+Without this holiday layer, managers end up manually tracking which days are special and who asked off before — exactly the kind of spreadsheet drift this system is meant to prevent.
+
 ---
+
+![Team shift planning on a whiteboard in a coffee shop](https://images.unsplash.com/photo-1556761175-b72474857d98?w=1200&auto=format&fit=crop)
 
 ### Real Example: Weekly Run
 
