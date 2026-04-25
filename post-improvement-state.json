@@ -6,9 +6,18 @@
     "04-personal-secretary": "2026-04-21",
     "05-system-administration": "2026-04-22",
     "06-employee-scheduling": "2026-04-23",
-    "07-invoice-processing": "2026-04-16"
+    "07-invoice-processing": "2026-04-24"
   },
   "improvementHistory": [
+    {
+      "date": "2026-04-24",
+      "postSlug": "07-invoice-processing",
+      "changes": [
+        "Expanded Bank Reconciliation section with actual CSV bank feed format showing normalization approach (strips EFT/wire/ACH suffixes) and 3-day matching window",
+        "Added Late Payment Escalation section covering informal nudge (Day 21-30), formal written notice (Day 30-45), and collections handoff (Day 60+) with concrete escalation paths and tone guidance",
+        "Added image section using existing hero image with reconciliation/cayments caption"
+      ]
+    },
     {
       "date": "2026-04-23",
       "postSlug": "06-employee-scheduling",

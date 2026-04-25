@@ -256,7 +256,38 @@ Matched ledger: INV-2024-0892, due Apr 14, $1,247.50
 → Marking PAID. Telegram: "INV-2024-0892 paid and reconciled."
 ```
 
-Unmatched debits get flagged: something left your account that isn't in the ledger.
+What the bank feed actually looks like — most banks let you export transactions as CSV:
+
+```
+Date,Description,Amount,Running Balance
+2026-04-14,"ACME SUPPLIES EFT",-1247.50,18432.18
+2026-04-14,"SERVERCO WIRE TRANSFER",-3840.00,15292.18
+2026-04-15,"OFFICE DEPOT SUPPLIES",-234.00,15058.18
+```
+
+OpenClaw normalizes the descriptions (strips EFT/wire/ACH suffixes, lowercases) before matching against vendor names in the ledger. Exact amount match on the due date (or within a 3-day window) creates the auto-match. Unmatched debits get flagged: something left your account that isn't in the ledger. Unmatched credits work the same way — a payment that arrived but wasn't recorded.
+
+### Late Payment Escalation
+
+The follow-up sequence covers polite nudges. But some invoices need escalation beyond that — and it helps to think about what escalation actually looks like before you're in the moment.
+
+**Informal escalation (Day 21–30 overdue):**
+```
+"Hi — just following up again on INV-2024-0892. I know things get busy, 
+but wanted to make sure this didn't slip through. Let me know if there's 
+anything I can help with on our end."
+```
+
+**Formal notice (Day 30–45):** Switch to written communication. Email with read receipt, or a dedicated payment portal link. At this stage the tone shifts to business-like but still not adversarial — you're establishing a paper trail.
+
+**Collections handoff (Day 60+):** Options at this point depend on your situation:
+- **Internal collections**: move to a `collections/` folder and stop sending gentle reminders; switch to payment-plan-offer tone
+- **External collections agency**: if you're within jurisdiction time limits and the amount justifies the fee (typically 25–40% of recovered amount), hand off with the full invoice history
+- **Dispute resolution**: if you believe the invoice is legitimately disputed, log it as `DISPUTED` and stop the follow-up sequence; don't let a genuine dispute sit in a payment-chasing loop
+
+The key is that OpenClaw tracks `last_contact_date` and `escalation_level` on each overdue invoice, so you can inspect any invoice's status at any time and know exactly where it stands in the escalation path.
+
+![Reconciliation and payments](https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1200&auto=format&fit=crop)
 
 ### Partial Payments & Payment Plans
 
