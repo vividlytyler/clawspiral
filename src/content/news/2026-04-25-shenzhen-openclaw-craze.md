@@ -2,7 +2,7 @@
 title: "Shenzhen Mass Installs: OpenClaw Goes Viral in China"
 description: "Nearly 1,000 people queued outside Tencent's headquarters in Shenzhen for OpenClaw installs, as major Chinese cloud providers and local governments embrace the open-source AI agent framework."
 pubDate: 2026-04-25
-storyOfTheDay: true
+storyOfTheDay: false
 ---
 
 Nearly 1,000 people lined up outside Tencent's headquarters in Shenzhen this March for one thing: OpenClaw. Engineers from Tencent's cloud unit helped students, retirees, and office workers deploy the open-source AI agent built by Peter Steinberger — and the craze has not slowed since.
