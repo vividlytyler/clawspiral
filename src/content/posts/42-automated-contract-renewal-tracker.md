@@ -2,7 +2,7 @@
 title: "Contract Renewal Tracker: Never Miss a Vendor Expiry Again"
 description: "OpenClaw monitors your vendor contracts, tracks renewal dates, alerts you before auto-renewals kick in, and flags when you're paying for services you no longer need."
 pubDate: 2026-04-24
-category: productivity
+category: business-finance
 tags: ["contracts", "vendor-management", "renewals", "billing", "automation", "cron", "telegram", "business", "savings"]
 image: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=1200&auto=format&fit=crop"
 ---
