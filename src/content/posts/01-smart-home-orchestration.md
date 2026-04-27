@@ -119,11 +119,32 @@ That's HomeAssistant state query → decision → action → cross-sensor correl
 
 ## Evening Wind-Down Example
 
-The same approach works for night routines:
+The same approach works for night routines. Here's a concrete evening exchange:
 
-> "After 10 PM, if any media server containers have been running for more than 24 hours without a restart, flag them in my morning summary. Dim the office lights to 10%. And if the front door is still unlocked after 11 PM, remind me."
+> **You (Telegram, 10:02 PM):** "Goodnight prep"
+>
+> **OpenClaw:** "Running wind-down:
+> - Office lights → 10% ✓
+> - Kitchen lights → off ✓
+> - Front door: unlocked — locking now ✓
+> - Living room Sonarr has been running 38 hours, flagged for restart in your morning summary
+> - Garage door: closed ✓
+> - Thermostat: set to 67°F for sleep ✓
+> - Front door is locked. Have a good night."
+
+That's three device states queried, two actions taken, and one scheduled flag queued — all from a four-word trigger. The automation isn't scripted to your exact state at this exact moment; OpenClaw reads the house and responds to what's actually happening.
+
+And if you forget:
+
+> **OpenClaw (11:47 PM):** "Front door is still unlocked. Want me to lock it?"
+>
+> **You:** "Yep"
+>
+> **OpenClaw:** "Done. Locked."
 
 This is the kind of conditional logic — time + state + device history — that breaks in standard automation builders. OpenClaw holds the context and reasons through it.
+
+![Cozy evening living room with warm lighting](https://images.unsplash.com/photo-1513694203232-719a280e022f?w=1200&auto=format&fit=crop)
 
 ## Vacation Mode
 
@@ -160,6 +181,22 @@ For users running media servers via Docker (Jellyfin, Sonarr, Radarr, etc.), Ope
 - Alert you when updates are available via Watchtower
 - Manage Plex/Jellyfin metadata refreshes
 
+A few specific things this looks like in practice:
+
+**Library scan after download:**
+> "Hey, three new episodes of that show finished downloading."
+> OpenClaw → `docker exec sonarr-core触发的Radarr download folder scan` → Jellyfin library refresh triggered → new content appears in your library without you touching anything.
+
+**Stale container restart:**
+> "Jellyfin has been running for 47 days without a restart. Restarting it now to clear the memory leak."
+> OpenClaw → `docker restart jellyfin` → Telegram confirmation with uptime before/after.
+
+**Watchtower update alert:**
+> "Watchtower pulled a new Sonarr image overnight. I've scheduled a restart for 3 AM to minimize disruption — unless you're recording, in which case I'll skip it."
+> OpenClaw checks recording schedule via Sonarr API before firing the restart.
+
+None of this requires custom scripts beyond what Docker already exposes. OpenClaw is the orchestrator reading the signals and deciding what to do.
+
 ## What You Need to Set This Up
 
 Getting OpenClaw talking to your smart home takes a few pieces in place:
@@ -171,6 +208,22 @@ Getting OpenClaw talking to your smart home takes a few pieces in place:
 - **A always-on host** — OpenClaw itself needs to run somewhere that doesn't sleep. A NAS, a mini PC, a Raspberry Pi 5 with SSD — your call.
 
 The setup isn't zero-effort, but it's all standard tooling. No custom drivers, no proprietary bridges.
+
+## Troubleshooting Common Issues
+
+Smart home + OpenClaw setups fail in predictable ways. Here's how to work through them:
+
+**HomeAssistant API token expired.** Long-Lived Access Tokens in HomeAssistant don't expire by default, but if you reset your user password or the token gets revoked, OpenClaw starts getting 401s. Fix: regenerate a token in HomeAssistant → Profile → Long-Lived Access Tokens, then update your OpenClaw config.
+
+**Device shows wrong state.** HomeAssistant maintains its own state database — if someone manually flipped a switch, HomeAssistant doesn't know until the next poll. OpenClaw reads from HomeAssistant's state, not the physical device. Fix: always route device control through HomeAssistant so it stays authoritative; avoid physical switches for devices you automate.
+
+**MQTT devices dropping off.** If MQTT sensors go silent, check the broker log (`mosquitto logs`) — common causes are QoS mismatch, retained messages piling up, or the broker running out of file descriptors on a busy bus. Rebooting the broker usually recovers it.
+
+**OpenClaw fires a scene but nothing happens.** Check the HomeAssistant log for the service call response. Common causes: entity ID changed (device was re-added), the service call syntax drifted from what the script expects, or HomeAssistant was in a state (e.g., unavailable entity) that silently swallowed the call.
+
+**Docker containers not responding to OpenClaw commands.** Run `docker ps` from the host first — if the container is simply restart-looping, that's a resource or config issue, not an OpenClaw issue. If Docker itself is the problem (Docker daemon hung, network driver dropped), that's a deeper host issue that needs investigation before OpenClaw can help.
+
+**Scheduling drift.** OpenClaw cron jobs are checked on heartbeat intervals, not precise to the second. For time-sensitive automations (e.g., "lock the door at 11 PM exactly"), add a parallel HomeAssistant automation as a safety net. OpenClaw handles the nuance; HomeAssistant handles the guarantee.
 
 ## Limitations
 

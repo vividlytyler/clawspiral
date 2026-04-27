@@ -1,6 +1,6 @@
 {
   "lastImproved": {
-    "01-smart-home-orchestration": "2026-04-17",
+    "01-smart-home-orchestration": "2026-04-26",
     "02-research-pipeline": "2026-04-19",
     "03-development-assistant": "2026-04-20",
     "04-personal-secretary": "2026-04-21",
@@ -9,6 +9,17 @@
     "07-invoice-processing": "2026-04-24"
   },
   "improvementHistory": [
+    {
+      "date": "2026-04-26",
+      "postSlug": "01-smart-home-orchestration",
+      "changes": [
+        "Expanded Evening Wind-Down section with concrete Telegram exchange showing multi-device wind-down triggered by 'Goodnight prep' — 5-device state check, 2 auto-actions, and scheduled flags",
+        "Added late-night reminder exchange showing front door auto-lock at 11:47 PM after OpenClaw detects it was left open",
+        "Added Unsplash cozy evening living room image after Evening Wind-Down section",
+        "Expanded Docker Advantage section with 3 concrete examples: library scan after Sonarr download, stale container restart with uptime before/after, and Watchtower update with recording-schedule safety check",
+        "Added Troubleshooting Common Issues section covering: HomeAssistant token expiry fix, device state sync issues, MQTT broker recovery, scene-fires-but-nothing-happens debugging, Docker daemon issues, and scheduling drift mitigation with HomeAssistant backup automation"
+      ]
+    },
     {
       "date": "2026-04-24",
       "postSlug": "07-invoice-processing",
