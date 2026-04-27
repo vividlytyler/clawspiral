@@ -2,7 +2,7 @@
 title: "Personal Health Command Center"
 description: "OpenClaw tracks your medical appointments, sends medication reminders, coordinates insurance paperwork, and keeps your health records organized — so nothing slips through the cracks."
 pubDate: 2026-04-25
-category: productivity
+category: lifestyle-wellness
 tags: ["health", "medical", "appointments", "medication", "insurance", "automation", "cron", "telegram", "family-care", "healthcare"]
 image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=1200&auto=format&fit=crop"
 ---
