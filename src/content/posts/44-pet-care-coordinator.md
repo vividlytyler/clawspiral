@@ -2,7 +2,7 @@
 title: "Your Pet Care Coordinator: Never Miss a Vaccination or Feeding Again"
 description: "OpenClaw manages your pet's health records, sends medication reminders, tracks vet appointments, coordinates grooming schedules, and keeps feeding routines consistent — even when you're traveling."
 pubDate: 2026-04-26
-category: productivity
+category: lifestyle-wellness
 tags: ["pets", "animals", "veterinary", "medication", "reminders", "feeding", "grooming", "automation", "cron", "telegram", "home"]
 image: "https://images.unsplash.com/photo-1450778869180-41d0601e046e?w=1200&auto=format&fit=crop"
 ---
