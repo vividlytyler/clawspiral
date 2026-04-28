@@ -2,7 +2,7 @@
 title: "Your Personal Morning Dashboard: Everything in One Place Before 8am"
 description: "OpenClaw aggregates your calendar, email, weather, finances, and tasks into a single morning briefing — delivered to your phone before you finish your first cup of coffee."
 pubDate: 2026-04-27
-category: productivity
+category: lifestyle-wellness
 tags: ["dashboard", "morning-briefing", "calendar", "productivity", "cron", "telegram", "automation", "information", "aggregation", "daily-routine"]
 image: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=1200&auto=format&fit=crop"
 ---
