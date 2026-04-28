@@ -1,7 +1,7 @@
 {
   "lastImproved": {
     "01-smart-home-orchestration": "2026-04-26",
-    "02-research-pipeline": "2026-04-19",
+    "02-research-pipeline": "2026-04-27",
     "03-development-assistant": "2026-04-20",
     "04-personal-secretary": "2026-04-21",
     "05-system-administration": "2026-04-22",
@@ -9,6 +9,14 @@
     "07-invoice-processing": "2026-04-24"
   },
   "improvementHistory": [
+    {
+      "date": "2026-04-27",
+      "postSlug": "02-research-pipeline",
+      "changes": [
+        "Added 'A Full Research Turn in Practice' subsection under Synthesis — concrete BeagleBoard vs Raspberry Pi vs Jetson edge CV example showing full 4-source, 3-query pipeline and actual synthesis output with bottom line, key findings, dust/temp considerations, and confidence assessment",
+        "Added Unsplash image (researcher at whiteboard) before Delivery section"
+      ]
+    },
     {
       "date": "2026-04-26",
       "postSlug": "01-smart-home-orchestration",

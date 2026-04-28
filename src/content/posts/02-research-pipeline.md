@@ -74,6 +74,45 @@ This is where the LLM reasoning matters. Synthesis isn't just summarizing — it
 3. **Building narrative** — structuring a bottom-line-first answer with supporting detail
 4. **Citing properly** — attributing claims to specific sources
 
+### A Full Research Turn in Practice
+
+Here's what a real pipeline execution looks like — start to finish:
+
+**Input question:** "What are our options for BeagleBoard vs. Raspberry Pi vs. NVIDIA Jetson for a computer vision project running at the edge? We need to run YOLO-based detection, ~30 FPS minimum, in a factory environment with dust and temperature variation."
+
+**Step 1 — Search (3 queries):**
+- "BeagleBone AI edge computing 2026 benchmarks"
+- "Raspberry Pi 5 computer vision YOLO FPS performance"
+- "NVIDIA Jetson Orin vs competitors edge inference 2026"
+
+**Step 2 — Fetch (4 sources):**
+- BeagleBoard.org blog on BeagleBone AI-64 specs
+- Tom's Hardware Raspberry Pi 5 YOLO benchmark article (March 2026)
+- NVIDIA Jetson Orin product page and thermal specs
+- r/EdgeComputing thread on dust-tolerant hardware
+
+**Step 3 — Synthesis output:**
+
+> **Bottom line:** For your requirements, a Jetson Orin Nano (8GB, ~$499) is the only option that reliably hits 30 FPS with full YOLOv8 — but it's over-engineered and overpriced if your standards are flexible. A Raspberry Pi 5 with 8GB runs YOLOv8n at ~22 FPS out of the box; overclocked and with tensor resize, you can hit 30 FPS on a good day. BeagleBone AI-64 maxes out around 18 FPS — not viable.
+>
+> **Key findings:**
+> - **Jetson Orin Nano:** Dedicated GPU (1024-core Ampere), hardware video encode, industrial temp range (-40°C to 80°C), IP rating capable — but needs active cooling and costs 3-5x more
+> - **Raspberry Pi 5:** Broad community support, runs at ~22 FPS stock, ~28-30 FPS with GPU overclock + YOLOv8n (not full). Commercial IP ratings need external enclosure. Active cooling required for sustained load.
+> - **BeagleBone AI-64:** TIDL chip accelerates inference but driver support is spotty; ~18 FPS on YOLOv8n, no full-model support. Good for Texas Instruments sensor integration but not vision-first workloads.
+>
+> **Dust/temperature consideration:** The Pi 5 is rated 0-50°C. In a factory with poor ventilation, it will throttle under sustained load above ~35°C ambient. The Jetson Orin's thermal management is designed for industrial environments — active heatsink + fan, wider rating. The BeagleBone runs cooler (passive) but not rated for industrial temps by default.
+>
+> **Recommendation:** If budget allows, Jetson Orin Nano. If you need to stay under $150 per unit, Pi 5 with aggressive cooling and YOLOv8n — but build in headroom because 30 FPS at the edge in a dusty factory is optimistic.
+>
+> **Sources:** Tom's Hardware (Pi 5 benchmarks, March 2026), BeagleBoard.org (AI-64 TIDL docs), NVIDIA Jetson comparison page, r/EdgeComputing moderator post citing factory deployment data.
+>
+> **Confidence:** High on performance specs (multiple sources agree within 5%). Medium on dust/temp tolerance — the factory data is anecdotal from one Reddit thread with no spec sheet verification.
+
+That full synthesis took about 90 seconds of compute and would have taken a human doing manual research roughly 45 minutes to produce — and they likely wouldn't have checked four sources.
+
+![Research synthesis — from raw data to structured insight](https://images.unsplash.com/photo-1507925921958-8a62f3d1a50d?w=1200&auto=format&fit=crop)
+*Systematic research beats intuition — here's the workflow that makes it repeatable.*
+
 ## Step 4: Delivery
 
 Research is only valuable if it reaches the right person in the right format. OpenClaw can:
