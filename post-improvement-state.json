@@ -2,7 +2,7 @@
   "lastImproved": {
     "01-smart-home-orchestration": "2026-04-26",
     "02-research-pipeline": "2026-04-27",
-    "03-development-assistant": "2026-04-20",
+    "03-development-assistant": "2026-04-28",
     "04-personal-secretary": "2026-04-21",
     "05-system-administration": "2026-04-22",
     "06-employee-scheduling": "2026-04-23",
@@ -10,11 +10,12 @@
   },
   "improvementHistory": [
     {
-      "date": "2026-04-27",
-      "postSlug": "02-research-pipeline",
+      "date": "2026-04-28",
+      "postSlug": "03-development-assistant",
       "changes": [
-        "Added 'A Full Research Turn in Practice' subsection under Synthesis — concrete BeagleBoard vs Raspberry Pi vs Jetson edge CV example showing full 4-source, 3-query pipeline and actual synthesis output with bottom line, key findings, dust/temp considerations, and confidence assessment",
-        "Added Unsplash image (researcher at whiteboard) before Delivery section"
+        "Added 'Git Operations Beyond Merge Conflicts' section covering branch housekeeping, PR creation with description drafting, git bisect automation for regression hunting, and multi-repo operations",
+        "Added 'Multi-Repo Management' section with Unsplash multi-monitor image and concrete 6-repo pre-release example showing cross-repo status, sync state, and version consistency checking",
+        "Added 'git-bisect' and 'multi-repo' tags"
       ]
     },
     {

@@ -3,7 +3,7 @@ title: "OpenClaw as a Development Assistant"
 description: "Using an AI agent with file system access and shell commands to assist with development tasks — code review, repository management, CI/CD monitoring, and automated tooling."
 pubDate: 2026-03-26
 category: development
-tags: ["development", "coding", "ci-cd", "github", "tooling", "code-review", "testing", "pull-requests", "debugging", "production", "logs"]
+tags: ["development", "coding", "ci-cd", "github", "tooling", "code-review", "testing", "pull-requests", "debugging", "production", "logs", "git-bisect", "multi-repo"]
 image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1200&auto=format&fit=crop"
 ---
 
@@ -63,7 +63,20 @@ Example Telegram exchange:
 
 You review, spot-check, and `git add`. No manual three-way merge reading required.
 
-### CI/CD Monitoring
+#OpenClaw can also handle Git operations beyond just conflict resolution:
+
+**Branch housekeeping:** Point it at a repo and ask for stale branch analysis — branches merged into main that haven't been deleted, branches with no activity for 30+ days, branches that exist locally but have been deleted from remote. It can produce a cleanup script or execute the deletions directly if you approve.
+
+**PR creation with description:** Give OpenClaw the diff of a feature branch and ask it to draft a PR description. It reads the commits, identifies what changed, surfaces any flagged issues from the diff review, and produces a description structured like: summary, why this change was made, what was done, testing steps, screenshots if relevant. You edit and paste into GitHub.
+
+**Git bisect for regression hunting:** When a bug was introduced and you know it worked N commits ago but not when, OpenClaw can automate `git bisect` by running tests at each step, reading the result, and narrowing down the bad commit. You'd tell it: "the tests in `tests/api/orders.test.ts` were passing at commit `abc123`, they're failing now. Find the commit that broke it." It runs bisect, tests each step, and reports the result.
+
+**Multi-repo operations:** If you manage multiple repos (a monorepo or a set of related services), OpenClaw can:
+- Run `git status` across all of them in one pass and summarize which need attention
+- Pull and check for conflicts across branches you're trying to merge
+- Compare branch contents between repos (e.g., is this fix already applied to downstream services?)
+
+## CI/CD Monitoring
 
 Connect OpenClaw to your GitHub Actions or other CI system and it can:
 - Explain why a pipeline failed (read logs, parse errors)
@@ -206,6 +219,32 @@ That review takes ~30 seconds to generate and covers stuff that slips through in
 For the Docker stack described above, you already have Watchtower and Portainer running — OpenClaw can connect to the Docker socket or Portainer's API to check container health, tail logs, and restart services.
 
 ![Development workflow with code review and merge tools](https://images.unsplash.com/photo-1556075798-3e55a0ad1a2c?w=1200&auto=format&fit=crop)
+
+### Multi-Repo Management
+
+If you're managing multiple repositories — whether a multi-service architecture, a set of internal libraries, or downstream forks — OpenClaw can operate across all of them in a single session. This is different from working in one repo at a time because you can ask questions that span repos without manual coordination.
+
+**Cross-repo status:** Ask "What's out of date across all my repos?" and it hits each one, runs `git fetch`, checks branch state, and produces a summary table. Useful for maintenance days or before a big release.
+
+**Sync branches across repos:** If you're maintaining feature branches that need to track `main` in multiple repos simultaneously, OpenClaw can fetch and rebase each one in sequence, flag conflicts, and report what needs manual attention.
+
+**Version consistency checking:** If you have internal libraries or shared packages that multiple repos depend on, OpenClaw can compare version numbers across repos and flag when one is ahead of another — catching "works in service A but not service B" due to mismatched dependency versions.
+
+**Concrete example:** Your team manages 6 repos: 3 frontend services, 2 backend APIs, and a shared utilities library. Before a release, you want to know:
+- Which repos are behind on `main`?
+- Which have uncommitted changes?
+- Is the shared utilities library at the version all downstream repos expect?
+
+OpenClaw runs through all 6 in under a minute, producing:
+
+> `frontend/app`: behind main by 3 commits, no uncommitted changes
+> `frontend/dashboard`: up to date, 1 uncommitted file (`src/env.ts`)
+> `backend/api`: behind main by 12 commits, rebase needed
+> `backend/payments`: up to date, clean
+> `backend/notifications`: behind main by 1 commit, can fast-forward
+> `shared/utils`: up to date, tag `v2.3.1` matches what `backend/api` expects
+
+You handle the `backend/api` rebase and commit the `env.ts` change, then you're confident the release is clean.
 
 ### Monitoring Your Own Code
 
