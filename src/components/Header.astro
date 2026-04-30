@@ -10,7 +10,9 @@ const navLinks = [
 const currentPath = Astro.url.pathname;
 ---
 
-<header class="border-b border-slate-800">
+<header class="border-b border-slate-800 relative">
+  <!-- Subtle gradient accent line -->
+  <div class="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-sky-500/40 to-transparent"></div>
   <nav class="max-w-6xl mx-auto px-6 py-4">
     <!-- Logo row -->
     <div class="flex items-center justify-between mb-4">

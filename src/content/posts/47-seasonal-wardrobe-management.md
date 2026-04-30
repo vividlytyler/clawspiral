@@ -2,7 +2,7 @@
 title: "Your Closet, Curated: Seasonal Wardrobe Management"
 description: "OpenClaw can audit your wardrobe, track what you actually wear, flag decision fatigue, and help you build a seasonal capsule wardrobe — so you stop staring at a full closet with nothing to wear."
 pubDate: 2026-04-29
-category: productivity
+category: lifestyle-wellness
 tags: ["wardrobe", "clothing", "minimalism", "capsule-wardrobe", "personal-style", " declutter", "seasonal", "habits"]
 image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&auto=format&fit=crop"
 ---

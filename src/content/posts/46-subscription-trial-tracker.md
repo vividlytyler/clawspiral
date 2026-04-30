@@ -2,7 +2,7 @@
 title: "Never Lose Money to a Forgotten Free Trial Again"
 description: "OpenClaw tracks your free trials, sends reminders before they convert to paid, and maintains a live registry of every subscription you have — so nothing slips through the cracks."
 pubDate: 2026-04-28
-category: productivity
+category: business-finance
 tags: ["subscriptions", "free-trials", "finance", "reminders", "cron", "telegram", "automation", "renewals", "budgeting"]
 image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1200&auto=format&fit=crop"
 ---
