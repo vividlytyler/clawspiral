@@ -3,13 +3,21 @@
     "01-smart-home-orchestration": "2026-04-26",
     "02-research-pipeline": "2026-04-27",
     "03-development-assistant": "2026-04-28",
-    "04-personal-secretary": "2026-04-21",
+    "04-personal-secretary": "2026-04-29",
     "05-system-administration": "2026-04-22",
     "06-employee-scheduling": "2026-04-23",
     "07-invoice-processing": "2026-04-24"
   },
   "improvementHistory": [
     {
+      "date": "2026-04-29",
+      "postSlug": "04-personal-secretary",
+      "changes": [
+        "Added Unsplash meeting preparation image after Meeting Preparation section",
+        "Added 'Time Zone Coordination' section covering DST handling, cross-timezone window finding, and distributed team scenarios",
+        "Added 'Drafting Emails Without SMTP' section with three delivery options: Telegram copy-paste, IMAP draft folder append, and mail forwarding via external service (Mailgun/SendGrid)"
+      ]
+    },
       "date": "2026-04-28",
       "postSlug": "03-development-assistant",
       "changes": [

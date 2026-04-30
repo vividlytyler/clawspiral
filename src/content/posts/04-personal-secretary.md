@@ -76,6 +76,18 @@ Telegram sent: "Invoice #4892 from Widget Corp auto-archived ($1,847)."
 
 This requires no browser, no SaaS subscription, and the routing rules live in plain text files you can edit directly.
 
+### Drafting Emails Without SMTP
+
+OpenClaw can't send outbound email natively, but it can draft them — and you have options for delivery:
+
+**Option 1: Telegram delivery.** OpenClaw writes the full email (To, Subject, Body) and sends it via Telegram. You copy-paste into your email client. Works for low-volume, high-stakes emails (contract negotiations, delicate responses).
+
+**Option 2: Save to draft folder via IMAP.** If your mail server supports IMAP write-back, OpenClaw can APPEND to your Sent or Drafts folder — effectively writing emails that appear in your drafts folder for you to review and send.
+
+**Option 3: CC/BCC forwarding.** Set up a rule where OpenClaw sends to itself via an external service (Mailgun, SendGrid), then your email client picks it up via filtering.
+
+The drafting quality is where OpenClaw shines. Given a thread context and a goal ("write a reply declining the proposal but keep the door open"), it produces coherent, context-aware responses. The delivery mechanism is the solvable part.
+
 ### Limitations
 
 OpenClaw doesn't have native email sending (SMTP) — it can read via IMAP but outbound requires integration with a mail service or Telegram forwarding.
@@ -128,6 +140,17 @@ When two events overlap, OpenClaw flags it:
 
 This is especially useful if you maintain a personal `.ics` alongside a work one — OpenClaw can read both and catch cross-calendar conflicts before you're double-booked.
 
+### Time Zone Coordination
+
+When you're scheduling across time zones, OpenClaw can do the arithmetic for you. Working with someone in Berlin while you're in Vancouver is a 9-hour gap — easy to miscount, especially across DST transitions.
+
+OpenClaw can answer questions like:
+- "What time is 3 PM in Berlin right now?"
+- "Find a 1-hour window that works for 9 AM Vancouver, 5 PM London, and 10 AM New York"
+- "Show me the next week of overlapping work hours between PDT and CET"
+
+This comes up more than you'd think when coordinating distributed teams or international clients. The math is trivial but the DST edge cases aren't — OpenClaw handles the conversion cleanly so you don't show up to a call at 7 AM your time when it was supposed to be 7 PM.
+
 ### Meeting Preparation
 
 Before a meeting, OpenClaw can pull context from your memory files so you're not walking in cold:
@@ -148,6 +171,8 @@ specifically asking about the software line — can you address that?"
 OpenClaw scans your `memory/` directory for any sessions mentioning the meeting title or attendees, and appends the last relevant email snippet. It won't have everything — but even one relevant note from two weeks ago is better than nothing.
 
 This requires no CRM. It works from plain text files and your email thread history.
+
+![Meeting preparation — a laptop on a desk with notes and a coffee, representing context gathering before a meeting](https://images.unsplash.com/photo-1497215728101-856f4ea42174?w=1200&auto=format&fit=crop&q=80)
 
 ### Morning Brief Integration
 
