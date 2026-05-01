@@ -278,12 +278,27 @@ apcupsd → OpenClaw heartbeat → Telegram alert (immediate)
 **Notification fatigue prevention:**
 OpenClaw batches similar events. Rather than sending 20 messages about a flaky container, you get one: *"Plex restarted 4 times today between 14:00–16:00. Each time it self-healed within 2 minutes. Likely a transcoding memory issue — recommend increasing the container memory limit from 4G to 8G."* One message, one actionable recommendation.
 
+![Alert dashboard showing triage flow](https://images.unsplash.com/photo-1553484771-371a605b060b?w=1200&auto=format&fit=crop)
+
+### Severity Response Templates
+
+Here are concrete response templates OpenClaw can use when different severity events fire:
+
+**Critical (immediate Telegram + email backup):**
+> *"ALERT: [service] is down on [host]. Auto-restart attempted. Status: [running/down]. Last good response: [timestamp]. Action may be needed — reply 'status' for full diagnostics."*
+
+**Warning (Telegram only, non-blocking):**
+> *"Warning: [metric] at [value] on [host]. Top consumers: [list]. Suggest cleaning [target]. Approve with 'clean' or ignore."*
+
+**Info (brief, batch-eligible):**
+> *"Log rollup: [week/day]. [N] restarts (self-healed), [N] auth failures (fail2ban blocked), [N] apt pending. Reply 'clean packages' to free space."*
+
 ## When OpenClaw Isn't Available
 
 A gap worth planning for: what happens when OpenClaw is down for maintenance, a model outage, or a bug?
 
 **Known gaps:**
-- Health cron doesn't fire → no monitoring during that window (detectable by checking cron runs list)
+- Health cron doesn't fire → no monitoring during that window (detectable by checking `openclaw cron runs` list)
 - If OpenClaw crashes mid-command → the command may or may not complete; check `docker ps` to verify
 - Network/HTTP actions may fail while OpenClaw is restarting (notifications, web fetches)
 
@@ -291,9 +306,10 @@ A gap worth planning for: what happens when OpenClaw is down for maintenance, a 
 - Keep Watchtower on so containers auto-restart even without OpenClaw
 - Use `systemctl status openclaw` in a separate monitoring tool (Uptime Kuma, Grafana) to detect OpenClaw itself being down
 - Preserve critical automations (fail2ban, UPS apcupsd) outside OpenClaw — those should survive even if OpenClaw is offline
+- For critical health monitoring, run a lightweight fallback: `docker events --since 5m` in a separate systemd timer, writing anomalies to a file OpenClaw reads on restart
 
 **Recovery procedure:**
-When OpenClaw comes back after an outage, it will read its memory files and notice the gap. It will typically run a catch-up health check and report anything that needs attention.
+When OpenClaw comes back after an outage, it will read its memory files and notice the gap. It will typically run a catch-up health check and report anything that needs attention. On restart, it reads `memory/YYYY-MM-DD.md` and any pending events from the outage window.
 
 ## Security Considerations
 
@@ -305,6 +321,35 @@ Running an AI with elevated permissions is powerful but risky:
 - **API keys** — use environment variables, not hardcoded secrets
 
 The tradeoff is between capability and security. Full OS access enables full automation; restrict based on your threat model.
+
+## Remote Access Patterns
+
+When you're traveling and need to reach your home server, a few approaches work well:
+
+**Tailscale (easiest):**
+```
+# Install on both client and server
+curl -fsSL https://tailscale.com/install.sh | sh
+tailscale up --accept-routes
+```
+OpenClaw can manage the Tailscale daemon via `systemctl`. Once connected, you get a private network address (e.g., `100.64.x.x`) that works even behind NAT. No port forwarding needed.
+
+**SSH tunnel (manual but reliable):**
+```
+ssh -L 8080:localhost:80 user@your-server -N
+# Then open localhost:8080 in your browser for the web UI
+```
+OpenClaw can generate and store SSH key pairs for tunnel access, and manage authorized_keys for passwordless login.
+
+**Cloudflare Tunnel (no public IP needed):**
+```
+cloudflared service install
+cloudflared tunnel create home-server
+cloudflared tunnel route dns home-server your-subdomain.your-domain.com
+```
+OpenClaw can update the tunnel config, check status via `cloudflared tunnel list`, and alert if the tunnel goes down.
+
+For all remote access methods: keep the SSH key on your client machine, not on the server itself. If OpenClaw needs to run commands remotely, use `ssh -i /path/to/key user@host 'command'` from the server.
 
 ## Limitations
 

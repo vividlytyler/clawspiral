@@ -4,11 +4,21 @@
     "02-research-pipeline": "2026-04-27",
     "03-development-assistant": "2026-04-28",
     "04-personal-secretary": "2026-04-29",
-    "05-system-administration": "2026-04-22",
+    "05-system-administration": "2026-04-30",
     "06-employee-scheduling": "2026-04-23",
     "07-invoice-processing": "2026-04-24"
   },
   "improvementHistory": [
+    {
+      "date": "2026-04-30",
+      "postSlug": "05-system-administration",
+      "changes": [
+        "Added 'Remote Access Patterns' section covering Tailscale (easiest), SSH tunnel, and Cloudflare Tunnel with concrete setup commands",
+        "Added alert dashboard image (Unsplash) after Alert Routing and Escalation section",
+        "Added 'Severity Response Templates' section with Critical/Warning/Info message formats",
+        "Expanded When OpenClaw Isn't Available with docker events fallback for critical monitoring and outage-window memory recovery detail"
+      ]
+    },
     {
       "date": "2026-04-29",
       "postSlug": "04-personal-secretary",
