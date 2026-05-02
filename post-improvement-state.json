@@ -5,10 +5,19 @@
     "03-development-assistant": "2026-04-28",
     "04-personal-secretary": "2026-04-29",
     "05-system-administration": "2026-04-30",
-    "06-employee-scheduling": "2026-04-23",
+    "06-employee-scheduling": "2026-05-01",
     "07-invoice-processing": "2026-04-24"
   },
   "improvementHistory": [
+    {
+      "date": "2026-05-01",
+      "postSlug": "06-employee-scheduling",
+      "changes": [
+        "Added 'On-Call and Backup Coverage' section covering opt-in on-call status, direct on-call broadcast, automatic escalation to backup list when primary can't make it, and on-call pay column in CSV export",
+        "Added concrete escalation chain Telegram exchange showing primary decline → backup pickup → kitchen covered without manager involvement",
+        "Added on-call: true column mention under payroll integration for differential pay handling"
+      ]
+    },
     {
       "date": "2026-04-30",
       "postSlug": "05-system-administration",

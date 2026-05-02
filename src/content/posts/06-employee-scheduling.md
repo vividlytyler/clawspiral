@@ -198,6 +198,42 @@ Without this holiday layer, managers end up manually tracking which days are spe
 
 ![Team shift planning on a whiteboard in a coffee shop](https://images.unsplash.com/photo-1556761175-b72474857d98?w=1200&auto=format&fit=crop)
 
+### On-Call and Backup Coverage
+
+Some businesses need someone on standby — a restaurant with a head chef who can be called in for prep issues, a salon where a stylist covers last-minute no-shows, a clinic where a backup practitioner is needed for overflow. OpenClaw handles on-call rotations the same way it handles shift swaps.
+
+**Opting in to on-call** looks like any other availability update:
+
+```
+Priya: "I'm on-call this weekend, reachable within 30 minutes"
+Bot: "Got it — Priya on-call Sat/Sun, 30-min response. I'll broadcast if needed."
+```
+
+OpenClaw stores on-call status alongside normal availability, so Priya still gets her regular shifts plus the on-call responsibility.
+
+**When an on-call situation arises**, OpenClaw broadcasts directly to the on-call employee:
+
+```
+Bot: "On-call alert — head chef no-show, prep starts in 45 min. Can you come in?"
+Priya: "On my way, ETA 30 min"
+Bot: "You're confirmed. Kitchen is yours."
+```
+
+**Automatic escalation** means no one falls through the cracks:
+
+```
+Bot: "On-call alert — Tom, you're on-call for tonight (6pm-10pm). Prep issue needs cover."
+Tom: "Sorry, can't — I'm out of town"
+Bot: "No worries. Escalating to backup list."
+Bot: "@Maria — on-call backup needed, tonight 6pm-10pm. Kitchen prep issue. Can you hop on?"
+Maria: "I can make it by 7"
+Bot: "Maria confirmed 7pm-10pm. Kitchen covered."
+```
+
+Without the on-call layer, the owner ends up frantically texting through a call list. With it, OpenClaw owns the escalation path — on-call first, then backup list, then the manager only if both are unavailable.
+
+On-call shifts can also carry a different compensation flag. If your payroll tool handles on-call pay differently, the CSV export can include an `on_call: true` column alongside hours, so the payroll tool applies the right rate automatically.
+
 ### Real Example: Weekly Run
 
 Every Sunday at 6pm, a cron job fires:
