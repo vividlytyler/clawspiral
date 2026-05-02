@@ -2,7 +2,7 @@
 title: "Never Miss an Oil Change or Tire Rotation Again"
 description: "OpenClaw tracks your vehicle maintenance schedule, reminds you before service is due, logs repair history, and keeps everything organized so your car lasts longer and costs less to maintain."
 pubDate: 2026-05-01
-category: productivity
+category: lifestyle-wellness
 tags: ["vehicle", "cars", "maintenance", "oil-change", "tires", "reminders", "cron", "logbook", "productivity", "home"]
 image: "https://images.unsplash.com/photo-1487754180451-c456f719a1fc?w=1200&auto=format&fit=crop"
 ---

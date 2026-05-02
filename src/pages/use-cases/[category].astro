@@ -23,15 +23,15 @@ export async function getStaticPaths() {
 const { category } = Astro.params;
 const { label, desc } = Astro.props;
 
-const categoryMeta: Record<string, { color: string; gradient: string; icon: string }> = {
-  'home-automation':  { color: 'text-emerald-400',   gradient: 'from-emerald-950/80 to-slate-900',  icon: '🏠' },
-  'research':        { color: 'text-violet-400',    gradient: 'from-violet-950/80 to-slate-900',   icon: '🔬' },
-  'development':     { color: 'text-blue-400',      gradient: 'from-blue-950/80 to-slate-900',     icon: '💻' },
-  'business-finance':{ color: 'text-amber-400',     gradient: 'from-amber-950/80 to-slate-900',    icon: '📊' },
-  'lifestyle-wellness':{ color: 'text-teal-400',   gradient: 'from-teal-950/80 to-slate-900',     icon: '🌿' },
-  'creative':        { color: 'text-pink-400',      gradient: 'from-pink-950/80 to-slate-900',     icon: '🎨' },
+const categoryMeta: Record<string, { color: string; gradient: string; icon: string; image: string }> = {
+  'home-automation':  { color: 'text-emerald-400',   gradient: 'from-emerald-950/80 to-slate-900',  icon: '🏠', image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&h=400&fit=crop' },
+  'research':        { color: 'text-violet-400',    gradient: 'from-violet-950/80 to-slate-900',   icon: '🔬', image: 'https://images.unsplash.com/photo-1456324504439-367cee3b3c32?w=1200&h=400&fit=crop' },
+  'development':     { color: 'text-blue-400',      gradient: 'from-blue-950/80 to-slate-900',     icon: '💻', image: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1200&h=400&fit=crop' },
+  'business-finance':{ color: 'text-amber-400',     gradient: 'from-amber-950/80 to-slate-900',    icon: '📊', image: 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1200&h=400&fit=crop' },
+  'lifestyle-wellness':{ color: 'text-teal-400',   gradient: 'from-teal-950/80 to-slate-900',     icon: '🌿', image: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1200&h=400&fit=crop' },
+  'creative':        { color: 'text-pink-400',      gradient: 'from-pink-950/80 to-slate-900',     icon: '🎨', image: 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=1200&h=400&fit=crop' },
 };
-const meta = categoryMeta[category] ?? { color: 'text-sky-400', gradient: 'from-slate-900 to-slate-900', icon: '📁' };
+const meta = categoryMeta[category] ?? { color: 'text-sky-400', gradient: 'from-slate-900 to-slate-900', icon: '📁', image: '' };
 
 const allPosts = await getCollection('posts', ({ data }) => !data.draft && data.category === category);
 const posts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
@@ -44,8 +44,18 @@ function getReadingTime(body: string | undefined): number {
 
 <PageLayout title={label}>
   <!-- Category header banner -->
-  <div class={`mb-10 rounded-xl overflow-hidden bg-gradient-to-br ${meta.gradient} border border-slate-800 p-6 sm:p-8`}>
-    <div class="flex items-start gap-4">
+  <div class={`mb-10 rounded-xl overflow-hidden relative bg-gradient-to-br ${meta.gradient} border border-slate-800`}>
+    <!-- Atmospheric background image -->
+    <img
+      src={meta.image}
+      alt=""
+      class="absolute inset-0 w-full h-full object-cover opacity-20 pointer-events-none"
+      loading="eager"
+    />
+    <!-- Gradient overlay to ensure text readability -->
+    <div class={`absolute inset-0 bg-gradient-to-r ${meta.gradient} opacity-80`}></div>
+    <!-- Content -->
+    <div class="relative z-10 flex items-start gap-4 p-6 sm:p-8">
       <span class="text-4xl">{meta.icon}</span>
       <div>
         <p class="text-xs uppercase tracking-wider text-slate-400 mb-1 font-semibold">Category</p>
