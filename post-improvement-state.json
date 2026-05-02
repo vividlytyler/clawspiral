@@ -1,5 +1,6 @@
 {
   "lastImproved": {
+    "use-cases-category-pages": "2026-05-02",
     "01-smart-home-orchestration": "2026-04-26",
     "02-research-pipeline": "2026-04-27",
     "03-development-assistant": "2026-04-28",
@@ -10,7 +11,15 @@
   },
   "improvementHistory": [
     {
-      "date": "2026-05-01",
+      "date": "2026-05-02",
+      "page": "use-cases/[category].astro",
+      "changes": [
+        "Added atmospheric Unsplash background images to all 6 category header banners (home-automation, research, development, business-finance, lifestyle-wellness, creative)",
+        "Background images render at 20% opacity with a matching gradient overlay for text readability",
+        "Used same category images from homepage for visual consistency across the site"
+      ]
+    },
+    {
       "postSlug": "06-employee-scheduling",
       "changes": [
         "Added 'On-Call and Backup Coverage' section covering opt-in on-call status, direct on-call broadcast, automatic escalation to backup list when primary can't make it, and on-call pay column in CSV export",
