@@ -2,7 +2,7 @@
 title: "Document Everything: Home Inventory That Pays Off When You Need It"
 description: "OpenClaw helps you build and maintain a complete home inventory — so when you file an insurance claim, you know exactly what you own, what it cost, and where to find the proof."
 pubDate: 2026-05-02
-category: productivity
+category: lifestyle-wellness
 tags: ["home", "insurance", "inventory", "documentation", "claims", "organization", "photos", "receipts"]
 image: "https://images.unsplash.com/photo-1560448204-e02f11c3d69e?w=1200&auto=format&fit=crop"
 ---
