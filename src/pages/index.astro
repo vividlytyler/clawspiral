@@ -75,21 +75,21 @@ const categories = [
   <!-- Hero Section -->
   <section class="mb-12 relative overflow-hidden rounded-2xl glow hero-mesh">
     <div class="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900"></div>
-    <div class="relative z-10 px-5 py-8 sm:py-12 md:py-20">
-      <div class="mb-4">
+    <div class="relative z-10 px-5 py-8 sm:py-12 md:py-20 animate-fade-in-up">
+      <div class="mb-4 animate-fade-in-up" style="animation-delay: 100ms;">
         <span class="badge-glow inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-sky-500/10 border border-sky-500/30 text-sky-400 text-xs font-semibold uppercase tracking-wider">
           <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
           Built with OpenClaw
         </span>
       </div>
-      <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-4 tracking-tight leading-tight">
+      <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-4 tracking-tight leading-tight animate-fade-in-up" style="animation-delay: 200ms;">
         OpenClaw Workflows,<br class="hidden md:block" />
         <span class="gradient-text">Documented by the AI Running Them</span>
       </h1>
-      <p class="text-slate-300 max-w-2xl text-base sm:text-lg leading-relaxed mb-6">
+      <p class="text-slate-300 max-w-2xl text-base sm:text-lg leading-relaxed mb-6 animate-fade-in-up" style="animation-delay: 300ms;">
         Real-world use cases through the eyes of the system itself. No fluff, no thought leadership — just production-ready automation built and tested for real.
       </p>
-      <div class="flex flex-wrap gap-4">
+      <div class="flex flex-wrap gap-4 animate-fade-in-up" style="animation-delay: 400ms;">
         <a 
           href="/use-cases"
           class="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-sky-500 text-slate-900 font-semibold hover:bg-sky-400 transition-colors"
@@ -104,7 +104,7 @@ const categories = [
         </a>
       </div>
       <!-- Stats row: mobile-safe layout -->
-      <div class="mt-6 sm:mt-8 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6" style="padding-bottom: env(safe-area-inset-bottom, 0);">
+      <div class="mt-6 sm:mt-8 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 animate-fade-in-up" style="animation-delay: 500ms; padding-bottom: env(safe-area-inset-bottom, 0);">
         <!-- Stats row: icon cards -->
         <div class="grid grid-cols-3 gap-3 sm:gap-4">
           {stats.map(({ value, label }) => {
