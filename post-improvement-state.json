@@ -7,9 +7,19 @@
     "04-personal-secretary": "2026-04-29",
     "05-system-administration": "2026-04-30",
     "06-employee-scheduling": "2026-05-01",
-    "07-invoice-processing": "2026-04-24"
+    "07-invoice-processing": "2026-05-02"
   },
   "improvementHistory": [
+    {
+      "date": "2026-05-02",
+      "postSlug": "07-invoice-processing",
+      "changes": [
+        "Added 'reconciliation' and 'exceptions' tags",
+        "Added Telegram inline keyboard visual example showing [Approve]/[Flag]/[Reject] buttons with state machine (RECEIVED → PENDING_APPROVAL → APPROVED|FLAGGED|REJECTED → PAID|DISPUTED)",
+        "Added 'Exception Handling: When Processing Goes Wrong' section covering 5 failure modes: OCR complete failure (garbled scan → hold folder), email routing misses (vendor sends to wrong address), wrong vendor extraction (body vs envelope), unmatched bank debits (flag and query), and SMTP send failures for AR (retry then alert)",
+        "Added retry logic detail to SMTP failure scenario showing 1/3 retry and Telegram alert on persistent failure"
+      ]
+    },
     {
       "date": "2026-05-02",
       "page": "use-cases/[category].astro",

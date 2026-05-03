@@ -4,7 +4,7 @@ description: "How OpenClaw can handle accounts payable and receivable — receiv
 pubDate: 2026-03-26
 category: business-finance
 difficulty: intermediate
-tags: ["invoicing", "accounting", "ocr", "ap", "ar", "automation", "email", "tesseract", "smtp"]
+tags: ["invoicing", "accounting", "ocr", "ap", "ar", "automation", "email", "tesseract", "smtp", "reconciliation", "exceptions"]
 featured: false
 image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1200&auto=format&fit=crop"
 ---
@@ -141,6 +141,20 @@ Due: Apr 20
 ```
 
 Small invoices (under your threshold) go straight to the ledger. You decide what the threshold is and it can be vendor-specific — always approve a known vendor, always flag a new one over $500.
+
+What the inline keyboard actually looks like in Telegram:
+
+```
+🧾 Invoice #INV-2024-0901 from ServerCo
+💰 $3,840.00 — due Apr 20, 2024
+Category: server hosting
+
+[ Approve ]  [ Flag ]  [ Reject ]
+```
+
+Once you tap Approve, OpenClaw marks it as `SCHEDULED` in the ledger and archives the file. If you tap Flag, it moves to `~/invoices/ap/hold/` for manual follow-up. If you reject it, the ledger entry is tagged `DISPUTED` and the invoice file goes to `~/invoices/ap/disputed/`.
+
+The state machine is clean: `RECEIVED → PENDING_APPROVAL → (APPROVED | FLAGGED | REJECTED) → PAID / DISPUTED`. You can always query any invoice by number and see exactly where it sits.
 
 #### Vendor-Specific Approval Rules
 
@@ -326,6 +340,62 @@ For payment plans (e.g., Net-60 split into two equal payments), OpenClaw can aut
 - Recurring bill detection is rule-based — unusual charges won't auto-flag without explicit rules
 - Multi-currency invoices need manual exchange rate handling or a configured rate source; OpenClaw doesn't fetch live FX rates by default
 - Invoice number collisions across different vendors can cause false duplicate alerts if you use invoice number alone as the dedup key — vendor+invoice number together is more reliable
+
+## Exception Handling: When Processing Goes Wrong
+
+Invoice processing has failure points. Here's how to handle the common ones.
+
+### OCR Fails Completely
+
+Sometimes Tesseract returns garbage — a severely skewed scan, low contrast, or non-standard layout. If the extracted text is nonsense (garbled characters, amounts that don't parse, vendor name missing), OpenClaw flags it for manual review instead of feeding bad data into the ledger:
+
+```
+Invoice #INV-2024-0903 — OCR output suspicious
+  Extracted: "învÓice #∫∫∫∫ from A©me Supp&es"
+  Amount extracted: "NOT PARSED"
+  Confidence: LOW
+
+→ Telegram: "Could not parse invoice #INV-2024-0903 (scanned?). 
+  Manual review needed — check ~/invoices/ap/hold/"
+```
+
+The file goes to `hold/` instead of being processed blindly. You fix the scan (deskew, contrast) and re-run.
+
+### Email Routing Misses an Invoice
+
+If a vendor sends an invoice to your personal email instead of the dedicated address, OpenClaw never sees it. Mitigations:
+- Set up a sender rule on your end: forward anything from known vendors with an invoice subject pattern to the processing address
+- Add a monthly reminder to check your personal/personal-plus inbox for stray invoices
+- If a vendor consistently sends to the wrong address, call them and update their records — it's worth the five-minute call
+
+### Wrong Vendor on an Invoice
+
+Some vendors put their client's name (your name) in the sender field but their own vendor name in the invoice body. OpenClaw extracts the vendor name from the body (the actual `From: Acme Supplies` line), not the email envelope. If it's wrong, you see it in the Telegram approval message — that's what the human review step is for.
+
+### The Bank Feed Has No Match
+
+Sometimes a payment leaves your account but OpenClaw can't find a matching ledger entry. Unmatched debits get flagged:
+
+```
+Unmatched debit: Apr 16 — DR Amazon Web Services — $847.23
+No matching invoice in ledger (AP or AR)
+→ Telegram: "Unrecognized payment: AWS $847.23 on Apr 16. 
+  Match to existing invoice, add as new entry, or mark as OTHER?"
+```
+
+This catches payments that bypassed the invoice intake (e.g., a renewal charge on a card you didn't route through the normal process). You decide what it is, and it gets logged properly.
+
+### SMTP Send Fails for AR
+
+If the invoice email doesn't go out (wrong address, SMTP rejected, quota exceeded), OpenClaw retries once and then alerts you:
+
+```
+AR invoice #INV-2026-0004 to client@example.com — SMTP ERROR: mailbox full
+Retry 1/3 in 30 min
+→ If retry fails: Telegram alert with the error and the invoice file path
+```
+
+The invoice isn't marked as SENT in the tracking log until the SMTP call succeeds. You don't have a gap where the invoice looks sent but the client never received it.
 
 ## The Real Value
 
