@@ -1,7 +1,7 @@
 {
   "lastImproved": {
     "use-cases-category-pages": "2026-05-02",
-    "01-smart-home-orchestration": "2026-04-26",
+    "01-smart-home-orchestration": "2026-05-03",
     "02-research-pipeline": "2026-04-27",
     "03-development-assistant": "2026-04-28",
     "04-personal-secretary": "2026-04-29",
@@ -10,6 +10,14 @@
     "07-invoice-processing": "2026-05-02"
   },
   "improvementHistory": [
+    {
+      "date": "2026-05-03",
+      "postSlug": "01-smart-home-orchestration",
+      "changes": [
+        "Added 'Multi-User Households' section covering different wake-up times and per-person routines, permission-based device control for household members (kids vs. adults), conflict resolution when two people want different thermostat settings, and guest mode with automatic permission expiry",
+        "Added tags: households, multi-user, permissions"
+      ]
+    },
     {
       "date": "2026-05-02",
       "postSlug": "07-invoice-processing",
