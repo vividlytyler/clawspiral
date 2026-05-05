@@ -2,7 +2,7 @@
 title: "Build a Trading Journal That Remembers What You Were Thinking"
 description: "OpenClaw keeps a searchable investment journal where you log decisions alongside your reasoning and emotional state — so when market conditions repeat, you can see how you behaved the last time."
 pubDate: 2026-05-03
-category: productivity
+category: business-finance
 tags: ["investing", "trading", "journal", "decisions", "finance", "reflection", "productivity", "memory"]
 image: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1200&auto=format&fit=crop"
 ---

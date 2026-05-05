@@ -2,7 +2,7 @@
 title: "Build a Project Tracking System for Every DIY Project"
 description: "OpenClaw tracks your maker projects across every stage — parts inventory, build progress, decisions made, and lessons learned — so nothing falls through the cracks between weekend sessions."
 pubDate: 2026-05-04
-category: productivity
+category: lifestyle-wellness
 tags: ["maker", "diy", "projects", "tracking", "parts", "inventory", "woodworking", "electronics", "prototyping"]
 image: "https://images.unsplash.com/photo-1513467535987-fd81bc7d6f46?w=1200&auto=format&fit=crop"
 ---
