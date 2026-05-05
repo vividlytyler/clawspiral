@@ -2,7 +2,7 @@
   "lastImproved": {
     "use-cases-category-pages": "2026-05-02",
     "01-smart-home-orchestration": "2026-05-03",
-    "02-research-pipeline": "2026-04-27",
+    "02-research-pipeline": "2026-05-04",
     "03-development-assistant": "2026-04-28",
     "04-personal-secretary": "2026-04-29",
     "05-system-administration": "2026-04-30",
@@ -11,6 +11,15 @@
   },
   "improvementHistory": [
     {
+      "date": "2026-05-04",
+      "postSlug": "02-research-pipeline",
+      "changes": [
+        "Added 'Iterative Research: Drilling Deeper' section covering 2-3 iteration flow, when to iterate (low confidence flags), and concrete e-commerce platform example",
+        "Added Unsplash image (medical/research team) after Iterative Research section",
+        "Replaced generic 'When It Breaks' section with detailed failure mode breakdown: training cutoff conflation, search no-results, fetch empty/garbled, synthesis winner-picking errors, and output-lost-in-chat",
+        "Added 'Output Quality Checklist' section with 6-item checklist (date check, source count, confidence level, conflicts surfaced, citations traceable, delivery received)"
+      ]
+    },
       "date": "2026-05-03",
       "postSlug": "01-smart-home-orchestration",
       "changes": [

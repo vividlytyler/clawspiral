@@ -247,10 +247,47 @@ The research pipeline handles information gathering well, but it has real limits
 
 - **Token costs at scale** — Running 50 research queries a day costs tokens. For ongoing monitoring (daily news on a topic), a dedicated RSS/newsletter tool is cheaper than running the pipeline repeatedly.
 
+## Iterative Research: Drilling Deeper
+
+The pipeline isn't one-shot. Real research is iterative — you ask a question, get a answer with gaps, then ask follow-ups.
+
+**Example flow:**
+
+1. **Initial query:** "What's the best open-source e-commerce platform in 2026?"
+2. **Synthesis flags:** Saleor vs. Medusa vs. Sylius — but Medusa's v2 was released in late 2025 and documentation is still catching up
+3. **Follow-up query:** "Medusa v2 current state — how mature is the plugin ecosystem compared to Saleor?"
+4. **Deeper synthesis:** Medusa v2 has ~180 official/community plugins vs. Saleor's ~90, but Saleor's are more battle-tested. The gap is closing.
+
+Each iteration costs one pipeline run (~30-60 seconds). For high-stakes decisions, running 2-3 iterations is worth it — the follow-up questions are often the ones that actually matter.
+
+**Tip:** When synthesis flags low confidence or a knowledge gap, that's your cue to iterate. Don't accept "medium confidence" for decisions above a certain threshold.
+
 ## When It Breaks
 
-- **Outdated information** — LLMs have training cutoffs; web search supplements but synthesis may hallucinate details not in the sources
-- **Paywalled content** — can't fetch what's behind a login
-- **Conflicting sources** — sometimes the "right" answer is "it depends" and synthesis has to convey that honestly
+Research pipelines fail in predictable ways. Know the failure modes:
+
+- **Training cutoff conflation** — The LLM may present training data as if it were from current web search. Example: it discusses "recent developments" that are actually from 2024. Mitigation: always verify dates in the actual fetched sources, not just the synthesis.
+
+- **Search returns no useful results** — Niche technical queries, obscure products, or highly-specific questions can return generic results. If 3 consecutive searches return nothing relevant, try broader terms or break the query into parts.
+
+- **Fetch returns empty or garbled** — JavaScript-heavy sites return nothing. Wikipedia and documentation sites work reliably. For a JS-heavy site you need, try adding `?output=amp` or finding an archived version.
+
+- **Synthesis picks a "winner" incorrectly** — When two sources conflict, the LLM sometimes picks based on which source sounds more confident, not which is more accurate. Low confidence flags exist precisely for this — take them seriously.
+
+- **Output gets lost in chat history** — Research only has value if it reaches you. Always specify delivery (Telegram, email, file) — not just chat output.
+
+## Output Quality Checklist
+
+![Iterative research — question, synthesis, gaps, deeper follow-ups](https://images.unsplash.com/photo-1456324504439-367cee3b3c32?w=1200&auto=format&fit=crop)
+*Real research is iterative — each cycle surfaces new gaps that lead to sharper follow-up questions.*
+
+Before acting on research output, run through this:
+
+- [ ] **Date check** — Are sources from 2025-2026, or are they older?
+- [ ] **Source count** — At least 2-3 independent sources on core claims?
+- [ ] **Confidence level** — Is it explicitly stated, not just implied?
+- [ ] **Conflicts surfaced** — If sources disagreed, are the disagreements visible?
+- [ ] **Citations traceable** — Can you find the specific claim in the specific source?
+- [ ] **Delivery received** — Did the output actually make it somewhere you check?
 
 The pipeline doesn't eliminate the need for human judgment — it eliminates the tedium of initial information gathering.
