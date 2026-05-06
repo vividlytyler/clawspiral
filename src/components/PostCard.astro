@@ -40,12 +40,13 @@ const difficultyColor = difficulty ? (difficultyColors[difficulty] ?? 'bg-slate-
 <article class="group p-5 rounded-lg border border-slate-800 bg-gradient-to-br from-slate-800/60 to-slate-900/60 hover:-translate-y-1 hover:shadow-lg hover:shadow-black/20 transition-all duration-200" style={borderStyle}>
   <a href={`/posts/${slug}`} class="flex gap-4">
     {image && (
-      <div class="w-28 h-20 flex-shrink-0 rounded-md overflow-hidden">
+      <div class="w-28 h-20 flex-shrink-0 rounded-md overflow-hidden relative">
         <img 
           src={image} 
           alt="" 
           class="w-full h-full object-cover group-hover:scale-105 transition-all duration-200"
         />
+        <div class="absolute inset-0 bg-gradient-to-r from-slate-900/60 to-transparent"></div>
       </div>
     )}
     <div class="flex-1 min-w-0">
