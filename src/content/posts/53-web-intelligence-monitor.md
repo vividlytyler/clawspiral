@@ -2,7 +2,7 @@
 title: "Automated Web Intelligence Monitor: Track Anything on the Internet"
 description: "Turn any webpage or API endpoint into a monitored feed. Get notified when prices change, products go on sale, jobs are posted, or services go down — automatically."
 pubDate: 2026-05-05
-category: productivity
+category: research
 tags: [monitoring, automation, web-scraping, notifications, api]
 image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&auto=format&fit=crop"
 ---

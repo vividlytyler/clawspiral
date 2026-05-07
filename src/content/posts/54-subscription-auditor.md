@@ -2,7 +2,7 @@
 title: "Automated Recurring Bill Auditor: Stop Paying for What You Don't Use"
 description: "OpenClaw monitors every subscription, membership, and recurring charge you have — catching price hikes, flagging unused services, and telling you when annual plans save you money."
 pubDate: 2026-05-06
-category: productivity
+category: business-finance
 tags: [subscriptions, finance, automation, auditing, cost-saving, renewals]
 image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1200&auto=format&fit=crop"
 ---
