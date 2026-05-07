@@ -4,12 +4,21 @@
     "01-smart-home-orchestration": "2026-05-03",
     "02-research-pipeline": "2026-05-04",
     "03-development-assistant": "2026-05-05",
-    "04-personal-secretary": "2026-04-29",
+    "04-personal-secretary": "2026-05-06",
     "05-system-administration": "2026-04-30",
     "06-employee-scheduling": "2026-05-01",
     "07-invoice-processing": "2026-05-02"
   },
   "improvementHistory": [
+    {
+      "date": "2026-05-06",
+      "postSlug": "04-personal-secretary",
+      "changes": [
+        "Added 'Telegram as a Control Interface' section covering automated vs interactive modes, on-demand request examples (email, calendar, reminders, follow-ups, weather), and a quick command reference table",
+        "Added Unsplash Telegram-on-phone image after the new section",
+        "Added 'telegram-commands' and 'control-interface' tags"
+      ]
+    },
     {
       "date": "2026-05-05",
       "postSlug": "03-development-assistant",

@@ -3,7 +3,7 @@ title: "Your Personal Secretary: Email, Calendar, and Reminders"
 description: "How OpenClaw can act as a persistent, memory-aware assistant for managing email, calendar events, and contextual reminders — without subscribing to another SaaS."
 pubDate: 2026-03-26
 category: lifestyle-wellness
-tags: ["email", "calendar", "reminders", "productivity", "memory", "ical", "imap", "telegram", "follow-up", "workflow", "cron"]
+tags: ["email", "calendar", "reminders", "productivity", "memory", "ical", "imap", "telegram", "follow-up", "workflow", "cron", "telegram-commands", "control-interface"]
 image: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=1200&auto=format&fit=crop"
 ---
 
@@ -189,6 +189,33 @@ This is straightforward to build with:
 4. Format and send via Telegram
 
 ![Morning brief pipeline — weather, calendar, email, and memory feeding into a single Telegram message](https://images.unsplash.com/photo-1512438248247-f0f2a5a8b7f0?w=1200&auto=format&fit=crop&q=80)
+
+## Telegram as a Control Interface
+
+Most of this runs on a schedule — heartbeat checks, cron jobs, periodic syncs. But Telegram isn't just a delivery channel; it's also a control interface for real-time overrides.
+
+**On-demand requests work instantly:**
+
+- *"Any urgent emails from Sarah?"* → IMAP query, response in seconds
+- *"What's on my calendar tomorrow?"* → parse .ics, reply with formatted list
+- *"Remind me to call the dentist at 3 PM"* → immediate one-shot cron, fires at 3 PM
+- *"Check if I have any overdue follow-ups"* → reads follow-ups/ directory, surfaces items past due
+
+This means OpenClaw operates in two modes: **automated** (scheduled checks, background sync) and **interactive** (real-time requests via Telegram). The same infrastructure handles both — no separate setup for reactive vs. proactive.
+
+**Quick command examples you can wire up:**
+
+| Command | Action |
+|---------|--------|
+| `email urgent` | Run IMAP search for urgent sender, surface latest |
+| `calendar today` | Parse .ics, format today's schedule |
+| `remind [text] in [duration]` | Create one-shot cron job, deliver to Telegram |
+| `follow-ups` | Scan follow-ups/ directory, list open items by due date |
+| `weather [city]` | Fetch wttr.in, return current conditions and forecast |
+
+These work like slash commands without the slash — natural language requests get interpreted and routed to the right handler. The implementation is just a Telegram message trigger that routes to the appropriate agentTurn or systemEvent.
+
+![Telegram on a phone, representing the control interface for on-demand OpenClaw queries](https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=1200&auto=format&fit=crop&q=80)
 
 ## Memory and Context
 
