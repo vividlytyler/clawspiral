@@ -4,7 +4,7 @@ description: "Using an AI agent as a always-on system administrator — monitori
 pubDate: 2026-03-26
 category: lifestyle-wellness
 difficulty: intermediate
-tags: ["system-admin", "docker", "server", "monitoring", "linux", "ubuntu", "watchtower", "cron", "self-hosted", "ssh", "portainer", "incident-response"]
+tags: ["system-admin", "docker", "server", "monitoring", "linux", "ubuntu", "watchtower", "cron", "self-hosted", "ssh", "portainer", "incident-response", "performance-tuning", "status-page"]
 image: "https://images.unsplash.com/photo-1600267204026-85c3cc8e96cd?w=1200&auto=format&fit=crop"
 ---
 
@@ -178,6 +178,47 @@ With a simple file-based output, OpenClaw can maintain a status page:
 
 This can be served as a static page via Cloudflare Pages or similar.
 
+### A Real Status Page Setup
+
+For a practical status page that updates on a schedule:
+
+**1. OpenClaw writes a JSON status file every 15 minutes:**
+```json
+{
+  "updated": "2026-03-26T18:00:00-07:00",
+  "uptime_seconds": 4078800,
+  "cpu_avg": 12,
+  "memory_used_gb": 6.2,
+  "memory_total_gb": 32,
+  "disk_used_gb": 234,
+  "disk_total_gb": 512,
+  "containers_running": 12,
+  "containers_stopped": 0,
+  "last_backup": "2026-03-25T02:00:00-07:00",
+  "alerts": []
+}
+```
+
+**2. A lightweight HTTP server (nginx or a tiny Go binary) serves this JSON:**
+```nginx
+location /status.json {
+  add_header Cache-Control "no-store";
+  try_files /var/www/status/status.json = 404;
+}
+```
+
+**3. A simple HTML page fetches and displays it:**
+```javascript
+fetch('/status.json')
+  .then(r => r.json())
+  .then(data => {
+    document.getElementById('uptime').textContent = Math.floor(data.uptime_seconds / 86400) + ' days';
+    document.getElementById('disk').textContent = Math.round(data.disk_used_gb / data.disk_total_gb * 100) + '%';
+  });
+```
+
+OpenClaw writes the JSON; nginx serves it; a static HTML page displays it. No database, no backend complexity. The whole stack fits in a 50MB Docker container if needed.
+
 ## Backup Strategy with OpenClaw
 
 Backups are only valuable if you know they're working. OpenClaw can own the verification loop:
@@ -350,6 +391,45 @@ cloudflared tunnel route dns home-server your-subdomain.your-domain.com
 OpenClaw can update the tunnel config, check status via `cloudflared tunnel list`, and alert if the tunnel goes down.
 
 For all remote access methods: keep the SSH key on your client machine, not on the server itself. If OpenClaw needs to run commands remotely, use `ssh -i /path/to/key user@host 'command'` from the server.
+
+## Performance Tuning
+
+Beyond monitoring, OpenClaw can actively tune your system based on observed behavior:
+
+**Container resource tuning:**
+After a week of `docker stats` data, OpenClaw can recommend memory limits:
+> *"Plex averaged 7.2G RAM over the last 7 days but is capped at 4G — it's been swapping. Recommend setting `mem_limit: 8G` in the Plex compose file to eliminate transcoding stutters."*
+
+**Kernel parameter adjustment:**
+```
+sysctl -a | grep -E 'net.ipv4.tcp|vm.swappiness|fs.file-max'
+```
+OpenClaw can parse your current sysctl values, cross-reference with workload (e.g., a file server vs. a reverse proxy), and suggest changes — applying them for you if you approve.
+
+**IO scheduler selection:**
+For SSDs:
+```
+cat /sys/block/sda/queue/scheduler
+# If set to [mq-deadline] or cfq, switch to none for lower latency
+echo none > /sys/block/sda/queue/scheduler
+```
+For HDDs, the BFQ or Kyber schedulers reduce lag during concurrent access. OpenClaw can detect your disk type and recommend the appropriate scheduler.
+
+**Network buffer tuning:**
+If you're running a high-traffic service (VPN, proxy, game server), OpenClaw can adjust net.core.rmem_max, net.core.wmem_max, and related parameters:
+```
+sysctl -w net.core.rmem_max=16777216
+sysctl -w net.core.wmem_max=16777216
+```
+It'll validate the change, monitor for improvement, and persist it to `/etc/sysctl.d/99-openclaw-tuning.conf`.
+
+**Thermal throttling detection:**
+```
+vcgencmd measure_temp
+throttled=$(vcgencmd get_throttled)
+echo $throttled
+```
+On Raspberry Pi or systems with `vcgencmd`, OpenClaw can detect if the CPU has been throttled due to heat and suggest cooling improvements.
 
 ## Limitations
 

@@ -5,11 +5,19 @@
     "02-research-pipeline": "2026-05-04",
     "03-development-assistant": "2026-05-05",
     "04-personal-secretary": "2026-05-06",
-    "05-system-administration": "2026-04-30",
+    "05-system-administration": "2026-05-07",
     "06-employee-scheduling": "2026-05-01",
     "07-invoice-processing": "2026-05-02"
   },
   "improvementHistory": [
+    {
+      "date": "2026-05-07",
+      "postSlug": "05-system-administration",
+      "changes": [
+        "Added 'Performance Tuning' section covering container resource recommendations, kernel parameter adjustment, IO scheduler selection (SSD vs HDD), network buffer tuning, and thermal throttling detection with vcgencmd",
+        "Added 'status-page' and 'performance-tuning' tags"
+      ]
+    },
     {
       "date": "2026-05-06",
       "postSlug": "04-personal-secretary",
