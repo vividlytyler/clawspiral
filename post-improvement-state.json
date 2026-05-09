@@ -6,10 +6,19 @@
     "03-development-assistant": "2026-05-05",
     "04-personal-secretary": "2026-05-06",
     "05-system-administration": "2026-05-07",
-    "06-employee-scheduling": "2026-05-01",
+    "06-employee-scheduling": "2026-05-09",
     "07-invoice-processing": "2026-05-02"
   },
   "improvementHistory": [
+    {
+      "date": "2026-05-09",
+      "postSlug": "06-employee-scheduling",
+      "changes": [
+        "Added 'Troubleshooting Common Issues' section covering 6 failure modes: silent availability non-respondents, no-swap-volunteers escalation, uncovered shifts, cron misfires with schedule-age-check cron example, missed reminders with confirm-loop mitigation, and WhatsApp delivery failures with explicit CONFIRM workflow",
+        "Added Unsplash conflict-resolution team-on-laptop image after troubleshooting section",
+        "Added 'troubleshooting' tag"
+      ]
+    },
     {
       "date": "2026-05-07",
       "postSlug": "05-system-administration",

@@ -3,7 +3,7 @@ title: "Employee Scheduling for Small Businesses"
 description: "How OpenClaw can automate weekly scheduling — collecting availability, building schedules based on business rules, and delivering shift assignments via Telegram or WhatsApp."
 pubDate: 2026-03-26
 category: business-finance
-tags: ["scheduling", "small-business", "telegram", "whatsapp", "automation", "hr", "cron", "sick-day"]
+tags: ["scheduling", "small-business", "telegram", "whatsapp", "automation", "hr", "cron", "sick-day", "troubleshooting"]
 image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&auto=format&fit=crop"
 featured: true
 ---
@@ -285,6 +285,86 @@ Here's what the first week looks like in practice:
 **Day 6 — Schedule delivered:** Monday morning, each employee gets their personalized shift list. Manager sends one message to the team: "Schedule's out — any issues let me know."
 
 **Week 2 onward:** OpenClaw handles it. You review conflicts. That's it.
+
+### Troubleshooting Common Issues
+
+Even with a solid system in place, things go wrong. Here's how OpenClaw handles the most common failure modes.
+
+**Employee never submits availability**
+
+If someone goes silent, OpenClaw can be configured to fall back to their stored pattern rather than leaving them off the schedule entirely:
+
+```
+Bot: "Hey Chris — still waiting on your availability for next week. 
+If I don't hear back by 5pm, I'll use your usual Mon-Wed pattern."
+```
+
+The fallback assumes their historic pattern. If it's wrong, the manager catches it in the conflict review.
+
+**No one volunteers for a swap**
+
+When a swap request gets no response, OpenClaw escalates:
+
+```
+Bot: "Chris — still need coverage for Sat 2pm-8pm. No responses so far.
+Escalating to manager."
+Manager: "I'll cover it myself"
+Bot: "You're down for Sat 2pm-8pm. Not ideal, but covered."
+```
+
+The escalation gate prevents the shift from silently going unassigned.
+
+**Shift goes completely uncovered**
+
+If neither on-call nor backup nor volunteers can fill a gap, the manager gets a direct alert before the schedule is finalized:
+
+```
+Bot: "Critical — Sat morning shift has 0 coverage (minimum 2 required).
+On-call: Priya (unavailable). Backup: Maria (unavailable). 
+No volunteers. Needs your call."
+```
+
+**The Sunday cron misfires**
+
+If the schedule generation cron doesn't fire, OpenClaw can check for a recent schedule file and alert if it's stale:
+
+```json
+{
+  "name": "schedule-age-check",
+  "schedule": { "kind": "cron", "expr": "0 8 * * *", "tz": "America/Los_Angeles" },
+  "payload": {
+    "kind": "agentTurn",
+    "message": "Check if next-week-schedule.json exists and was modified within the last 26 hours. If not, alert the manager: 'Weekly schedule cron may have failed — check if employees received their shifts.'"
+  }
+}
+```
+
+**Employees miss shift reminders**
+
+If someone still forgets despite reminders, the post-mortem usually reveals they didn't open Telegram that day. OpenClaw can't force-read receipts, but it can log and report who didn't acknowledge:
+
+```
+Bot: "Shift reminder for Tom — Sat 6am opener. No response received.
+Tom hasn't confirmed receipt of 3 consecutive reminders.
+Flagging for manager: Tom may need a phone call for important shifts."
+```
+
+**WhatsApp message delivery failures**
+
+WhatsApp Business API doesn't guarantee real-time delivery. If an important message (shift reminder, swap alert) needs confirmation, Telegram is more reliable. For WhatsApp, add a delivery confirmation loop:
+
+```
+Bot: "Maria — your schedule for next week is attached. 
+Please reply CONFIRM to acknowledge."
+Maria: "Confirm"
+Bot: "Got it — you're confirmed. See you Monday."
+```
+
+Without the confirm loop, there's no way to know if a WhatsApp message was seen or silently swallowed.
+
+![Team resolving a scheduling conflict on a laptop](https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=1200&auto=format&fit=crop)
+
+---
 
 ## Limitations
 
