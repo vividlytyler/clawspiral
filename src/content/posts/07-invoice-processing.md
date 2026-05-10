@@ -4,7 +4,7 @@ description: "How OpenClaw can handle accounts payable and receivable — receiv
 pubDate: 2026-03-26
 category: business-finance
 difficulty: intermediate
-tags: ["invoicing", "accounting", "ocr", "ap", "ar", "automation", "email", "tesseract", "smtp", "reconciliation", "exceptions"]
+tags: ["invoicing", "accounting", "ocr", "ap", "ar", "automation", "email", "tesseract", "smtp", "reconciliation", "exceptions", "year-end", "tax-prep"]
 featured: false
 image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1200&auto=format&fit=crop"
 ---
@@ -396,6 +396,66 @@ Retry 1/3 in 30 min
 ```
 
 The invoice isn't marked as SENT in the tracking log until the SMTP call succeeds. You don't have a gap where the invoice looks sent but the client never received it.
+
+## Year-End Close-Out
+
+If you're running your books through a ledger file (CSV or similar), year-end is the moment to close it out properly before handing it off or importing into accounting software.
+
+**Step 1 — Export a final state**
+
+Before anything else, export the current ledger and AR tracking log. Archive them with a date suffix so you have a clean snapshot:
+
+```
+~/invoices/ledger-2025.csv
+~/invoices/ar-tracking-2025.json
+```
+
+Treat these as permanent records — don't touch them after archiving.
+
+**Step 2 — Mark outstanding AP as accrued**
+
+Any AP invoice with status `APPROVED` or `SCHEDULED` but not yet `PAID` is a liability. Record it as accrued (or "accounts payable — outstanding") so your year-end books reflect what you owe:
+
+```
+grep ",FALSE," ~/invoices/ledger-2025.csv > ~/invoices/outstanding-2025.csv
+```
+
+This file becomes your accrued expenses reference. Import it into your accounting software or hand it to your accountant alongside the full ledger.
+
+**Step 3 — Confirm AR is matched**
+
+Any AR invoice marked `SENT` but not `PAID` is revenue you've recorded but not yet received. Cross-reference against your bank feed one last time — payments that arrived in December but weren't recorded in the tracking log should be added now:
+
+```
+Outstanding AR as of Dec 31:
+INV-2025-0112 | Client A | $4,200 | SENT | due Dec 15 | OVERDUE 16d
+INV-2025-0118 | Client B | $1,850 | SENT | due Dec 31 | OVERDUE 0d
+```
+
+Call your accountant if you have a large accounts receivable balance — there are tax implications for revenue recognized but unpaid as of year-end.
+
+**Step 4 — Generate a summary for tax prep**
+
+OpenClaw can produce a year-end summary from your ledger:
+
+```
+Total AP paid in 2025:        $47,832.18
+Total AR collected in 2025:   $89,104.00
+Outstanding AP (accrued):      $3,840.00
+Outstanding AR (uncollected):  $6,050.00
+Invoice count (AP):            143 receipts
+Invoice count (AR):            67 invoices sent
+```
+
+This summary gives your accountant everything they need to do depreciation schedules, expense categorization, and tax-loss carryforwards — without them having to dig through individual invoices.
+
+**Step 5 — Start a fresh ledger**
+
+Create `ledger-2026.csv` (or whatever your accounting software prefers) and carry the vendor list forward. Old ledger stays archived. OpenClaw's intake and tracking flows keep running against the new file automatically — nothing changes on the operational side.
+
+---
+
+![Reconciliation and payments](https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1200&auto=format&fit=crop)
 
 ## The Real Value
 

@@ -7,9 +7,17 @@
     "04-personal-secretary": "2026-05-06",
     "05-system-administration": "2026-05-07",
     "06-employee-scheduling": "2026-05-09",
-    "07-invoice-processing": "2026-05-02"
+    "07-invoice-processing": "2026-05-09"
   },
   "improvementHistory": [
+    {
+      "date": "2026-05-09",
+      "postSlug": "07-invoice-processing",
+      "changes": [
+        "Added 'Year-End Close-Out' section covering 5-step process: ledger export with date suffix, outstanding AP accrued expense marking, AR cross-reference against bank feed, tax prep summary generation, and fresh ledger rollover",
+        "Added 'year-end' and 'tax-prep' tags"
+      ]
+    },
     {
       "date": "2026-05-09",
       "postSlug": "06-employee-scheduling",
