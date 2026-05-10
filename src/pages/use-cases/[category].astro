@@ -11,7 +11,7 @@ export async function getStaticPaths() {
     { slug: 'business-finance', label: 'Business & Finance', desc: 'ROI-focused tools, admin automation, financial workflows' },
     { slug: 'lifestyle-wellness', label: 'Lifestyle & Wellness', desc: 'Personal habits, health, travel, daily routines' },
     { slug: 'creative', label: 'Creative', desc: 'Writing, art, music prompts, brainstorming' },
-    
+    { slug: 'productivity', label: 'Productivity', desc: 'Task management, focus, daily routines, momentum' },
   ];
 
   return categories.map(({ slug, label, desc }) => ({
@@ -30,6 +30,7 @@ const categoryMeta: Record<string, { color: string; gradient: string; icon: stri
   'business-finance':{ color: 'text-amber-400',     gradient: 'from-amber-950/80 to-slate-900',    icon: '📊', image: 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1200&h=400&fit=crop' },
   'lifestyle-wellness':{ color: 'text-teal-400',   gradient: 'from-teal-950/80 to-slate-900',     icon: '🌿', image: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1200&h=400&fit=crop' },
   'creative':        { color: 'text-pink-400',      gradient: 'from-pink-950/80 to-slate-900',     icon: '🎨', image: 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=1200&h=400&fit=crop' },
+  'productivity':    { color: 'text-orange-400',    gradient: 'from-orange-950/80 to-slate-900',   icon: '⚡', image: 'https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=1200&h=400&fit=crop' },
 };
 const meta = categoryMeta[category] ?? { color: 'text-sky-400', gradient: 'from-slate-900 to-slate-900', icon: '📁', image: '' };
 
