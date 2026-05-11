@@ -7,9 +7,22 @@
     "04-personal-secretary": "2026-05-06",
     "05-system-administration": "2026-05-07",
     "06-employee-scheduling": "2026-05-09",
-    "07-invoice-processing": "2026-05-09"
+    "07-invoice-processing": "2026-05-09",
+    "08-creative-brainstorming": "2026-05-10"
   },
   "improvementHistory": [
+    {
+      "date": "2026-05-10",
+      "postSlug": "08-creative-brainstorming",
+      "changes": [
+        "Added mechanistic explanation of LLM forced divergence and constraint relaxation, plus local knowledge vs combinatorial range framing",
+        "Removed dangling ellipsis from ambient album track listing",
+        "Added 'What You Need to Set This Up' section with memory file discipline and concrete session-framing tips",
+        "Added 'Breaking Through Mental Blocks' section with concrete bad-ideas prompt flow and cliché-to-weaponization example",
+        "Added Unsplash whiteboard/brainstorming image before Limitations section",
+        "Added tags: constraints, memory-files, mental-blocks"
+      ]
+    },
     {
       "date": "2026-05-09",
       "postSlug": "07-invoice-processing",
