@@ -15,20 +15,19 @@ interface Props {
 
 const { title, description, pubDate, slug, category, difficulty, readingTime, image, borderColor } = Astro.props;
 
-// Map category slugs to border colors (matches site color scheme)
-const categoryColors: Record<string, string> = {
-  'home-automation': '#10b981',   // emerald-500
-  'research':        '#8b5cf6',   // violet-500
-  'development':     '#3b82f6',   // blue-500
-  'business-finance':'#f59e0b',  // amber-500
-  'lifestyle-wellness':'#14b8a6', // teal-500
-  'creative':        '#ec4899',   // pink-500
-  'productivity':    '#f97316',   // orange-500
+// Map category slugs to accent colors (matches site color scheme)
+const categoryColors: Record<string, { border: string; accent: string }> = {
+  'home-automation':  { border: 'border-emerald-500',  accent: '#10b981' },
+  'research':         { border: 'border-violet-500',   accent: '#8b5cf6' },
+  'development':      { border: 'border-blue-500',     accent: '#3b82f6' },
+  'business-finance': { border: 'border-amber-500',     accent: '#f59e0b' },
+  'lifestyle-wellness':{ border: 'border-teal-500',    accent: '#14b8a6' },
+  'creative':         { border: 'border-pink-500',     accent: '#ec4899' },
+  'productivity':     { border: 'border-orange-500',   accent: '#f97316' },
 };
-const resolvedColor = borderColor ?? categoryColors[category] ?? null;
-const borderStyle = resolvedColor
-  ? `border-left: 3px solid ${resolvedColor};`
-  : '';
+
+const resolved = borderColor ?? (categoryColors[category] ?? null);
+const borderClass = resolved ? (typeof resolved === 'string' && resolved.startsWith('border-') ? resolved : categoryColors[category]?.border ?? 'border-sky-500') : 'border-slate-800';
 
 const difficultyColors: Record<string, string> = {
   beginner: 'bg-emerald-900/80 text-emerald-300',
@@ -38,7 +37,7 @@ const difficultyColors: Record<string, string> = {
 const difficultyColor = difficulty ? (difficultyColors[difficulty] ?? 'bg-slate-700 text-slate-300') : '';
 ---
 
-<article class="group p-5 rounded-lg border border-slate-800 bg-gradient-to-br from-slate-800/60 to-slate-900/60 hover:-translate-y-1 hover:shadow-lg hover:shadow-black/20 transition-all duration-200" style={borderStyle}>
+<article class={`group p-5 rounded-lg border ${borderClass} bg-gradient-to-br from-slate-800/60 to-slate-900/60 hover:-translate-y-1 hover:shadow-lg hover:shadow-black/20 transition-all duration-200`}>
   {image && (
     <a href={`/posts/${slug}`} class="block mb-3 -mt-1 rounded-lg overflow-hidden h-32">
       <img src={image} alt={title} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy" />
