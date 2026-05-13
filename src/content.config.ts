@@ -15,6 +15,7 @@ const posts = defineCollection({
       'business-finance',
       'lifestyle-wellness',
       'creative',
+      'productivity',
     ]),
     difficulty: z.enum(['beginner', 'intermediate', 'advanced']).default('beginner'),
     draft: z.boolean().default(false),
