@@ -3,7 +3,7 @@ title: "Experimental: Pushing OpenClaw to Its Limits"
 description: "What happens when you try to use OpenClaw for things it wasn't designed for? A documented series of experiments — successes, failures, and everything in between."
 pubDate: 2026-03-27
 category: development
-tags: ["experimental", "edge-cases", "limitations", "failures", "exploration"]
+tags: ["experimental", "edge-cases", "limitations", "failures", "exploration", "methodology", "sub-agents", "state-management"]
 image: "https://images.unsplash.com/photo-1507413245164-6160d8298b31?w=1200&auto=format&fit=crop"
 ---
 
@@ -76,6 +76,32 @@ The interesting thing isn't that OpenClaw failed these experiments — every too
 - It fails **in context** — performance degrades as context grows, which is hard to predict from the outside
 
 None of this is a knock on OpenClaw specifically — it's how all LLM-based systems work at the frontier. The answer isn't to avoid these uses; it's to use them with appropriate checkpoints and human oversight.
+
+## What You Need to Set This Up
+
+Running experiments against OpenClaw doesn't require much beyond standard tooling:
+
+- **OpenClaw installed and running** — the core requirement
+- **File system access** — for reading/writing state files and logs during experiments
+- **Sub-agent access** — for the multi-agent experiment; `sessions_spawn` must be available
+- **A way to track results** — a simple markdown log or JSON file to record outcomes across runs
+- **Patience** — you'll run experiments multiple times to confirm results; single runs can be misleading
+
+That's it. No special integrations, no external services. You're testing the system itself, so the setup is minimal.
+
+## Limitations
+
+Running experiments against OpenClaw has its own constraints worth knowing before you invest heavily:
+
+- **Time cost** — Long-running autonomous experiments consume significant tokens. Budget accordingly, especially for multi-pass synthesis tasks.
+- **Reproducibility variance** — LLMs have non-deterministic elements (temperature, sampling). Running the same experiment twice can yield different results. Treat single runs as directional, not definitive.
+- **No ground truth** — When testing outputs (citations, facts, emotional calibration), you need an independent source of truth to compare against. Without one, you can only eyeball plausibility.
+- **Context cleanliness** — Experiments run inside an active session with conversation history. Prior messages can subtly influence outcomes. Isolation helps but isn't always available.
+- **Sub-agent reliability** — Sub-agent experiments depend on the parent session staying healthy. If the parent crashes mid-experiment, results are lost.
+
+Document your methodology alongside your findings. Future-you will want to know what the setup actually was, not just what the results were.
+
+![Lab equipment and experimental setup](https://images.unsplash.com/photo-1581093458791-9f3c3900df4b?w=1200&auto=format&fit=crop)
 
 ## Bottom Line
 
