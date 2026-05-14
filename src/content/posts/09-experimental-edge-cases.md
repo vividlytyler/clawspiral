@@ -67,6 +67,63 @@ The broader problem: LLMs are trained to produce helpful responses, which maps p
 
 **Verdict:** Good for obvious emotional signals. Inconsistent and sometimes off-target in subtle cases. Don't rely on it for emotionally loaded conversations without human review.
 
+## A Real Experiment Workflow
+
+If you want to run your own OpenClaw boundary experiments, here's a repeatable pattern that works:
+
+### The Setup
+
+Create an experiment file at `memory/experiments/YYYY-MM-DD-[name].md`:
+
+```markdown
+# Experiment: [name]
+**Date:** YYYY-MM-DD
+**Hypothesis:** ...
+
+## Setup
+<!-- What you configured, what prompt you used -->
+
+## Run Log
+<!-- Timestamped entries of what happened -->
+
+## Observations
+<!-- What stood out -->
+
+## Verdict
+<!-- What you'd tell someone asking if this works -->
+```
+
+### The Run Loop
+
+1. **Pre-flight check** — Clear old memory context if you need a clean slate. Set `memory/experiments/active.md` to note you're mid-experiment.
+2. **Run the experiment** — Execute the task and log observations in real-time to the experiment file via `exec >>` appends or direct `write` calls.
+3. **Capture session ID** — Note the session key so you can reload it if needed.
+4. **Post-mortem** — After the run, review the experiment file, write your verdict, and clean up `active.md`.
+
+### Multi-Session Experiments
+
+For long-running experiments (Experiment 1-type tasks), the pattern is:
+- Start with a `sessions_spawn` isolated session so the parent is free
+- The spawned session logs to a shared file
+- Parent checks file periodically or on heartbeat
+- Parent synthesizes findings when the child completes
+
+This prevents the parent session from growing stale mid-experiment.
+
+## Troubleshooting Common Issues
+
+When experiments go wrong in ways that aren't the point of the experiment:
+
+**Sub-agent goes silent:** Check if the parent session is healthy. Silent sub-agents are usually a parent crash. Kill and respawn.
+
+**Output looks great but has subtle errors:** This is the most common failure mode. Build a specific factual check into your experiment design — something you can verify independently after the run.
+
+**Context pollution from prior conversation:** If your experiment session started from a loaded context, note that in your methodology. Results may not replicate in a truly clean session.
+
+**Long experiment runs out of tokens:** Set up a checkpoint mid-way — have the agent write progress to a file and then stop. Resume from the file rather than from context.
+
+Document failures in the experiment log too. What didn't work is often more informative than what did.
+
 ## What's Interesting About These Failures
 
 The interesting thing isn't that OpenClaw failed these experiments — every tool fails at its edges. The interesting thing is *how* it fails:

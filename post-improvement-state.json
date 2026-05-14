@@ -8,9 +8,19 @@
     "05-system-administration": "2026-05-07",
     "06-employee-scheduling": "2026-05-09",
     "07-invoice-processing": "2026-05-09",
-    "08-creative-brainstorming": "2026-05-10"
+    "08-creative-brainstorming": "2026-05-10",
+    "09-experimental-edge-cases": "2026-05-13"
   },
   "improvementHistory": [
+    {
+      "date": "2026-05-13",
+      "postSlug": "09-experimental-edge-cases",
+      "changes": [
+        "Added 'A Real Experiment Workflow' section with experiment file structure, run loop (pre-flight check, execution, session capture, post-mortem), and multi-session experiment pattern using sessions_spawn",
+        "Added 'Troubleshooting Common Issues' section covering: sub-agent silence, output quality verification, context pollution, token budget mid-experiment checkpoints, and failure documentation",
+        "Added 'methodology', 'checkpoint', 'troubleshooting', 'experiment-design' tags"
+      ]
+    },
     {
       "date": "2026-05-10",
       "postSlug": "08-creative-brainstorming",
