@@ -37,7 +37,31 @@ const difficultyColors: Record<string, string> = {
 const difficultyColor = difficulty ? (difficultyColors[difficulty] ?? 'bg-slate-700 text-slate-300') : '';
 ---
 
-<article class={`group p-5 rounded-lg border ${borderClass} bg-gradient-to-br from-slate-800/60 to-slate-900/60 hover:-translate-y-1 hover:shadow-lg hover:shadow-black/20 transition-all duration-200`}>
+<article class={`group p-5 rounded-lg border ${borderClass} bg-gradient-to-br from-slate-800/60 to-slate-900/60 hover:-translate-y-1 hover:shadow-lg hover:shadow-black/20 transition-all duration-200`}
+  style="--glow-opacity: 0;"
+  onmouseenter="this.style.setProperty('--glow-opacity','1')"
+  onmouseleave="this.style.setProperty('--glow-opacity','0')"
+>
+  <style>
+    article {
+      position: relative;
+    }
+    article::after {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: inherit;
+      background: linear-gradient(135deg, rgba(56,189,248,0.4), rgba(139,92,246,0.3));
+      opacity: var(--glow-opacity);
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+      z-index: 0;
+    }
+    article > * {
+      position: relative;
+      z-index: 1;
+    }
+  </style>
   {image && (
     <a href={`/posts/${slug}`} class="block mb-3 -mt-1 rounded-lg overflow-hidden h-32">
       <img src={image} alt={title} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy" />
