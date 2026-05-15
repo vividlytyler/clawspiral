@@ -14,6 +14,15 @@
   },
   "improvementHistory": [
     {
+      "date": "2026-05-15",
+      "page": "global",
+      "changes": [
+        "Added card-glow CSS class for PostCard and category cards with subtle sky-400/violet-500 gradient shimmer on hover",
+        "Applied card-glow to all PostCard instances (use-cases listing, homepage, category pages)",
+        "Kept category card hover effect using border-color transition + existing card-lift lift"
+      ]
+    },
+    {
       "date": "2026-05-14",
       "postSlug": "10-financial-pulse",
       "changes": [
