@@ -9,9 +9,22 @@
     "06-employee-scheduling": "2026-05-09",
     "07-invoice-processing": "2026-05-09",
     "08-creative-brainstorming": "2026-05-10",
-    "09-experimental-edge-cases": "2026-05-13"
+    "09-experimental-edge-cases": "2026-05-13",
+    "10-financial-pulse": "2026-05-14"
   },
   "improvementHistory": [
+    {
+      "date": "2026-05-14",
+      "postSlug": "10-financial-pulse",
+      "changes": [
+        "Added 'Handling Multiple Accounts' section with separate account view, net worth rolling, and income auto-detection",
+        "Added Subscription Price Increase Detection subsection with concrete Netflix and Adobe CC price increase alert examples",
+        "Added Unsplash banking alert image after Anomaly Detection section",
+        "Added Unsplash weekly digest on phone image before 'What You Need to Set This Up'",
+        "Added 'What You Need to Set This Up' section with prerequisites, CSV export workflow, and IMAP option",
+        "Added tags: subscriptions, anomaly-detection"
+      ]
+    },
     {
       "date": "2026-05-13",
       "postSlug": "09-experimental-edge-cases",
