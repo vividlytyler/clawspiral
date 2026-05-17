@@ -4,7 +4,7 @@ description: "Most nutrition apps die in a drawer. OpenClaw turns your existing 
 pubDate: 2026-03-28
 category: lifestyle-wellness
 difficulty: intermediate
-tags: ["nutrition", "health", "macros", "image-analysis", "telegram", "whatsapp", "automation", "diet"]
+tags: ["nutrition", "health", "macros", "image-analysis", "telegram", "whatsapp", "automation", "diet", "micronutrients", "deficiency-detection"]
 featured: true
 image: "https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=1200&auto=format&fit=crop"
 ---
@@ -132,6 +132,8 @@ This is where it gets more interesting. Over weeks and months, OpenClaw can noti
 
 A nutritionist sees one appointment every few months. OpenClaw sees every meal.
 
+![Colorful vitamin and supplement pills in organizers](https://images.unsplash.com/photo-1550572017-36a8c0e53e91?w=1200&auto=format&fit=crop)
+
 ## Handling Ambiguity
 
 "What if it misreads the photo?"
@@ -175,6 +177,20 @@ From there it can look up the menu online, match your photo's likely dishes agai
 This only works when the messaging platform hasn't stripped the metadata (Telegram preserves it by default; WhatsApp on iOS preserves it; some platforms strip it). OpenClaw notes when metadata is unavailable and falls back to visual estimation.
 
 The result: a restaurant meal logged with the same precision as scanning a barcode — except you just sent a photo.
+
+## What You Need to Set This Up
+
+**OpenClaw** running on a machine that can receive Telegram or WhatsApp messages.
+
+**Files and structure** — a `~/nutrition/` directory with `targets.yaml`, `vitamin_targets.yaml`, `meal_log.csv`, and `weekly_digest.csv`. OpenClaw creates and maintains these on first run once you provide your macro targets.
+
+**Macro targets** — a one-time setup with your daily goals (calories, protein, carbs, fat, fiber) and weekly vitamin targets. Can be updated anytime via chat.
+
+**Camera access** — photos come from your phone's camera app, sent directly through Telegram or WhatsApp. No special capture app needed.
+
+**Cron jobs** — a nightly digest at your preferred time (default 9pm), and a weekly micronutrient summary on Sunday morning. Both are lightweight agentTurn jobs.
+
+**Accuracy note** — photo-based macro estimation works best as awareness tracking. For precise macro counting (competitive bodybuilding, medical diets), supplement with manual entry for critical meals and verify flagged entries.
 
 ## Why This Beats a Nutrition App
 

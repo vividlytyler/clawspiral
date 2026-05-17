@@ -95,9 +95,9 @@
       "changes": [
         "Added 'Dependency and Security Vulnerability Monitoring' section covering outdated package detection, npm audit parsing with exploitability assessment, license compliance checking, and automated dependency update summaries",
         "Added tags: dependency-audit, security, stale-branches"
-      ]
+      ],
     },
-      "date": "2026-05-04",
+    {
       "postSlug": "02-research-pipeline",
       "changes": [
         "Added 'Iterative Research: Drilling Deeper' section covering 2-3 iteration flow, when to iterate (low confidence flags), and concrete e-commerce platform example",
@@ -106,6 +106,7 @@
         "Added 'Output Quality Checklist' section with 6-item checklist (date check, source count, confidence level, conflicts surfaced, citations traceable, delivery received)"
       ]
     },
+    {
       "date": "2026-05-03",
       "postSlug": "01-smart-home-orchestration",
       "changes": [
@@ -159,6 +160,7 @@
         "Added 'Drafting Emails Without SMTP' section with three delivery options: Telegram copy-paste, IMAP draft folder append, and mail forwarding via external service (Mailgun/SendGrid)"
       ]
     },
+    {
       "date": "2026-04-28",
       "postSlug": "03-development-assistant",
       "changes": [
@@ -223,6 +225,7 @@
         "Added 'logs' tag"
       ]
     },
+    {
       "date": "2026-04-19",
       "postSlug": "02-research-pipeline",
       "changes": [
