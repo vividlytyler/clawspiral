@@ -3,7 +3,7 @@ title: "Smart Home Orchestration with OpenClaw"
 description: "How OpenClaw can serve as the brain behind a smart home — coordinating devices, automating routines, and providing a natural language interface to your entire setup."
 pubDate: 2026-03-26
 category: home-automation
-tags: ["home-automation", "iot", "routines", "voice", "docker", "homeassistant", "mqtt", "smartthings", "security", "energy-management", "households", "multi-user", "permissions"]
+tags: ["home-automation", "iot", "routines", "voice", "docker", "homeassistant", "mqtt", "smartthings", "security", "energy-management", "households", "multi-user", "permissions", "occupancy-detection", "pets", "guests", "departure-detection", "arrival-detection"]
 image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&auto=format&fit=crop"
 ---
 
@@ -156,17 +156,27 @@ That's randomization (which standard automations can't do without scripting), ex
 
 ## Multi-User Households
 
-Most smart home content assumes a single user. But households have multiple people with different schedules, preferences, and permissions — and automation logic that ignores that gets annoying fast.
+Most smart home setups ignore the fact that houses are rarely empty — or always empty in the same way. Occupancy detection, room-level presence, and household-wide context are where OpenClaw adds the most value over rigid rule engines.
 
-Here's what OpenClaw can reason about that rigid rule builders can't:
+**Room-level presence.** Instead of "someone's home" (binary), OpenClaw can track room-level presence — who's in the kitchen, who's been in the office for the last two hours, who left the house 20 minutes ago. This feeds into "turn off the office lights if you haven't been in there since 10 AM" without needing a motion sensor in every room.
 
-**Different wake-up times.** Maria leaves at 6:30 AM; you leave at 7:45 AM. "Morning routine" can't be a single schedule. OpenClaw can check who's home and fire the right routine for the right person — lights on for Maria at 6:15, coffee ready, thermostat adjusted to her preferred 71°F. Then again for you at 7:30 with your preferred 69°F and the news briefing.
+**Occupancy-based automation.** A few real scenarios:
 
-**Permission-based device control.** Kids can control their own bedroom lights and the living room TV, but shouldn't be able to disarm the security system or unlock the front door after 9 PM. OpenClaw can enforce this — a voice command from a known user gets routed through a permission check before the device call fires.
+> "If the living room has been unoccupied for more than 30 minutes and the TV is off, turn off the lights and set the thermostat to idle mode."
+>
+> "If everyone's left the house and the last to leave enabled away mode, arm the security system in 60 seconds unless someone checks in first."
 
-**Conflict resolution when two people want different things.** You want the thermostat at 72°F; your partner wants 68°F. Rather than whoever-last-wins, OpenClaw can surface the conflict and defer to whoever's home alone, or track a weekly balance. The rule logic isn't "last write wins" — it's "who's here, what do they prefer, and is anyone else affected?"
+**Pet and guest differentiation.** Pets trigger motion sensors. Guests don't trigger your usual "someone's home" logic. OpenClaw can learn the difference — after a week of data, it knows that the 3 AM living room motion is the cat, not an intruder. And a guest staying the weekend shows up as a persistent presence but with a known expiry.
 
-**Guest mode.** When guests stay over, OpenClaw can temporarily grant access to shared devices (garage code, living room AV) without giving them full control of everything. Expiry is automatic — when the guest checkout date passes, the permissions revoke without you having to remember to do it.
+**Departure detection.** You can set up "house-wide departure" — when all phones have left the Wi-Fi network for more than 10 minutes, fire the away sequence. OpenClaw handles the nuance: "If the last person leaves but someone else's phone is still on the network, don't trigger it." That's not a simple trigger, that's contextual reasoning.
+
+**Arrival detection.** The reverse — OpenClaw recognizes when someone comes home based on phone reconnect, garage door opening, or a combination of signals. "You're home" can fire the welcome sequence (lights, preferred temperature, music resuming) without a manual trigger.
+
+Here's what that might look like in Telegram:
+
+> **OpenClaw (5:47 PM):** "Maria just arrived home — garage door opened, her phone connected to Wi-Fi. Living room lights set to her preferred 74°F. Welcome home."
+
+That's a HomeAssistant device tracker update → OpenClaw identifying the user → querying her preference profile → firing the right scene. No manual "I'm home" button needed.
 
 This is where a flat rule set breaks down. OpenClaw holds the household context and applies it at execution time — same trigger, different outcome depending on who and when.
 

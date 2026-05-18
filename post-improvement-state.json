@@ -1,7 +1,7 @@
 {
   "lastImproved": {
     "use-cases-category-pages": "2026-05-02",
-    "01-smart-home-orchestration": "2026-05-03",
+    "01-smart-home-orchestration": "2026-05-17",
     "02-research-pipeline": "2026-05-04",
     "03-development-assistant": "2026-05-05",
     "04-personal-secretary": "2026-05-06",
@@ -20,6 +20,15 @@
         "Added card-glow CSS class for PostCard and category cards with subtle sky-400/violet-500 gradient shimmer on hover",
         "Applied card-glow to all PostCard instances (use-cases listing, homepage, category pages)",
         "Kept category card hover effect using border-color transition + existing card-lift lift"
+      ]
+    },
+    {
+      "date": "2026-05-17",
+      "postSlug": "01-smart-home-orchestration",
+      "changes": [
+        "Replaced thin 'Multi-User Households' section with expanded version covering room-level presence, occupancy-based automation (unoccupied living room, house-wide departure), pet/guest differentiation, departure detection with phone-based tracking, and arrival detection with preference profile firing",
+        "Added arrival detection Telegram example showing Maria arriving home and OpenClaw firing her preferred scene automatically",
+        "Added occupancy-detection, pets, guests, departure-detection, arrival-detection tags"
       ]
     },
     {
