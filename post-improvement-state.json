@@ -2,7 +2,7 @@
   "lastImproved": {
     "use-cases-category-pages": "2026-05-02",
     "01-smart-home-orchestration": "2026-05-17",
-    "02-research-pipeline": "2026-05-04",
+    "02-research-pipeline": "2026-05-19",
     "03-development-assistant": "2026-05-05",
     "04-personal-secretary": "2026-05-06",
     "05-system-administration": "2026-05-07",
@@ -13,6 +13,15 @@
     "10-financial-pulse": "2026-05-14"
   },
   "improvementHistory": [
+    {
+      "date": "2026-05-19",
+      "postSlug": "02-research-pipeline",
+      "changes": [
+        "Added 'A Real Vendor Evaluation' section with concrete side-by-side comparison table (Plane vs YouTrack vs Focalboard vs Bugzilla vs Redmine) covering self-hosting, free tier, release date, community, and best-fit use case",
+        "Added Unsplash team-meeting collaboration image after vendor evaluation section",
+        "Added vendor-evaluation and comparison-tables tags"
+      ]
+    },
     {
       "date": "2026-05-15",
       "page": "global",

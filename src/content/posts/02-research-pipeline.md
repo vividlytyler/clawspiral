@@ -212,7 +212,7 @@ The cron fires every Monday at 9 AM, OpenClaw runs the research, and you get a b
 
 ## Real-World Applications
 
-The research pipeline shines for anything that normally requires 20 browser tabs and an hour of reading:
+The research pipeline shines for anything that normally requires 20 browser tabs and an hour of reading.
 
 **Vendor evaluation** — Research a tool before buying. Ask OpenClaw to compare three options on dimensions that matter to you (pricing model, self-hosting options, privacy policy, community size). It fetches the actual docs and pricing pages, not just marketing material.
 
@@ -223,6 +223,36 @@ The research pipeline shines for anything that normally requires 20 browser tabs
 **Fact-checking before decisions** — "The CTO says Postgres can't handle our load." Research it. Run benchmarks, find comparable case studies, check what Shopify or Discord actually use. You'd be surprised how often the conventional wisdom is wrong.
 
 **Travel and purchase research** — Not just "best laptop for coding" — drill into real reviews, teardown videos, reliability data. The Pi example above is typical of how specific the output can get.
+
+### A Real Vendor Evaluation
+
+Here's what a vendor evaluation actually looks like in practice:
+
+**Scenario:** Your team needs a self-hosted alternative to Linear for bug tracking. Budget is $0. You have 3 developers.
+
+**Query:** "self-hosted Linear alternative 2026"
+
+**Pipeline execution:**
+1. Search returns: Plane, YouTrack, Bugzilla, Redmine, Focalboard
+2. Fetch top docs for Plane (latest version), YouTrack Cloud (free tier), and Focalboard
+3. Synthesis produces:
+
+| Platform | Self-Hosted | Free Tier | Last Release | Community | Best For |
+|----------|-------------|-----------|--------------|-----------|----------|
+| Plane | ✅ Full | 3 users | Mar 2026 | Active (~12k stars) | Teams wanting Linear feel without the SaaS |
+| YouTrack | ✅ | 10 users | Apr 2026 | Large (but older) | Enterprise features, slower UI |
+| Focalboard | ✅ Full | Unlimited | Feb 2026 | Small (~7k stars) | Minimalist, Notion-like boards |
+| Bugzilla | ✅ Full | Unlimited | Jan 2026 | Legacy | Bug tracking purity, ugly UI |
+| Redmine | ✅ Full | Unlimited | Dec 2025 | Large but fragmented | Long-established, plugin-heavy |
+
+**Bottom line:** Plane is the closest Linear replacement for a 3-person team on $0. YouTrack's free tier works but the UI feels dated. Focalboard is free but immature. Bugzilla and Redmine are functional but painful.
+
+**Confidence: High on feature comparisons (docs are current). Medium on community health — GitHub stars are a lagging indicator.**
+
+That took 90 seconds. Manually: 30-45 minutes checking each product's website, pricing page, GitHub readme, and recent reviews.
+
+![Vendor evaluation — comparing self-hosted tools](https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&auto=format&fit=crop)
+*Side-by-side comparison that would normally take 30+ minutes of tab-switching — done in 90 seconds.*
 
 ## What You Need to Set This Up
 
