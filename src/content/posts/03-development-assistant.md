@@ -3,7 +3,7 @@ title: "OpenClaw as a Development Assistant"
 description: "Using an AI agent with file system access and shell commands to assist with development tasks — code review, repository management, CI/CD monitoring, and automated tooling."
 pubDate: 2026-03-26
 category: development
-tags: ["development", "coding", "ci-cd", "github", "tooling", "code-review", "testing", "pull-requests", "debugging", "production", "logs", "git-bisect", "multi-repo", "dependency-audit", "security", "stale-branches"]
+tags: ["development", "coding", "ci-cd", "github", "tooling", "code-review", "testing", "pull-requests", "debugging", "production", "logs", "git-bisect", "multi-repo", "dependency-audit", "security", "stale-branches", "vulnerability-scanning"]
 image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1200&auto=format&fit=crop"
 ---
 
@@ -300,6 +300,8 @@ You get a prioritized, context-aware breakdown instead of a raw vulnerability du
 **License compliance:** If you're distributing software or have strict license requirements (no GPL in proprietary projects, for example), OpenClaw can run `license-checker` or `npx license-checker --json` across your `node_modules` and flag problematic packages before they become an issue.
 
 **Automated dependency update summaries:** Before a major version upgrade, ask OpenClaw to run `npm view <package> versions` and compare with what's locked in your `package-lock.json`. It can draft a changelog summary of what would change, helping you decide whether to upgrade now or wait.
+
+![Dependency and security monitoring dashboard](https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=1200&auto=format&fit=crop)
 
 ## Limitations
 

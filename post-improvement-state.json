@@ -3,7 +3,7 @@
     "use-cases-category-pages": "2026-05-02",
     "01-smart-home-orchestration": "2026-05-17",
     "02-research-pipeline": "2026-05-19",
-    "03-development-assistant": "2026-05-05",
+    "03-development-assistant": "2026-05-19",
     "04-personal-secretary": "2026-05-06",
     "05-system-administration": "2026-05-07",
     "06-employee-scheduling": "2026-05-09",
@@ -13,6 +13,14 @@
     "10-financial-pulse": "2026-05-14"
   },
   "improvementHistory": [
+    {
+      "date": "2026-05-19",
+      "postSlug": "03-development-assistant",
+      "changes": [
+        "Added Unsplash security monitoring dashboard image after Dependency and Security Vulnerability Monitoring section",
+        "Added vulnerability-scanning tag"
+      ]
+    },
     {
       "date": "2026-05-19",
       "postSlug": "02-research-pipeline",
