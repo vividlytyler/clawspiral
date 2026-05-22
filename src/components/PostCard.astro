@@ -45,7 +45,7 @@ const difficultyColor = difficulty ? (difficultyColors[difficulty] ?? 'bg-slate-
   )}
   <a href={`/posts/${slug}`} class="block">
     <h2 class="font-semibold text-lg mb-2 group-hover:text-sky-400">{title}</h2>
-    <p class="text-slate-400 text-sm mb-3 leading-relaxed">{description}</p>
+    <p class="text-slate-400 text-sm mb-4 leading-relaxed">{description}</p>
     <div class="flex flex-wrap items-center gap-3 text-xs text-slate-500">
       <CategoryBadge category={category} />
       {difficulty && (
