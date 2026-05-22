@@ -227,6 +227,24 @@ What makes OpenClaw different from a simple cron job is memory:
 
 A secretary that forgets everything between conversations isn't very useful. OpenClaw's file-based memory system means context accumulates.
 
+### How Memory Integrates with Email and Calendar
+
+The pieces connect through the file system. Your `MEMORY.md` holds the running narrative:
+
+```
+# MEMORY.md (excerpt)
+- Tyler is the primary user
+- Works with Sarah Chen on Q2 budget items
+- Cloudflare Workers project pending deploy
+- Follow-ups stored in follow-ups/ directory
+```
+
+OpenClaw reads this at the start of every session. When email arrives about the Q2 budget, it knows who Sarah Chen is and surfaces the relevant context. When you're prepping for a meeting with her, it pulls anything recent from memory before you walk in. The `.ics` and IMAP are the inputs; `MEMORY.md` is the connective tissue.
+
+The follow-up system follows the same pattern — items live in `follow-ups/` as plain text files, readable and editable by you at any time. OpenClaw tracks state, you own the data.
+
+![A desk with an open laptop, notebook, and coffee — representing the physical-digital memory bridge](https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200&auto=format&fit=crop&q=80)
+
 ## Reminders and Follow-ups
 
 With cron scheduling, OpenClaw can:
@@ -307,6 +325,7 @@ That's the level of coherence you can achieve. It reads your `.ics`, checks weat
 - **No calendar write-back** — OpenClaw reads your `.ics` but can't modify it. For natural language scheduling ("book a call with John tomorrow at 3"), you'd need a full Calendar API integration.
 - **No SMTP sending** — can't send emails directly. It can draft them and save them as files, or route them through Telegram, but outbound email requires an external service.
 - **IMAP polling frequency** — email checks are pull-based. A heartbeat every 15–30 minutes is reasonable; tighter intervals increase API load and may hit rate limits.
+- **Memory staleness** — the value of the memory system depends on it actually being maintained. If `MEMORY.md` isn't updated regularly (which requires discipline), the context benefit degrades to near-zero. Treat your memory files like a shared notebook — useful only if both you and OpenClaw write to it.
 
 ## The Real Value
 
