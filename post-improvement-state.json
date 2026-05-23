@@ -5,7 +5,7 @@
     "01-smart-home-orchestration": "2026-05-17",
     "02-research-pipeline": "2026-05-19",
     "03-development-assistant": "2026-05-19",
-    "05-system-administration": "2026-05-07",
+    "05-system-administration": "2026-05-22",
     "06-employee-scheduling": "2026-05-09",
     "07-invoice-processing": "2026-05-09",
     "08-creative-brainstorming": "2026-05-10",
@@ -14,7 +14,15 @@
   },
   "improvementHistory": [
     {
-      "date": "2026-05-21",
+      "date": "2026-05-22",
+      "postSlug": "05-system-administration",
+      "changes": [
+        "Expanded Security Considerations section from 4 bullet points to a full threat model table (isolation, approval gates, network exposure, secret management, audit trail, rate limiting) with specific hardening steps and a practical 6-point checklist",
+        "Added Unsplash data center security image before expanded Security Considerations section",
+        "Added 'security-hardening' tag"
+      ]
+    },
+    {
       "postSlug": "04-personal-secretary",
       "changes": [
         "Added 'How Memory Integrates with Email and Calendar' section showing MEMORY.md structure and how it connects with .ics/IMAP inputs",
