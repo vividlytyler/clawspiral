@@ -3,7 +3,7 @@ title: "Creative Brainstorming and Ideation"
 description: "How OpenClaw can serve as a persistent creative partner — brainstorming sessions, seed ideas, developing concepts, and pushing past mental blocks."
 pubDate: 2026-03-27
 category: creative
-tags: ["brainstorming", "creative", "writing", "ideation", "music", "art", "constraints", "memory-files", "mental-blocks"]
+tags: ["brainstorming", "creative", "writing", "ideation", "music", "art", "constraints", "memory-files", "mental-blocks", "evaluation"]
 image: "https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=1200&auto=format&fit=crop"
 ---
 
@@ -128,6 +128,69 @@ uses the dependency as leverage in an unrelated negotiation.
 ```
 
 Starting from bad ideas gets you out of your own way. Clichés are useful as landing points you then push off from — once you've identified the obvious path, you know exactly what to avoid.
+
+## Evaluating Creative Directions
+
+Once you've generated a batch of ideas, the harder question is which one to pursue. OpenClaw can help you stress-test options before you commit time to them.
+
+**The constraint inversion test:** Take your top idea and ask — "What if the most important constraint in this idea is actually inverted? What does the opposite look like?" If you have a dark thriller, what would a light comedy with the same core conflict look like? You don't choose the opposite, but you understand what makes your direction distinct.
+
+**The "why this, why now" test:** Ask OpenClaw to articulate why this idea matters in 2026. Not the concept — the specific angle, the specific moment. If it can't answer that without sounding generic, the idea needs sharpening.
+
+**The 10-year test:** Would you still care about this project in 10 years? This isn't about whether it'll be popular — it's about whether the core question still interests you. Creative work takes time; knowing whether your interest is durable matters before you invest months.
+
+**The first draft test:** Ask OpenClaw to write the first 200 words of whatever you're considering. Not polished prose — raw first attempt. Does it make you want to keep reading, or does it feel like work already?
+
+```
+User: I have three directions for my novel: (1) protagonist inherits
+a failing bookstore and has to choose between saving it or taking
+an investment that would change it, (2) protagonist finds an
+anonymous letter in a used book that leads to a city-wide network
+of readers hiding banned books, (3) protagonist is a bookish person
+who becomes a literary detective追踪 a forger who's selling fake
+first editions. Run each through the four tests.
+
+OpenClaw: Direction 1 — "why this, why now" test: ... [concrete analysis]
+Direction 2 — stress test reveals the premise is doing more work than
+the character. The book-hiding network is inherently interesting but
+the protagonist is reactive rather than driving the action.
+Direction 3 — the first draft test surfaces that "bookish person
+becomes detective" is doing two genre moves at once. Might be
+splitting energy rather than combining it.
+```
+
+None of these tests are definitive. They're a way to surface assumptions before you've already committed.
+
+## Evaluating Your Own Work
+
+Creative judgment gets harder when you're close to something. OpenClaw can act as an outside reader — not an editor, but someone who reads without invested context.
+
+**What to ask:**
+- "What is this actually about?" — if the answer doesn't match your intent, that's useful information
+- "Where does this lose energy?" — pinpointing sagging middle sections
+- "What does this remind you of?" — if the answer is a specific other work, that's a comparison you'll have to either earn or deliberately subvert
+- "What is it NOT doing that it could?" — finds the gaps in your approach
+
+```
+User: Here's the first chapter of my novel. [paste 3000 words]
+Give me an honest read: what's working, what's not, and what's it
+actually about?
+
+OpenClaw: Working: your dialogue is clean and distinct per character.
+The opening image (wet dog shaking on a hardwood floor) does real
+heavy lifting — establishes both character backstory and tone.
+Not working: the third scene pivots too hard; we go from a quiet
+morning to a crisis that feels unearned. The pacing suggests you
+needed a plot event and inserted one.
+Actually about: control — specifically, the characters' different
+strategies for maintaining it in the face of circumstances that
+keep challenging it. The novel seems to be exploring whether that's
+a feature or a flaw.
+```
+
+Don't ask "is this good?" — ask "what is this doing and is that what I want?"
+
+---
 
 ![Creative brainstorming session with sticky notes on a whiteboard](https://images.unsplash.com/photo-1542744094-3a31f272c490?w=1200&auto=format&fit=crop)
 

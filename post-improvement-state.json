@@ -8,11 +8,20 @@
     "05-system-administration": "2026-05-22",
     "06-employee-scheduling": "2026-05-09",
     "07-invoice-processing": "2026-05-09",
-    "08-creative-brainstorming": "2026-05-10",
+    "08-creative-brainstorming": "2026-05-23",
     "09-experimental-edge-cases": "2026-05-13",
     "10-financial-pulse": "2026-05-14"
   },
   "improvementHistory": [
+    {
+      "date": "2026-05-23",
+      "postSlug": "08-creative-brainstorming",
+      "changes": [
+        "Added 'Evaluating Creative Directions' section covering four practical tests: constraint inversion, why-this-why-now, 10-year durability, and first-draft read — with concrete novel-direction example",
+        "Added 'Evaluating Your Own Work' section covering what to ask (what is this actually about, where does it lose energy, what does it remind you of, what is it NOT doing) with a first-chapter critique example",
+        "Added 'evaluation' and 'critique' tags"
+      ]
+    },
     {
       "date": "2026-05-22",
       "postSlug": "05-system-administration",
