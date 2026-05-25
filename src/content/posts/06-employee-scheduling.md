@@ -3,7 +3,7 @@ title: "Employee Scheduling for Small Businesses"
 description: "How OpenClaw can automate weekly scheduling — collecting availability, building schedules based on business rules, and delivering shift assignments via Telegram or WhatsApp."
 pubDate: 2026-03-26
 category: business-finance
-tags: ["scheduling", "small-business", "telegram", "whatsapp", "automation", "hr", "cron", "sick-day", "troubleshooting"]
+tags: ["scheduling", "small-business", "telegram", "whatsapp", "automation", "hr", "cron", "sick-day", "troubleshooting", "split-shifts"]
 image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&auto=format&fit=crop"
 featured: true
 ---
@@ -191,6 +191,42 @@ Maria: "I can work Dec 23 morning if someone needs it"
 Bot: "Thanks Maria. Dec 23 is a regular open day with normal coverage — I'll note the offer 
 in case we need a last-minute fill."
 ```
+
+#### Split Shifts
+
+Some businesses run split shifts — a lunch rush crew that goes home mid-afternoon, then a dinner crew that comes back. OpenClaw handles this the same way it handles any other shift pattern, with one key difference: the system tracks total hours worked across both windows, not just per shift.
+
+For a restaurant running split shifts:
+
+```json
+{
+  "shifts": [
+    { "name": "lunch-open",     "start": "10:00", "end": "15:00", "minStaff": 3, "window": "lunch" },
+    { "name": "lunch-close",    "start": "10:00", "end": "15:00", "minStaff": 2, "window": "lunch" },
+    { "name": "dinner-open",    "start": "17:00", "end": "22:00", "minStaff": 3, "window": "dinner" },
+    { "name": "dinner-close",   "start": "17:00", "end": "22:00", "minStaff": 2, "window": "dinner" }
+  ],
+  "splitShiftRules": {
+    "minGapBetweenWindows": "2h",
+    "countTotalHours": true
+  }
+}
+```
+
+OpenClaw generates lunch shifts and dinner shifts separately, then tracks that an employee who works both windows gets the combined hours counted toward their weekly max. The gap between windows is free time — OpenClaw doesn't schedule anything in that window for the same employee.
+
+A real split-shift availability exchange:
+
+```
+Maria: "I can work lunch shifts but need at least 3 hours off between my shifts"
+Bot: "Got it — noting min 3h gap between windows. I'll avoid double-booking you."
+Maria: "And I can't close more than 2 nights a week"
+Bot: "Noted — max 2 dinner-close shifts per week."
+```
+
+Without split-shift tracking, you'd have to manually check that someone working 10am–3pm and 5pm–10pm isn't being scheduled for a split that violates their availability. OpenClaw handles it automatically.
+
+---
 
 Without this holiday layer, managers end up manually tracking which days are special and who asked off before — exactly the kind of spreadsheet drift this system is meant to prevent.
 
