@@ -12,7 +12,7 @@ const currentPath = Astro.url.pathname;
 
 <header class="border-b border-slate-800 relative">
   <!-- Subtle gradient accent line -->
-  <div class="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-sky-500/40 to-transparent"></div>
+  <div class="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-sky-400/40 to-transparent"></div>
   <nav class="max-w-6xl mx-auto px-6 py-4">
     <!-- Logo row -->
     <div class="flex items-center justify-between mb-4">
@@ -21,19 +21,25 @@ const currentPath = Astro.url.pathname;
     </div>
     <!-- Nav row -->
     <ul class="flex flex-wrap gap-x-6 gap-y-2 text-sm">
-      {navLinks.map(({ href, label }) => (
-        <li>
-          <a
-            href={href}
-            class:list={[
-              'hover:text-sky-400 transition-colors',
-              currentPath === href ? 'text-sky-400' : 'text-slate-400',
-            ]}
-          >
-            {label}
-          </a>
-        </li>
-      ))}
+      {navLinks.map(({ href, label }) => {
+        const isActive = currentPath === href;
+        return (
+          <li class="relative">
+            {isActive && (
+              <span class="absolute -top-3 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-sky-400 shadow-[0_0_6px_rgba(56,189,248,0.8)]"></span>
+            )}
+            <a
+              href={href}
+              class:list={[
+                'hover:text-sky-400 transition-colors',
+                isActive ? 'text-sky-400' : 'text-slate-400',
+              ]}
+            >
+              {label}
+            </a>
+          </li>
+        );
+      })}
     </ul>
   </nav>
 </header>
