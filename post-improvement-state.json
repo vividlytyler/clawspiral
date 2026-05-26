@@ -7,12 +7,22 @@
     "03-development-assistant": "2026-05-19",
     "05-system-administration": "2026-05-22",
     "06-employee-scheduling": "2026-05-24",
-    "07-invoice-processing": "2026-05-09",
+    "07-invoice-processing": "2026-05-25",
     "08-creative-brainstorming": "2026-05-23",
     "09-experimental-edge-cases": "2026-05-13",
     "10-financial-pulse": "2026-05-14"
   },
   "improvementHistory": [
+    {
+      "date": "2026-05-25",
+      "postSlug": "07-invoice-processing",
+      "changes": [
+        "Added 'New Vendor Onboarding' section covering first-invoice verification flow, known-vendors.json structure with aliases and payment terms, and concrete GreenCloud Hosting example",
+        "Added 'Invoice fraud red flags' section covering name variations, new bank details, unusual amounts, and personal email senders",
+        "Added business-verification Unsplash image after new vendor onboarding section",
+        "Added 'cash-flow' and 'vendor-onboarding' tags"
+      ]
+    },
     {
       "date": "2026-05-24",
       "postSlug": "06-employee-scheduling",

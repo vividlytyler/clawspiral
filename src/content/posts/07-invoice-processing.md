@@ -4,7 +4,7 @@ description: "How OpenClaw can handle accounts payable and receivable — receiv
 pubDate: 2026-03-26
 category: business-finance
 difficulty: intermediate
-tags: ["invoicing", "accounting", "ocr", "ap", "ar", "automation", "email", "tesseract", "smtp", "reconciliation", "exceptions", "year-end", "tax-prep"]
+tags: ["invoicing", "accounting", "ocr", "ap", "ar", "automation", "email", "tesseract", "smtp", "reconciliation", "exceptions", "year-end", "tax-prep", "cash-flow", "vendor-onboarding"]
 featured: false
 image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1200&auto=format&fit=crop"
 ---
@@ -172,6 +172,51 @@ Rather than a single global threshold, build rules around vendors you trust vs. 
 ```
 
 New vendors (not in your vendor list) always get flagged regardless of amount — you confirm the bank details and entity before any money leaves. Known vendors with a good payment history get a higher implicit threshold.
+
+### New Vendor Onboarding
+
+Before paying a vendor for the first time, you want to confirm three things: the entity is real, the bank details match the entity name, and the invoice is actually from them.
+
+**The onboarding check:**
+
+```
+New vendor detected: GreenCloud Hosting — first invoice received
+  Invoice: INV-2026-0041, $299.00, due May 30
+
+→ Telegram alert: "New vendor 'GreenCloud Hosting' — verify before paying.
+  Is this a known entity? Bank details match company name? Receipt matches service?"
+
+Actions available:
+  [Approve & Add Vendor] → add to known-vendors.json, process normally
+  [Flag for Review]      → hold until confirmed
+  [Reject — Unknown]    → log as unverified, do not pay
+```
+
+Once you approve a vendor, add them to your `known-vendors.json` with their details:
+
+```json
+{
+  "name": "GreenCloud Hosting",
+  "aliases": ["GreenCloud", "GCHosting"],
+  "defaultCategory": "hosting",
+  "paymentTerms": "net-30",
+  "notes": "VPS hosting, account #GC-8841"
+}
+```
+
+Future invoices from GreenCloud route normally. If you get an invoice from "GreenCloud" but it's for a different account number or an unusual amount, OpenClaw flags it — vendors can have their names spoofed in invoice fraud, so the account-number drift is a useful signal.
+
+**Invoice fraud red flags** (things OpenClaw can't catch automatically, but you should watch for):
+- Vendor name spelled slightly differently than your known-vendors list
+- New bank details on a recurring vendor's invoice
+- Amount significantly higher than the historical range with no explanation
+- Invoice sent from a personal email address rather than a corporate domain
+
+OpenClaw can be configured to always require human approval for invoices over a certain amount from vendors marked as `new: true` in your config, regardless of the absolute amount.
+
+![Invoice processing workflow](https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1200&auto=format&fit=crop)
+
+![New vendor verification](https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=1200&auto=format&fit=crop)
 
 ### Recurring Bills
 
