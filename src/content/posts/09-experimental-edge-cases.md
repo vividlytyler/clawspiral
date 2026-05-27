@@ -124,6 +124,57 @@ When experiments go wrong in ways that aren't the point of the experiment:
 
 Document failures in the experiment log too. What didn't work is often more informative than what did.
 
+## Experiment 5: Tool Chain Fidelity
+
+**Hypothesis:** OpenClaw can execute a complex multi-step tool chain (write → exec → read → exec → write) and maintain fidelity through all intermediate steps without dropping or mangling outputs from earlier steps.
+
+**Setup:** Give it a task requiring a specific chained sequence — write a config file, exec a validation command, read the result, exec a corrective command based on that result, write an updated config, then confirm the final state.
+
+**What actually happened:**
+This is where things got genuinely interesting. The chain worked well for the first 2-3 steps. After that, two failure modes appeared consistently:
+
+First, **output truncation drift** — when `exec` returns long output, and the model then passes that output into the next `exec` or `write` call, truncation can cause subtle but critical information loss. For example: a configuration validation command returns 40 lines of error output, the model passes the first 20 lines to a corrective `sed` command, and the real error was in line 31.
+
+Second, **implicit assumption creep** — after several successful steps, the model starts skipping verification steps ("we can assume the previous command worked") and acting on assumptions rather than outputs. By step 4-5 of a 6-step chain, it was running commands that had no relationship to what the previous step actually produced.
+
+The fix: force explicit verification at each step. If you're building a tool chain, build it as an explicit loop with a check at every iteration, not as a linear sequence of tool calls.
+
+**Verdict:** Works reliably for 2-3 step chains with verified outputs. Beyond that, insert explicit checkpoints and don't let the model skip them.
+
+## A Structured Results Log
+
+Beyond the per-experiment file, running multiple experiments over time benefits from a cross-experiment results log — a single place where you record verdicts in a scannable format. Here's a structure that works:
+
+```markdown
+# Experiment Log
+
+| Date | Experiment | Hypothesis | Verdict | Key Finding |
+|------|------------|-----------|---------|-------------|
+| 2026-05-01 | Long-running autonomy | Multi-hour task without degradation | ⚠️ Partial | Citation hallucination in 3rd pass; cap at 2 passes |
+| 2026-05-03 | Multi-agent delegation | Parallel sub-agents with synthesis | ✅ Good | Works for embarrassingly parallel; fails for interdependent |
+| 2026-05-07 | Tool chain fidelity | 6-step chained tool sequence | ⚠️ Partial | Degrades after step 3; needs explicit checkpoints |
+```
+
+Verdicts in this format (`✅`, `⚠️`, `❌`) make it easy to scan your findings at a glance. Update the log after each experiment and review it monthly — patterns emerge that individual experiment files don't show.
+
+## Cross-Experiment Pattern Analysis
+
+After running several experiments, you start seeing patterns that no single experiment reveals:
+
+**Failure modes cluster into types:**
+- *Confidence mismatches* — the model acts more certain than it should (hallucinated citations, skipped verification)
+- *Context degradation* — quality drops as context grows (tool chains, state management)
+- *Emotional miscalibration* — responses that are technically correct but socially wrong
+- *Silent failures* — output looks fine but contains subtle errors
+
+**Experiment design affects results more than expected:**
+An experiment run with a fresh isolated session produces different results than one run inside a busy parent session. The session context bleeds in. Always note the session state in your methodology.
+
+**Time-of-day and token budget effects:**
+Long experiments run near the end of a token budget show degraded quality — not just mid-experiment checkpoints failing, but actual output quality degradation on the final steps. Run high-stakes experiments on a fresh budget.
+
+Understanding these patterns changes how you design future experiments. You start building in isolation, fresh budgets, and explicit checkpoints not because you're paranoid, but because you know what's likely to happen.
+
 ## What's Interesting About These Failures
 
 The interesting thing isn't that OpenClaw failed these experiments — every tool fails at its edges. The interesting thing is *how* it fails:

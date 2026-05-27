@@ -9,10 +9,20 @@
     "06-employee-scheduling": "2026-05-24",
     "07-invoice-processing": "2026-05-25",
     "08-creative-brainstorming": "2026-05-23",
-    "09-experimental-edge-cases": "2026-05-13",
+    "09-experimental-edge-cases": "2026-05-27",
     "10-financial-pulse": "2026-05-14"
   },
   "improvementHistory": [
+    {
+      "date": "2026-05-27",
+      "postSlug": "09-experimental-edge-cases",
+      "changes": [
+        "Added 'Experiment 5: Tool Chain Fidelity' covering 6-step tool chain degradation patterns — output truncation drift after step 3, implicit assumption creep by steps 4-5, and explicit checkpoint fix",
+        "Added 'A Structured Results Log' section with markdown table structure, verdict emoji system (✅/⚠️/❌), and cross-experiment scanning rationale",
+        "Added 'Cross-Experiment Pattern Analysis' section covering 4 failure mode clusters (confidence mismatches, context degradation, emotional miscalibration, silent failures), session context bleed effect, and token budget timing effects on output quality",
+        "Added tool-chain-fidelity, results-log, pattern-analysis, checkpoint-design tags"
+      ]
+    },
     {
       "date": "2026-05-25",
       "postSlug": "07-invoice-processing",
