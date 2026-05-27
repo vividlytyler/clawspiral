@@ -171,8 +171,11 @@ const categories = [
 
   {recentPosts.length > 0 && (
     <section class="mb-10">
-      <div class="flex items-center justify-between mb-5">
-        <h2 class="text-xl font-bold">More Use Cases</h2>
+      <div class="flex items-center justify-between mb-6">
+        <div class="flex items-center gap-3">
+          <span class="px-3 py-1 bg-slate-500/20 text-slate-400 text-xs font-semibold rounded-full">Latest</span>
+          <h2 class="text-2xl font-bold">More Use Cases</h2>
+        </div>
         <a href="/use-cases" class="text-sm text-sky-400 hover:text-sky-300 flex items-center gap-1 transition-colors">
           View all
           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
