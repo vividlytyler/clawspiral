@@ -10,9 +10,23 @@
     "07-invoice-processing": "2026-05-25",
     "08-creative-brainstorming": "2026-05-23",
     "09-experimental-edge-cases": "2026-05-27",
-    "10-financial-pulse": "2026-05-14"
+    "10-financial-pulse": "2026-05-27"
   },
   "improvementHistory": [
+    {
+      "date": "2026-05-27",
+      "postSlug": "10-financial-pulse",
+      "changes": [
+        "Added budget.json format example with monthly limits, alertAt thresholds, savingsGoals structure, and singleTransaction/newVendor thresholds",
+        "Added concrete anomaly detection examples: unusual timing/location ($347 Shell at 3:17 AM), amount outlier (2.6x Whole Foods norm), and first-time vendor conversion pattern",
+        "Added 'Real Example: The CloudStream Trap' — full 7-week story from $0.99 trial to $104.93 forgotten subscription to cancellation",
+        "Added concrete IMAP email parsing example with actual Chase alert email format showing extracted vendor, amount, date, and account fields",
+        "Added 'Savings Goals' section with progress bar format, on-track indicator, contribution rate comparison, and gap analysis",
+        "Fixed 'Spotif Premium' typo to 'Spotify Premium' in weekly digest example",
+        "Replaced hero image with lifestyle finance photo (person reviewing finances by sunny window)",
+        "Added tags: net-worth, savings-goals, investment-tracking, imap-parsing"
+      ]
+    },
     {
       "date": "2026-05-27",
       "postSlug": "09-experimental-edge-cases",
