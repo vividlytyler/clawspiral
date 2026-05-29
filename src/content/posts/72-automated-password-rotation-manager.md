@@ -2,7 +2,7 @@
 title: "Automated Password Rotation Manager"
 description: "OpenClaw tracks when you last changed critical account passwords, sends timed reminders before they become stale, and helps you execute rotations without re-using credentials across sites."
 pubDate: 2026-05-28
-category: security
+category: productivity
 tags: ["passwords", "security", "credentials", "rotation", "automation", "cron", "telegram", "account-safety"]
 image: "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=1200&auto=format&fit=crop"
 ---
