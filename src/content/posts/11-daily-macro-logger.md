@@ -148,6 +148,46 @@ You can always correct it: "that was actually closer to 30g protein, not 35." Op
 
 For high-stakes use cases (cutting for a show, medical diet), the user should verify critical entries. For general awareness, the estimates are good enough.
 
+### Edge Cases That Actually Come Up
+
+A few scenarios worth knowing how the system handles:
+
+**Mixed dishes.** A burrito bowl has rice, protein, toppings, sauce — all layered. OpenClaw reads each visible layer separately and sums them. If the photo is from above and obscures the bottom layer, it flags the base as estimated.
+
+**Condiments and sauces.** Gravy pooling on a plate, sauce on a pasta dish — these can add 100–300 calories unplanned. OpenClaw notes when it sees "likely sauce present, ±150 calories" rather than pretending precision it doesn't have.
+
+**Drinks without photos.** You got a coffee with oat milk. Was it a small or large? Latte or flat white? OpenClaw asks back if it can't infer from context, and if you don't answer, logs it as "estimated — clarify drink size." The model can be configured to remember your defaults after the first clarification.
+
+**Meals with no photo.** You text "had a protein bar" — no photo. OpenClaw logs it from text and flags it as "text-only entry" in the digest. That distinction matters in the weekly report so you know which data points are camera-verified and which are rough.
+
+**Restaurant where it knows the menu.** If photo metadata gives a GPS location and OpenClaw recognizes the restaurant chain, it looks up the item from the published menu and logs the exact nutrition data — no estimation. If the chain isn't in its database, it falls back to visual estimation and notes "menu match failed, visual estimate used."
+
+### What a Week Actually Looks Like
+
+The system works best when you just text normally. Here's three days of what that actually looks like:
+
+**Day 1 — gym day:**
+> **You:** "Pics from breakfast" [photo: eggs, toast, avocado]
+> **You:** "Protein shake post gym"
+> **You:** "Chicken and rice for dinner" [photo: large bowl]
+>
+> **OpenClaw digest (9:02 PM):** Protein 167g / 180g — 13g short. Greek yogurt before bed suggested.
+
+**Day 2 — rest day:**
+> **You:** "Small pasta lunch, 2 glasses wine"
+> **You:** "Salad for dinner, skipped carbs"
+>
+> **OpenClaw digest (9:00 PM):** Calories 1,541 / 2,200 — under target. Carbs only 112g. That second glass of wine is worth logging separately (125 cal) — added it.
+
+**Day 3 — restaurant:**
+> **You:** "Dinner at [GPS tag]" [photo: shared plates]
+>
+> **OpenClaw digest:** Restaurant meal: menu match on [Restaurant], 1,340 estimated calories. Flagged as camera-verified, menu-matched. Note: wine not visible in photo, you may want to add separately.
+
+The pattern is just texting. No app, no commands, no database searches. OpenClaw handles the categorization, estimation, and flagging without you thinking about it.
+
+![Colorful vitamin and supplement pills in organizers](https://images.unsplash.com/photo-1550572017-36a8c0e53e91?w=1200&auto=format&fit=crop)
+
 ## Setup Options
 
 ### Image Analysis Only
