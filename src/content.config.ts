@@ -32,6 +32,7 @@ const news = defineCollection({
     pubDate: z.date(),
     draft: z.boolean().default(false),
     storyOfTheDay: z.boolean().default(false),
+    image: z.string().optional(),
   }),
 });
 
