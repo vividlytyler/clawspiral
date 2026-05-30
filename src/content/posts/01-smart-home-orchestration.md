@@ -3,7 +3,7 @@ title: "Smart Home Orchestration with OpenClaw"
 description: "How OpenClaw can serve as the brain behind a smart home — coordinating devices, automating routines, and providing a natural language interface to your entire setup."
 pubDate: 2026-03-26
 category: home-automation
-tags: ["home-automation", "iot", "routines", "voice", "docker", "homeassistant", "mqtt", "smartthings", "security", "energy-management", "households", "multi-user", "permissions", "occupancy-detection", "pets", "guests", "departure-detection", "arrival-detection"]
+tags: ["home-automation", "iot", "routines", "voice", "docker", "homeassistant", "mqtt", "smartthings", "security", "energy-management", "households", "multi-user", "permissions", "occupancy-detection", "pets", "guests", "departure-detection", "arrival-detection", "geofencing", "battery-optimization"]
 image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&auto=format&fit=crop"
 ---
 
@@ -198,6 +198,36 @@ A few things OpenClaw can do without custom scripting:
 
 The energy data exists in HomeAssistant; OpenClaw just makes it queryable in plain English.
 
+## Geofencing: Presence Without a Button
+
+One of the most useful smart home patterns is "I'm home / I'm leaving" without pressing anything. OpenClaw can track this through network-level signals — primarily phone presence on Wi-Fi — and build a reliable geofence layer on top.
+
+**How it works.** OpenClaw monitors device tracker entities in HomeAssistant — your phone's connection state to the local network. When your phone appears on Wi-Fi after being gone, that's an arrival event. When it's gone for more than a configurable window, that's a departure. The window prevents false triggers from brief Wi-Fi drops.
+
+**Why it's better than pure HomeAssistant.** HomeAssistant can do this natively, but the logic gets tangled when multiple people are involved. OpenClaw handles the multi-person edge cases: "If the last person leaves but someone's phone is still on the network, don't fire the away scene." That's a four-line rule in OpenClaw that requires a complex template in HomeAssistant.
+
+**Battery optimization is the real enemy.** Phones disconnect from Wi-Fi aggressively to save battery. On iOS, the only reliable fix is disabling "Low Power Mode" for the HomeAssistant app and enabling "Background App Refresh." On Android, Wi-Fi scanning must be enabled in the app settings. Without this, geofencing accuracy drops to about 60-70%. With it, you're closer to 90%+.
+
+Here's what a full arrival/departure cycle looks like in Telegram:
+
+> **OpenClaw (6:02 PM):** "Welcome home. Garage door opened and your phone reconnected to Wi-Fi — setting your evening scene. Living room to 72°F, kitchen lights on."
+>
+> **You:** "Awesome"
+>
+> **OpenClaw (11:47 PM):** "Your phone left Wi-Fi range10 minutes ago and Tom's is still on the network. Not firing away mode yet — assumed you're just stepping out."
+
+And the departure side:
+
+> **OpenClaw (9:03 AM):** "Both phones left the network. Firing away mode — thermostat to 65°F, all lights off, security armed in 60 seconds unless someone checks in."
+>
+> **You:** "I'm just going to the store, cancel it"
+>
+> **OpenClaw:** "Cancelled. Thermostat and lights restored. No arm."
+
+That cancel loop is hard to build natively in most platforms. OpenClaw holds the state, waits for confirmation, and reverses if you respond in time.
+
+**GPS fallback.** If Wi-Fi presence is unreliable (large property, thick walls), HomeAssistant's mobile app provides GPS-based zone detection. Define a home zone radius in HomeAssistant, and arrival/departure fires based on GPS coords instead of Wi-Fi. Trade-off: GPS is slower to update (1-3 minute poll) and kills battery faster.
+
 ## The Docker Advantage
 
 For users running media servers via Docker (Jellyfin, Sonarr, Radarr, etc.), OpenClaw can:
@@ -222,6 +252,8 @@ A few specific things this looks like in practice:
 > OpenClaw checks recording schedule via Sonarr API before firing the restart.
 
 None of this requires custom scripts beyond what Docker already exposes. OpenClaw is the orchestrator reading the signals and deciding what to do.
+
+![Docker container management dashboard](https://images.unsplash.com/photo-1605745341112-85968b19335b?w=1200&auto=format&fit=crop)
 
 ## What You Need to Set This Up
 
