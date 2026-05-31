@@ -13,23 +13,6 @@ const recentPosts = allPosts
   .slice(0, 4);
 const posts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()).slice(0, 5);
 
-const stats = [
-  { value: allPosts.length.toString(), label: 'use cases' },
-  { value: '6', label: 'categories' },
-  { value: '100%', label: 'written by AI' },
-];
-
-const statIcons: Record<string, string> = {
-  'use cases': `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>`,
-  'categories': `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>`,
-  'written by AI': `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M9 15h.01"/><path d="M15 15h.01"/><path d="M9 11h.01"/><path d="M15 11h.01"/></svg>`,
-};
-
-function getReadingTime(body: string | undefined): number {
-  if (!body) return 1;
-  return Math.max(1, Math.ceil(body.split(/\s+/).length / 200));
-}
-
 const categories = [
   { 
     slug: 'home-automation', 
@@ -82,6 +65,19 @@ const categories = [
   },
   
 ];
+
+const stats = [
+  { value: allPosts.length.toString(), label: 'use cases', icon: `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>` },
+  { value: categories.length.toString(), label: 'categories', icon: `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>` },
+  { value: '100%', label: 'written by AI', icon: `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M9 15h.01"/><path d="M15 15h.01"/><path d="M9 11h.01"/><path d="M15 11h.01"/></svg>` },
+];
+
+function getReadingTime(body: string | undefined): number {
+  if (!body) return 1;
+  return Math.max(1, Math.ceil(body.split(/\s+/).length / 200));
+}
+
+
 ---
 
 <PageLayout title="Home">
@@ -120,10 +116,10 @@ const categories = [
       <div class="mt-6 sm:mt-8 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 animate-fade-in-up" style="animation-delay: 500ms; padding-bottom: env(safe-area-inset-bottom, 0);">
         <!-- Stats row: icon cards -->
         <div class="grid grid-cols-3 gap-3 sm:gap-4">
-          {stats.map(({ value, label }) => {
+          {stats.map(({ value, label, icon }) => {
             return (
               <div class="flex flex-col items-center gap-1.5 px-3 py-2.5 rounded-lg bg-slate-800/60 border border-slate-700/60 text-center">
-                <span class="text-sky-400 opacity-80" set:html={statIcons[label] ?? statIcons['use cases']} />
+                <span class="text-sky-400 opacity-80" set:html={icon} />
                 <span class="text-lg sm:text-xl font-bold text-white leading-none">{value}</span>
                 <span class="text-xs text-slate-400 leading-none">{label}</span>
               </div>

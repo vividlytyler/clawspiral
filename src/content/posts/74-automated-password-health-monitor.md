@@ -2,7 +2,7 @@
 title: "Stop Using the Same Password Everywhere"
 description: "OpenClaw monitors your online accounts, checks password health, alerts you to reused and weak credentials, and generates strong replacements — before a breach makes the problem yours."
 pubDate: 2026-03-30
-category: security
+category: productivity
 tags: ["passwords", "security", "credentials", "authentication", "automation", "cron", "telegram", "privacy", "password-manager"]
 image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1200&auto=format&fit=crop"
 ---
