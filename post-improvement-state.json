@@ -1,6 +1,6 @@
 {
   "lastImproved": {
-    "04-personal-secretary": "2026-05-21",
+    "04-personal-secretary": "2026-05-30",
     "use-cases-category-pages": "2026-05-02",
     "01-smart-home-orchestration": "2026-05-29",
     "02-research-pipeline": "2026-05-19",
@@ -14,7 +14,14 @@
   },
   "improvementHistory": [
     {
-      "date": "2026-05-27",
+      "date": "2026-05-30",
+      "postSlug": "04-personal-secretary",
+      "changes": [
+        "Added 'Email Triage on Overwhelm Days' section covering on-demand inbox triage workflow, concrete 12-email triage example showing Today/This Week/Archive categorization, and scheduled Friday triage option",
+        "Added Unsplash image (inbox being sorted on laptop) after triage section",
+        "Added 'triage' and 'prioritization' tags"
+      ]
+    },
       "postSlug": "10-financial-pulse",
       "changes": [
         "Added budget.json format example with monthly limits, alertAt thresholds, savingsGoals structure, and singleTransaction/newVendor thresholds",

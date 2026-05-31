@@ -3,7 +3,7 @@ title: "Your Personal Secretary: Email, Calendar, and Reminders"
 description: "How OpenClaw can act as a persistent, memory-aware assistant for managing email, calendar events, and contextual reminders — without subscribing to another SaaS."
 pubDate: 2026-03-26
 category: lifestyle-wellness
-tags: ["email", "calendar", "reminders", "productivity", "memory", "ical", "imap", "telegram", "follow-up", "workflow", "cron", "telegram-commands", "control-interface"]
+tags: ["email", "calendar", "reminders", "productivity", "memory", "ical", "imap", "telegram", "follow-up", "workflow", "cron", "telegram-commands", "control-interface", "triage", "prioritization"]
 image: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=1200&auto=format&fit=crop"
 ---
 
@@ -87,6 +87,34 @@ OpenClaw can't send outbound email natively, but it can draft them — and you h
 **Option 3: CC/BCC forwarding.** Set up a rule where OpenClaw sends to itself via an external service (Mailgun, SendGrid), then your email client picks it up via filtering.
 
 The drafting quality is where OpenClaw shines. Given a thread context and a goal ("write a reply declining the proposal but keep the door open"), it produces coherent, context-aware responses. The delivery mechanism is the solvable part.
+
+### Email Triage on Overwhelm Days
+
+Sometimes email piles up faster than you can handle it. OpenClaw can run an inbox triage session on demand — you forward it the batch, it sorts and prioritizes:
+
+**You forward** a chain of 12 emails from a busy week and say: *"Triage these. Flag what needs a reply today, batch what can wait, and summarize anything I'm missing."*
+
+**OpenClaw responds with:**
+
+> **Today (3 items)**
+> - Sarah Chen re: Q2 Budget — decision needed before Friday board meeting. Hasn't heard from you in 5 days.
+> - AWS re: Reserved Instance renewal — $2,400, due in 72h, auto-renews if no action.
+> - Jordan Lee re: API spec — follow-up on Tuesday's review, waiting for your sign-off.
+>
+> **This week (5 items)**
+> - Conference acceptance (keep for travel planning)
+> - Newsletter batch (unsubscribe candidates)
+> - Vendor invoice (auto-routed to accounting)
+>
+> **Archive / ignore (4 items)**
+> - Promotion announcements from SaaS tools
+> - Calendar confirmations for events you already know about
+
+The categorization criteria come from your own stated preferences — you tell OpenClaw once what "urgent" means to you (e.g., anything from Sarah, anything with a deadline in the subject, anything over $1,000), and it applies those rules consistently. This isn't just keyword filtering — it reads the content and applies judgment.
+
+You can also run triage on a schedule: *"Every Friday at 4 PM, scan inbox for anything I missed and surface items needing weekend follow-up."* The output stays actionable rather than just a longer to-do list.
+
+![Email triage — an overflowing inbox being sorted into organized categories on a laptop screen](https://images.unsplash.com/photo-1586953208448-b95a79798f07?w=1200&auto=format&fit=crop&q=80)
 
 ### Limitations
 
