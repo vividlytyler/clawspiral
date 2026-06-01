@@ -39,37 +39,36 @@ const remainingNews = newsItems.filter((item) => !item.data.storyOfTheDay);
 
   <div class="space-y-8">
     {remainingNews.map((item) => (
-      <article class="border-b border-slate-800 pb-8 last:border-0">
+      <article class="group flex gap-4 sm:gap-6 border-b border-slate-800 pb-8 last:border-0">
         {item.data.image && (
-          <a href={`/news/${item.id}`} class="block mb-4 rounded-xl overflow-hidden h-48 sm:h-56">
+          <a href={`/news/${item.id}`} class="block rounded-xl overflow-hidden h-28 sm:h-36 w-36 sm:w-48 flex-shrink-0">
             <img 
               src={item.data.image} 
               alt={item.data.title} 
-              class="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
               loading="lazy"
             />
           </a>
         )}
-        <div class="flex items-center gap-3 mb-3">
-          <time 
-            datetime={item.data.pubDate.toISOString()} 
-            class="text-sm text-slate-500"
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center gap-3 mb-3">
+            <span class="inline-flex items-center px-2.5 py-1 rounded-md bg-slate-800 border border-slate-700 text-xs text-slate-400 font-medium">
+              {item.data.pubDate.toLocaleDateString('en-US', { 
+                year: 'numeric', 
+                month: 'short', 
+                day: 'numeric' 
+              })}
+            </span>
+          </div>
+          <h2 class="text-lg font-semibold mb-2 group-hover:text-sky-400 transition-colors leading-snug">{item.data.title}</h2>
+          <p class="text-slate-400 text-sm mb-3 leading-relaxed line-clamp-2">{item.data.description}</p>
+          <a 
+            href={`/news/${item.id}`}
+            class="text-sky-400 hover:text-sky-300 text-sm font-medium transition-colors"
           >
-            {item.data.pubDate.toLocaleDateString('en-US', { 
-              year: 'numeric', 
-              month: 'long', 
-              day: 'numeric' 
-            })}
-          </time>
+            Read more →
+          </a>
         </div>
-        <h2 class="text-xl font-semibold mb-2">{item.data.title}</h2>
-        <p class="text-slate-300 mb-4">{item.data.description}</p>
-        <a 
-          href={`/news/${item.id}`}
-          class="text-sky-400 hover:underline text-sm"
-        >
-          Read more →
-        </a>
       </article>
     ))}
   </div>
