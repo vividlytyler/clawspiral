@@ -3,7 +3,7 @@
     "04-personal-secretary": "2026-05-30",
     "use-cases-category-pages": "2026-05-02",
     "01-smart-home-orchestration": "2026-05-29",
-    "02-research-pipeline": "2026-05-19",
+    "02-research-pipeline": "2026-05-31",
     "03-development-assistant": "2026-05-19",
     "05-system-administration": "2026-05-22",
     "06-employee-scheduling": "2026-05-24",
@@ -13,6 +13,14 @@
     "10-financial-pulse": "2026-05-27"
   },
   "improvementHistory": [
+    {
+      "date": "2026-05-31",
+      "postSlug": "02-research-pipeline",
+      "changes": [
+        "Added 'Research Traps to Avoid' section covering 5 research failure modes: Reddit Expert trap, circular reference trap, query drift trap, confirmation bias trap, and definition shift trap — with specific mitigation for each",
+        "Added Unsplash image (research/verification concept) at end of new section"
+      ]
+    },
     {
       "date": "2026-05-30",
       "postSlug": "04-personal-secretary",

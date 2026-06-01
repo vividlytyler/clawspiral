@@ -321,3 +321,22 @@ Before acting on research output, run through this:
 - [ ] **Delivery received** — Did the output actually make it somewhere you check?
 
 The pipeline doesn't eliminate the need for human judgment — it eliminates the tedium of initial information gathering.
+
+## Research Traps to Avoid
+
+The pipeline finds information. It can't tell you if the information is trustworthy. Here's where research goes wrong in ways the pipeline won't catch for you:
+
+**The Reddit Expert trap** — Someone posts a detailed answer on Reddit with confident claims about a product, a technology, a benchmark. It sounds authoritative. You fetch the thread, synthesize it, cite it. The problem: Reddit posts have no peer review. The "expert" is often one person with a sample size of one, working from memory, with incentives to confirm their purchase decision. The fix: treat Reddit as a lead, not a source. Verify claims against docs, official benchmarks, or multiple corroborating posts.
+
+**The circular reference trap** — You find the same claim on five different sites. They must be independent sources! But checking the actual source reveals Site A published the claim in 2023. Sites B through E all cite Site A. There is one source, not five. The fix: when you see the same claim repeated across sites, stop and trace it back to the origin. Check when the original was published and whether subsequent sites added independent verification.
+
+**The query drift trap** — You start researching "best LLM for code generation 2026." Thirty minutes later, you've consumed 6,000 tokens on variations: "claude vs chatgpt coding," "openai o3 coding benchmarks," "local LLM code generation." You have answers to three slightly different questions and no clean synthesis of the first one. The fix: before each pipeline run, re-read your original question. Does this query still serve it? If not, log the new question for a separate run.
+
+**The confirmation bias trap** — You have a hypothesis. You research it. You notice the pipeline returns results that support your hypothesis. This feels like validation — but it's not. The pipeline is matching your query, not evaluating your hypothesis. The fix: after synthesis, ask "what would change my mind?" If you can't answer that, your research isn't complete.
+
+**The definition shift trap** — You research "serverless computing" and find sources from 2018 and 2026. The 2018 sources use "serverless" to mean functions-as-a-service (Lambda). The 2026 sources use it to mean containerized microservices with serverless pricing. You synthesize both without realizing you're mixing definitions. The fix: note the source date next to each claim, and flag definitions that appear to have shifted over time.
+
+These traps aren't failures of the pipeline — they're failures of how research is scoped and interpreted. The pipeline finds. You judge.
+
+![Research quality — separating signal from noise](https://images.unsplash.com/photo-1434626881859-194d67b2b86f?w=1200&auto=format&fit=crop)
+*Good research separates verified facts from confident opinions — the pipeline finds both, but only you can tell which is which.*
