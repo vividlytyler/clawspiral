@@ -4,7 +4,7 @@
     "use-cases-category-pages": "2026-05-02",
     "01-smart-home-orchestration": "2026-05-29",
     "02-research-pipeline": "2026-05-31",
-    "03-development-assistant": "2026-05-19",
+    "03-development-assistant": "2026-06-01",
     "05-system-administration": "2026-05-22",
     "06-employee-scheduling": "2026-05-24",
     "07-invoice-processing": "2026-05-25",
@@ -13,6 +13,16 @@
     "10-financial-pulse": "2026-05-27"
   },
   "improvementHistory": [
+    {
+      "date": "2026-06-01",
+      "postSlug": "03-development-assistant",
+      "changes": [
+        "Added 'A Day in the Life: Development Assistant in Practice' section — full day timeline (morning triage, mid-morning code review, lunch CI failure fix, afternoon test coverage, end-of-day PR shipping) with concrete workflow examples",
+        "Added Unsplash developer workspace image (multi-monitor setup with CI dashboard) after Day in the Life section",
+        "Fixed duplicate 'What You Need to Set This Up' section — consolidated into one, moved Multi-Repo Management under it properly",
+        "Added 'development-workflow' tag"
+      ]
+    },
     {
       "date": "2026-05-31",
       "postSlug": "02-research-pipeline",
