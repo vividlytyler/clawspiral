@@ -87,6 +87,26 @@ a:hover {
   z-index: 1;
 }
 
+/* PostCard hover glow — sky-colored shimmer on hover */
+.post-card-glow {
+  position: relative;
+  overflow: hidden;
+}
+.post-card-glow::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(56,189,248,0.2), rgba(129,140,248,0.15));
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  pointer-events: none;
+  z-index: 0;
+}
+.post-card-glow:hover::before {
+  opacity: 1;
+}
+
 /* Glow effect */
 .glow {
   position: relative;
