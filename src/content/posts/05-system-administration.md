@@ -422,6 +422,8 @@ For all remote access methods: keep the SSH key on your client machine, not on t
 
 Beyond monitoring, OpenClaw can actively tune your system based on observed behavior:
 
+![System performance monitoring terminal showing resource graphs](https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&auto=format&fit=crop)
+
 **Container resource tuning:**
 After a week of `docker stats` data, OpenClaw can recommend memory limits:
 > *"Plex averaged 7.2G RAM over the last 7 days but is capped at 4G — it's been swapping. Recommend setting `mem_limit: 8G` in the Plex compose file to eliminate transcoding stutters."*
@@ -456,6 +458,38 @@ throttled=$(vcgencmd get_throttled)
 echo $throttled
 ```
 On Raspberry Pi or systems with `vcgencmd`, OpenClaw can detect if the CPU has been throttled due to heat and suggest cooling improvements.
+
+## Disk I/O Monitoring
+
+Beyond disk space (which `df -h` covers), I/O bottlenecks can slow down your entire system without showing up as high CPU or memory usage:
+
+**Check disk I/O stats:**
+```bash
+iostat -x 1 5
+```
+OpenClaw parses the output and identifies:
+- High `%util` (disk saturation — if consistently >80%, you have an I/O bottleneck)
+- High `await` (average time in milliseconds for I/O requests — SSDs should be <1ms, HDDs <20ms)
+- Large `avgqu-sz` (queue depth — how many requests are waiting)
+
+**Find what's causing I/O:**
+```bash
+iotop -b -n 3
+```
+OpenClaw can run this during a slow period and show you which process is thrashing the disk — useful for tracking down a runaway log writer or a container with a disk leak.
+
+**Identify heavy write loads:**
+```bash
+find /var/lib/docker/containers -name "*-json.log" -exec ls -lh {} \; | sort -k5 -h
+```
+Large Docker log files can sometimes be the culprit. OpenClaw can rotate or truncate them with `truncate --size 0`.
+
+**SSD health monitoring (SMART):**
+```bash
+smartctl -H /dev/sda
+smartctl -A /dev/sda | grep -E "Reallocated_Sector|Current_Pending_Sector|Offline_Uncorrectable"
+```
+For systems where `smartctl` is available, OpenClaw checks attribute 5 (reallocated sectors), 197 (current pending sector count), and 198 (offline uncorrectable). A rising count on any of these is an early warning sign before failure.
 
 ## Limitations
 
