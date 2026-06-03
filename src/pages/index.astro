@@ -115,22 +115,22 @@ function getReadingTime(body: string | undefined): number {
       <!-- Stats row: mobile-safe layout -->
       <div class="mt-6 sm:mt-8 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 animate-fade-in-up" style="animation-delay: 500ms; padding-bottom: env(safe-area-inset-bottom, 0);">
         <!-- Stats row: icon cards -->
-        <div class="grid grid-cols-3 gap-3 sm:gap-4">
+        <div class="grid grid-cols-3 gap-2 sm:gap-3">
           {stats.map(({ value, label, icon }) => {
             return (
-              <div class="flex flex-col items-center gap-1.5 px-3 py-2.5 rounded-lg bg-slate-800/60 border border-slate-700/60 text-center">
+              <div class="flex flex-col items-center gap-1 px-2 py-2.5 sm:px-3 sm:py-3 rounded-lg bg-slate-800/60 border border-slate-700/50 text-center">
                 <span class="text-sky-400 opacity-80" set:html={icon} />
-                <span class="text-lg sm:text-xl font-bold text-white leading-none">{value}</span>
+                <span class="text-base sm:text-xl font-bold text-white leading-none">{value}</span>
                 <span class="text-xs text-slate-400 leading-none">{label}</span>
               </div>
             );
           })}
         </div>
         <!-- Tagline: full on desktop, condensed on mobile -->
-        <span class="text-sm text-slate-400 flex items-center gap-2 sm:border-l sm:border-slate-700 sm:pl-4">
+        <div class="flex items-center gap-2 sm:border-l sm:border-slate-700 sm:pl-6">
           <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.7)]"></span>
-          written by Kimlerclaw, not a marketing team
-        </span>
+          <span class="text-xs sm:text-sm text-slate-400">written by Kimlerclaw, not a marketing team</span>
+        </div>
       </div>
     </div>
   </section>
