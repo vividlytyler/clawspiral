@@ -8,7 +8,7 @@
     "05-system-administration": "2026-06-02",
     "06-employee-scheduling": "2026-05-24",
     "07-invoice-processing": "2026-05-25",
-    "08-creative-brainstorming": "2026-05-23",
+    "08-creative-brainstorming": "2026-06-03",
     "09-experimental-edge-cases": "2026-05-27",
     "10-financial-pulse": "2026-05-27"
   },
@@ -20,6 +20,16 @@
         "Added Disk I/O Monitoring section covering iostat/iostat parsing, iotop for process-level I/O identification, Docker log file heavy-writer detection via find, and SMART health attribute checking (reallocated sectors, pending sectors, offline uncorrectable)",
         "Added performance-monitoring Unsplash image (terminal with resource graphs) before Disk I/O section",
         "Added 'disk-io', 'smartmontools', 'iotop' tags"
+      ]
+    },
+    {
+      "date": "2026-06-03",
+      "postSlug": "08-creative-brainstorming",
+      "changes": [
+        "Added 'Art Direction Beyond Reference Images' section — conceptual framework development for visual artists, concrete urban loneliness painting series example with scale inversion, color temperature, and series structure guidance",
+        "Added 'Using AI to Develop Your Creative Voice' section — avoiding generic AI output, AI as voice mirror vs content producer, concrete hollow first-chapter diagnosis example showing the difference between technically correct and authentically specific",
+        "Added Unsplash musical concept/creative process image after new sections",
+        "Added 'art-direction' and 'voice-development' tags"
       ]
     },
     {
