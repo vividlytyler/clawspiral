@@ -14,6 +14,13 @@
   },
   "improvementHistory": [
     {
+      "date": "2026-06-04",
+      "page": "use-cases/index.astro",
+      "changes": [
+        "Changed search input placeholder from generic 'Find use cases by keyword, category, or task...' to actionable examples 'e.g. home automation, invoice processing, fitness...' — warmer, more inviting, reduces cognitive load"
+      ]
+    },
+    {
       "date": "2026-06-02",
       "postSlug": "05-system-administration",
       "changes": [
