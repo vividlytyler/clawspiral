@@ -418,4 +418,16 @@ Without the confirm loop, there's no way to know if a WhatsApp message was seen 
 
 ## The Real Value
 
-For a 10-person coffee shop, this saves 2-4 hours of manager time per week and eliminates the "I didn't know I was working Saturday" problem. Employees get their schedules automatically; managers just review conflicts.
+For a 10-person coffee shop, this saves 2–4 hours of manager time per week and eliminates the "I didn't know I was working Saturday" problem. But the real win is harder to quantify: employees stop feeling like they're chasing down their own schedules.
+
+**Where the time goes.** A manual scheduling run looks like this: (1) message everyone for availability — 30 min of chasing unresponsives, (2) build draft in spreadsheet — 45 min with VersionConflict.xlsx floating around, (3) send draft and collect conflicts — unpredictable back-and-forth over 1–2 days, (4) resolve conflicts and finalize — another 30–60 min, (5) communicate final schedule — 20 min of individual messages. That's 2.5–4.5 hours of manager attention, every week, for something that should be automatic.
+
+OpenClaw collapses that to: cron fires, 2-minute conflict review via Telegram, schedule delivered. Everything else is handled. The manager stays in the loop for exceptions, not for process.
+
+**Where it breaks down.** The schedule is only as good as the availability data. If employees learn that OpenClaw accepts "I'm available whenever" and doesn't follow up, the system starts generating schedules nobody actually wants. The manager's job shifts from building schedules to reviewing boundary cases — which is the right job for a manager.
+
+**The compliance layer.** For shops in California, New York, or Chicago, the weekly schedule becomes a compliance artifact. OpenClaw's CSV export with timestamps gives you a defensible record of what was scheduled and when, which matters if a sick-day dispute or predictive scheduling claim comes in. The system won't catch every legal nuance, but it creates the paper trail that shows what actually happened.
+
+**Signs you may be outgrowing it.** Chat-based scheduling works well up to about 20 employees. Beyond that, the availability volume starts to overwhelm the interface — too many messages, too many conflicts, too many edge cases. The signs: (1) managers are spending more than 30 min/day on scheduling exceptions, (2) employees start going around the bot to text the manager directly about shifts, (3) the schedule file becomes a complex special-case mess. At that point, dedicated rostering software makes more sense — and OpenClaw's CSV export means you haven't lost any data in the transition.
+
+For teams under 15, the chat interface is a feature, not a limitation. Employees already message about shifts anyway; now the tool reads and writes that conversation instead of the manager translating between both.
