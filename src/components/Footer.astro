@@ -67,7 +67,7 @@ const footerLinks = {
                     rel={href.startsWith('http') ? 'noopener' : undefined}
                     class="inline-flex items-center gap-1.5 text-sm text-slate-400 hover:text-sky-400 transition-colors"
                   >
-                    <span set:html={icons[icon] ?? ''} />
+                    <span set:html={icons[icon] ?? ''} class="text-inherit" />
                     {label}
                   </a>
                 </li>
