@@ -4,7 +4,7 @@ description: "How OpenClaw can handle accounts payable and receivable — receiv
 pubDate: 2026-03-26
 category: business-finance
 difficulty: intermediate
-tags: ["invoicing", "accounting", "ocr", "ap", "ar", "automation", "email", "tesseract", "smtp", "reconciliation", "exceptions", "year-end", "tax-prep", "cash-flow", "vendor-onboarding"]
+tags: ["invoicing", "accounting", "ocr", "ap", "ar", "automation", "email", "tesseract", "smtp", "reconciliation", "exceptions", "year-end", "tax-prep", "cash-flow", "vendor-onboarding", "ledger-structure", "bank-reconciliation"]
 featured: false
 image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1200&auto=format&fit=crop"
 ---
@@ -326,6 +326,26 @@ Date,Description,Amount,Running Balance
 
 OpenClaw normalizes the descriptions (strips EFT/wire/ACH suffixes, lowercases) before matching against vendor names in the ledger. Exact amount match on the due date (or within a 3-day window) creates the auto-match. Unmatched debits get flagged: something left your account that isn't in the ledger. Unmatched credits work the same way — a payment that arrived but wasn't recorded.
 
+**What your ledger file actually looks like in practice.** A fully populated `ledger.csv` after a few months of running:
+
+```
+vendor,invoice_number,date,due_date,amount,category,paid,paid_date,method,ref,notes
+Acme Supplies,INV-2024-0892,2024-03-15,2024-04-14,1247.50,office supplies,TRUE,2024-04-14,bank transfer,TXN-8841,
+ServerCo,INV-2024-0901,2024-04-01,2024-04-20,3840.00,server hosting,FALSE,,,,over threshold — pending approval
+Linode,LIN-0041,2024-04-01,2024-04-15,120.00,hosting,TRUE,2024-04-14,credit card,LP-4412,auto-entered recurring
+Office Depot,INV-2024-0888,2024-03-10,2024-04-10,234.00,office supplies,TRUE,2024-04-10,bank transfer,TXN-8799,
+GreenCloud Hosting,INV-2026-0041,2026-05-01,2026-05-30,299.00,hosting,FALSE,,,,new vendor — first invoice held for review
+Widget Corp,INV-2026-0004,2026-03-28,2026-04-27,3289.20,client project,TRUE,2026-04-25,wire,TXN-9001,AR — paid in full
+```
+
+A few things to notice in this example:
+- **Paid** invoices have `paid_date`, `method`, and `ref` filled in — full audit trail
+- **Pending approval** invoices have the amount but blank payment fields — awaiting human decision
+- **Auto-entered recurring** invoices are marked paid immediately since they're expected and verified
+- **New vendor** invoices stay in `FALSE` until you manually confirm and approve
+
+The `notes` column is free-form and useful for tracking context that doesn't fit elsewhere — hold reasons, payment plan details, dispute notes. OpenClaw appends to it rather than overwriting, so nothing gets lost.
+
 ### Late Payment Escalation
 
 The follow-up sequence covers polite nudges. But some invoices need escalation beyond that — and it helps to think about what escalation actually looks like before you're in the moment.
@@ -500,7 +520,15 @@ Create `ledger-2026.csv` (or whatever your accounting software prefers) and carr
 
 ---
 
-![Reconciliation and payments](https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1200&auto=format&fit=crop)
+![Business ledger and invoice tracking](https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&auto=format&fit=crop)
+
+## Related Use Cases
+
+- [**Employee Scheduling**](/use-cases/employee-scheduling) — payroll runs off the same schedule data this invoice system tracks; import hours worked and pay vendors/interns the same way
+- [**Financial Pulse**](/use-cases/financial-pulse) — if you're tracking invoices manually, the bank feed and anomaly detection from Financial Pulse complements this workflow; AP/AR reconciled against a budget adds a second layer of oversight
+- [**Personal Secretary**](/use-cases/personal-secretary) — email intake, follow-up tracking, and calendar integration work well alongside invoice processing; a Q2 Budget Review meeting prep can pull accounts payable summaries directly from the ledger
+
+---
 
 ## The Real Value
 

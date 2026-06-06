@@ -7,13 +7,22 @@
     "03-development-assistant": "2026-06-01",
     "05-system-administration": "2026-06-02",
     "06-employee-scheduling": "2026-06-04",
-    "07-invoice-processing": "2026-05-25",
+    "07-invoice-processing": "2026-06-06",
     "08-creative-brainstorming": "2026-06-03",
     "09-experimental-edge-cases": "2026-05-27",
     "10-financial-pulse": "2026-05-27"
   },
   "improvementHistory": [
     {
+      "date": "2026-06-06",
+      "postSlug": "07-invoice-processing",
+      "changes": [
+        "Added full multi-row ledger.csv example showing paid/pending/new-vendor/auto-recurring rows with all fields populated — demonstrates what a real ledger looks like after months of running",
+        "Replaced duplicate hero image at bottom (was same as top) with a business ledger/analytics dashboard Unsplash image",
+        "Added 'Related Use Cases' section cross-linking to Employee Scheduling, Financial Pulse, and Personal Secretary — shows how invoice processing connects to other workflows",
+        "Added 'ledger-structure' and 'bank-reconciliation' tags"
+      ]
+    },
       "date": "2026-06-04",
       "page": "use-cases/index.astro",
       "changes": [
