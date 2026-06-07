@@ -35,9 +35,17 @@ const difficultyColors: Record<string, string> = {
   advanced: 'bg-red-900/80 text-red-300',
 };
 const difficultyColor = difficulty ? (difficultyColors[difficulty] ?? 'bg-slate-700 text-slate-300') : '';
+const categoryAccentColor = categoryColors[category]?.accent ?? '#38bdf8'; // sky-400 fallback
 ---
 
-<article class={`group p-5 rounded-lg border border-sky-500/30 bg-gradient-to-br from-slate-800/60 to-slate-900/60 hover:-translate-y-1 hover:shadow-lg hover:shadow-black/20 hover:border-sky-500/60 transition-all duration-200 post-card-glow`}>
+<article class={`relative group p-5 rounded-lg border border-sky-500/30 bg-gradient-to-br from-slate-800/60 to-slate-900/60 hover:-translate-y-1 hover:shadow-lg hover:shadow-black/20 hover:border-sky-500/60 transition-all duration-200 post-card-glow ${!image ? 'pt-5' : ''}`}>
+  {!image && (
+    <div
+      class="absolute top-0 left-4 right-4 h-1 rounded-full opacity-60"
+      style={`background: linear-gradient(to right, ${categoryAccentColor}, transparent);`}
+      aria-hidden="true"
+    ></div>
+  )}
   {image && (
     <a href={`/posts/${slug}`} class="block mb-3 -mt-1 rounded-lg overflow-hidden h-32">
       <img src={image} alt={title} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy" />
