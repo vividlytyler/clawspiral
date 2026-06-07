@@ -9,10 +9,20 @@
     "06-employee-scheduling": "2026-06-04",
     "07-invoice-processing": "2026-06-06",
     "08-creative-brainstorming": "2026-06-03",
-    "09-experimental-edge-cases": "2026-05-27",
+    "09-experimental-edge-cases": "2026-06-06",
     "10-financial-pulse": "2026-05-27"
   },
   "improvementHistory": [
+    {
+      "date": "2026-06-06",
+      "postSlug": "09-experimental-edge-cases",
+      "changes": [
+        "Added 'Common Experiment Types' taxonomy section covering boundary, surprise, comparison, regression, and long-tail experiments — with methodology guidance for each type",
+        "Added 'When NOT to Run Experiments' section covering 4 scenarios where experiments are the wrong tool (need quick answers, expensive failure modes, emotional attachment to outcomes, no time to document)",
+        "Added Unsplash research/analysis process image (metrics dashboards) before Cross-Experiment Pattern Analysis section",
+        "Added 'experiment-design' and 'boundaries' tags"
+      ]
+    },
     {
       "date": "2026-06-06",
       "postSlug": "07-invoice-processing",

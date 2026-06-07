@@ -3,7 +3,7 @@ title: "Experimental: Pushing OpenClaw to Its Limits"
 description: "What happens when you try to use OpenClaw for things it wasn't designed for? A documented series of experiments — successes, failures, and everything in between."
 pubDate: 2026-03-27
 category: development
-tags: ["experimental", "edge-cases", "limitations", "failures", "exploration", "methodology", "sub-agents", "state-management"]
+tags: ["experimental", "edge-cases", "limitations", "failures", "exploration", "methodology", "sub-agents", "state-management", "experiment-design", "boundaries"]
 image: "https://images.unsplash.com/photo-1507413245164-6160d8298b31?w=1200&auto=format&fit=crop"
 ---
 
@@ -156,6 +156,36 @@ Beyond the per-experiment file, running multiple experiments over time benefits 
 ```
 
 Verdicts in this format (`✅`, `⚠️`, `❌`) make it easy to scan your findings at a glance. Update the log after each experiment and review it monthly — patterns emerge that individual experiment files don't show.
+
+![Research and analysis process](https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&auto=format&fit=crop)
+
+## Common Experiment Types
+
+Not all experiments are the same. Knowing what kind you're running helps you design the methodology and interpret the results correctly.
+
+**Boundary experiments** push a known limit until it breaks. "How many sequential state operations can OpenClaw handle before errors appear?" You already know the boundary exists; you're mapping where it is. These need clear success criteria defined upfront so you don't move the goalposts.
+
+**Surprise experiments** find limits you didn't expect. You run a normal task and something unexpected fails. These are valuable but harder to design — you can't plan for unknown unknowns. The methodology here is just "document everything" and follow threads that feel off.
+
+**Comparison experiments** test two approaches to the same problem. "Does a spawned sub-agent produce better code review than the parent session directly?" These need matched inputs and an agreed evaluation rubric — otherwise confirmation bias slides the verdict.
+
+**Regression experiments** verify that something that used to work still works after an update or config change. These are the simplest to run: you have a baseline, you run the same test, you compare. The hard part is maintaining the baseline test suite.
+
+**Long-tail experiments** test low-probability, high-impact scenarios — what happens if a sub-agent goes silent mid-run, or the session crashes at step 4 of 6? You can't easily simulate these in advance, but you can build the capture mechanism (logging to files outside the session) and then wait.
+
+Design your experiment before you run it. The worst results come from experiments where the methodology wasn't settled in advance.
+
+## When NOT to Run Experiments
+
+Experiments are useful, but they're not always the right tool:
+
+**When you need a reliable answer quickly.** Experimental methodology requires multiple runs, controlled conditions, and time to analyze. If you need a yes/no answer for a production decision today, a 20-minute experiment isn't going to give you one — it's going to give you a data point.
+
+**When the failure mode is too expensive.** If you're testing a boundary in a production system and crossing it means data loss or service disruption, run the experiment in isolation first. No experiment is worth an outage.
+
+**When you're emotionally attached to a specific outcome.** If you already "know" what the experiment should show, you'll unconsciously design it to show that. Run experiments to find out, not to confirm. If you can't hold the hypothesis loosely, get someone else to run it.
+
+**When you don't have time to document.** An undocumented experiment is just a guess with extra steps. If you can't write up the methodology and findings, the experiment time is mostly wasted.
 
 ## Cross-Experiment Pattern Analysis
 
