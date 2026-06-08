@@ -4,7 +4,7 @@ description: "Most nutrition apps die in a drawer. OpenClaw turns your existing 
 pubDate: 2026-03-28
 category: lifestyle-wellness
 difficulty: intermediate
-tags: ["nutrition", "health", "macros", "image-analysis", "telegram", "whatsapp", "automation", "diet", "micronutrients", "deficiency-detection"]
+tags: ["nutrition", "health", "macros", "image-analysis", "telegram", "whatsapp", "automation", "diet", "micronutrients", "deficiency-detection", "portion-estimation", "goal-adjustment", "meal-analysis"]
 featured: true
 image: "https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=1200&auto=format&fit=crop"
 ---
@@ -132,7 +132,32 @@ This is where it gets more interesting. Over weeks and months, OpenClaw can noti
 
 A nutritionist sees one appointment every few months. OpenClaw sees every meal.
 
-![Colorful vitamin and supplement pills in organizers](https://images.unsplash.com/photo-1550572017-36a8c0e53e91?w=1200&auto=format&fit=crop)
+![Person reviewing a food log on a tablet at a kitchen table](https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=1200&auto=format&fit=crop)
+
+## How OpenClaw Actually Reads a Food Photo
+
+A concrete example helps here. Here's what actually happens when you send a photo:
+
+> **You:** [photo: a bowl with rice, grilled chicken breast, roasted broccoli, and a drizzle of sauce]
+
+OpenClaw's analysis:
+
+```
+📸 Photo analysis — 12:43 PM
+
+Visible components:
+- Rice (white, ~200g portion) → ~260 cal, 46g carbs, 5g protein
+- Grilled chicken breast (~180g) → ~220 cal, 45g protein, 8g fat
+- Roasted broccoli (~100g) → ~35 cal, 3g carbs, 3g protein, 2g fiber
+- Sauce (light drizzle, likely olive oil-based) → ~60 cal, 6g fat [ESTIMATED]
+
+TOTALS: 575 cal | 49g protein | 52g carbs | 14g fat | 4g fiber
+
+⚠️ Sauce type unconfirmed — could be butter-based (~100 cal additional)
+   If known to be a heavy cream sauce, revise up accordingly.
+```
+
+It reads each layer separately, flags what it can't confirm, and gives you an honest estimate with a range where uncertainty exists. You can correct it in one message: "actually it was a cream sauce, not olive oil" — and it updates the log and remembers for next time.
 
 ## Handling Ambiguity
 
@@ -186,7 +211,7 @@ The system works best when you just text normally. Here's three days of what tha
 
 The pattern is just texting. No app, no commands, no database searches. OpenClaw handles the categorization, estimation, and flagging without you thinking about it.
 
-![Colorful vitamin and supplement pills in organizers](https://images.unsplash.com/photo-1550572017-36a8c0e53e91?w=1200&auto=format&fit=crop)
+![Meal prep containers with labeled nutrition info](https://images.unsplash.com/photo-1543339308-43e59d6ee13f?w=1200&auto=format&fit=crop)
 
 ## Setup Options
 
@@ -231,6 +256,39 @@ The result: a restaurant meal logged with the same precision as scanning a barco
 **Cron jobs** — a nightly digest at your preferred time (default 9pm), and a weekly micronutrient summary on Sunday morning. Both are lightweight agentTurn jobs.
 
 **Accuracy note** — photo-based macro estimation works best as awareness tracking. For precise macro counting (competitive bodybuilding, medical diets), supplement with manual entry for critical meals and verify flagged entries.
+
+### Adjusting Targets When Goals Change
+
+One thing that trips people up: once you set your targets, how do you change them?
+
+The short version is you just tell OpenClaw. "Update my protein target to 200g" works in chat. But here's what actually needs to happen when your goals shift:
+
+**Cutting phase (losing weight):**
+```
+"Set my daily calories to 1,800, protein to 200g, keep carbs at 180g, fat at 60g"
+```
+OpenClaw updates `targets.yaml` and your next digest shows the new baseline. The weekly report also flags if your intake is consistently above the new lower calorie target — useful when habits haven't caught up to the new goal yet.
+
+**Bulking phase (gaining muscle):**
+```
+"Moving to a bulk — update calories to 2,800, protein to 210g, carbs to 300g, fat to 90g"
+```
+The weekly digest starts showing surplus totals and how far above target you're eating. It doesn't judge — it just shows the data so you can see if you're actually in a surplus.
+
+**Macro shifts (not just calorie changes):**
+If you're recomping (same weight, different composition), you might keep calories flat but shift the macro split:
+```
+"Same calories but lower fat target — 65g instead of 73g, bump protein to 195g"
+```
+
+The system treats all three macro targets independently, so you can dial them individually without touching calories at all.
+
+**Seasonal or training-cycle adjustments:**
+If you're on a 12-week program with progressive overload, your protein needs change every few weeks:
+```
+"Week 1 of new program — bump protein to 190g, carbs to 250g"
+```
+You can pre-schedule these updates with a cron job so OpenClaw adjusts the targets automatically at the start of each training phase rather than you having to remember to tell it.
 
 ## Why This Beats a Nutrition App
 
