@@ -1,8 +1,8 @@
 {
   "lastImproved": {
+    "01-smart-home-orchestration": "2026-06-09",
     "04-personal-secretary": "2026-05-30",
     "use-cases-category-pages": "2026-05-02",
-    "01-smart-home-orchestration": "2026-05-29",
     "02-research-pipeline": "2026-05-31",
     "03-development-assistant": "2026-06-01",
     "05-system-administration": "2026-06-02",
@@ -14,6 +14,16 @@
     "11-daily-macro-logger": "2026-06-07"
   },
   "improvementHistory": [
+    {
+      "date": "2026-06-09",
+      "postSlug": "01-smart-home-orchestration",
+      "changes": [
+        "Added 'Seasonal Routine Adaptation' section covering summer/winter morning routine branching, winter pipe-freeze logic in evening wind-down, seasonal light adjustments with date-range overrides, and concrete seasonal Telegram exchange showing pipe-freeze alert firing in December",
+        "Added Unsplash seasonal home automation image (winter/summer contrast) before Multi-User Households section",
+        "Added 'Scene Timeout and Rollback' section covering device acknowledgment timeouts with HomeAssistant state verification, scene rollback on partial failure with revert logic, and retry logic for MQTT transient failures with JSON config example",
+        "Added 'scene-recovery', 'seasonal-automation', 'device-timeout', 'rollback' tags"
+      ]
+    },
     {
       "date": "2026-06-06",
       "postSlug": "09-experimental-edge-cases",

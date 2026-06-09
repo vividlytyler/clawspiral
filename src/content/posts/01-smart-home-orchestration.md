@@ -154,6 +154,44 @@ Smart homes get awkward when you leave. You want the house to look lived-in, but
 
 That's randomization (which standard automations can't do without scripting), exception-based alerting (door unlocks are rare, so any spike is notable), and environmental risk detection. OpenClaw holds the logic and fires the appropriate API calls to HomeAssistant for each condition.
 
+## Seasonal Routine Adaptation
+
+The morning routine and evening wind-down examples work well in March — but your house runs differently in June than in December. OpenClaw can adapt scenes to the season without you rewriting them.
+
+**Summer morning adjustment.** The same "6:45 AM weather check" that triggers umbrella alerts in November triggers heat warnings in July. OpenClaw can read the forecast and branch:
+
+> "Every weekday at 6:45 AM, check the weather. If precipitation probability > 50%, tell me to take the umbrella. If temperature > 85°F, pre-cool the living room to 72°F 20 minutes before I wake up, and turn on the bedroom fan on a medium setting."
+
+That's the same trigger phrase, but the response changes based on conditions that vary by season. You defined the intent once; OpenClaw evaluates conditions at execution time.
+
+**Winter evening changes.** "Goodnight prep" in December should also check the pipe-freeze risk if the thermostat is set below a threshold — something you'd never think to add in August. OpenClaw can layer seasonal logic into existing routines:
+
+> "On evenings when the forecast low is below 32°F, add a pipe-freeze check to the goodnight routine. If the thermostat is set below 55°F and any exterior pipes report below 35°F, alert me before bed."
+
+That check only fires in winter. The rest of the year, "goodnight prep" behaves exactly as it always did.
+
+**Seasonal light adjustments.** The same "movie mode" at 8 PM in December should account for how dark it already is outside versus in July. You can define this with time-of-year overrides:
+
+> "Movie mode at weekend evenings after 7 PM in November through February should skip the hallway light (it's already dark enough) and enable the porch light (earlier sunset). In June through August, enable the hallway light but skip the porch (still light out at 8 PM)."
+
+OpenClaw holds that conditional logic without you having to pre-program every date range.
+
+**A concrete seasonal Telegram exchange:**
+
+> **You (Telegram, December 6:02 PM):** "Goodnight prep"
+>
+> **OpenClaw:** "Running wind-down:
+> - Office lights → 10% ✓
+> - Kitchen lights → off ✓
+> - Front door: unlocked — locking now ✓
+> - Living room lights → off ✓
+> - Thermostat: set to 67°F for sleep ✓
+> - ⚠️ Pipe-freeze alert: forecast low tonight is 26°F. Exterior garage sensor shows 38°F — monitoring. Front door is locked. Have a good night."
+
+That's the same four-word trigger as always, but the seasonal logic layer detected a risk and surfaced it without being asked.
+
+![Seasonal home automation with winter and summer lighting](https://images.unsplash.com/photo-1531971589569-0d9370cbe1e5?w=1200&auto=format&fit=crop)
+
 ## Multi-User Households
 
 Most smart home setups ignore the fact that houses are rarely empty — or always empty in the same way. Occupancy detection, room-level presence, and household-wide context are where OpenClaw adds the most value over rigid rule engines.
@@ -266,6 +304,43 @@ Getting OpenClaw talking to your smart home takes a few pieces in place:
 - **A always-on host** — OpenClaw itself needs to run somewhere that doesn't sleep. A NAS, a mini PC, a Raspberry Pi 5 with SSD — your call.
 
 The setup isn't zero-effort, but it's all standard tooling. No custom drivers, no proprietary bridges.
+
+## Scene Timeout and Rollback
+
+When OpenClaw fires a scene — lights, thermostat, multiple devices — things don't always go smoothly. A device might be offline, not respond to the API call, or hit a state conflict. Here's how to build resilience into your scenes.
+
+**Device acknowledgment timeout.** HomeAssistant service calls return a response, but not a device-level confirmation that the physical device actually acted. For critical devices (locks, garage door), add a post-action state query:
+
+```yaml
+- service: lock.lock
+  target:
+    entity_id: lock.front_door
+- delay:
+    seconds: 3
+- condition: state
+  entity_id: lock.front_door
+  state: locked
+```
+
+If the state doesn't match after the timeout, OpenClaw can retry once and then alert you — "Front door didn't lock, tried again and still no response. Check the lock manually."
+
+**Scene rollback on partial failure.** If a "movie mode" fires five devices but one is unreachable, most platforms either fail silently or stop mid-scene. With OpenClaw, you can define a rollback:
+
+> "When movie mode fires, check that all devices acknowledged within 10 seconds. If any didn't, revert the ones that did and tell me which device failed."
+
+This is a state machine OpenClaw can hold — "movie mode attempted, lock status, thermostat status, lights status" — with a rollback action if something doesn't confirm.
+
+**Retry logic for transient failures.** MQTT devices in particular can miss a command if the broker is momentarily backlogged. OpenClaw can implement a simple retry loop:
+
+```json
+{
+  "message": "Retry lock command up to 3 times, 5 seconds apart. If still failing, alert via Telegram and log the failure.",
+  "retryDelayMs": 5000,
+  "maxAttempts": 3
+}
+```
+
+That retry-with-alert pattern applies to any critical device — locks, garage door, water valve, security system arm.
 
 ## Troubleshooting Common Issues
 
