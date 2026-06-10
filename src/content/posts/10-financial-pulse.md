@@ -4,7 +4,7 @@ description: "How OpenClaw can serve as a persistent financial monitoring layer 
 pubDate: 2026-03-27
 category: business-finance
 difficulty: intermediate
-tags: ["finance", "budgeting", "monitoring", "cron", "telegram", "csv", "automation", "subscriptions", "anomaly-detection", "net-worth", "savings-goals", "investment-tracking", "imap-parsing"]
+tags: ["finance", "budgeting", "monitoring", "cron", "telegram", "csv", "automation", "subscriptions", "anomaly-detection", "net-worth", "savings-goals", "investment-tracking", "imap-parsing", "portfolio-monitoring"]
 featured: true
 image: "https://images.unsplash.com/photo-1464082354059-27db6ce50048?w=1200&auto=format&fit=crop"
 ---
@@ -93,6 +93,24 @@ The `budget.json` file tells OpenClaw what you're aiming for — so it can tell 
 ```
 
 The `alertAt` field is a fraction — `0.80` means "ping me when I hit 80% of this category's limit." OpenClaw fires a Telegram alert mid-month instead of waiting for the weekly digest to say you're already over.
+
+Here's what that looks like in practice — it's June 14th and you just got home from dinner:
+
+```
+⚠️ Budget alert — Dining (80% threshold hit)
+  Limit: $250/mo  |  Current: $202.14 (80.9%)
+  Days left: 16
+  Average daily spend: $14.44/day
+  Projected month-end: $433 — over limit by $183
+  Top recent charges:
+    Jun 12 — "Sakura Sushi" — $34
+    Jun 11 — "Blue Bottle Coffee" — $8.50
+    Jun 10 — "DoorDash*Chipotle" — $16
+  Tip: You've spent $202 in 14 days. At that rate, $16/day
+       is your remaining budget — that's one restaurant meal.
+```
+
+The alert fires automatically when the daily cron reads your transactions and crosses the 80% threshold. You can adjust `alertAt` per category — Dining at 0.90 (more discretionary) vs. Rent at 1.00 (never alert, just track).
 
 ### Subscription Audit
 
@@ -284,6 +302,74 @@ Net flow: -$1,302 (normal for end-of-month)
 ```
 
 OpenClaw detects income deposits and excludes them from spending analysis — you see your actual cash flow, not just a list of charges.
+
+## Investment Portfolio Tracking
+
+Your portfolio doesn't sit still — dividends reinvest, prices fluctuate, and contribution schedules run on autopilot whether you're watching or not. Financial Pulse can extend beyond your bank accounts to track investment accounts too.
+
+**What it monitors:**
+
+- **Balance changes** — large swings in brokerage or retirement account values get flagged, even if they're just market moves
+- **Dividend/interest income** — detected as small recurring credits from known brokerage sender addresses, rolled into monthly income totals
+- **Unusual trading activity** — a options assignment, large withdrawal from a taxable account, or unexpected transfer between accounts
+- **Fee changes** — if your Vanguard account suddenly shows a higher management fee line item, it gets flagged the same way a subscription price increase would be
+
+OpenClaw pulls this from the same CSV export if your brokerage offers one, or via IMAP parsing of account alert emails. A typical brokerage alert looks like:
+
+```
+From: statements@fidelity.com
+Subject: Your Fidelity Account Statement — March 2026
+
+Transaction: CREDIT 03/15  REINVEST DIVIDEND   $42.18
+             NVDA NMS
+Account: ****7842
+```
+
+OpenClaw parses this into `{ type: "dividend", vendor: "Fidelity/NVDA", amount: 42.18, date: "2026-03-15", account: "Brokerage" }` and tracks it against your investment income goals.
+
+**Portfolio performance context:**
+
+When OpenClaw surfaces a large balance change, it puts it in context — not just "Brokerage down $2,400 this month" but:
+
+```
+⚠️ Portfolio value change — March 2026
+  Brokerage: $47,230 → $44,780 (−$2,450 / −5.2%)
+  S&P 500 same period: −4.1%
+  Context: Slightly worse than market — check for:
+    • Large recent withdrawal not yet reinvested
+    • Dividend reinvestment missed
+    • Unexplained cash drag
+  You contributed $1,000 this month (normal)
+```
+
+This keeps market noise in proportion — a 5% drop when you also withdrew $2,000 for a car is very different from a 5% drop on a flat balance.
+
+![Stock market portfolio dashboard on laptop](https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&auto=format&fit=crop)
+
+**Net Worth Tracking:**
+
+Roll everything together and you get a net worth view:
+
+```
+🏦 NET WORTH SNAPSHOT — Q1 2026
+
+Assets:
+  Checking + Savings:     $12,340
+  Brokerage:              $44,780
+  Retirement (401k):      $31,200
+  Total Assets:           $88,320
+
+Liabilities:
+  Credit Card (Visa):    −$1,847
+  Car Loan:              −$8,400
+  Total Liabilities:     −$10,247
+
+NET WORTH: $78,073
+  vs. last month: +$1,840
+  vs. Q4 2025:   +$6,220
+```
+
+OpenClaw generates this quarterly or on-demand. It reads balances from the latest CSV imports across all accounts and tracks the trend over time. You're not logging in anywhere — the numbers appear in Telegram when you ask, built from data you already have.
 
 ## Savings Goals
 

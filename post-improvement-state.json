@@ -10,10 +10,21 @@
     "07-invoice-processing": "2026-06-06",
     "08-creative-brainstorming": "2026-06-03",
     "09-experimental-edge-cases": "2026-06-06",
-    "10-financial-pulse": "2026-05-27",
+    "10-financial-pulse": "2026-06-09",
     "11-daily-macro-logger": "2026-06-07"
   },
   "improvementHistory": [
+    {
+      "date": "2026-06-09",
+      "postSlug": "10-financial-pulse",
+      "changes": [
+        "Added Investment Portfolio Tracking section covering balance change monitoring, dividend/interest income detection, unusual trading activity flags, and fee change detection — with concrete Fidelity dividend email parsing example",
+        "Added Net Worth Tracking subsection with full quarterly snapshot (assets, liabilities, net worth trend vs last month and Q4 2025)",
+        "Added Unsplash investment portfolio dashboard image (stock market charts on laptop) before Net Worth section",
+        "Added concrete mid-month budget alert Telegram example showing Dining at 80% threshold with projected overspend, daily rate breakdown, and actionable tip",
+        "Added 'portfolio-monitoring' tag to frontmatter"
+      ]
+    },
     {
       "date": "2026-06-09",
       "postSlug": "01-smart-home-orchestration",
