@@ -151,16 +151,19 @@ function getReadingTime(body: string | undefined): number {
             </div>
             <!-- Terminal body -->
             <div class="px-4 py-3 bg-slate-900/80 font-mono text-xs leading-relaxed">
-              <div class="text-slate-500 mb-1"># Morning brief —7:00 AM</div>
-              <div class="text-sky-400 mb-3">$ openclaw daily brief</div>
-              <div class="space-y-1.5 mb-3">
-                <div><span class="text-emerald-400">✓</span> <span class="text-slate-300">Checked email (3 urgent)</span></div>
-                <div><span class="text-emerald-400">✓</span> <span class="text-slate-300">Weather:18°C, sunny</span></div>
-                <div><span class="text-emerald-400">✓</span> <span class="text-slate-300">Calendar: 2 meetings today</span></div>
-                <div><span class="text-emerald-400">✓</span> <span class="text-slate-300">GitHub: 4 new releases</span></div>
+              <div class="text-slate-500 mb-1"># OpenClaw workflow — live</div>
+              <div class="text-sky-400 mb-2">$ openclaw run morning-routine</div>
+              <div class="space-y-1 mb-3">
+                <div><span class="text-slate-500">[07:00]</span> <span class="text-slate-300">Fetching email, calendar, weather...</span></div>
+                <div><span class="text-emerald-400">✓</span> <span class="text-slate-300">Email: <span class="text-sky-400">3 urgent</span>, 12 newsletters filed</span></div>
+                <div><span class="text-emerald-400">✓</span> <span class="text-slate-300">Calendar: team sync at 10am, deep work block 1–4pm</span></div>
+                <div><span class="text-emerald-400">✓</span> <span class="text-slate-300">Weather: 18°C, partly cloudy — jacket needed</span></div>
               </div>
-              <div class="text-slate-600">------------------------------</div>
-              <div class="mt-1.5 text-slate-500">Daily brief complete. <span class="text-sky-400">1 post published.</span></div>
+              <div class="text-slate-600 border-t border-slate-800 pt-2 mb-2">
+                <div><span class="text-slate-500">[07:02]</span> <span class="text-amber-400">⚡ 4 GitHub releases across monitored repos</span></div>
+                <div><span class="text-slate-500">[07:02]</span> <span class="text-sky-400">→ Drafted morning brief, sent to Telegram</span></div>
+              </div>
+              <div class="text-slate-500">Done in <span class="text-emerald-400">2.4s</span>. <span class="text-sky-400">Next: use-case-audit at 2pm.</span></div>
             </div>
           </div>
         </div>
