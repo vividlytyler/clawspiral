@@ -82,7 +82,30 @@ OpenClaw can't send outbound email natively, but it can draft them — and you h
 
 **Option 1: Telegram delivery.** OpenClaw writes the full email (To, Subject, Body) and sends it via Telegram. You copy-paste into your email client. Works for low-volume, high-stakes emails (contract negotiations, delicate responses).
 
-**Option 2: Save to draft folder via IMAP.** If your mail server supports IMAP write-back, OpenClaw can APPEND to your Sent or Drafts folder — effectively writing emails that appear in your drafts folder for you to review and send.
+**Option 2: Save to draft folder via IMAP.** If your mail server supports IMAP write-back, OpenClaw can APPEND to your Sent or Drafts folder — effectively writing emails that appear in your drafts folder for you to review and send. The workflow:
+
+```
+1. OpenClaw composes the email (To, Subject, Body)
+2. Formats as raw IMAP message with proper headers
+3. APPEND to Drafts folder with timestamps
+4. Your email client picks it up on next sync
+```
+
+With Gmail or Fastmail, this is straightforward. OpenClaw uses the IMAP APPEND command:
+
+```
+A APPEND "Drafts" (\Seen) "16-Apr-2026 10:30:00 +0000"
+{ size in octets }
+From: tyler@example.com
+To: sarah@company.com
+Subject: Re: Q2 budget review
+Date: Thu, 16 Apr 2026 10:30:00 +0000
+
+Hi Sarah,
+...
+```
+
+Your mail client sees it as a draft the next time it syncs — you open it, review, hit send. No copy-paste required. This is the cleanest option for moderate-volume email where you want OpenClaw to handle the drafting but you retain final approval before anything goes out.
 
 **Option 3: CC/BCC forwarding.** Set up a rule where OpenClaw sends to itself via an external service (Mailgun, SendGrid), then your email client picks it up via filtering.
 
@@ -178,6 +201,20 @@ OpenClaw can answer questions like:
 - "Show me the next week of overlapping work hours between PDT and CET"
 
 This comes up more than you'd think when coordinating distributed teams or international clients. The math is trivial but the DST edge cases aren't — OpenClaw handles the conversion cleanly so you don't show up to a call at 7 AM your time when it was supposed to be 7 PM.
+
+**A concrete scheduling example:**
+
+You ask: *"Find a 1-hour slot tomorrow that works for me (Vancouver), Priya in London, and Marcus in New York."*
+
+OpenClaw checks tomorrow's working hours across all three zones and responds:
+
+> **Available window found: tomorrow 4:00–5:00 PM Vancouver = 12:00–1:00 PM London = 9:00–10:00 AM New York**
+>
+> All three are within normal working hours. Your calendar shows no conflicts at4 PM Vancouver. Should I send a calendar invite?
+
+If you say yes, OpenClaw drafts the invite with correct timezone headers for all three recipients — they see it in their local time automatically.
+
+The DST complication: London is GMT/UTC year-round but switches to BST in March. Vancouver switches to PDT in March. That shift changes the offset from 8 hours to 7 hours — a trap that looks fine in your calendar until the meeting lands at 6 AM your time instead of 7. OpenClaw handles the DST transition dates correctly based on the current date.
 
 ### Meeting Preparation
 
@@ -320,6 +357,50 @@ At 2:30 PM, you get: *"🔔 Reminder: Check the laundry."* You open the machine,
 ```
 
 The agentTurn payload runs OpenClaw in isolation, so it does the reasoning and delivers a summary — not just a static message.
+
+## Key Files and Directory Structure
+
+Everything lives in plain text on the file system. Here's what the setup looks like in practice:
+
+```
+~/.openclaw/workspace/
+├── MEMORY.md                    # Long-term context (who you are, projects, preferences)
+├── memory/
+│   ├── 2026-04-01.md           # Daily session logs
+│   ├── 2026-04-02.md
+│   └── ...
+├── calendar/
+│   ├── work.ics                # Work calendar export
+│   └── personal.ics            # Personal calendar export
+├── follow-ups/
+│   ├── pending.md              # Open follow-up items
+│   └── 2026-04-done.md         # Completed items (by month)
+└── approved-vendors.json       # Vendor allowlist for invoice routing
+```
+
+The `follow-ups/pending.md` file is the core of the follow-up system — a simple checklist:
+
+```
+# Follow-ups — as of 2026-04-15
+
+- [ ] Reply to Sarah about Q2 budget — due 2026-04-10 (3 days overdue)
+- [x] Confirm Cloudflare Workers deploy date — done 2026-04-12
+- [ ] Send invoice to Widget Corp — due 2026-04-20
+```
+
+OpenClaw reads and writes this file directly. You can also edit it manually — the format is just markdown checkboxes. This means you're never locked into a specific tool; if OpenClaw disappeared tomorrow, you'd still have a readable plain-text task list.
+
+The same applies to `approved-vendors.json` — it's a plain JSON file you can edit in any text editor:
+
+```json
+{
+  "approved": ["Widget Corp", "Linode", "Fastmail"],
+  "autoApproveUnder": 500,
+  "flagOver": 2000
+}
+```
+
+No database migrations, no vendor lock-in, no export required. The data is yours.
 
 ## What You Need to Set This Up
 
