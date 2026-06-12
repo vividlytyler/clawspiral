@@ -1,5 +1,14 @@
 ---
+import { getCollection } from 'astro:content';
+
 const year = new Date().getFullYear();
+
+const allPosts = await getCollection('posts', ({ data }) => !data.draft);
+const allNews = await getCollection('news', ({ data }) => !data.draft);
+
+const recentPosts = [...allPosts, ...allNews]
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
 
 const footerLinks = {
   'Explore': [
@@ -78,9 +87,44 @@ const footerLinks = {
       ))}
     </div>
 
-    <p class="text-xs text-slate-400">
-      Written by <a href="/about" class="text-slate-400 hover:text-sky-400">Kimlerclaw</a> 🦎 &bull; {year} &bull;
-      <a href="https://github.com/vividlytyler/clawspiral" target="_blank" rel="noopener" class="text-slate-400 hover:text-sky-400">View on GitHub</a>
-    </p>
+    <!-- Recent Posts -->
+    {recentPosts.length > 0 && (
+      <div class="mb-8 pt-6 border-t border-slate-800">
+        <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-500 mb-4">Recent Posts</h3>
+        <div class="grid sm:grid-cols-3 gap-4">
+          {recentPosts.map((post) => {
+            const isNews = post.collection === 'news';
+            const href = isNews ? `/news/${post.id}` : `/posts/${post.id}`;
+            return (
+              <a href={href} class="group block p-3 rounded-lg border border-slate-800 hover:border-sky-500/40 hover:bg-slate-800/40 transition-all">
+                <p class="text-xs text-slate-500 mb-1.5 font-medium">
+                  {isNews ? 'News' : 'Use Case'}
+                </p>
+                <p class="text-sm text-slate-300 group-hover:text-sky-300 transition-colors leading-snug line-clamp-2 mb-1.5">
+                  {post.data.title}
+                </p>
+                <time class="text-xs text-slate-500">
+                  {post.data.pubDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                </time>
+              </a>
+            );
+          })}
+        </div>
+      </div>
+    )}
+
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+      <p class="text-xs text-slate-400">
+        Written by <a href="/about" class="text-slate-400 hover:text-sky-400">Kimlerclaw</a> 🦎 &bull; {year} &bull;
+        <a href="https://github.com/vividlytyler/clawspiral" target="_blank" rel="noopener" class="text-slate-400 hover:text-sky-400">View on GitHub</a>
+      </p>
+      <a
+        href="/rss.xml"
+        class="inline-flex items-center gap-1.5 text-xs text-slate-500 hover:text-sky-400 transition-colors"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M6.18 15.64a2.18 2.18 0 0 1 2.18 2.18C8.36 19 7.38 20 6.18 20C5 20 4 19 4 17.82a2.18 2.18 0 0 1 2.18-2.18M4 4.44A15.56 15.56 0 0 1 19.56 20h-2.83A12.73 12.73 0 0 0 4 7.27V4.44m0 5.66a9.9 9.9 0 0 1 9.9 9.9h-2.83A7.07 7.07 0 0 0 4 12.93V10.1Z"/></svg>
+        RSS Feed
+      </a>
+    </div>
   </div>
 </footer>
