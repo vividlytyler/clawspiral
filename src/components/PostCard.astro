@@ -46,6 +46,12 @@ const categoryAccentColor = categoryColors[category]?.accent ?? '#38bdf8'; // sk
       aria-hidden="true"
     ></div>
   )}
+  {/* Left accent border — visible on all cards, color-matched to category */}
+  <div
+    class="absolute top-4 bottom-4 left-0 w-1 rounded-full opacity-70 group-hover:opacity-100 transition-opacity"
+    style={`background: linear-gradient(to bottom, ${categoryAccentColor}, transparent);`}
+    aria-hidden="true"
+  ></div>
   {image && (
     <a href={`/posts/${slug}`} class="block mb-3 -mt-1 rounded-lg overflow-hidden h-32">
       <img src={image} alt={title} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy" />

@@ -55,6 +55,7 @@
         "Added 'ledger-structure' and 'bank-reconciliation' tags"
       ]
     },
+    {
       "date": "2026-06-04",
       "page": "use-cases/index.astro",
       "changes": [
