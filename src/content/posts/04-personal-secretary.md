@@ -280,6 +280,22 @@ This means OpenClaw operates in two modes: **automated** (scheduled checks, back
 
 These work like slash commands without the slash — natural language requests get interpreted and routed to the right handler. The implementation is just a Telegram message trigger that routes to the appropriate agentTurn or systemEvent.
 
+**A real interactive exchange:**
+
+> **You:** Any urgent emails from Sarah?
+>
+> **OpenClaw:** One match from this morning:
+>
+> *From:* Sarah Chen \<sarah@company.com\>
+> *Subject:* Re: Q2 budget review — action needed
+> *Received:* Today at 8:47 AM
+>
+> "Hi Tyler, circling back on the budget numbers. We need your sign-off before EOD Friday or the Q2 forecast gets delayed. Want to hop on a quick call?"
+>
+> Flagged as urgent — 2 days until EOD deadline. IMAP thread shows 4 prior messages in this chain. Reply needed before Friday.
+
+That's the difference between a scheduled digest and an actual conversation. OpenClaw reads the thread, applies judgment, and gives you enough to decide whether to drop what you're doing — without you having to open your email client.
+
 ![Telegram on a phone, representing the control interface for on-demand OpenClaw queries](https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=1200&auto=format&fit=crop&q=80)
 
 ## Memory and Context
@@ -378,7 +394,9 @@ Everything lives in plain text on the file system. Here's what the setup looks l
 └── approved-vendors.json       # Vendor allowlist for invoice routing
 ```
 
-The `follow-ups/pending.md` file is the core of the follow-up system — a simple checklist:
+The directory structure is flexible — you can adjust paths in your `TOOLS.md` or cron configs. The only firm requirement is that OpenClaw has read/write access to wherever you store your calendar `.ics` files, memory logs, and follow-up tracking files. Everything else (vendor lists, approved senders, filter rules) lives wherever makes sense in your workspace.
+
+The follow-up system in particular is designed to be human-readable at a glance. `follow-ups/pending.md` is just a markdown checklist:
 
 ```
 # Follow-ups — as of 2026-04-15
@@ -427,6 +445,14 @@ Here's what the output actually looks like. At 7:30 AM, OpenClaw checks everythi
 > 📝 **Notes:** Your last session mentioned the Cloudflare Workers deploy is still pending — want to revisit that today?
 
 That's the level of coherence you can achieve. It reads your `.ics`, checks weather, queries IMAP, and combines it with your personal memory files.
+
+## Related Use Cases
+
+This workflow connects naturally with several others in the ClawSpiral library:
+
+- **[Financial Pulse](/use-cases/10-financial-pulse/)** — Invoice processing and bill tracking complement the email monitoring here. When a vendor invoice arrives, OpenClaw can route it for approval; when a subscription renewal hits your bank feed, it flags as an anomaly.
+- **[Employee Scheduling](/use-cases/06-employee-scheduling/)** — Scheduling coordination uses the same calendar infrastructure. The conflict detection and timezone logic in both use cases can share a common `.ics` parsing utility.
+- **[Research Pipeline](/use-cases/02-research-pipeline/)** — Meeting preparation in the secretary workflow is where research output gets consumed. A budget review meeting with Sarah might surface findings from a research session on vendor pricing models.
 
 ## Limitations
 
