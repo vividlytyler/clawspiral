@@ -182,8 +182,10 @@ function getReadingTime(body: string | undefined): number {
           const rt = getReadingTime(post.body);
           const diffColors = { beginner: 'bg-emerald-900/80 text-emerald-300', intermediate: 'bg-amber-900/80 text-amber-300', advanced: 'bg-red-900/80 text-red-300' };
           const diffColor = post.data.difficulty ? (diffColors[post.data.difficulty] ?? 'bg-slate-700 text-slate-300') : '';
+          const catColor = { 'home-automation': '#10b981', 'research': '#8b5cf6', 'development': '#3b82f6', 'business-finance': '#f59e0b', 'lifestyle-wellness': '#14b8a6', 'creative': '#ec4899', 'productivity': '#f97316' }[post.data.category] ?? '#38bdf8';
           return (
-          <article class="rounded-xl border border-sky-500/30 bg-gradient-to-br from-slate-800/60 to-slate-900/60 p-5 hover:border-sky-500/60 transition-all card-lift group">
+          <article class="relative rounded-xl border border-sky-500/30 bg-gradient-to-br from-slate-800/60 to-slate-900/60 p-5 hover:border-sky-500/60 transition-all card-lift group">
+            <div class="absolute top-4 bottom-4 left-0 w-1 rounded-full opacity-70 group-hover:opacity-100 transition-opacity" style={`background: linear-gradient(to bottom, ${catColor}, transparent);`} aria-hidden="true"></div>
             <a href={`/posts/${post.id}`} class="block">
               <div class="flex flex-wrap items-center gap-2 mb-3">
                 <CategoryBadge category={post.data.category} />
