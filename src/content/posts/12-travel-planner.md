@@ -3,7 +3,7 @@ title: "Travel Planning: From Research to Itinerary"
 description: "How OpenClaw can handle the full travel planning stack — researching destinations, comparing flights and hotels, building day-by-day itineraries, and delivering everything to your phone."
 pubDate: 2026-03-28
 category: lifestyle-wellness
-tags: ["travel", "planning", "itinerary", "flights", "hotels", "research", "cron", "telegram", "price-alerts", "email-parsing", "destination-research", "itinerary-building"]
+tags: ["travel", "planning", "itinerary", "flights", "hotels", "research", "cron", "telegram", "price-alerts", "email-parsing", "destination-research", "itinerary-building", "visa", "documents", "contingency", "real-time-support"]
 image: "https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1200&auto=format&fit=crop"
 ---
 
@@ -86,6 +86,37 @@ Once you have flights and hotels confirmed, forward the confirmation emails to O
 - Build a timeline view of your whole trip
 - Remind you what you need to do before departure (visa applications, vaccination windows, packing priorities)
 
+### Visa and Document Tracking
+
+Visa requirements are easy to forget until they're urgent. OpenClaw can maintain a `documents.md` file for each trip — tracking what's needed, when to apply, and the current status.
+
+Start with a simple message:
+> "I'm going to Portugal for 10 days. I'm a Canadian citizen. What do I need?"
+
+OpenClaw researches entry requirements (Portugal allows Canadians 90 days without a visa), flags any extended Schengen considerations for multi-country trips, notes passport validity requirements (6 months from entry), and generates a tracking file:
+
+```markdown
+## Documents — Portugal 2026
+
+### Visa / Entry
+- **Requirement:** None for Canadians, 90-day Schengen allowance
+- **Passport validity:** Must be valid for 3 months beyond departure
+- **Status:** ✅ Check passport expiry before booking
+
+### Insurance
+- **Required:** No, but strongly recommended
+- **Recommended coverage:** Medical + trip cancellation + baggage
+- **Status:** ⏳ Check via RBC travel insurance comparison tool
+
+### Pre-departure tasks
+- [ ] Check passport expiry (must be valid through Jan 2027)
+- [ ] Purchase travel insurance (book within 14 days of first payment for cancellation coverage)
+- [ ] Register with Global Affairs Canada (optional but recommended)
+- [ ] Save embassy contact: +351 21 392 4000
+```
+
+For countries with actual visa requirements, OpenClaw walks through the process: application timeline (some need 3+ months lead time), required documents, appointment scheduling, and what to do if the application is rejected. It sets calendar reminders with enough buffer — not "apply for Japan visa in June" but "schedule visa appointment by June 15 if trip is in August."
+
 Here's what the parsing looks like. Forward this Air Canada confirmation email:
 
 > **From:** eticketing@aircanada.ca
@@ -113,6 +144,50 @@ OpenClaw extracts and writes to `trips/tokyo-2026/flights.md`:
 ```
 
 Do this for every confirmation — flights, hotels, restaurant reservations, museum tickets — and by departure day you have a single trip file that answers "what time do I need to be where?" without checking five different emails.
+
+## Day-of-Trip: Real-Time Support
+
+The itinerary is built. The flights are confirmed. You're in the city. OpenClaw doesn't go quiet — it becomes a real-time resource as you travel.
+
+**Your flight is delayed 3 hours.** Forward the airline notification to OpenClaw and ask:
+> "My Air Canada flight is delayed 3 hours — that means I miss my hotel check-in window (closes at 10pm) and my 8pm dinner reservation at Sukiyabashi Jiro is now impossible. What are my options?"
+
+OpenClaw checks your `reservations.md`, calculates the new arrival time, searches for late-night hotel check-in procedures, and finds a same-day reservation at a comparable restaurant with a 10:30pm slot. You respond from the gate.
+
+**You want to pivot.** You've been in Tokyo 3 days and the teamLab exhibition in Osaka is a 90-minute train ride away. You ask:
+> "Is a day trip to teamLab Borderless from Shibuya worth it on my last day? I have a 6pm checkout and a 9pm flight home."
+
+OpenClaw checks today's transit options, estimates the visit duration, cross-references your flight time, and tells you: yes if you leave by 1pm, or save it for the next trip because the 6pm checkout + Narita clearance + 90-minute train = too tight.
+
+**You lost the restaurant address.** You have the confirmation number but not the mapped location. Ask:
+> "Where's my 8pm dinner reservation? The confirmation says Ginza 4-chome but I can't find it on Maps."
+
+OpenClaw pulls from `reservations.md`, gives you the exact address, cross-references the nearest metro station, and tells you which exit to use.
+
+### Contingency Folder
+
+Keep a `contingency.md` in your trip directory — OpenClaw maintains it with backup plans for your highest-risk items:
+
+```markdown
+## Contingency — Tokyo 2026
+
+### If flight delayed >2hrs
+- Hotel: call +81-3-XXXX-XXXX (front desk Eng), late check-in confirmed
+- Dinner: Tanizaki Ramen (5-min walk from hotel), no reservation needed, open until midnight
+
+### If day-trip to Osaka falls through
+- Alternative: Ghibli Museum (1-day ticket remaining), book via Lawson at least 2 days prior
+- Second alternative: tsunaguizu Tokyo walking tour, book same-day via GetYourGuide
+
+### If hotel medical issue
+- Nearest hospital with English: St. Luke's International Hospital, +81-3-3542-5151
+- Nearest pharmacy (open late): Matsumoto Kiyoshi, Yoyogi station
+```
+
+OpenClaw generates this automatically when you build the itinerary — it flags high-stakes reservations (time-sensitive, non-refundable, weather-dependent) and seeds the contingency file. You fill in the contact details.
+
+![Travel documents and planning workspace — passport, tickets, maps on a table](https://images.unsplash.com/photo-1553531384-397c80973a0b?w=1200&auto=format&fit=crop)
+*Good trip preparation lives in a single file — not in your head, not scattered across five email threads.*
 
 ## Example Workflow
 
