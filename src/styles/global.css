@@ -162,6 +162,14 @@ a:hover {
   animation: terminal-float 4s ease-in-out infinite;
 }
 
+/* Post title gradient — consistent with hero gradient-text */
+.post-title {
+  background: linear-gradient(135deg, #e2e8f0 0%, #38bdf8 60%, #818cf8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
 /* Hero mesh gradient — layered blurred orbs for depth with ambient animation */
 @keyframes mesh-drift {
   0%, 100% { opacity: 1; transform: translate(0, 0) scale(1); }

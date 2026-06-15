@@ -58,7 +58,7 @@ const categoryAccentColor = categoryColors[category]?.accent ?? '#38bdf8'; // sk
     </a>
   )}
   <a href={`/posts/${slug}`} class="block">
-    <h2 class="font-semibold text-base sm:text-lg mb-2 group-hover:text-sky-400 transition-colors leading-snug">{title}</h2>
+    <h2 class="font-semibold text-base sm:text-lg mb-2 leading-snug post-title group-hover:opacity-80 transition-opacity">{title}</h2>
     <p class="text-slate-400 text-sm mb-4 leading-relaxed">{description}</p>
     <div class="flex flex-wrap items-center gap-3 text-xs text-slate-500">
       <CategoryBadge category={category} />
