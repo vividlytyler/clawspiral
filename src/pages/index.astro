@@ -13,6 +13,21 @@ const recentPosts = allPosts
   .slice(0, 4);
 const posts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()).slice(0, 5);
 
+const categoryColors = {
+  'home-automation':  '#10b981',
+  'research':         '#8b5cf6',
+  'development':      '#3b82f6',
+  'business-finance': '#f59e0b',
+  'lifestyle-wellness':'#14b8a6',
+  'creative':         '#ec4899',
+  'productivity':     '#f97316',
+};
+
+const categoryCounts = allPosts.reduce((acc, post) => {
+  acc[post.data.category] = (acc[post.data.category] ?? 0) + 1;
+  return acc;
+}, {} as Record<string, number>);
+
 const categories = [
   { 
     slug: 'home-automation', 
@@ -242,7 +257,10 @@ function getReadingTime(body: string | undefined): number {
       </a>
     </div>
     <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
-      {categories.map(({ slug, label, desc, image, icon }) => (
+      {categories.map(({ slug, label, desc, image, icon }) => {
+        const count = categoryCounts[slug] ?? 0;
+        const accentColor = categoryColors[slug] ?? '#38bdf8';
+        return (
         <a
           href={`/use-cases/${slug}`}
           class="group relative overflow-hidden rounded-xl aspect-[2/1] card-lift border border-transparent hover:border-sky-500/40 transition-all duration-200"
@@ -254,16 +272,27 @@ function getReadingTime(body: string | undefined): number {
             loading="lazy"
           />
           <div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent"></div>
-          <!-- Icon appears on hover, centered -->
+          {/* Icon appears on hover, centered */}
           <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
             <div class="w-12 h-12 rounded-xl bg-slate-900/80 border border-sky-500/40 flex items-center justify-center text-sky-400 backdrop-blur-sm shadow-lg shadow-black/40" set:html={icon} />
           </div>
           <div class="absolute inset-0 flex flex-col justify-end p-4">
-            <h3 class="font-semibold text-white text-sm group-hover:text-sky-300 transition-colors leading-tight">{label}</h3>
+            <div class="flex items-center justify-between mb-0.5">
+              <h3 class="font-semibold text-white text-sm group-hover:text-sky-300 transition-colors leading-tight">{label}</h3>
+              {count > 0 && (
+                <span
+                  class="text-xs font-semibold px-2 py-0.5 rounded-full leading-none"
+                  style={`background: ${accentColor}22; color: ${accentColor};`}
+                >
+                  {count}
+                </span>
+              )}
+            </div>
             <p class="text-slate-400 text-xs mt-0.5 leading-tight hidden sm:block">{desc}</p>
           </div>
         </a>
-      ))}
+        );
+      })}
     </div>
   </section>
 </PageLayout>
