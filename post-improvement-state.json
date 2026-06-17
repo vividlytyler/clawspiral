@@ -12,9 +12,20 @@
     "09-experimental-edge-cases": "2026-06-06",
     "10-financial-pulse": "2026-06-09",
     "11-daily-macro-logger": "2026-06-07",
+    "11-daily-macro-logger": "2026-06-16",
     "13-language-learning-coach": "2026-06-16"
   },
   "improvementHistory": [
+    {
+      "date": "2026-06-16",
+      "postSlug": "11-daily-macro-logger",
+      "changes": [
+        "Added concrete Telegram correction exchange showing gravlax vs grilled salmon correction — demonstrates the natural-language feedback loop where OpenClaw updates the log, revises totals, and remembers the pattern for next time",
+        "Added 'What the Log Actually Looks Like' section with real 6-row meal_log.csv showing source confidence tiers (photo+menu-match, photo+vision, text-only), notes column usage, and how to sort/filter by confidence",
+        "Added 'Special Diets & Restrictions' section covering keto/low-carb target setup, vegan/vegetarian micronutrient tracking, allergy and intolerance configuration via restrictions.yaml with Telegram alert example, and intermittent fasting/OMAD timing configuration",
+        "Added tags: csv-structure, special-diets, correction-learning, photo-metadata"
+      ]
+    },
     {
       "date": "2026-06-09",
       "postSlug": "10-financial-pulse",

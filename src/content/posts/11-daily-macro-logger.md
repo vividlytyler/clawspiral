@@ -4,7 +4,7 @@ description: "Most nutrition apps die in a drawer. OpenClaw turns your existing 
 pubDate: 2026-03-28
 category: lifestyle-wellness
 difficulty: intermediate
-tags: ["nutrition", "health", "macros", "image-analysis", "telegram", "whatsapp", "automation", "diet", "micronutrients", "deficiency-detection", "portion-estimation", "goal-adjustment", "meal-analysis"]
+tags: ["nutrition", "health", "macros", "image-analysis", "telegram", "whatsapp", "automation", "diet", "micronutrients", "deficiency-detection", "portion-estimation", "goal-adjustment", "meal-analysis", "csv-structure", "special-diets", "correction-learning", "photo-metadata"]
 featured: true
 image: "https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=1200&auto=format&fit=crop"
 ---
@@ -169,7 +169,19 @@ It will sometimes. Here's how it handles it:
 - **"Likely salmon, ~35g protein"** — made a best guess, logs it
 - **"Can't identify the sauce"** — skips the ambiguous part, logs what it can
 
-You can always correct it: "that was actually closer to 30g protein, not 35." OpenClaw learns from corrections over time.
+You can always correct it. Here's a real correction exchange:
+
+> **You:** [photo: salmon with mashed potatoes and green beans]
+>
+> **OpenClaw:** 📸 Photo analysis — 7:18 PM
+> Visible: salmon fillet (~170g), mashed potatoes (~200g), green beans (~80g)
+> TOTALS: 620 cal | 42g protein | 48g carbs | 28g fat
+>
+> **You:** Actually the salmon was gravlax, so more like 32g protein and less fat
+>
+> **OpenClaw:** Updated. Gravlax is cured, not grilled — lower fat, higher protein per gram. New totals: 580 cal | 48g protein | 48g carbs | 22g fat. Logged. Noting cured fish for future salmon entries.
+
+That's it — one natural-language correction and OpenClaw updates the log, revises the totals, and remembers the pattern for next time. It doesn't need a command or format; plain language works.
 
 For high-stakes use cases (cutting for a show, medical diet), the user should verify critical entries. For general awareness, the estimates are good enough.
 
@@ -243,6 +255,24 @@ This only works when the messaging platform hasn't stripped the metadata (Telegr
 
 The result: a restaurant meal logged with the same precision as scanning a barcode — except you just sent a photo.
 
+### What the Log Actually Looks Like
+
+After a few days of texting, your `meal_log.csv` accumulates entries that look like this:
+
+```
+date,time,meal_type,photo_path,source,calories,protein,carbs,fat,fiber,notes
+2026-03-25,08:32,breakfast,/nutrition/photos/mar25_bfast.jpg,photo+vision,520,28g,62g,18g,8g,
+2026-03-25,13:15,lunch,/nutrition/photos/mar25_lunch.jpg,photo+menu-match,890,45g,98g,32g,12g,Menu match: Sweetgreen, verified GPS
+2026-03-25,19:42,dinner,,text-only,1340,62g,142g,48g,9g,Flagged: 2 glasses wine missing from log
+2026-03-26,09:10,breakfast,,text-only,340,22g,44g,12g,3g,Protein bar — text entry
+2026-03-26,12:55,lunch,/nutrition/photos/mar26_lunch.jpg,photo+vision,620,38g,70g,21g,10g,Sauce ±80 cal range
+2026-03-26,20:15,dinner,/nutrition/photos/mar26_dinner.jpg,photo+vision,1010,72g,88g,38g,14g,
+```
+
+The `source` column tells you how confident to be in each entry. `photo+menu-match` is your highest confidence — GPS-verified restaurant match against a known menu. `photo+vision` means visual estimation from the image. `text-only` means it came from a message without a photo and is an approximation. The `notes` column surfaces the flagged uncertainties so the weekly report can bring them to your attention.
+
+You can sort or filter by `source` when reviewing your data — for high-stakes days (competition prep, medical diet), you might re-log key meals with a photo; for general awareness, the text entries are fine.
+
 ## What You Need to Set This Up
 
 **OpenClaw** running on a machine that can receive Telegram or WhatsApp messages.
@@ -289,6 +319,28 @@ If you're on a 12-week program with progressive overload, your protein needs cha
 "Week 1 of new program — bump protein to 190g, carbs to 250g"
 ```
 You can pre-schedule these updates with a cron job so OpenClaw adjusts the targets automatically at the start of each training phase rather than you having to remember to tell it.
+
+## Special Diets & Restrictions
+
+Most nutrition apps are built for a standard "balanced diet" macro split. OpenClaw doesn't assume anything about your diet — you configure it for what you actually eat.
+
+**Keto / Low-Carb:** Set your carbs target to 20–50g and fat proportionally higher. The daily digest shows net carbs prominently. If you're consistently under 20g, OpenClaw can flag when a meal unexpectedly blows past the threshold so you're not caught off guard by hidden carbs in sauces or dressings.
+
+**Vegan / Vegetarian:** The micronutrient tracking becomes more important here. Without animal sources, B12, iron, zinc, and omega-3s need active attention. The weekly vitamin report is especially useful — OpenClaw tracks plant-based sources of these nutrients (lentils for iron, nuts for zinc, flax for omega-3) and flags when your intake from food photos looks consistently low.
+
+**Allergies and Intolerances:** You can encode restrictions directly in the targets file:
+
+```yaml
+restrictions:
+  - gluten    # flag any wheat/barley/rye
+  - dairy     # flag milk, cheese, yogurt
+  - nuts      # flag all tree nuts and peanuts
+  - shellfish # flag shrimp, crab, lobster, etc.
+```
+
+When OpenClaw spots a flagged ingredient in a photo, it sends a Telegram alert: "⚠️ Photo analysis detected dairy (cheese sauce) — check if this is a concern for you." It doesn't assume an allergy is life-threatening unless you configure it that way, but it makes the warning explicit.
+
+**Intermittent Fasting / OMAD:** If you eat in a compressed window (e.g., 12–8pm) or one meal a day, configure the daily digest to trigger at your eating window close rather than a fixed evening time. The calorie and macro totals are the same, but the timing matters for the "when did you last eat" pattern detection that feeds into the weekly report.
 
 ## Why This Beats a Nutrition App
 
