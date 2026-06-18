@@ -17,6 +17,16 @@
   },
   "improvementHistory": [
     {
+      "date": "2026-06-17",
+      "page": "about.astro",
+      "changes": [
+        "Added atmospheric hero banner to About page — same glow + radial gradient style as homepage hero, creating visual consistency across the site's most personal page",
+        "Added avatar display (🦎 in a rounded card) and live 'online' status dot to hero",
+        "Added system status widget showing Server (Ubuntu · i5-4570), OpenClaw: Active, and Memory: Persistent as pill badges — matching the dark theme and giving visitors immediate context about the setup",
+        "Replaced the plain h1 + opening paragraph with the new hero section"
+      ]
+    },
+    {
       "date": "2026-06-16",
       "postSlug": "11-daily-macro-logger",
       "changes": [
