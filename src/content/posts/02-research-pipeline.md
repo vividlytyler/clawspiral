@@ -3,7 +3,7 @@ title: "Research Pipeline: From Question to Report"
 description: "How OpenClaw can research a topic end-to-end — web search, content extraction, synthesis, and delivery. A framework for turning scattered information into coherent reports."
 pubDate: 2026-03-26
 category: research
-tags: ["research", "web-search", "synthesis", "pipeline", "llm", "duckduckgo", "openclaw", "automation", "knowledge-management", "note-taking"]
+tags: ["research", "web-search", "synthesis", "pipeline", "llm", "duckduckgo", "openclaw", "automation", "knowledge-management", "note-taking", "search-techniques", "cross-session", "research-log", "query-optimization"]
 image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&auto=format&fit=crop"
 imageCaption: "Research Pipeline — from scattered sources to structured synthesis"
 ---
@@ -340,3 +340,113 @@ These traps aren't failures of the pipeline — they're failures of how research
 
 ![Research quality — separating signal from noise](https://images.unsplash.com/photo-1434626881859-194d67b2b86f?w=1200&auto=format&fit=crop)
 *Good research separates verified facts from confident opinions — the pipeline finds both, but only you can tell which is which.*
+
+## Advanced Search Techniques
+
+The pipeline's output quality is only as good as its input. A poorly framed query wastes tokens and returns noise. Here are techniques that sharpen results:
+
+**Start broad, then narrow** — Before drilling into specifics, run one broad query to map the landscape. "What's the state of local LLM inference 2026" gives you the full terrain. Then your follow-up queries are informed, not guesswork. This avoids the query drift trap by letting the first pass establish context.
+
+**Use precise technical terms** — DuckDuckGo works best when you match how experts actually write about a topic. "PostgreSQL connection pooling pg_bouncer vs proxy" returns sharper results than "how to handle lots of database connections." The first query assumes you know pg_bouncer exists; the second assumes you don't.
+
+**Date filtering** — Most web searches support date operators. In DuckDuckGo: `site:github.com "last commit" "project-name"` or append `2025..2026` to constrain results. For fast-moving topics (AI, crypto, regulations), date constraints are essential — otherwise synthesis conflates current findings with historical context.
+
+**The OR trap** — Using `OR` between terms broadens results, but can return sources about either topic independently rather than sources that cover both. `A OR B` ≠ `A and B`. Use `OR` when genuinely exploring alternatives, not when you want both topics covered together.
+
+**Specificity pays off** — A query like "BeagleBone AI-64 YOLOv8 benchmark FPS dust factory" returns more actionable results than "edge AI hardware comparison." The extra terms act as a filter before the LLM ever sees the results. You're narrowing the haystack, not just asking for a smarter needle.
+
+**Source type targeting** — Prefix queries with `site:github.com`, `site:reddit.com`, `site:stackoverflow.com` to target specific source types. For technical due diligence: GitHub issues and READMEs beat marketing pages. For community sentiment: targeted Reddit searches surface real user experience. For official specs: product documentation first.
+
+## Cross-Session Research Continuity
+
+The biggest practical gap in the pipeline is that each run starts fresh. If you're researching something complex — a multi-week vendor evaluation, a technical deep-dive, an ongoing competitive monitoring — you need a way to carry context between sessions.
+
+**The research log approach:**
+
+Maintain a single markdown file per research thread:
+
+```markdown
+# Research: [Topic]
+**Started:** 2026-06-01
+**Status:** Active
+
+## Query Plan
+- [x] Initial landscape query
+- [x] Specific: [sub-topic A]
+- [ ] Specific: [sub-topic B]
+- [ ] Pricing deep-dive
+
+## Key Findings So Far
+- Finding 1 (High confidence) — [source]
+- Finding 2 (Medium confidence) — [source], needs verification
+- Finding 3 (Low confidence) — [source], conflicting data
+
+## Open Questions
+- Is the 2025 benchmark still representative given the 2026 hardware refresh?
+- Does Vendor X's enterprise tier pricing include SLA or is it add-on?
+
+## Source Cache
+- [Source name](url) — fetched 2026-06-01 — key claims: [...]
+- [Source name](url) — fetched 2026-06-02 — key claims: [...]
+```
+
+Before each new session, read the log. OpenClaw will incorporate it as context and avoid re-researching already-covered ground. The log is your externalized memory for research threads.
+
+**The shared memory file pattern** — For research that feeds into decisions (vendor evaluation, purchase research, technical decisions), maintain a `memory/research/[topic].md` file. OpenClaw reads memory files at session start, so the context carries automatically without you re-pasting it.
+
+**When to start a new research thread vs. continue one** — If you're still in the discovery phase (mapping what exists, what's possible), keep one thread. If you've moved to evaluation (comparing specific options against each other), start a new structured thread per option. Mixing discovery and evaluation in one thread is how you end up with the query drift trap.
+
+![Research continuity — maintaining context across sessions](https://images.unsplash.com/photo-1484557985045-edf25e08da73?w=1200&auto=format&fit=crop)
+*Complex research isn't a single session — it's a thread that persists across sessions and compounds as you go.*
+
+## Research Log Template
+
+For structured research projects, copy and adapt this template:
+
+```markdown
+# Research: [Your Question]
+
+## Meta
+- **Created:** YYYY-MM-DD
+- **Last Updated:** YYYY-MM-DD
+- **Status:** [Active | Paused | Complete]
+- **Bottom Line (preliminary):** [One sentence — update as research progresses]
+
+## Question Refinement
+Original question: [what you initially asked]
+Refined question: [sharpened based on early findings]
+
+## Query Log
+| Date | Query | Key Result |
+|------|-------|------------|
+| YYYY-MM-DD | [query text] | [one-line finding] |
+| YYYY-MM-DD | [query text] | [one-line finding] |
+
+## Source Cache
+### Source 1 — [Title](URL)
+- **Fetched:** YYYY-MM-DD
+- **Type:** [docs | blog | benchmark | community | other]
+- **Key Claims:** [bullet points]
+- **Confidence:** [High/Medium/Low] — [why]
+- **Verdict:** [Useful / Needs verification / Disputed]
+
+## Synthesis
+### What Sources Agree On
+-
+
+### Where Sources Disagree
+-
+
+### Confidence Assessment
+[Your assessment of overall confidence — what's solid, what's thin]
+
+## Open Questions
+-
+
+## Action Items
+- [ ] Verify: [specific claim to check]
+- [ ] Follow up: [specific query to run]
+- [ ] Decision: [what you need to decide and by when]
+```
+
+The template forces explicit confidence judgments and source verdicts — which is where research usually breaks down. Without structure, it's easy to remember the conclusion and forget the uncertainty. The template keeps both visible.

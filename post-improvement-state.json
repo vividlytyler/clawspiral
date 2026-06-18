@@ -3,7 +3,7 @@
     "01-smart-home-orchestration": "2026-06-09",
     "04-personal-secretary": "2026-06-12",
     "use-cases-category-pages": "2026-05-02",
-    "02-research-pipeline": "2026-05-31",
+    "02-research-pipeline": "2026-06-17",
     "03-development-assistant": "2026-06-01",
     "05-system-administration": "2026-06-02",
     "06-employee-scheduling": "2026-06-04",
@@ -16,6 +16,17 @@
     "13-language-learning-coach": "2026-06-16"
   },
   "improvementHistory": [
+    {
+      "date": "2026-06-17",
+      "postSlug": "02-research-pipeline",
+      "changes": [
+        "Added 'Advanced Search Techniques' section covering query refinement strategies: start-broad-then-narrow, precise technical terms, date filtering, OR operator risks, specificity pays off, and source-type targeting (site:github.com, site:reddit.com, etc.) — with concrete examples for each technique",
+        "Added 'Cross-Session Research Continuity' section covering the research log markdown approach with template structure, shared memory file pattern for research threads, and guidance on when to start a new thread vs. continue one — directly addresses the 'no persistent memory across sessions' limitation",
+        "Added 'Research Log Template' section with a complete copy-pasteable markdown template featuring meta, question refinement, query log table, source cache with confidence verdicts, synthesis sections (agreement, disagreement, confidence), open questions, and action items — forces explicit uncertainty documentation",
+        "Added Unsplash research notebook image (notepad/pen on desk) before Cross-Session section to close the image sequence cleanly",
+        "Added tags: search-techniques, cross-session, research-log, query-optimization"
+      ]
+    },
     {
       "date": "2026-06-17",
       "page": "about.astro",
