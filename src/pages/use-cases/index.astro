@@ -56,7 +56,7 @@ const searchData = posts.map((post) => ({
         {featuredPosts.map((post) => (
           <article class="rounded-xl border border-sky-500/30 bg-gradient-to-br from-slate-800/60 to-slate-900/60 p-5 hover:border-sky-500/60 transition-all card-lift group">
             <a href={`/posts/${post.id}`} class="block">
-              <h3 class="font-bold text-base mb-2 group-hover:text-sky-400 transition-colors leading-snug">{post.data.title}</h3>
+              <h3 class="font-bold text-base mb-2 post-title group-hover:opacity-80 transition-opacity leading-snug">{post.data.title}</h3>
               <p class="text-slate-400 text-sm line-clamp-3">{post.data.description}</p>
               <span class="text-sky-400 text-sm font-medium mt-3 block">Read more →</span>
             </a>

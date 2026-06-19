@@ -207,7 +207,7 @@ function getReadingTime(body: string | undefined): number {
                 {post.data.difficulty && <span class={`px-2 py-0.5 rounded text-xs font-medium ${diffColor}`}>{post.data.difficulty}</span>}
                 <span class="text-xs text-slate-500 ml-auto">{rt} min</span>
               </div>
-              <h3 class="font-bold text-base mb-2 group-hover:text-sky-400 transition-colors pr-4 leading-snug">{post.data.title}</h3>
+              <h3 class="font-bold text-base mb-2 post-title group-hover:opacity-80 transition-opacity pr-4 leading-snug">{post.data.title}</h3>
               <p class="text-slate-400 text-sm line-clamp-3">{post.data.description}</p>
               <span class="text-sky-400 text-sm font-medium mt-3 block">Read more →</span>
             </a>
