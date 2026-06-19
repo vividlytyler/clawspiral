@@ -307,7 +307,159 @@ You get a prioritized, context-aware breakdown instead of a raw vulnerability du
 
 **Automated dependency update summaries:** Before a major version upgrade, ask OpenClaw to run `npm view <package> versions` and compare with what's locked in your `package-lock.json`. It can draft a changelog summary of what would change, helping you decide whether to upgrade now or wait.
 
+## Triggering Development Assistant Checks via Webhooks
+
+The post mentions CI/CD access but here's what that actually looks like in practice.
+
+### GitHub Actions: Alert on Failure
+
+Add a step to your CI workflow that sends a webhook to OpenClaw on build failure:
+
+```yaml
+# .github/workflows/ci.yml
+- name: Notify OpenClaw on failure
+  if: failure()
+  run: |
+    curl -X POST "$OPENCLAW_WEBHOOK_URL" \
+      -H "Content-Type: application/json" \
+      -d '{
+        "event": "build_failed",
+        "repo": "${{ github.repository }}",
+        "workflow": "${{ github.workflow }}",
+        "run_id": "${{ github.run_id }}",
+        "commit": "${{ github.sha }}",
+        "url": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+      }'
+  env:
+    OPENCLAW_WEBHOOK_URL: ${{ secrets.OPENCLAW_WEBHOOK_URL }}
+```
+
+OpenClaw receives this, reads the failed run log, identifies the error, and sends you a Telegram message with the root cause before you even open your laptop.
+
+### GitLab CI: Pipeline Failure Webhook
+
+```yaml
+# .gitlab-ci.yml
+notify_openclaw:
+  stage: notify
+  only:
+    - pipeline failures
+  script:
+    - |
+      curl -X POST "$OPENCLAW_WEBHOOK_URL" \
+        -H "Content-Type: application/json" \
+        -d "{\"event\": \"pipeline_failed\", \"project\": \"$CI_PROJECT_NAME\", \"commit\": \"$CI_COMMIT_SHA\"}"
+  variables:
+    OPENCLAW_WEBHOOK_URL: ${OPENCLAW_WEBHOOK_URL}
+  when: on_failure
+```
+
+### Scheduled Pre-Merge Checks
+
+You can also trigger OpenClaw on a schedule — for example, a nightly check across all repos:
+
+```json
+{
+  "name": "Nightly Repo Health Check",
+  "schedule": { "kind": "cron", "expr": "0 3 * * *", "tz": "America/Vancouver" },
+  "payload": {
+    "kind": "agentTurn",
+    "message": "Run git status on ~/repos/frontend/app, ~/repos/backend/api, ~/repos/shared/utils. Report: branches behind main, uncommitted changes, any failing CI. Alert if anything needs immediate attention."
+  },
+  "sessionTarget": "isolated"
+}
+```
+
+This fires at 3 AM Pacific every night. By morning you have a health report waiting in Telegram.
+
+### Stale Branch Review (Scheduled)
+
+```json
+{
+  "name": "Weekly Stale Branch Review",
+  "schedule": { "kind": "cron", "expr": "0 10 * * 1", "tz": "America/Vancouver" },
+  "payload": {
+    "kind": "agentTurn",
+    "message": "Analyze ~/repos/ for stale branches: (1) branches merged into main that weren't deleted, (2) branches with no commits in 30+ days, (3) branches that exist locally but not on remote. Produce a cleanup script and ask for approval before running deletions."
+  },
+  "sessionTarget": "isolated"
+}
+```
+
+Monday 10 AM, you get a cleanup script for review. Approve what looks right, skip anything you're still using.
+
 ![Dependency and security monitoring dashboard](https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=1200&auto=format&fit=crop)
+
+## Safe Code Modification Workflow
+
+OpenClaw editing files directly is powerful — and a little scary. Here's a practical workflow to stay safe.
+
+### Before Editing: Backup the Original
+
+Always read the file before modifying it and keep a reference to the original:
+
+```
+# Keep a timestamped backup before OpenClaw edits
+cp src/api/orders.ts src/api/orders.ts.back-$(date +%Y%m%d%H%M%S)
+```
+
+OpenClaw can do this for you — just ask: *"Make a backup with timestamp before editing."*
+
+### After Editing: Review Before Committing
+
+Never auto-commit OpenClaw's changes. The workflow:
+
+1. **OpenClaw edits the file** — you read the diff (`git diff src/api/orders.ts`)
+2. **Spot-check the critical paths** — if it's a payment function, trace the logic manually; if it's a UI component, reason about the render path
+3. **Run tests** — at minimum, run the test suite for the modified module
+4. **Commit only if it looks right**
+
+This sounds obvious but it's easy to skip when OpenClaw's edits look plausible. The most dangerous moment is when an AI produces syntactically correct code that's semantically wrong.
+
+### The "Undo Safety Net" Pattern
+
+For risky changes (refactors, large edits, unfamiliar code), structure the session so you can undo:
+
+- **Work on a feature branch** — never on `main` directly
+- **Small commits as you go** — don't accumulate 10 changes before testing
+- **State explicitly: "I'll review before any git commit"** so there's no ambiguity
+
+### When to Step Back
+
+Some edits are safer to delegate than others:
+
+**Low risk (safe to edit directly):**
+- Test file additions (isolated, run to verify)
+- Documentation changes (obvious when wrong)
+- Simple refactors with test coverage (compiler + tests catch most issues)
+- Config files with obvious structure
+
+**High risk (review carefully or do manually):**
+- Payment or auth logic (test extensively)
+- Database migrations (test on a copy first)
+- Concurrency primitives (race conditions are subtle)
+- Security-related code (OWASP Top 10 doesn't appear in lint output)
+
+The rule: if you'd want a second pair of eyes for a human's edit, you want one for an AI's edit too.
+
+### A Concrete Review Exchange
+
+> **You:** I added a backup and want you to refactor the `getUser` function in `src/api/users.ts` to handle the `role === 'support'` case that currently throws. Update the tests too.
+>
+> **OpenClaw:** Got it. Read the function. Here's the plan:
+> - Add `role === 'support'` branch returning limited user data (no password hash, no API keys)
+> - Keep existing admin and user branches
+> - Add test cases for the support role covering the new branch
+>
+> Ready to proceed?
+
+You confirm. OpenClaw edits, runs the test suite, and reports:
+
+> "Refactor complete. `getUser` now handles `support` role. Tests added for the new branch and the existing admin/user paths. All 12 tests pass. Here's the diff — review before committing."
+
+You read the diff. Looks clean. `git add` and merge.
+
+## Limitations
 
 ## Limitations
 

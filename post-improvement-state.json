@@ -4,18 +4,26 @@
     "04-personal-secretary": "2026-06-12",
     "use-cases-category-pages": "2026-05-02",
     "02-research-pipeline": "2026-06-17",
-    "03-development-assistant": "2026-06-01",
+    "03-development-assistant": "2026-06-18",
     "05-system-administration": "2026-06-02",
     "06-employee-scheduling": "2026-06-04",
     "07-invoice-processing": "2026-06-06",
     "08-creative-brainstorming": "2026-06-11",
     "09-experimental-edge-cases": "2026-06-06",
     "10-financial-pulse": "2026-06-09",
-    "11-daily-macro-logger": "2026-06-07",
     "11-daily-macro-logger": "2026-06-16",
     "13-language-learning-coach": "2026-06-16"
   },
   "improvementHistory": [
+    {
+      "date": "2026-06-18",
+      "postSlug": "03-development-assistant",
+      "changes": [
+        "Added 'Triggering Development Assistant Checks via Webhooks' section with concrete GitHub Actions YAML (notify on failure), GitLab CI webhook example, scheduled nightly repo health check cron config, and weekly stale branch review cron config — bridges the gap between 'CI/CD access' mentioned in prerequisites and what that actually looks like",
+        "Added 'Safe Code Modification Workflow' section covering before-edit backup pattern (timestamped .back copies), after-edit review-before-commit discipline, the 'undo safety net' pattern (feature branches, small commits), risk-tier guidance for what to delegate vs do manually (test files low risk, payment/auth logic high risk), and a concrete review exchange example showing the full edit-verify-report flow",
+        "Added tags: webhooks, git-workflow, code-safety, gitlab-ci
+      ]
+    },
     {
       "date": "2026-06-17",
       "postSlug": "02-research-pipeline",
