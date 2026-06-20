@@ -170,6 +170,19 @@ a:hover {
   background-clip: text;
 }
 
+/* Hero dot-grid texture — subtle depth without noise */
+.hero-grid::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image: radial-gradient(circle, rgba(148, 163, 184, 0.12) 1px, transparent 1px);
+  background-size: 28px 28px;
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
+}
+
 /* Hero mesh gradient — layered blurred orbs for depth with ambient animation */
 @keyframes mesh-drift {
   0%, 100% { opacity: 1; transform: translate(0, 0) scale(1); }
