@@ -3,7 +3,7 @@ title: "Travel Planning: From Research to Itinerary"
 description: "How OpenClaw can handle the full travel planning stack — researching destinations, comparing flights and hotels, building day-by-day itineraries, and delivering everything to your phone."
 pubDate: 2026-03-28
 category: lifestyle-wellness
-tags: ["travel", "planning", "itinerary", "flights", "hotels", "research", "cron", "telegram", "price-alerts", "email-parsing", "destination-research", "itinerary-building", "visa", "documents", "contingency", "real-time-support"]
+tags: ["travel", "planning", "itinerary", "flights", "hotels", "research", "cron", "telegram", "price-alerts", "email-parsing", "destination-research", "itinerary-building", "visa", "documents", "contingency", "real-time-support", "packing-list", "budget-planning", "itinerary-example", "in-transit"]
 image: "https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1200&auto=format&fit=crop"
 ---
 
@@ -38,6 +38,50 @@ Give OpenClaw a list of things you want to do in a city. It will:
 - Account for opening hours and travel time between stops
 - Flag contradictions ("you listed a 9pm dinner reservation in a city where most restaurants close at 10pm and your hotel is 45 minutes away")
 - Balance ambitious days against travel days
+
+Here's what that looks like in practice. You send:
+
+> "Build day 3 of my Tokyo trip around these activities: teamLab Borderless, Tsukiji Outer Market lunch, teamLab Planets (evening), and something in Ginza for dinner. I'm staying in Shibuya. I've already been to Senso-ji."
+
+OpenClaw responds with a structured day:
+
+```markdown
+## Day 3 — TeamLab Double Header + Tsukiji
+
+### Morning (depart Shibuya ~8:15am)
+- **teamLab Borderless** (Odaiba) — Opens 10am
+  - Book timed entry: 10:00–11:30 slot (book 2+ days ahead)
+  - Transit: Yamanote to Shimbashi → Rinkai line to Tokyo Teleport (~40min)
+  - Budget 2–2.5 hrs here — it's disorienting and you'll want to re-enter key rooms
+
+### Lunch (~12:30pm)
+- **Tsukiji Outer Market** — walk to Rinkai line at Aomi, two stops to Shin-Toyosu
+  - Target: Daiwa Sushi or Sushi Kai for omakase lunch (¥2,000–3,500)
+  - Keep it light — you're doing Planets in the evening
+
+### Afternoon — buffer / Shibuya recovery
+- If Borderless ran long, you have breathing room before needing to head back
+- Suggested: Uniqlo Ginza (10min from Shibuya station) for anything you forgot
+- No heavy activities — you've got Planets tonight
+
+### Evening (~5:30pm)
+- **teamLab Planets** (Toyosu) — walk from Tsukiji Outer Market (~15min)
+  - Opens 5pm, less crowded after 6pm
+  - Budget 1.5–2 hrs
+  - Combine with dinner nearby: Ginza Ukai-tei (teppan, reservation recommended)
+
+### Dinner (~8pm)
+- **Ginza** — Ukai-tei Ginza or, if you skipped the teppan route, Sushi Kanesaka
+  - From teamLab Planets: Rinkai to Shin-Toyosu → Yamanote loop to Ginza (~30min)
+  - Flag: Your last Shibuya-bound Yamanote from Shinjuku runs ~11:45pm — you have buffer
+
+### Logistical flags
+- ⚠️ Two teamLab venues in one day is intense — the Borderless-to-Planets transition involves a 30min transit and significant foot traffic
+- ✅ Planets closes 11pm (last entry 10pm) — you have a comfortable evening window
+- 📍 Consider IC card (Suica/Pasmo) top-up of ¥2,000 before departing Shibuya
+```
+
+The output gives you a reason-able day, transit times you can actually act on, and flags problems before you're standing at a station trying to figure them out.
 
 ### Monitor Prices
 
@@ -77,6 +121,67 @@ When the price drops, you get a message like:
 
 No doomscrolling flight tabs. No checking every morning. You just get the alert when it matters.
 
+### Budget Planning
+
+Before you book anything, OpenClaw can build a realistic budget from your stated all-in limit and trip parameters. It's not a spreadsheet — it's a framework that tells you where the money actually goes.
+
+Send:
+> "I'm going to Tokyo for 10 days in late May with a $3,500 CAD budget. I like good food and architecture, I don't care about shopping, and I'd rather spend more on a better hotel than save by staying somewhere inconvenient."
+
+OpenClaw produces:
+
+```markdown
+## Budget Framework — Tokyo 10 Days ($3,500 CAD)
+
+### Flights
+- **Realistic range:** $900–$1,400 CAD roundtrip economy
+- **Strategy:** Book 6–8 weeks out for best pricing; monitor with price cron (above)
+- **Buffer if prices spike:** $1,500 CAD max
+- **Allocate:** $1,200 CAD
+
+### Accommodation (9 nights)
+- **Sweet spot:** $120–$150/night = $1,080–$1,350 CAD for 9 nights
+- **Target neighborhoods:** Nakameguro, Shimokitazawa, Koenji (character, transit, cheaper than Shibuya)
+- **Avoid:** Shinjuku/Shibuya tourist premium unless a deal surfaces
+- **Allocate:** $1,200 CAD (flexible down to $900 if hostels or business hotels)
+
+### Food ($60–$120/day = $540–$1,080 for 10 days)
+- Budget tier: convenience store + chain restaurants ($40–60/day)
+- Mid tier: casual izakaya + lunch specials + one omakase ($80–100/day)
+- Top tier: omakase dinner ($200–400/person) + kaiseki ($150–250/person)
+- **Your preference:** Mid-to-top. Allocate $900 CAD, build in one omakase splurge
+- **Strategy:** Use lunch courses for high-quality meals at dinner prices
+
+### Transport within Tokyo
+- IC card (Suica): Load ¥5,000–7,000 (~CAD $55–77) for 10 days of transit
+- Day trips (Nikko / Kamakura): Budget ¥3,000–5,000 per trip (train + local)
+- **Allocate:** ¥10,000 total (~CAD $110)
+
+### Experiences & Admissions
+- teamLab Borderless: ¥3,200–3,800 (book online, cheaper than door)
+- teamLab Planets: ¥2,000–2,600
+- Ghibli Museum: ¥1,000 (must book in advance)
+- General admissions, small museum entry, temple donations
+- **Allocate:** ¥15,000 (~CAD $165)
+
+### Buffer / Contingency
+- **Remaining:** $115 CAD
+- **Recommended use:** Emergency medical kit, tipping, unexpected luggage storage, backup food fund
+
+### Summary
+| Category | Allocation | Notes |
+|---|---|---|
+| Flights | $1,200 | Monitor with price cron |
+| Accommodation | $1,200 | Nakameguro/Shimokitazawa |
+| Food | $900 | One omakase splurge built in |
+| Local transport | $110 | Suica + 1 day trip |
+| Experiences | $165 | Book teamLab online |
+| Buffer | $115 | Emergency only |
+| **Total** | **$3,500** | |
+```
+
+The framework forces explicit tradeoffs — you're not just told "stay cheap" but shown where the money goes and what you're giving up or keeping at each tier. If your food priority is high, you can see exactly what you'd need to cut from accommodation to fit an omakase dinner without blowing the budget.
+
 ### Handle the Logistics After You Book
 
 Once you have flights and hotels confirmed, forward the confirmation emails to OpenClaw. It can:
@@ -85,6 +190,53 @@ Once you have flights and hotels confirmed, forward the confirmation emails to O
 - Add them to a trip file in your workspace
 - Build a timeline view of your whole trip
 - Remind you what you need to do before departure (visa applications, vaccination windows, packing priorities)
+
+### Generate a Packing List
+
+OpenClaw generates your packing list from the itinerary — not from a generic checklist. It knows you're doing a temple visit in Kyoto and a fancy dinner in Tokyo, so it can flag specific items (temple requires covered knees, fancy dinner has no dress code but leaning toward smart casual).
+
+Send:
+> "Generate a packing list for my Tokyo trip based on the itinerary I've built. It's late May, I'm gone 10 days, and I want to travel carry-on only."
+
+OpenClaw reads your `itinerary.md` and `reservations.md`, then produces:
+
+```markdown
+## Packing List — Tokyo 2026 (Carry-On Only)
+
+### Clothing (10 days, late May Tokyo)
+- [x] 5 tops (2 short-sleeve, 2 light long-sleeve for AC, 1 nicer dinner shirt)
+- [x] 2 pairs pants/shorts (1 dark jeans, 1 lightweight travel pants)
+- [x] 1 light jacket or layering piece (Tokyo malls are freezing in May)
+- [x] 1 pair walking shoes + 1 pair casual evening shoes
+- [x] Socks + underwear for 10 days (launder once mid-trip)
+- [ ] Rain shell or collapsible umbrella (May is rainy season start)
+
+### Toiletries
+- [ ] Full-size items vs. 100ml limit: decide based on airline (NRT security is strict)
+- [ ] Sunscreen (often expensive in Japan, bring from home)
+- [ ] Any prescription meds (keep in carry-on, bring doctor's note for injectables)
+- [ ] Converter + adapter for Japanese outlets (Type A, 100V)
+
+### Tech
+- [ ] Camera (if not phone)
+- [ ] Portable charger (long museum days drain batteries)
+- [ ] USB-C charger + cable (Japanese USB-A is still common)
+- [ ] Pocket WiFi or eSIM (order before departure)
+
+### Documents (in carry-on document folder)
+- [ ] Passport (valid through January 2027)
+- [ ] Flight confirmations (printed + phone screenshots)
+- [ ] Hotel confirmations
+- [ ] IC card (Suica on phone or physical)
+- [ ] Travel insurance policy number + emergency contact
+
+### Don't Bring
+- [ ] umbrella (buy at Don Quijote on arrival — cheaper, saves luggage space)
+- [ ] excessive toiletries (7-Eleven in Japan has everything)
+- [ ] large amounts of cash (Tokyo is largely cashless for most restaurants/stores)
+```
+
+The list is itinerary-aware — it knows you're doing a ryokan stay in Kyoto (tatami = no heels) and a tsukiji visit at 7am (sturdy shoes, not sandals). It also catches the currency/adapter gaps that generic packing lists miss.
 
 ### Visa and Document Tracking
 
@@ -144,6 +296,9 @@ OpenClaw extracts and writes to `trips/tokyo-2026/flights.md`:
 ```
 
 Do this for every confirmation — flights, hotels, restaurant reservations, museum tickets — and by departure day you have a single trip file that answers "what time do I need to be where?" without checking five different emails.
+
+![Travel day — person with rolling bag and phone at airport gate](https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1200&auto=format&fit=crop)
+*You're in the city. The plan is in your phone. OpenClaw is the layer between them.*
 
 ## Day-of-Trip: Real-Time Support
 

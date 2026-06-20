@@ -12,9 +12,21 @@
     "09-experimental-edge-cases": "2026-06-06",
     "10-financial-pulse": "2026-06-09",
     "11-daily-macro-logger": "2026-06-16",
+    "12-travel-planner": "2026-06-20",
     "13-language-learning-coach": "2026-06-16"
   },
   "improvementHistory": [
+    {
+      "date": "2026-06-20",
+      "postSlug": "12-travel-planner",
+      "changes": [
+        "Added concrete 8-step day-by-day Tokyo itinerary example (teamLab Borderless → Tsukiji → teamLab Planets → Ginza dinner) with actual transit times, flag warnings, buffer logic, and neighborhood reasoning — makes the abstract 'itinerary-building' capability tangible",
+        "Added 'Budget Planning' section with full $3,500 CAD Tokyo 10-day budget table covering flights, accommodation, food, local transport, experiences, and contingency — shows explicit tradeoffs between tiers rather than generic advice",
+        "Added 'Generate a Packing List' section with 25-item itinerary-aware packing list generated from the Tokyo trip context (temple visits, ryokan, omakase dinners, carry-on constraint) — specific enough to catch gaps generic lists miss",
+        "Added Unsplash in-transit/airport gate image before Day-of-Trip section to visually separate planning phase from execution phase",
+        "Added tags: packing-list, budget-planning, itinerary-example, in-transit"
+      ]
+    },
     {
       "date": "2026-06-18",
       "postSlug": "03-development-assistant",
