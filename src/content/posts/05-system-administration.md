@@ -316,6 +316,37 @@ apcupsd → OpenClaw heartbeat → Telegram alert (immediate)
           Email via external SMTP (e.g., ntfy.sh or SendGrid)
 ```
 
+**UPS monitoring with apcupsd:**
+If your server is connected to a UPS via USB or network, `apcupsd` provides runtime, load, and battery status:
+```bash
+apcaccess status
+```
+Example output OpenClaw parses:
+```
+APC      : 001,036,0857
+DATE     : 2026-03-26 14:32:00 -07:00
+HOSTNAME : home-server
+VERSION  : 3.14.14
+UPSNAME  : Eaton-5E-1500
+MODEL    : USB UPS
+STATUS   : ONLINE
+LINEV    : 123.4 Volts
+LOADPCT  : 35.0 Percent
+BCHARGE  : 100.0 Percent
+RUNTIME  : 30.0 Minutes
+MBATTCHG : -5 Percent
+MINTIMEL : 10 Minutes
+MAXTIME  : 0 Seconds
+```
+OpenClaw tracks runtime: at 35% load, you have 30 minutes of battery. That's enough to finish a Jellyfin recording in progress, complete a MariaDB write flush, and do a clean shutdown — but only if there's a plan. OpenClaw messages you:
+> *"UPS at 30min runtime (35% load). Battery 100%. If you want a graceful shutdown before power runs out, I can initiate now — or if you're watching something on Jellyfin, I can wait until it finishes recording at 7PM and then shut down gracefully."*
+
+When STATUS changes to `ONBATT` (power loss):
+> *"Power lost. UPS running on battery — 22 minutes runtime remaining at current load. Monitoring. Will initiate graceful shutdown at 10% battery or if runtime drops below 5 minutes, whichever comes first. No action needed from you unless you want to override."*
+
+When `STATUS: MISSING` (UPS disconnected):
+> *"UPS status not responding — either the USB cable was unplugged or apcupsd lost contact. Last known state: ONLINE at 14:28. Check the USB connection and run `apcupsd restart` if needed."*
+
 **Notification fatigue prevention:**
 OpenClaw batches similar events. Rather than sending 20 messages about a flaky container, you get one: *"Plex restarted 4 times today between 14:00–16:00. Each time it self-healed within 2 minutes. Likely a transcoding memory issue — recommend increasing the container memory limit from 4G to 8G."* One message, one actionable recommendation.
 
@@ -425,8 +456,26 @@ Beyond monitoring, OpenClaw can actively tune your system based on observed beha
 ![System performance monitoring terminal showing resource graphs](https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&auto=format&fit=crop)
 
 **Container resource tuning:**
-After a week of `docker stats` data, OpenClaw can recommend memory limits:
-> *"Plex averaged 7.2G RAM over the last 7 days but is capped at 4G — it's been swapping. Recommend setting `mem_limit: 8G` in the Plex compose file to eliminate transcoding stutters."*
+After a week of `docker stats` data, OpenClaw can recommend memory limits. Here's what that looks like in practice:
+
+```
+CONTAINER ID   NAME      CPU %   MEM USAGE / LIMIT     MEM %   NET I/O           BLOCK I/O
+a1b2c3d4e5f6   plex      124%    7.21GiB / 3.98GiB     181%    1.24GB / 823MB    89.4MB / 12.4GB
+b2c3d4e5f6a1   sonarr    0.32%   186MiB / 256MiB       72.6%   45.2MB / 12.1MB    8.32MB / 0B
+c3d4e5f6a1b2   radarr    0.28%   142MiB / 256MiB       55.4%   34.7MB / 8.9MB     6.11MB / 0B
+d4e5f6a1b2c3   swag      0.09%   88.4MiB / 128MiB      69.0%   412MB / 156MB      1.23MB / 0B
+```
+
+OpenClaw reads this output and identifies the critical issue immediately: Plex is using 7.21GB against a 3.98GB limit — it's swapping. MEM % shows 181%, meaning it's over the limit by nearly 2x. The 124% CPU reflects thrashing during concurrent transcodes.
+
+Concrete recommendation:
+> *"Plex is at 181% of its memory limit (7.2G used / 4G cap) — it's been swapping heavily, which explains the transcoding stutters you mentioned. Recommended fix in docker-compose.yml:
+> `mem_limit: 8G`
+> `memswap_limit: 8G`
+> (setting both equal disables swap entirely — more predictable performance)
+> After applying, monitor for 24h to confirm RAM usage stabilizes around 6-7G with no OOM kills in `docker logs plex`."*
+
+OpenClaw can also flag containers using suspiciously little memory relative to their workload — a database at 40MB might have a query causing it to cache everything inefficiently, versus one properly sized at 800MB with good buffer management.
 
 **Kernel parameter adjustment:**
 ```
@@ -459,7 +508,45 @@ echo $throttled
 ```
 On Raspberry Pi or systems with `vcgencmd`, OpenClaw can detect if the CPU has been throttled due to heat and suggest cooling improvements.
 
+## ZFS Health Monitoring
+
+If you're running ZFS (increasingly common on home servers for its snapshot and redundancy features), OpenClaw can monitor pool health beyond what `df -h` shows:
+
+**Pool status:**
+```bash
+zpool status -v
+```
+OpenClaw checks for: degraded vdevs, failed disks, resilver in progress, and checksum errors. A non-zero checksum error count is often the first sign of a failing drive before SMART picks it up.
+
+**Pool capacity:**
+```bash
+zpool list -o name,size,alloc,free,cap,health
+```
+OpenClaw alerts when capacity crosses 80% — ZFS performance degrades significantly above 80% and hits hard limits near 95%. Unlike ext4, you can't just resize a ZFS pool; you need to add vdevs or replace drives proactively.
+
+**Scrub health and timing:**
+```bash
+zpool status | grep scrub
+# Last scrub: 2026-03-15 02:00, 1.2T scanned, 0 errors
+```
+OpenClaw tracks scrub frequency (aim for monthly) and error counts. A scrub that hasn't run in 60+ days should be triggered:
+```bash
+zpool scrub tank
+# Run during low-usage hours — scrubs are I/O intensive
+```
+
+**Snapshot lifecycle:**
+```bash
+zfs list -t snapshot -o name,used,referenced,creation | grep tank
+```
+OpenClaw can manage snapshot retention — roll up old snapshots, identify large snapshots consuming space, and automate `zfs destroy tank/manual@weekly-2026-03-01`-style cleanup.
+
+**A real ZFS alert:**
+> *"ZFS pool 'tank' is at 78% capacity — crossed your 80% threshold. Top consumers: tank/docker/volumes at 412GB, tank/media at 1.8TB. Next largest snapshot: tank/docker/volumes@2026-01-15 at 89GB (created 5 months ago). Recommend running `zfs destroy tank/docker/volumes@2026-01-15` to reclaim space, then add a new vdev or drive to the pool before you hit 85%."*
+
 ## Disk I/O Monitoring
+
+![Hard drive diagnostic showing S.M.A.R.T. data and disk health metrics](https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?w=1200&auto=format&fit=crop)
 
 Beyond disk space (which `df -h` covers), I/O bottlenecks can slow down your entire system without showing up as high CPU or memory usage:
 
@@ -490,6 +577,32 @@ smartctl -H /dev/sda
 smartctl -A /dev/sda | grep -E "Reallocated_Sector|Current_Pending_Sector|Offline_Uncorrectable"
 ```
 For systems where `smartctl` is available, OpenClaw checks attribute 5 (reallocated sectors), 197 (current pending sector count), and 198 (offline uncorrectable). A rising count on any of these is an early warning sign before failure.
+
+## Capacity Forecasting
+
+OpenClaw can project resource trends before they become crises — you fix the problem before it becomes a midnight pager event:
+
+**Disk growth projection:**
+OpenClaw tracks disk usage over time (a weekly cron storing `df -h` output to a log file), then extrapolates:
+> *"Your media drive is growing at ~15GB/week. At this rate, the 1.8TB drive will be full in approximately 11 weeks (early September). Current cleanup candidates: old Plex-optimized versions (42GB), completed downloads in /downloads/complete that are already seeded (18GB), Jellyfin transcoding cache (9GB). Want me to clean any of these up, or set a reminder to add a drive in September?"*
+
+**Memory trend analysis:**
+Over weeks of `free -m` snapshots:
+> *"Your average memory usage has crept from 52% to 61% over the past 30 days, almost entirely from Jellyfin's transcoding cache growing. By end of summer you'd be at 78% average with spikes into swap territory. Recommend pre-emptively adding 8GB RAM or adding a cron to clear the Jellyfin cache directory every Sunday night."*
+
+**Container count growth:**
+If you're like most LinuxServer users, the Docker compose folder grows over time:
+> *"You've added 3 new containers in the past 60 days (Uptime Kuma, Grafana, Vaultwarden). Average CPU per container: 0.4%, average RAM: 230MB. Your current headroom (3.2G / 32G) can accommodate about 14 more containers before memory becomes a concern. CPU headroom is fine. You're not at risk — just tracking."*
+
+**Proactive reminder:**
+OpenClaw can schedule a reminder cron for when capacity projections cross thresholds:
+```json
+{
+  "name": "Storage Planning Reminder",
+  "schedule": { "kind": "cron", "expr": "0 10 1 * *", "tz": "America/Vancouver" },
+  "payload": { "kind": "agentTurn", "message": "Check disk growth rate on your media drive. If projected time-to-full is under 8 weeks, message Tyler: 'Storage reminder: [drive] at [X]% with [N] weeks of headroom. Top consumers: [list]. Suggest: [action].'" }
+}
+```
 
 ## Limitations
 
