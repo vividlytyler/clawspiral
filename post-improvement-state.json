@@ -6,7 +6,7 @@
     "02-research-pipeline": "2026-06-17",
     "03-development-assistant": "2026-06-18",
     "05-system-administration": "2026-06-20",
-    "06-employee-scheduling": "2026-06-04",
+    "06-employee-scheduling": "2026-06-21",
     "07-invoice-processing": "2026-06-06",
     "08-creative-brainstorming": "2026-06-11",
     "09-experimental-edge-cases": "2026-06-06",
@@ -16,6 +16,17 @@
     "13-language-learning-coach": "2026-06-16"
   },
   "improvementHistory": [
+    {
+      "date": "2026-06-21",
+      "postSlug": "06-employee-scheduling",
+      "changes": [
+        "Added 'Multi-Location Coverage' section covering location-tagged employee assignments, cross-location swap broadcasting, and a real 3-location coffee shop example with downtown/kiosk/campus config — explains how to handle employees who can only work certain locations",
+        "Added cross-training as a feature: one-off coverage fills can unlock new location permissions in an employee's profile, surfaced automatically when a manager vouches for them",
+        "Added Unsplash multi-location business dashboard image after the on-call section",
+        "Added 'Role-Based Permissions and Certifications' section covering role-gated shift assignment (alcohol bar requiring servsafe), certification expiry tracking with 14-day advance warning, and union seniority rule encoding with sort priority config",
+        "Added tags: on-call, payroll-export, availability-management"
+      ]
+    },
     {
       "date": "2026-06-20",
       "postSlug": "05-system-administration",

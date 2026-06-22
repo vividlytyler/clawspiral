@@ -3,7 +3,7 @@ title: "Employee Scheduling for Small Businesses"
 description: "How OpenClaw can automate weekly scheduling — collecting availability, building schedules based on business rules, and delivering shift assignments via Telegram or WhatsApp."
 pubDate: 2026-03-26
 category: business-finance
-tags: ["scheduling", "small-business", "telegram", "whatsapp", "automation", "hr", "cron", "sick-day", "troubleshooting", "split-shifts"]
+tags: ["scheduling", "small-business", "telegram", "whatsapp", "automation", "hr", "cron", "sick-day", "troubleshooting", "split-shifts", "on-call", "payroll-export", "availability-management"]
 image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&auto=format&fit=crop"
 featured: true
 ---
@@ -268,7 +268,64 @@ Bot: "Maria confirmed 7pm-10pm. Kitchen covered."
 
 Without the on-call layer, the owner ends up frantically texting through a call list. With it, OpenClaw owns the escalation path — on-call first, then backup list, then the manager only if both are unavailable.
 
+![Multi-location business dashboard showing coverage across locations](https://images.unsplash.com/photo-1556761175-4b46a572b786?w=1200&auto=format&fit=crop)
+
 On-call shifts can also carry a different compensation flag. If your payroll tool handles on-call pay differently, the CSV export can include an `on_call: true` column alongside hours, so the payroll tool applies the right rate automatically.
+
+### Multi-Location Coverage
+
+Some businesses run multiple locations — a coffee shop with a downtown kiosk and a campus satellite, a salon with two chairs in different neighborhoods, a clinic with a main office and a satellite urgent care. Scheduling across locations adds a layer most single-location schedulers don't think about: an employee who can work Location A might not have the right equipment, certification, or even transportation to cover Location B.
+
+OpenClaw handles multi-location scheduling by tagging employees with location permissions:
+
+```json
+{
+  "employees": {
+    "Maria Garcia": {
+      "locations": ["downtown", "kiosk"],
+      "roles": { "downtown": ["barista", "closer"], "kiosk": ["barista"] }
+    },
+    "Priya Patel": {
+      "locations": ["downtown", "campus"],
+      "roles": { "downtown": ["barista", "opener"], "campus": ["barista", "opener", "closer"] }
+    },
+    "Tom Nguyen": {
+      "locations": ["downtown"],
+      "roles": { "downtown": ["barista", "closer"] }
+    }
+  },
+  "locations": {
+    "downtown": { "minStaff": 2, "shifts": ["morning", "afternoon"] },
+    "kiosk":   { "minStaff": 1, "shifts": ["morning", "afternoon"] },
+    "campus":  { "minStaff": 1, "shifts": ["morning", "afternoon", "evening"] }
+  }
+}
+```
+
+When OpenClaw generates the schedule, it only assigns Maria to downtown or kiosk shifts, Priya to downtown or campus, and Tom exclusively to downtown. A request to cover a campus shift never goes to Tom — the broadcast is location-scoped from the start.
+
+**A real cross-location swap flow:**
+
+```
+Bot: "Coverage gap — campus location needs a barista for Sat 9am-3pm. 
+Available campus-eligible staff: Priya. Broadcasting."
+Priya: "I can do it"
+Bot: "Priya confirmed for campus Sat 9am-3pm. Schedule updated."
+```
+
+Without location tags, OpenClaw would broadcast to everyone and someone would have to say "wait, I'm not set up for campus." Location scoping eliminates that back-and-forth.
+
+**Cross-training as a feature, not a bug.** When an employee volunteers to pick up hours at a new location, OpenClaw can flag it as a cross-training opportunity:
+
+```
+Bot: "Tom — you're cleared for the kiosk location now (Priya vouched for you 
+during the Apr 12 fill-in). Adding 'kiosk' to your location permissions."
+Tom: "Nice, didn't know I was approved"
+Bot: "You're not officially certified yet — this was an informal fill. 
+Check with [Manager] to get kiosk added to your regular profile."
+```
+
+This turns one-off coverage fills into discovered capabilities. Tom didn't know he could work the kiosk; the system found out by accident and surfaced it.
 
 ### Real Example: Weekly Run
 
@@ -280,6 +337,57 @@ Every Sunday at 6pm, a cron job fires:
 4. Sends each employee their personalized shift list via Telegram
 
 Manager gets one message: *"Draft schedule ready. 2 conflicts need review."* They resolve them, or let OpenClaw auto-resolve by preference score. Done by 7pm.
+
+### Role-Based Permissions and Certifications
+
+Beyond location, employees often have role-specific permissions: certifications, training completions, age-based restrictions (no alcohol service under 21), or union seniority rules. These are constraints that matter — a barista who's great on register can't legally run the bar during certain hours if licensing rules say otherwise.
+
+OpenClaw encodes these as role permissions tied to shifts:
+
+```json
+{
+  "roles": {
+    "barista":    { "minAge": 16 },
+    "cashier":    { "minAge": 16 },
+    "alcoholBar": { "minAge": 21, "requiresCertification": "servsafe" },
+    "closer":     { "requiresTraining": ["cashHandling", "alarmCode"] }
+  },
+  "certifications": {
+    "Maria Garcia":    ["servsafe", "cashHandling", "alarmCode"],
+    "Priya Patel":     ["servsafe", "cashHandling"],
+    "Chris Walsh":     ["cashHandling"],
+    "James Lee":       ["servsafe", "cashHandling", "alarmCode"],
+    "Tom Nguyen":      ["cashHandling", "alarmCode"],
+    "Sofia Reyes":     ["servsafe", "cashHandling"]
+  }
+}
+```
+
+When generating the schedule, OpenClaw cross-references shift requirements against employee certifications. If a Friday evening shift requires `alcoholBar` and only Maria and James have the `servsafe` certification, Chris and Priya are automatically excluded from that slot — no manager review needed.
+
+**Certification expiry tracking** prevents a common problem: employees whose certifications lapse while they're still being scheduled:
+
+```
+Bot: "Warning — Sofia's ServSafe certification expires in 14 days (Jun 14). 
+She can still be scheduled through that date, but update it before then or 
+she can't work alcohol bar shifts."
+```
+
+The reminder fires automatically based on the expiry dates in the config file. Without this, the lapsed certification is the kind of thing that gets caught by a surprise audit, not a proactive check.
+
+**Union seniority rules** are harder to encode but OpenClaw can handle the basics:
+
+```json
+{
+  "seniorityRules": {
+    "enabled": true,
+    "sortPriority": ["seniority", "hoursThisWeek"],
+    "breakTiesBy": "firstHired"
+  }
+}
+```
+
+When two employees both want the same day off, OpenClaw gives the day to whoever has more seniority — unless there's a coverage conflict, in which case the manager decides. Seniority is a soft input, not a hard override.
 
 ### Payroll Integration
 
