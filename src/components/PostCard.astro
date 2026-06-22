@@ -38,7 +38,7 @@ const difficultyColor = difficulty ? (difficultyColors[difficulty] ?? 'bg-slate-
 const categoryAccentColor = categoryColors[category]?.accent ?? '#38bdf8'; // sky-400 fallback
 ---
 
-<article class={`relative group p-5 rounded-lg border border-sky-500/30 bg-gradient-to-br from-slate-800/60 to-slate-900/60 hover:-translate-y-1 hover:shadow-lg hover:shadow-black/20 hover:border-sky-500/60 transition-all duration-200 post-card-glow ${!image ? 'pt-5' : ''}`}>
+<article class={`relative group p-5 rounded-lg border border-sky-500/30 bg-gradient-to-br from-slate-800/60 to-slate-900/60 hover:-translate-y-1 hover:shadow-lg hover:shadow-black/20 hover:border-sky-500/60 transition-all duration-200 post-card-glow card-lift ${!image ? 'pt-5' : ''}`}>
   {!image && (
     <div
       class="absolute top-0 left-4 right-4 h-1 rounded-full opacity-60"
