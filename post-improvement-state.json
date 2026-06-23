@@ -7,7 +7,7 @@
     "03-development-assistant": "2026-06-18",
     "05-system-administration": "2026-06-20",
     "06-employee-scheduling": "2026-06-21",
-    "07-invoice-processing": "2026-06-06",
+    "07-invoice-processing": "2026-06-22",
     "08-creative-brainstorming": "2026-06-11",
     "09-experimental-edge-cases": "2026-06-06",
     "10-financial-pulse": "2026-06-09",
@@ -16,6 +16,15 @@
     "13-language-learning-coach": "2026-06-16"
   },
   "improvementHistory": [
+    {
+      "date": "2026-06-22",
+      "postSlug": "07-invoice-processing",
+      "changes": [
+        "Added 'Cash Flow Forecasting' section covering 30-day rolling AP/AR projection with actual output example, AR confidence level weighting (SENT 60%, CONFIRMED_RECEIVED 85%, ACKNOWLEDGED 95%), minimum reserve and alert threshold config JSON, and explicit caveats about intake lag undercounting near-term AP",
+        "Replaced duplicate bottom image (was same as hero) with a year-end accounting close Unsplash image (calculator/spreadsheet)",
+        "Added tags: cash-flow-forecasting, payment-terms"
+      ]
+    },
     {
       "date": "2026-06-21",
       "postSlug": "06-employee-scheduling",
@@ -56,7 +65,7 @@
       "changes": [
         "Added 'Triggering Development Assistant Checks via Webhooks' section with concrete GitHub Actions YAML (notify on failure), GitLab CI webhook example, scheduled nightly repo health check cron config, and weekly stale branch review cron config — bridges the gap between 'CI/CD access' mentioned in prerequisites and what that actually looks like",
         "Added 'Safe Code Modification Workflow' section covering before-edit backup pattern (timestamped .back copies), after-edit review-before-commit discipline, the 'undo safety net' pattern (feature branches, small commits), risk-tier guidance for what to delegate vs do manually (test files low risk, payment/auth logic high risk), and a concrete review exchange example showing the full edit-verify-report flow",
-        "Added tags: webhooks, git-workflow, code-safety, gitlab-ci
+        "Added tags: webhooks, git-workflow, code-safety, gitlab-ci"
       ]
     },
     {
@@ -184,18 +193,6 @@
         "Added 'triage' and 'prioritization' tags"
       ]
     },
-      "postSlug": "10-financial-pulse",
-      "changes": [
-        "Added budget.json format example with monthly limits, alertAt thresholds, savingsGoals structure, and singleTransaction/newVendor thresholds",
-        "Added concrete anomaly detection examples: unusual timing/location ($347 Shell at 3:17 AM), amount outlier (2.6x Whole Foods norm), and first-time vendor conversion pattern",
-        "Added 'Real Example: The CloudStream Trap' — full 7-week story from $0.99 trial to $104.93 forgotten subscription to cancellation",
-        "Added concrete IMAP email parsing example with actual Chase alert email format showing extracted vendor, amount, date, and account fields",
-        "Added 'Savings Goals' section with progress bar format, on-track indicator, contribution rate comparison, and gap analysis",
-        "Fixed 'Spotif Premium' typo to 'Spotify Premium' in weekly digest example",
-        "Replaced hero image with lifestyle finance photo (person reviewing finances by sunny window)",
-        "Added tags: net-worth, savings-goals, investment-tracking, imap-parsing"
-      ]
-    },
     {
       "date": "2026-05-27",
       "postSlug": "09-experimental-edge-cases",
@@ -222,14 +219,6 @@
       "changes": [
         "Added 'Split Shifts' section covering lunch/dinner window configuration with JSON example, gap tracking between windows, and concrete Maria availability exchange showing 3-hour minimum gap and 2-night close limit",
         "Added 'split-shifts' tag"
-      ]
-    },
-      "date": "2026-05-23",
-      "postSlug": "08-creative-brainstorming",
-      "changes": [
-        "Added 'Evaluating Creative Directions' section covering four practical tests: constraint inversion, why-this-why-now, 10-year durability, and first-draft read — with concrete novel-direction example",
-        "Added 'Evaluating Your Own Work' section covering what to ask (what is this actually about, where does it lose energy, what does it remind you of, what is it NOT doing) with a first-chapter critique example",
-        "Added 'evaluation' and 'critique' tags"
       ]
     },
     {
@@ -357,15 +346,6 @@
       "changes": [
         "Added 'Dependency and Security Vulnerability Monitoring' section covering outdated package detection, npm audit parsing with exploitability assessment, license compliance checking, and automated dependency update summaries",
         "Added tags: dependency-audit, security, stale-branches"
-      ],
-    },
-    {
-      "postSlug": "02-research-pipeline",
-      "changes": [
-        "Added 'Iterative Research: Drilling Deeper' section covering 2-3 iteration flow, when to iterate (low confidence flags), and concrete e-commerce platform example",
-        "Added Unsplash image (medical/research team) after Iterative Research section",
-        "Replaced generic 'When It Breaks' section with detailed failure mode breakdown: training cutoff conflation, search no-results, fetch empty/garbled, synthesis winner-picking errors, and output-lost-in-chat",
-        "Added 'Output Quality Checklist' section with 6-item checklist (date check, source count, confidence level, conflicts surfaced, citations traceable, delivery received)"
       ]
     },
     {

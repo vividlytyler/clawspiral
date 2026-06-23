@@ -4,7 +4,7 @@ description: "How OpenClaw can handle accounts payable and receivable — receiv
 pubDate: 2026-03-26
 category: business-finance
 difficulty: intermediate
-tags: ["invoicing", "accounting", "ocr", "ap", "ar", "automation", "email", "tesseract", "smtp", "reconciliation", "exceptions", "year-end", "tax-prep", "cash-flow", "vendor-onboarding", "ledger-structure", "bank-reconciliation"]
+tags: ["invoicing", "accounting", "ocr", "ap", "ar", "automation", "email", "tesseract", "smtp", "reconciliation", "exceptions", "year-end", "tax-prep", "cash-flow", "vendor-onboarding", "ledger-structure", "bank-reconciliation", "cash-flow-forecasting", "payment-terms"]
 featured: false
 image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1200&auto=format&fit=crop"
 ---
@@ -346,6 +346,58 @@ A few things to notice in this example:
 
 The `notes` column is free-form and useful for tracking context that doesn't fit elsewhere — hold reasons, payment plan details, dispute notes. OpenClaw appends to it rather than overwriting, so nothing gets lost.
 
+### Cash Flow Forecasting
+
+Invoice tracking gives you enough data to project cash needs — not just react to what's due, but anticipate what's coming.
+
+**What you already have:** The ledger has `due_date` for every AP entry and `sent_date` / `due_date` for every AR entry. That's a payment calendar.
+
+**What OpenClaw can do with it:**
+
+A daily cash flow projection query — run at the start of each week — reads the ledger and produces a rolling 30-day view:
+
+```
+Cash flow projection (next 30 days):
+
+OUTGOING (AP):
+  Week 1:  Linode $120, Acme Supplies $1,247, AWS $847  = -$2,214
+  Week 2:  ServerCo $3,840, Office Depot $234            = -$4,074
+  Week 3:  GreenCloud $299                                =   -$299
+  Week 4:  [No known AP due]                               =       $0
+
+INCOMING (AR):
+  Week 1:  Widget Corp $3,289 (due Apr 27, 61% confidence) = +$3,289
+  Week 2:  [No AR due]                                        =      $0
+  Week 3:  Retainer $2,000 (on account)                      = +$2,000
+  Week 4:  [No AR due]                                        =      $0
+
+NET PROJECTION (Week 2):
+  Incoming: $0  |  Outgoing: $4,074  |  Net: -$4,074
+  → Telegram alert: "Heavy outgoing week ahead. Ensure $4,074 cover by Apr 20."
+```
+
+AR confidence matters here — an invoice marked `SENT` but not `CONFIRMED_RECEIVED` is less certain than one where the client replied. Flag high-confidence AR vs. low-confidence AR separately so you're not caught off-guard.
+
+**Setting thresholds:** Configure minimum cash reserves and alert levels:
+
+```json
+{
+  "cashflow": {
+    "minimumReserve": 5000,
+    "alertThreshold": 3000,
+    "arConfidenceLevels": {
+      "SENT": 0.6,
+      "CONFIRMED_RECEIVED": 0.85,
+      "ACKNOWLEDGED": 0.95
+    }
+  }
+}
+```
+
+When projected cash position drops below `alertThreshold`, OpenClaw alerts you before the crunch hits — giving you time to accelerate an AR collection or delay a non-critical AP payment.
+
+**What this doesn't predict:** Unexpected one-off expenses, seasonal lumpiness, or vendor invoices that arrive outside the normal cadence. The forecast is only as good as the invoice intake — if invoices routinely arrive by email but sit unread for three days, your AP projection will systematically undercount near-term outflows.
+
 ### Late Payment Escalation
 
 The follow-up sequence covers polite nudges. But some invoices need escalation beyond that — and it helps to think about what escalation actually looks like before you're in the moment.
@@ -520,7 +572,7 @@ Create `ledger-2026.csv` (or whatever your accounting software prefers) and carr
 
 ---
 
-![Business ledger and invoice tracking](https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&auto=format&fit=crop)
+![Year-end accounting close](https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&auto=format&fit=crop)
 
 ## Related Use Cases
 
