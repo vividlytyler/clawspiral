@@ -271,24 +271,24 @@ function getReadingTime(body: string | undefined): number {
             class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
             loading="lazy"
           />
-          <div class="absolute inset-0 opacity-70 group-hover:opacity-100 transition-opacity duration-200" style={`background: linear-gradient(to top, rgba(15,23,42,0.90) 0%, rgba(15,23,42,0.40) 50%, transparent 100%), ${accentColor}22;`}></div>
+          <div class="absolute inset-0 opacity-80 group-hover:opacity-100 transition-opacity duration-200" style={`background: linear-gradient(to top, rgba(15,23,42,0.90) 0%, rgba(15,23,42,0.40) 50%, transparent 100%), ${accentColor}22;`}></div>
           {/* Icon appears on hover, centered */}
           <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
             <div class="w-12 h-12 rounded-xl bg-slate-900/80 border border-sky-500/40 flex items-center justify-center text-sky-400 backdrop-blur-sm shadow-lg shadow-black/40" set:html={icon} />
           </div>
           <div class="absolute inset-0 flex flex-col justify-end p-4">
             <div class="flex items-center justify-between mb-0.5">
-              <h3 class="font-semibold text-white text-sm group-hover:text-sky-300 transition-colors leading-tight">{label}</h3>
+              <h3 class="font-semibold text-white text-sm group-hover:translate-x-1 group-hover:text-sky-300 transition-all duration-200 leading-tight">{label}</h3>
               {count > 0 && (
                 <span
-                  class="text-xs font-semibold px-2 py-0.5 rounded-full leading-none"
-                  style={`background: ${accentColor}22; color: ${accentColor};`}
+                  class="text-xs font-semibold px-2 py-0.5 rounded-full leading-none backdrop-blur-sm"
+                  style={`background: ${accentColor}33; color: ${accentColor}; border: 1px solid ${accentColor}44;`}
                 >
                   {count}
                 </span>
               )}
             </div>
-            <p class="text-slate-400 text-xs mt-0.5 leading-tight hidden sm:block">{desc}</p>
+            <p class="text-slate-400 text-xs mt-0.5 leading-tight hidden sm:block group-hover:translate-x-1 transition-transform duration-200">{desc}</p>
           </div>
         </a>
         );
