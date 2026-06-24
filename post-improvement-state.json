@@ -9,13 +9,25 @@
     "06-employee-scheduling": "2026-06-21",
     "07-invoice-processing": "2026-06-22",
     "08-creative-brainstorming": "2026-06-11",
-    "09-experimental-edge-cases": "2026-06-06",
+    "09-experimental-edge-cases": "2026-06-23",
     "10-financial-pulse": "2026-06-09",
     "11-daily-macro-logger": "2026-06-16",
     "12-travel-planner": "2026-06-20",
     "13-language-learning-coach": "2026-06-16"
   },
   "improvementHistory": [
+    {
+      "date": "2026-06-23",
+      "postSlug": "09-experimental-edge-cases",
+      "changes": [
+        "Added 'Experiment Design Criteria' section — defines 4 things to write down before running any experiment (success criteria, failure threshold, verification method, run count), with guidance on why each matters",
+        "Added ASCII decision flowchart for choosing the right experiment type (boundary, surprise, comparison, regression, long-tail) — replaces thin 'Design your experiment before you run it' advice with actionable guidance",
+        "Expanded 'Common Experiment Types' with more methodology depth for each type (boundary experiments need stopping criteria, comparison experiments need matched inputs, regression experiments need preserved baseline tests, etc.)",
+        "Expanded Limitations section from 6 sparse bullet points to 6 detailed paragraphs covering: token cost and isolation strategy, reproducibility variance and why it clusters around hard cases, ground truth for subjective outputs and evaluator-agent workaround, context cleanliness and session state documentation, sub-agent reliability and file-based logging outside session hierarchy, and hypothesis contamination (once you've seen results you can't re-run cleanly)",
+        "Added Unsplash experimentation workflow image (notes and laptop, 1551288049) after Cross-Experiment Pattern Analysis section to close the text-heavy section before Limitations",
+        "Added tags: experiment-design-criteria, decision-flowchart"
+      ]
+    },
     {
       "date": "2026-06-22",
       "postSlug": "07-invoice-processing",

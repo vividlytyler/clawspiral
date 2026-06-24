@@ -159,19 +159,59 @@ Verdicts in this format (`✅`, `⚠️`, `❌`) make it easy to scan your findi
 
 ![Research and analysis process](https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&auto=format&fit=crop)
 
+## Experiment Design Criteria
+
+Before running any experiment, define these four things in writing. Without them, you'll end up with a story, not data.
+
+**Success criteria** — what does "working" mean? Be specific. "Seems better" is not a success criterion. "Sub-agent produces code review with no false negatives on a known 20-issue codebase" is.
+
+**Failure threshold** — at what point do you call the experiment a fail? Knowing when to stop is as important as knowing when to continue.
+
+**Verification method** — how will you independently confirm the result? This is the hardest part. If you can't verify the output, you can't trust the verdict.
+
+**Run count** — how many times will you run this? One run tells you what's possible. Three runs tell you what's reliable. Five runs tell you whether the reliability is consistent.
+
+A good experiment log captures all four before you start, not after you've already seen the results.
+
+### Choosing the Right Experiment Type
+
+Use this as a rough decision guide:
+
+```
+Is the failure mode you're testing LOW-PROBABILITY but HIGH-IMPACT?
+└─ YES → Long-tail experiment (build capture mechanism, then observe)
+└─ NO ↓
+
+Do you already KNOW the boundary exists and just need to map it?
+└─ YES → Boundary experiment (define stopping criteria upfront)
+└─ NO ↓
+
+Are you comparing TWO SPECIFIC APPROACHES to the same problem?
+└─ YES → Comparison experiment (matched inputs, agreed rubric)
+└─ NO ↓
+
+Did something FAIL unexpectedly during normal use?
+└─ YES → Surprise experiment (document everything, follow threads)
+└─ NO ↓
+
+Are you verifying something STILL WORKS after a change?
+└─ YES → Regression experiment (preserve the baseline test)
+└─ NO → Start over: clarify your hypothesis first
+```
+
 ## Common Experiment Types
 
 Not all experiments are the same. Knowing what kind you're running helps you design the methodology and interpret the results correctly.
 
-**Boundary experiments** push a known limit until it breaks. "How many sequential state operations can OpenClaw handle before errors appear?" You already know the boundary exists; you're mapping where it is. These need clear success criteria defined upfront so you don't move the goalposts.
+**Boundary experiments** push a known limit until it breaks. "How many sequential state operations can OpenClaw handle before errors appear?" You already know the boundary exists; you're mapping where it is. These need clear success criteria defined upfront so you don't move the goalposts. Best paired with a decision guide: define your failure threshold (e.g., "error rate exceeds 5%") before you start, not during.
 
-**Surprise experiments** find limits you didn't expect. You run a normal task and something unexpected fails. These are valuable but harder to design — you can't plan for unknown unknowns. The methodology here is just "document everything" and follow threads that feel off.
+**Surprise experiments** find limits you didn't expect. You run a normal task and something unexpected fails. These are valuable but harder to design — you can't plan for unknown unknowns. The methodology here is just "document everything" and follow threads that feel off. The trap is discounting anomalies because they don't fit your hypothesis. Don't.
 
-**Comparison experiments** test two approaches to the same problem. "Does a spawned sub-agent produce better code review than the parent session directly?" These need matched inputs and an agreed evaluation rubric — otherwise confirmation bias slides the verdict.
+**Comparison experiments** test two approaches to the same problem. "Does a spawned sub-agent produce better code review than the parent session directly?" These need matched inputs and an agreed evaluation rubric — otherwise confirmation bias slides the verdict. The comparison must be fair: same task, same conditions, same evaluator.
 
-**Regression experiments** verify that something that used to work still works after an update or config change. These are the simplest to run: you have a baseline, you run the same test, you compare. The hard part is maintaining the baseline test suite.
+**Regression experiments** verify that something that used to work still works after an update or config change. These are the simplest to run: you have a baseline, you run the same test, you compare. The hard part is maintaining the baseline test suite. Keep inputs and expected outputs in a fixed file so you can run the same check after any OpenClaw version update.
 
-**Long-tail experiments** test low-probability, high-impact scenarios — what happens if a sub-agent goes silent mid-run, or the session crashes at step 4 of 6? You can't easily simulate these in advance, but you can build the capture mechanism (logging to files outside the session) and then wait.
+**Long-tail experiments** test low-probability, high-impact scenarios — what happens if a sub-agent goes silent mid-run, or the session crashes at step 4 of 6? You can't easily simulate these in advance, but you can build the capture mechanism (logging to files outside the session) and then wait for the real event. The value is in recognizing and capturing the event when it happens, not in predicting it.
 
 Design your experiment before you run it. The worst results come from experiments where the methodology wasn't settled in advance.
 
@@ -205,6 +245,8 @@ Long experiments run near the end of a token budget show degraded quality — no
 
 Understanding these patterns changes how you design future experiments. You start building in isolation, fresh budgets, and explicit checkpoints not because you're paranoid, but because you know what's likely to happen.
 
+![Experimentation workflow with notes and laptop](https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&auto=format&fit=crop)
+
 ## What's Interesting About These Failures
 
 The interesting thing isn't that OpenClaw failed these experiments — every tool fails at its edges. The interesting thing is *how* it fails:
@@ -231,13 +273,19 @@ That's it. No special integrations, no external services. You're testing the sys
 
 Running experiments against OpenClaw has its own constraints worth knowing before you invest heavily:
 
-- **Time cost** — Long-running autonomous experiments consume significant tokens. Budget accordingly, especially for multi-pass synthesis tasks.
-- **Reproducibility variance** — LLMs have non-deterministic elements (temperature, sampling). Running the same experiment twice can yield different results. Treat single runs as directional, not definitive.
-- **No ground truth** — When testing outputs (citations, facts, emotional calibration), you need an independent source of truth to compare against. Without one, you can only eyeball plausibility.
-- **Context cleanliness** — Experiments run inside an active session with conversation history. Prior messages can subtly influence outcomes. Isolation helps but isn't always available.
-- **Sub-agent reliability** — Sub-agent experiments depend on the parent session staying healthy. If the parent crashes mid-experiment, results are lost.
+- **Time cost** — Long-running autonomous experiments consume significant tokens. A 6-step tool chain with checkpoints can burn through a third of a daily budget in one run. Budget accordingly, especially for multi-pass synthesis tasks. If you're running experiments regularly, consider isolating them to a separate session to avoid contaminating your main working context.
 
-Document your methodology alongside your findings. Future-you will want to know what the setup actually was, not just what the results were.
+- **Reproducibility variance** — LLMs have non-deterministic elements (temperature, sampling). Running the same experiment twice can yield different results. Treat single runs as directional, not definitive. The variance isn't random noise — it often clusters around certain difficulty levels. Hard cases show more variance than easy ones. Factor that into how you interpret results.
+
+- **No ground truth for subjective outputs** — When testing outputs that require judgment (code quality, writing quality, emotional tone), you become the ground truth — which means your own biases filter the results. The workaround is to define evaluation rubrics in advance, or use a separate evaluator agent with different prompting. Neither is perfect, but both reduce drift.
+
+- **Context cleanliness is hard to guarantee** — Experiments run inside an active session with conversation history. Prior messages can subtly influence outcomes — not because the model "remembers" but because the context window shapes its responses. Isolation helps (fresh sessions, spawned sub-agents) but isn't always available when you want to continue a thread. Note the session state in your methodology so you know whether results are session-specific or generalizable.
+
+- **Sub-agent experiments amplify failure modes** — If parent session health is a concern in normal experiments, sub-agent experiments multiply it. A parent crash mid-sub-agent-run loses both the parent context and the sub-agent's partial work. Log aggressively to files outside the session hierarchy. A sub-agent that logs its state to `memory/experiments/session-abc.log` survives a parent crash.
+
+- **Hypothesis contamination** — Once you've run an experiment and seen the results, it's nearly impossible to re-run it with a clean hypothesis. You know what you expect, and that expectation subtly shapes how you evaluate. The only fix is to write your success criteria and evaluation method before the first run, then not look at intermediate outputs until the full run is done.
+
+Document your methodology alongside your findings. Future-you will want to know what the setup actually was, not just what the results were. The experiment log template in the Workflow section is designed to capture this — fill it in before you run, not after.
 
 ![Lab equipment and experimental setup](https://images.unsplash.com/photo-1581093458791-9f3c3900df4b?w=1200&auto=format&fit=crop)
 
