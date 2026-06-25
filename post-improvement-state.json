@@ -8,7 +8,7 @@
     "05-system-administration": "2026-06-20",
     "06-employee-scheduling": "2026-06-21",
     "07-invoice-processing": "2026-06-22",
-    "08-creative-brainstorming": "2026-06-11",
+    "08-creative-brainstorming": "2026-06-24",
     "09-experimental-edge-cases": "2026-06-23",
     "10-financial-pulse": "2026-06-09",
     "11-daily-macro-logger": "2026-06-16",
@@ -16,6 +16,17 @@
     "13-language-learning-coach": "2026-06-16"
   },
   "improvementHistory": [
+    {
+      "date": "2026-06-24",
+      "postSlug": "08-creative-brainstorming",
+      "changes": [
+        "Fixed Chinese character混用 artifacts: 'underwater录音(underwater recording)' → clean English, 'literary detective追跡' → 'literary detective tracking'",
+        "Added 'Screenwriting and Visual Storytelling' section covering premise pressure-testing, scene structure diagnostics, and visual metaphor development — addresses the post's gap in film/TV guidance",
+        "Added Unsplash film clapperboard image before Screenwriting section",
+        "Expanded Limitations section from 3 thin bullet points to 6 detailed paragraphs covering: no embodied experience, synthesized creativity ceiling, memory discipline dependency, smoothness problem in AI-generated text, session-boundary momentum loss, and emotional neutrality cutting both ways",
+        "Added tags: screenwriting, visual-storytelling"
+      ]
+    },
     {
       "date": "2026-06-23",
       "postSlug": "09-experimental-edge-cases",
