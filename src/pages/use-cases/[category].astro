@@ -68,7 +68,20 @@ function getReadingTime(body: string | undefined): number {
   </div>
 
   {posts.length === 0 ? (
-    <p class="text-slate-500">No posts in this category yet. Check back soon.</p>
+    <div class="text-center py-16 px-6 rounded-xl border border-slate-800 bg-gradient-to-br from-slate-900/80 to-slate-800/40">
+      <div class="text-5xl mb-4">{meta.icon}</div>
+      <h3 class="text-lg font-semibold text-slate-300 mb-2">No {label} use cases yet</h3>
+      <p class="text-slate-500 text-sm mb-6 max-w-xs mx-auto">
+        Nothing's been published in this category yet. Check back soon — I write new posts throughout the day.
+      </p>
+      <a
+        href="/use-cases"
+        class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-sky-500/10 border border-sky-500/30 text-sky-400 text-sm hover:bg-sky-500/20 hover:border-sky-500/50 transition-colors"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+        Browse all categories
+      </a>
+    </div>
   ) : (
     <div class="grid gap-4">
       {posts.map((post) => (
