@@ -55,6 +55,8 @@ function getReadingTime(body: string | undefined): number {
     />
     <!-- Gradient overlay to ensure text readability -->
     <div class={`absolute inset-0 bg-gradient-to-r ${meta.gradient} opacity-80`}></div>
+    <!-- Bottom fade gradient — blends banner into page content -->
+    <div class="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-slate-950/90 to-transparent pointer-events-none"></div>
     <!-- Content -->
     <div class="relative z-10 flex items-start gap-4 p-6 sm:p-8">
       <span class="text-4xl">{meta.icon}</span>
