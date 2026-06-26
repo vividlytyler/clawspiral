@@ -3,7 +3,7 @@ title: "Your Personal Secretary: Email, Calendar, and Reminders"
 description: "How OpenClaw can act as a persistent, memory-aware assistant for managing email, calendar events, and contextual reminders — without subscribing to another SaaS."
 pubDate: 2026-03-26
 category: lifestyle-wellness
-tags: ["email", "calendar", "reminders", "productivity", "memory", "ical", "imap", "telegram", "follow-up", "workflow", "cron", "telegram-commands", "control-interface", "triage", "prioritization"]
+tags: ["email", "calendar", "reminders", "productivity", "memory", "ical", "imap", "telegram", "follow-up", "workflow", "cron", "telegram-commands", "control-interface", "triage", "prioritization", "delegation-checklist", "task-inbox"]
 image: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=1200&auto=format&fit=crop"
 ---
 
@@ -395,6 +395,50 @@ Everything lives in plain text on the file system. Here's what the setup looks l
 ```
 
 The directory structure is flexible — you can adjust paths in your `TOOLS.md` or cron configs. The only firm requirement is that OpenClaw has read/write access to wherever you store your calendar `.ics` files, memory logs, and follow-up tracking files. Everything else (vendor lists, approved senders, filter rules) lives wherever makes sense in your workspace.
+
+![File structure and workspace organization — representing the plain-text directory layout that underpins the secretary workflow](https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=1200&auto=format&fit=crop&q=80)
+
+## Delegation Checklist Pattern
+
+Email triage produces decisions. Those decisions need somewhere to live — a shared inbox that's smarter than a to-do list app. The delegation checklist bridges email/calendar outputs and actual task execution, all in plain text.
+
+The pattern: a single `tasks/inbox.md` file acts as your delegation surface. When OpenClaw surfaces an email action item, it writes it to this file. When you complete something, you reply "done" and OpenClaw marks it off and archives it. Nothing is ever lost in a notification thread.
+
+**The inbox file looks like:**
+```
+# Task Inbox — 2026-06-25
+
+## From email (surfaced by OpenClaw)
+- [ ] Reply to Sarah about Q2 budget — due Fri 2026-06-26 *(flagged 2026-06-25: "Needs sign-off before EOD Friday")*
+- [ ] Review AWS Reserved Instance renewal — due 2026-06-27 *(flagged 2026-06-25: "$2,400 auto-renews if no action")*
+
+## From calendar / meetings
+- [ ] Q2 Budget Review prep — due before 2026-06-26 2:00 PM *(meeting with Sarah, Jordan)*
+
+## Manual additions
+- [ ] Call dentist to confirm appointment
+
+## Done today
+- [x] Confirm Cloudflare Workers deploy date — done 2026-06-25
+```
+
+The `[ ]` / `[x]` format is intentional — it's just markdown checkboxes. OpenClaw writes new items, you check them off via Telegram ("done 3" to mark the third item), and the file stays human-readable at all times. You can also edit it directly in any text editor.
+
+**A real delegation exchange:**
+
+> **OpenClaw (morning brief):** One item surfaced from yesterday's email: *"Marcus asked for the API spec review by Friday. Thread shows 3 prior follow-up nudges."*
+>
+> **You:** Add it to my tasks.
+>
+> **OpenClaw:** Done. Added: `[ ] Review API spec — Marcus — due Fri 2026-06-26 *(surfaced from email, 3 prior nudges in thread)*`
+
+On Friday, OpenClaw checks `tasks/inbox.md` for due items and reminds you before the deadline. After you reply "done", it archives to `tasks/2026-06-done.md` with a completion timestamp — giving you a full history of what was actioned without a separate app or database.
+
+**Deadline-aware sorting:** A daily heartbeat at 8 AM runs `sort tasks/inbox.md` by due date, surfacing overdue items first. If nothing is overdue, it shows items due today, then this week. Items without due dates float to the bottom. This turns a passive inbox file into an active prioritization surface.
+
+**Why not just use a task app?** Task apps are disconnected from the email/calendar workflow. The delegation checklist lives in the same workspace as your calendar exports and memory files — OpenClaw reads and writes it directly, and you can inspect it at any time. No sync issues, no app lock-in, no subscription.
+
+![Delegation inbox — a task list on a screen with checkboxes, representing the shared surface between OpenClaw and the user](https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=1200&auto=format&fit=crop&q=80)
 
 The follow-up system in particular is designed to be human-readable at a glance. `follow-ups/pending.md` is just a markdown checklist:
 
