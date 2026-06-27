@@ -3,7 +3,7 @@ title: "Your Personal Language Learning Coach with OpenClaw"
 description: "Vocabulary drills, grammar explanations, conversation practice, and spaced repetition reminders — all automated and personalized to your level, running quietly in the background of your day."
 pubDate: 2026-03-27
 category: lifestyle-wellness
-tags: ["language-learning", "flashcards", "grammar", "spaced-repetition", "tutoring", "vocabulary-tracking", "conversation-practice", "role-play", "pronunciation", "intermediate-plateau", "daily-habit", "telegram", "srs"]
+tags: ["language-learning", "flashcards", "grammar", "spaced-repetition", "tutoring", "vocabulary-tracking", "conversation-practice", "role-play", "pronunciation", "intermediate-plateau", "daily-habit", "telegram", "srs", "immersion", "podcasts", "shadowing", "speaking-practice", "srs-algorithm", "weekly-planner"]
 image: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=1200&auto=format&fit=crop"
 ---
 
@@ -161,6 +161,126 @@ Most learners hit the same walls at roughly the same points. OpenClaw can help i
 **Vocabulary attrition:** You learned 500 words but forgot 200 of them. OpenClaw's spaced repetition catches this before it's permanent. Words you haven't seen in 10+ days get recycled back into the review queue at higher frequency.
 
 ![Person studying at a desk with language materials](https://images.unsplash.com/photo-1512820790803-83ca734f3e54?w=1200&auto=format&fit=crop)
+
+## Immersion: Native Content Beyond Textbooks
+
+Vocabulary and grammar drills build the foundation. Immersion builds the language. OpenClaw can help you consume native content deliberately rather than passively:
+
+**Choosing content at your level:**
+> "I want to start watching Japanese YouTube. I'm N3. Find me 3 channels where I'd understand about 70% with some effort."
+
+OpenClaw queries your level, finds channels with appropriate pacing and vocabulary complexity, and gives you a shortlist with why each works.
+
+**Pre-listening vocabulary priming:**
+> "I'm watching a documentary on Japanese food culture tonight. Any food/culinary vocabulary I should know in advance?"
+
+OpenClaw pulls relevant vocabulary from your known-word base, identifies gaps, and gives you a 10-item pre-watch list. You go into the content armed rather than lost.
+
+**Post-consumption vocab extraction:**
+> "I watched that sushi documentary. I caught a few phrases I didn't know — '昆布出汁' and 'umerate' or something like that?"
+
+> "Did you mean '旨味' (umami)? And the broth base is '昆布出汁' (kombudashi) — you're close! 'Umami' is the fifth taste category. 'Urameshi' isn't a food term — did you hear '裏返す' (to flip over)? Here's the context it would appear in..."
+
+OpenClaw catches near-misses, identifies what you likely meant, and adds the correct words to your vocabulary file with a "heard in wild" source tag.
+
+**Podcast and audiobook scaffolding:**
+
+For languages where you want to practice listening while doing something else (commute, workout), OpenClaw can generate vocabulary sheets for specific episodes:
+
+> "Generate a vocab sheet for Episode 3 of 'Notes in Spanish.' I'm intermediate. I need the key phrases and any colloquial expressions."
+
+You get a structured sheet before you listen. During or after, you text OpenClaw your questions. It fits into the cracks of your day without requiring dedicated study time.
+
+![Native language immersion — books and podcasts](https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=1200&auto=format&fit=crop)
+
+## Shadowing Practice: Speaking Before You're Ready
+
+The pronunciation limitation is real — OpenClaw can't hear you. But it can structure the practice that makes pronunciation improve faster when you do speak:
+
+**Shadowing a script:**
+OpenClaw writes out a short dialogue or monologue (5–10 lines) in your target language, with romanization and audio cues for stress patterns where relevant. You read along out loud, matching the rhythm:
+
+> "Write me a 6-line Japanese dialogue for checking into a ryokan. Include the romanization so I can match the pitch accent."
+
+You get the script. You read it aloud three times — once reading, once shadowing yourself, once trying to sound like the ideal version. Then OpenClaw reviews your written transcription of what you *think* you said and catches errors:
+
+> "You wrote 'ashita ki masu' — that should be 'ashita kimasu' without the space. The 'ki' is part of the verb 'kuru' (to come), not a separate word. That affects the pitch pattern too."
+
+**The phonetic confusion map:**
+Some pronunciation errors are systematic — if you consistently confuse French's "r" and "gr," OpenClaw builds a targeted exercise set. It can't fix your Rs, but it can give you 20 sentences that force you to practice the contrast until you hear the difference yourself.
+
+**Self-transcription drill:**
+Listen to a short audio clip (30–60 seconds) and transcribe it in writing. Then send OpenClaw the transcription:
+
+> "Here's my transcription of the 45-second weather report clip. I got most of it but I'm unsure about the part about the weekend."
+
+OpenClaw compares your transcription against the actual content, identifies what you missed or misheard, and explains why — was it a vocabulary gap, a speed issue, or a sound distinction your ear isn't calibrated for yet?
+
+## A Week in Practice: What the System Actually Looks Like
+
+Here's what a realistic week looks like when OpenClaw is running your language practice alongside actual life:
+
+**Monday — Heavy review day:**
+- 8am: Daily review fires — 5 vocabulary items due (lowest SRS scores)
+- Lunch: You encounter "perfunctory" in an English article. Text: "What's the Spanish equivalent? Use it in a sentence."
+- 9pm: OpenClaw flags 3 dormant words that haven't been seen in 12 days — brief reintroduction session
+
+**Tuesday — Input day:**
+- 8am: Daily review — 4 vocabulary items + idiom of the day
+- Evening: You watch a YouTube video on Mexican cooking. Text: "Add 'revolcar' (to stir/mix), 'ajo' (garlic), 'fritura' (frying) to my vocab list. Give me the subjunctive form of revolcar in a cooking context."
+- OpenClaw adds them with a cooking context tag
+
+**Wednesday — Grammar focus:**
+- 8am: Daily review — 5 vocabulary items
+- Afternoon: Grammar question: "When do I use subjunctive vs indicative after 'aunque'?"
+- OpenClaw gives you the rule with 3 example pairs, then sends a follow-up exercise: "Translate these 3 sentences using the correct mood."
+
+**Thursday — Role-play day:**
+- No daily review (off day — spaced repetition still fires based on file dates)
+- 7pm: Weekly role-play fires — job interview in Spanish
+- Session covers 8 exchanges, post-session debrief identifies 2 vocabulary items to add
+
+**Friday — Catch-up:**
+- 8am: Daily review — 7 items (including Thursday's catch-up batch)
+- Evening: "Clean up my Spanish vocab list — remove duplicates and flag any entries I haven't touched in 30 days."
+
+**Saturday — Immersion:**
+- 10am: "Here's a podcast episode about Barcelona housing market. Before I listen, give me 8 housing/real estate terms I'll encounter."
+- You listen. Later: "What does 'pisos protegidos' mean in that podcast? And was the presenter talking about buying or renting?"
+
+**Sunday — Light review + planning:**
+- 8am: Daily review — 3 vocabulary items
+- Afternoon: "What words from this week should I prioritize next week? Any patterns in my errors?"
+
+The point isn't to be in study mode every waking moment. It's that the logistics — remembering what to review, tracking what's due, capturing new words when they appear — happen automatically. You show up to practice, not to manage the system.
+
+## How the SRS Algorithm Actually Works
+
+The vocabulary.md table with Correct/Seen counters is simple, but it's worth understanding what OpenClaw is doing with those numbers:
+
+**The core logic:** Each word has a "streak" (correct answers in a row) and an "interval" (days until next review). When you answer correctly, the interval doubles roughly (1 → 2 → 4 → 8 → 16 days). When you answer wrong, the interval resets and the word comes back sooner.
+
+For a new word: you see it immediately (day 0), then again in 1 day, then 2, then 4. After three correct answers in a row, it jumps to an 8-day interval.
+
+```
+Day  0: New word added → "coincidir" (to coincide) — interval: 1
+Day  1: First review — correct → interval: 2
+Day  3: Second review — correct → interval: 4
+Day  7: Third review — correct → interval: 8
+Day 15: Fourth review — correct → interval: 16
+Day 31: Fifth review — correct → interval: 30
+...
+```
+
+A wrong answer doesn't erase progress entirely — it drops back to the last successful interval, not to zero. So if you're wrong on day 15 after four correct answers, you go back to reviewing in 8 days, not 1.
+
+**Dormant word recovery:** Words that haven't been seen in more than `interval × 2` days get treated as "risky" — OpenClaw surfaces them in the next daily review even if the math wouldn't normally schedule them. This catches words that slipped through the cracks during a busy week.
+
+**The confusion flag:** If you answer a word wrong twice in a row, OpenClaw adds a confusion tag and schedules it for shorter intervals going forward. The `Notes` column is where these flags live — and you can also add them manually:
+
+> "I'm confusing 'hacer' and 'hacerce' — add a note to the hacer entry: '注意: transitive vs pronominal.'"
+
+![Study planning and spaced repetition calendar](https://images.unsplash.com/photo-1488190211105-8b0e65b80b4e?w=1200&auto=format&fit=crop)
 
 ## What You Need to Set It Up
 

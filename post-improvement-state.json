@@ -13,9 +13,23 @@
     "10-financial-pulse": "2026-06-09",
     "11-daily-macro-logger": "2026-06-16",
     "12-travel-planner": "2026-06-20",
-    "13-language-learning-coach": "2026-06-16"
+    "13-language-learning-coach": "2026-06-27"
   },
   "improvementHistory": [
+    {
+      "date": "2026-06-27",
+      "postSlug": "13-language-learning-coach",
+      "changes": [
+        "Added 'Immersion: Native Content Beyond Textbooks' section — covers choosing level-appropriate content, pre-listening vocabulary priming, post-consumption vocab extraction from watched/listened material, and podcast/audiobook scaffolding with concrete examples for each",
+        "Added 'Shadowing Practice: Speaking Before You're Ready' section — script-based shadowing workflow, phonetic confusion map for systematic pronunciation errors, and self-transcription drill using audio clips to identify ear gaps",
+        "Added 'A Week in Practice' section — full 7-day concrete example (Mon–Sun) showing how daily review, grammar questions, role-plays, immersion, and catch-up all fit together realistically across a week with actual content examples",
+        "Added 'How the SRS Algorithm Actually Works' section — explains the interval-doubling logic, dormant word recovery, confusion flag system, and the complete 'coincidir' worked example showing progression from day 0 to day 31+",
+        "Added Unsplash podcast/film immersion image before Shadowing section",
+        "Added Unsplash study planner/calendar image before 'What You Need to Set This Up'",
+        "Added tags: immersion, podcasts, shadowing, speaking-practice, srs-algorithm, weekly-planner"
+      ]
+    },
+    {
     {
       "date": "2026-06-24",
       "postSlug": "08-creative-brainstorming",
