@@ -39,13 +39,12 @@ const categoryAccentColor = categoryColors[category]?.accent ?? '#38bdf8'; // sk
 ---
 
 <article class={`relative group p-5 rounded-lg border border-sky-500/30 bg-gradient-to-br from-slate-800/60 to-slate-900/60 hover:-translate-y-1 hover:shadow-lg hover:shadow-black/20 hover:border-sky-500/60 transition-all duration-200 post-card-glow card-lift ${!image ? 'pt-5' : ''}`}>
-  {!image && (
-    <div
-      class="absolute top-0 left-4 right-4 h-1 rounded-full opacity-60"
-      style={`background: linear-gradient(to right, ${categoryAccentColor}, transparent);`}
-      aria-hidden="true"
-    ></div>
-  )}
+  {/* Top accent bar — always visible, color-matched to category */}
+  <div
+    class="absolute top-0 left-4 right-4 h-1 rounded-full opacity-60"
+    style={`background: linear-gradient(to right, ${categoryAccentColor}, transparent);`}
+    aria-hidden="true"
+  ></div>
   {/* Left accent border — visible on all cards, color-matched to category */}
   <div
     class="absolute top-4 bottom-4 left-0 w-1 rounded-full opacity-70 group-hover:opacity-100 transition-opacity"
