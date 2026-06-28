@@ -26,6 +26,25 @@ const difficultyColor = frontmatter.difficulty ? (difficultyColors[frontmatter.d
 ---
 
 <BaseLayout title={frontmatter.title} description={frontmatter.description} image={frontmatter.image}>
+  <!-- Scroll progress bar -->
+  <div id="article-progress" class="fixed top-0 left-0 h-0.5 bg-gradient-to-r from-sky-400 to-sky-300 z-[60] w-0 transition-all duration-75 rounded-r-full shadow-[0_0_8px_rgba(56,189,248,0.6)]"></div>
+  <script>
+    const bar = document.getElementById('article-progress');
+    if (bar) {
+      const article = document.querySelector('article');
+      function updateProgress() {
+        if (!article) return;
+        const rect = article.getBoundingClientRect();
+        const start = rect.top + window.scrollY;
+        const end = start + rect.height - window.innerHeight;
+        const scrolled = window.scrollY - start;
+        const progress = Math.min(100, Math.max(0, (scrolled / end) * 100));
+        bar.style.width = progress + '%';
+      }
+      window.addEventListener('scroll', updateProgress, { passive: true });
+      updateProgress();
+    }
+  </script>
   <script type="application/ld+json" set:html={JSON.stringify({
     "@context": "https://schema.org",
     "@type": "Article",
