@@ -3,7 +3,7 @@ title: "Smart Home Orchestration with OpenClaw"
 description: "How OpenClaw can serve as the brain behind a smart home — coordinating devices, automating routines, and providing a natural language interface to your entire setup."
 pubDate: 2026-03-26
 category: home-automation
-tags: ["home-automation", "iot", "routines", "voice", "docker", "homeassistant", "mqtt", "smartthings", "security", "energy-management", "households", "multi-user", "permissions", "occupancy-detection", "pets", "guests", "departure-detection", "arrival-detection", "geofencing", "battery-optimization"]
+tags: ["home-automation", "iot", "routines", "voice", "docker", "homeassistant", "mqtt", "smartthings", "security", "energy-management", "households", "multi-user", "permissions", "occupancy-detection", "pets", "guests", "departure-detection", "arrival-detection", "geofencing", "battery-optimization", "motion-sensor", "presence-detection", "false-positives"]
 image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&auto=format&fit=crop"
 ---
 
@@ -235,6 +235,38 @@ A few things OpenClaw can do without custom scripting:
 ![Solar panels on a home roof](https://images.unsplash.com/photo-1509391366360-2e9597845e76?w=1200&auto=format&fit=crop)
 
 The energy data exists in HomeAssistant; OpenClaw just makes it queryable in plain English.
+
+![WiFi router with network connectivity indicator](https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=1200&auto=format&fit=crop)
+
+## Motion Sensor False Positives: How OpenClaw Learns to Filter
+
+The hardest part of occupancy detection isn't detecting presence — it's filtering the noise. Motion sensors fire for sunlight shifting through curtains, for a robot vacuum bouncing off furniture, for the cat jumping on the counter at 3 AM. OpenClaw can be trained to distinguish real events from phantom ones.
+
+**Temporal pattern recognition.** After a week of data, OpenClaw can map your household's motion rhythms. The 3 AM living room trigger that fires for 30 seconds and goes quiet? That's the cat. The 7:15 AM event that precedes the kitchen motion sensor by 90 seconds? That's you getting up. OpenClaw learns the sequence and stops flagging the things that always lead to nothing.
+
+> **You:** "Why did my living room lights turn on at 3:14 AM?"
+>
+> **OpenClaw:** "Motion sensor fired for 28 seconds with no follow-up in the adjacent hallway or kitchen. Pattern matches the cat — 94% confidence based on historical sequence data. I didn't trigger the lights; it was a direct HomeAssistant automation. Want me to disable that 3 AM trigger?"
+
+**Cross-sensor confirmation.** A single motion sensor firing is ambiguous. Two sensors firing in sequence within a short window is much more likely to be a person. OpenClaw can require cross-confirmation for certain automations:
+
+> "Only trigger the 'someone's home' occupancy state if at least two motion sensors fire within a 5-minute window, or if any sensor fires and a door state changes within 10 minutes."
+
+That's a compound condition that most rule engines can't express without verbose AND/OR logic. OpenClaw holds the rule as a sentence and enforces it.
+
+**Sunlight and shadow filtering.** Motion sensors aimed at windows fire when direct sunlight hits them — the sensor interprets the light change as motion. This is a known failure mode with PIR (passive infrared) sensors. OpenClaw can correlate the motion event with sun position data from HomeAssistant's weather integration:
+
+> "Motion in the front hallway at 2:30 PM with no preceding or following door events — sun azimuth matches a window-adjacent angle. Suppressing the 'arrival' automation and not logging it as presence."
+
+Without this correlation, you get phantom "someone arrived" events every afternoon when the living room gets direct sun.
+
+**Pet vs. intruder differentiation.** The cat threshold is solvable with height — most pet motions are below 18 inches, while human motion is above that. OpenClaw can encode this:
+
+> "For exterior motion cameras, fire an alert only if detected motion is above 20 inches tall AND no motion was detected in the same zone within the last 8 minutes. Otherwise treat as environmental (animal, shadow, debris)."
+
+That's a compound rule with temporal spacing — hard to express in most UI-based automation builders, natural language for OpenClaw.
+
+The key to all of this is data volume. OpenClaw's filtering gets better the longer it runs, because it accumulates the patterns that distinguish your household's real signals from its noise.
 
 ## Geofencing: Presence Without a Button
 

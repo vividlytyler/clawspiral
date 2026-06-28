@@ -1,6 +1,6 @@
 {
   "lastImproved": {
-    "01-smart-home-orchestration": "2026-06-09",
+    "01-smart-home-orchestration": "2026-06-28",
     "04-personal-secretary": "2026-06-12",
     "use-cases-category-pages": "2026-05-02",
     "02-research-pipeline": "2026-06-17",
@@ -16,6 +16,15 @@
     "13-language-learning-coach": "2026-06-27"
   },
   "improvementHistory": [
+    {
+      "date": "2026-06-28",
+      "postSlug": "01-smart-home-orchestration",
+      "changes": [
+        "Added 'Presence Detection & False Positive Filtering' section — covers temporal pattern recognition (cat vs human sequences), cross-sensor confirmation rules for compound occupancy detection, sunlight/shadow filtering via sun azimuth correlation with motion events, and pet vs intruder differentiation using motion height thresholds and temporal spacing",
+        "Added Unsplash WiFi router/network connectivity image before Geofencing section to visually anchor the networking/presence section",
+        "Added tags: presence-detection, false-positives, motion-sensor"
+      ]
+    },
     {
       "date": "2026-06-27",
       "postSlug": "13-language-learning-coach",
