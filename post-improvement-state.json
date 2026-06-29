@@ -10,12 +10,24 @@
     "07-invoice-processing": "2026-06-22",
     "08-creative-brainstorming": "2026-06-24",
     "09-experimental-edge-cases": "2026-06-23",
-    "10-financial-pulse": "2026-06-09",
+    "10-financial-pulse": "2026-06-29",
     "11-daily-macro-logger": "2026-06-16",
     "12-travel-planner": "2026-06-20",
     "13-language-learning-coach": "2026-06-27"
   },
   "improvementHistory": [
+    {
+      "date": "2026-06-29",
+      "postSlug": "10-financial-pulse",
+      "changes": [
+        "Replaced thin 4-point Limitations section with 6 detailed paragraphs covering data freshness (CSV vs IMAP timing), no write-back safety rationale, categorization accuracy edge cases, anomaly detection cold-start problem and backfill workaround, non-linear multi-account complexity scaling, and savings goal transfer detection gaps",
+        "Added 'Troubleshooting Common Issues' section with 6 concrete failure modes: CSV format drift after bank UI updates, duplicate transactions after re-export, IMAP parsing failures, budget alert timing calibration, savings contribution tracking when institution differs, and anomaly detection cold-start guidance",
+        "Added 'Getting Started: First 30 Days' timeline section covering Day 1-2 foundation setup, Day 3 first digest review, Day 7 first subscription audit, Day 14 IMAP tuning, Day 21 budget calibration, and Day 30 second account + net worth baseline — gives readers a concrete implementation path",
+        "Added Unsplash budget planning notebook image before Troubleshooting section",
+        "Added tags: getting-started, troubleshooting, 30-day-onboarding"
+      ]
+    },
+    {
     {
       "date": "2026-06-28",
       "postSlug": "01-smart-home-orchestration",

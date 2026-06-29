@@ -4,7 +4,7 @@ description: "How OpenClaw can serve as a persistent financial monitoring layer 
 pubDate: 2026-03-27
 category: business-finance
 difficulty: intermediate
-tags: ["finance", "budgeting", "monitoring", "cron", "telegram", "csv", "automation", "subscriptions", "anomaly-detection", "net-worth", "savings-goals", "investment-tracking", "imap-parsing", "portfolio-monitoring"]
+tags: ["finance", "budgeting", "monitoring", "cron", "telegram", "csv", "automation", "subscriptions", "anomaly-detection", "net-worth", "savings-goals", "investment-tracking", "imap-parsing", "portfolio-monitoring", "getting-started", "troubleshooting", "30-day-onboarding"]
 featured: true
 image: "https://images.unsplash.com/photo-1464082354059-27db6ce50048?w=1200&auto=format&fit=crop"
 ---
@@ -395,13 +395,69 @@ OpenClaw tracks contributions by looking for transfers to savings accounts in yo
 
 The "On track" indicator compares your current monthly contribution rate against what's needed to hit the target date. When you're short, it tells you how much more per month closes the gap — actionable, not just informative.
 
-**Data freshness** — this approach depends on CSV imports or API polling. The insights are only as good as the data. If you import weekly, you won't catch issues until the weekly digest.
+![Budget planning notebook with calculator and coffee](https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1200&auto=format&fit=crop)
 
-**No write-back** — OpenClaw reads and analyzes, but doesn't pay bills or move money. That's intentional — external financial actions warrant a human in the loop.
+## Troubleshooting Common Issues
 
-**Categorization accuracy** — LLMs handle novel transactions better than rigid rule engines, but occasionally miscategorize. The `categories.json` override file helps.
+**CSV format changes after a bank UI update**
 
-**Multi-account complexity** — tracking 3+ accounts across multiple banks adds bookkeeping overhead. Start with one account.
+Banks occasionally change their CSV export format — new columns, different date formats, altered header names. When OpenClaw starts producing strange output or blank digests after a bank update, check the CSV header directly. Common culprits: `Transaction Date` becoming `Date`, amount columns splitting into `Debit` and `Credit` instead of a signed `Amount`, or the `Description` field getting truncated. Update your `categories.json` pattern matching if the vendor name extraction breaks, or add a date format override in the cron prompt if `MM/DD/YYYY` becomes `YYYY-MM-DD`.
+
+**Transactions appearing duplicated after re-export**
+
+If you export the same date range twice (common when doing manual weekly exports and then a retroactive full-quarter export), you'll have duplicate rows. OpenClaw handles deduplication by matching on date + vendor + amount — if those three fields match within a 3-day window, it's flagged as a duplicate. You can suppress the duplicate warning in the cron prompt once you've verified the import is clean.
+
+**IMAP parsing missing transactions**
+
+Email-based parsing depends on the bank's alert email format staying consistent. If transactions are missing, check: (1) the email sender address in your IMAP filter hasn't changed, (2) the email body format still matches the parsing pattern OpenClaw uses, (3) the transaction alert emails aren't being routed to spam or a subfolder. Run a manual test by asking OpenClaw to read the last 5 alert emails from your inbox and report what it extracted.
+
+**Budget alerts firing too early or too late**
+
+The `alertAt` fraction is relative to the calendar month, not your personal billing cycle. If your salary comes on the 15th and you want alerts timed to your cash flow, you'll need to either set the `billingCycleStart` override in `budget.json` or just adjust `alertAt` empirically — start at 0.75 and move it up/down based on whether the alerts feel premature or late. OpenClaw logs every alert with the trigger condition, so you can review the pattern after 2–3 months and tune it precisely.
+
+**Savings goal showing "on track" but account balance is flat**
+
+OpenClaw detects savings contributions by looking for transfers *out* of your checking into a savings account in the transaction CSV. If your savings account is at a different institution and transfers don't appear in your primary account's export, OpenClaw will show $0 contribution for the month even though the money moved. Fix this by either: (1) adding the savings account's CSV export to your finance directory and merging it in the cron prompt, or (2) tagging savings transfers with a recognizable description in your bank's transfer tool so they appear in your checking export with a consistent label.
+
+**Missing historical context for anomaly detection**
+
+Anomaly detection is genuinely weak in the first 4–6 weeks because OpenClaw has no baseline to compare against. During this period it errs on the side of flagging everything. Don't be alarmed by a high flag rate early on — once you have 8+ weeks of data, the baseline becomes meaningful. If you want a head start, you can backfill historical CSV exports (most banks allow 90-day exports) to give OpenClaw a fuller picture on day one.
+
+## Getting Started: First 30 Days
+
+Here's how this plays out in practice when you're starting from zero:
+
+**Day 1–2: Foundation**
+Create the `~/finance/` directory with `transactions.csv`, `categories.json`, and `budget.json`. Do one manual CSV export from your primary bank account and drop it in. Write your first `categories.json` with broad patterns — you can narrow them in week two once you see what your actual transaction descriptions look like.
+
+**Day 3: First digest**
+Set up the daily cron to run at a time you actually check your phone (7pm is common). Review the first digest. The categorization will be imperfect — that's normal. Note the edge cases (that weird POS receipt label, the third-party payment processor) and add override rules to `categories.json`.
+
+**Day 7: First subscription audit**
+Trigger a manual subscription audit. Review what OpenClaw finds against what you *think* you pay for. The gap between those two lists is the value of this system. Cancel or flag anything orphaned.
+
+**Day 14: IMAP tuning (if using email parsing)**
+If you're parsing bank alert emails, review two weeks of parsed transactions and verify accuracy. Adjust the IMAP filter sender list, add new sender patterns for any missed transactions, and refine the email body parsing pattern if amounts or dates are being extracted incorrectly.
+
+**Day 21: Budget calibration**
+By now you've seen three weekly digests. Check whether the mid-month budget alerts fired at times that were useful or annoying. Adjust `alertAt` per category. If Dining alerts fired too early, move it from 0.80 to 0.90. If you missed a Utilities alert entirely, move it from 0.95 to 0.85.
+
+**Day 30: Second account + Net Worth baseline**
+Add your second account (credit card is usually the highest-value add). Set up the net worth snapshot. This is your baseline — screenshot it or save the Telegram message. In three months, the trend line becomes the insight.
+
+## Limitations
+
+**Data freshness** — this approach depends on CSV imports or API polling. The insights are only as good as the data. If you import weekly, you won't catch issues until the weekly digest fires. A subscription that charges on the 1st and gets exported on the 7th is already seven days old by the time you see it. For catching unwanted charges quickly, IMAP email parsing (same-day) is better than weekly CSV exports.
+
+**No write-back** — OpenClaw reads and analyzes, but doesn't pay bills or move money. That's intentional — external financial actions warrant a human in the loop. You can set up OpenClaw to *draft* a bill payment email for your review, but it won't send it without confirmation.
+
+**Categorization accuracy** — LLMs handle novel transactions better than rigid rule engines, but occasionally miscategorize. A restaurant charge that looks like a retail purchase because of how the POS terminal submitted it will end up in the wrong bucket. The `categories.json` override file helps, and reviewing the weekly digest for miscategorized items and adding explicit rules compounds accuracy over time.
+
+**Anomaly detection has a cold-start problem** — it's genuinely weak in the first 4–6 weeks because there's no baseline to compare against. During this window it flags anything unusual, which means a high false-positive rate. Don't trust the anomaly alerts deeply until you have at least 6 weeks of history. Backfilling historical exports (if your bank supports it) shortens this window significantly.
+
+**Multi-account complexity is non-linear** — tracking two accounts is roughly twice the work of one. Tracking four accounts across three institutions is closer to six times the work because you now have to manage reconciling transfers between accounts, avoid double-counting movements, and keep separate CSV imports in sync. Start with one account, get it clean, then expand.
+
+**Savings goal tracking requires explicit transfer detection** — if your savings account is at a different institution and transfers don't appear in your primary account's export, OpenClaw can't see the money moving and will report $0 contributions. This is a data gap, not a logic failure. Fix it at the source by either consolidating at one institution or adding the savings account export to the finance directory.
 
 ## Why This Works
 
