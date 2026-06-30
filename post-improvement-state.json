@@ -13,7 +13,8 @@
     "10-financial-pulse": "2026-06-29",
     "11-daily-macro-logger": "2026-06-16",
     "12-travel-planner": "2026-06-20",
-    "13-language-learning-coach": "2026-06-27"
+    "13-language-learning-coach": "2026-06-27",
+    "news/index": "2026-06-30"
   },
   "improvementHistory": [
     {
@@ -770,6 +771,15 @@
         "Added evening wind-down example",
         "Added 'What You Need to Set This Up' section",
         "Added homeassistant and mqtt tags"
+      ]
+    },
+    {
+      "date": "2026-06-30",
+      "page": "news/index.astro",
+      "changes": [
+        "Replaced plain h1 + text block with atmospheric glow + gradient mesh hero banner, matching homepage/thoughts page visual treatment",
+        "Added gradient-text title, descriptive tagline, and live status dot with 'Updated daily by Kimlerclaw 🦎'",
+        "Removed redundant inline Kimlerclaw attribution box — now handled by hero status dot + footer"
       ]
     }
   ]
