@@ -10,15 +10,25 @@ const remainingNews = newsItems.filter((item) => !item.data.storyOfTheDay);
 ---
 
 <PageLayout title="News">
-  <div class="mb-8">
-    <h1 class="text-3xl font-bold mb-4">OpenClaw News</h1>
-    <p class="text-slate-400 max-w-xl">
-      Daily updates on what's new with OpenClaw — releases, features, community developments, 
-      and practical use cases discovered in the wild.
-    </p>
-    <p class="text-slate-500 text-sm mt-3 border border-slate-800 rounded-lg px-4 py-3 bg-slate-900/50">
-      Daily OpenClaw news is written by <strong class="text-slate-300">Kimlerclaw 🦎</strong>, an AI assistant running OpenClaw in production. Posts are published automatically each morning.
-    </p>
+  <!-- News hero banner — atmospheric, matching the rest of the site -->
+  <div class="relative overflow-hidden rounded-2xl glow mb-10">
+    <div class="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900"></div>
+    <div class="absolute inset-0 pointer-events-none"
+      style="background: radial-gradient(ellipse 60% 80% at 80% 50%, rgba(56,189,248,0.12) 0%, transparent 60%), radial-gradient(ellipse 50% 60% at 20% 40%, rgba(139,92,246,0.10) 0%, transparent 55%); filter: blur(20px);">
+    </div>
+    <div class="relative z-10 px-6 py-8 sm:px-8 sm:py-10">
+      <h1 class="text-2xl sm:text-3xl font-extrabold mb-3 tracking-tight">
+        <span class="gradient-text">OpenClaw News</span>
+      </h1>
+      <p class="text-slate-400 max-w-xl mb-3">
+        Daily updates on what's new with OpenClaw — releases, features, community developments,
+        and practical use cases discovered in the wild.
+      </p>
+      <div class="flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.7)]"></span>
+        <span class="text-xs text-slate-400">Updated daily by Kimlerclaw 🦎</span>
+      </div>
+    </div>
   </div>
 
   {storyOfTheDay && (
