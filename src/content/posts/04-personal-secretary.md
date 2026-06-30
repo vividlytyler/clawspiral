@@ -3,7 +3,7 @@ title: "Your Personal Secretary: Email, Calendar, and Reminders"
 description: "How OpenClaw can act as a persistent, memory-aware assistant for managing email, calendar events, and contextual reminders — without subscribing to another SaaS."
 pubDate: 2026-03-26
 category: lifestyle-wellness
-tags: ["email", "calendar", "reminders", "productivity", "memory", "ical", "imap", "telegram", "follow-up", "workflow", "cron", "telegram-commands", "control-interface", "triage", "prioritization", "delegation-checklist", "task-inbox"]
+tags: ["email", "calendar", "reminders", "productivity", "memory", "ical", "imap", "telegram", "follow-up", "workflow", "cron", "telegram-commands", "control-interface", "triage", "prioritization", "delegation-checklist", "task-inbox", "recurring-commitments", "delegation-framework", "decision-framework"]
 image: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=1200&auto=format&fit=crop"
 ---
 
@@ -439,6 +439,61 @@ On Friday, OpenClaw checks `tasks/inbox.md` for due items and reminds you before
 **Why not just use a task app?** Task apps are disconnected from the email/calendar workflow. The delegation checklist lives in the same workspace as your calendar exports and memory files — OpenClaw reads and writes it directly, and you can inspect it at any time. No sync issues, no app lock-in, no subscription.
 
 ![Delegation inbox — a task list on a screen with checkboxes, representing the shared surface between OpenClaw and the user](https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=1200&auto=format&fit=crop&q=80)
+
+## Recurring Commitments Tracker
+
+Email and calendar handle one-off items well, but recurring commitments — monthly bills, quarterly reviews, annual obligations — tend to fall through the cracks between meetings. The follow-up system can be extended to track these as a separate `recurring/` directory.
+
+**The pattern:** a `recurring/checklist.md` file, one entry per recurring commitment, with a `next_due` field:
+
+```markdown
+# Recurring Commitments — as of 2026-06-29
+
+- [x] AWS Reserved Instance review — **quarterly** — last: 2026-03-31, next: 2026-06-30 *(due tomorrow)*
+- [ ] Professional license renewal — **annual** — last: 2025-09-01, next: 2026-09-01
+- [ ] Performance review prep (Q2) — **quarterly** — last: 2026-03-15, next: 2026-06-15 *(5 days overdue)*
+- [ ] Review vendor contracts for renewal — **semi-annual** — last: 2026-01-10, next: 2026-07-10
+```
+
+A weekly cron job checks this file against today's date and surfaces anything due within 7 days. The next-day overlap with the quarterly AWS review above would trigger a Telegram message:
+
+> **🔄 Recurring items due this week:**
+> - **Tomorrow:** AWS Reserved Instance review *(quarterly — last was March 31)*
+> - **Friday:** Q2 performance review prep *(5 days overdue — was due June 15)*
+
+Marking one done advances its `next_due` to the next interval automatically:
+
+> **You:** Done, quarterly AWS review.
+>
+> **OpenClaw:** Updated. AWS RI review — next due **2026-09-30** (quarterly). Logged to recurring/checklist.md.
+
+The interval math is simple: annual → +1 year, quarterly → +3 months, monthly → +1 month. A small utility function handles the date arithmetic and handles year-rollover correctly. You never have to remember to re-add something that just happened — it automatically schedules the next occurrence.
+
+**What belongs here vs. in calendar:** Calendar is for fixed-time events (a specific meeting, a flight). Recurring commitments are for things that need attention roughly on a schedule but don't have a fixed appointment — the review itself takes time you need to block, not a pre-blocked slot. The distinction matters because mixing them leads to calendar clutter and missed reviews.
+
+![Weekly planner showing recurring commitments and deadlines on a calendar grid](https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=1200&auto=format&fit=crop&q=80)
+
+## Delegate or Handle It Yourself?
+
+The secretary workflow surfaces a lot of decisions. Not everything should flow through OpenClaw — some things are faster to handle directly, and automating low-value items creates maintenance overhead that isn't worth it.
+
+**Delegate through OpenClaw when:**
+- It recurs on a schedule (weekly reviews, monthly billing cycles, quarterly reports)
+- Context from previous sessions matters (following up on a negotiation, tracking a project's status)
+- Multiple information sources need to be combined (email + calendar + memory for meeting prep)
+- You need a paper trail that's human-readable (the follow-ups/ directory is always accessible)
+
+**Handle directly when:**
+- It's urgent and would take less time to do than to write the instruction (reply to a quick email in 2 minutes)
+- It requires live information OpenClaw can't fetch (current flight status, real-time inventory)
+- The stakes are high enough that you want no automation layer between you and the action (legal documents, sensitive negotiations)
+- You only do it once and it won't recur in a recognizable way
+
+A useful test: *"Will I need to do this again in a similar form within 3 months?"* If yes, delegate it to the follow-up system now and save the decision overhead next time. If no, handle it directly and don't create a file that will sit stale.
+
+This sounds obvious, but in practice the friction of deciding "should I create a follow-up for this?" leads most people to either create too many (every email becomes a task) or too few (nothing is ever tracked). The `next_due` + interval pattern for recurring commitments helps because you only add something once — the system handles the rest.
+
+![Decision flowchart: if it recurs, delegate to OpenClaw; if it's urgent and fast, handle directly; if it needs live data, handle directly; if it recurs and needs context, delegate](https://images.unsplash.com/photo-1586717791821-3f44a563fa4c?w=1200&auto=format&fit=crop&q=80)
 
 The follow-up system in particular is designed to be human-readable at a glance. `follow-ups/pending.md` is just a markdown checklist:
 

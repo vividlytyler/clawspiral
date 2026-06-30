@@ -1,7 +1,7 @@
 {
   "lastImproved": {
     "01-smart-home-orchestration": "2026-06-28",
-    "04-personal-secretary": "2026-06-12",
+    "04-personal-secretary": "2026-06-29",
     "use-cases-category-pages": "2026-05-02",
     "02-research-pipeline": "2026-06-17",
     "03-development-assistant": "2026-06-18",
@@ -25,6 +25,16 @@
         "Added 'Getting Started: First 30 Days' timeline section covering Day 1-2 foundation setup, Day 3 first digest review, Day 7 first subscription audit, Day 14 IMAP tuning, Day 21 budget calibration, and Day 30 second account + net worth baseline — gives readers a concrete implementation path",
         "Added Unsplash budget planning notebook image before Troubleshooting section",
         "Added tags: getting-started, troubleshooting, 30-day-onboarding"
+      ]
+    },
+    {
+      "date": "2026-06-29",
+      "postSlug": "04-personal-secretary",
+      "changes": [
+        "Added 'Recurring Commitments Tracker' section covering the recurring/checklist.md pattern with next_due + interval auto-advance, a real quarterly AWS RI review example showing automatic next_due rollover, and guidance on what belongs in recurring vs calendar (fixed-time events vs schedule-driven reviews)",
+        "Added 'Delegate or Handle It Yourself?' decision framework with 4-part test ('Will I need this again in 3 months?') and explicit criteria for what to delegate vs handle directly — addresses the practical question of when the secretary workflow creates vs reduces overhead",
+        "Added Unsplash weekly planner image before Recurring Commitments section and Unsplash decision flowchart image before Delegation Framework section",
+        "Added tags: recurring-commitments, delegation-framework, decision-framework"
       ]
     },
     {
