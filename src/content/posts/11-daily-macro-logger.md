@@ -320,6 +320,43 @@ If you're on a 12-week program with progressive overload, your protein needs cha
 ```
 You can pre-schedule these updates with a cron job so OpenClaw adjusts the targets automatically at the start of each training phase rather than you having to remember to tell it.
 
+## A Real Deficiency Pattern: Caught Over 6 Weeks
+
+The abstract version of "deficiency detection" is easy to dismiss. Here's what it actually looks like in practice.
+
+OpenClaw has been tracking Jason's meals since January. By mid-February, his weekly vitamin reports show a pattern:
+
+```
+Week 3 (Feb 9–15): Iron 71mg / 100mg target
+Week 4 (Feb 16–22): Iron 64mg / 100mg target  
+Week 5 (Feb 23–Mar 1): Iron 58mg / 100mg target
+Week 6 (Mar 2–8): Iron 52mg / 100mg target
+```
+
+Jason hasn't said anything about iron. He hasn't noticed anything. But his meals tell a story: he moved to a mostly plant-based diet in January and hasn't compensated for the shift. His protein stayed adequate because he was eating eggs and dairy, but his iron intake — which comes mostly from red meat — dropped without him noticing.
+
+OpenClaw flagged it at Week 4 with a note: "Iron below target for 2 consecutive weeks. Pattern consistent with reduced red meat intake. Consider lentils, spinach, or fortified cereals." By Week 6, with no response to earlier nudges, it surfaced the pattern more directly:
+
+```
+🩸 IRON TREND ALERT — Week 6
+
+Iron intake declining 5 weeks running:
+W2: 82mg → W3: 71mg → W4: 64mg → W5: 58mg → W6: 52mg
+Target: 100mg/week
+
+Likely cause: dietary shift (no red meat since ~Jan 8 noted)
+Note: no reported symptoms, but ferritin may be declining silently.
+
+Actionable: 100g lentils ≈ 35mg iron. Two servings/week closes the gap.
+This is informational — not medical advice. Blood test recommended if concerned.
+```
+
+Jason added lentils twice a week. By Week 8 his iron intake was back to 89mg/week — still not at target, but trending in the right direction. He never would have caught it otherwise.
+
+A nutritionist sees you every 3 months. OpenClaw sees every meal, every day.
+
+![Person reviewing health metrics on a tablet](https://images.unsplash.com/photo-1559757175-0eb30cd8c063?w=1200&auto=format&fit=crop)
+
 ## Special Diets & Restrictions
 
 Most nutrition apps are built for a standard "balanced diet" macro split. OpenClaw doesn't assume anything about your diet — you configure it for what you actually eat.
