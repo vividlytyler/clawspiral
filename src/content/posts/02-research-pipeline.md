@@ -3,7 +3,7 @@ title: "Research Pipeline: From Question to Report"
 description: "How OpenClaw can research a topic end-to-end — web search, content extraction, synthesis, and delivery. A framework for turning scattered information into coherent reports."
 pubDate: 2026-03-26
 category: research
-tags: ["research", "web-search", "synthesis", "pipeline", "llm", "duckduckgo", "openclaw", "automation", "knowledge-management", "note-taking", "search-techniques", "cross-session", "research-log", "query-optimization"]
+tags: ["research", "web-search", "synthesis", "pipeline", "llm", "duckduckgo", "openclaw", "automation", "knowledge-management", "note-taking", "search-techniques", "cross-session", "research-log", "query-optimization", "scope-definition", "confidence-calibration", "search-limitations"]
 image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&auto=format&fit=crop"
 imageCaption: "Research Pipeline — from scattered sources to structured synthesis"
 ---
@@ -21,6 +21,18 @@ Search → Fetch → Extract → Synthesize → Deliver
 ```
 
 This sounds simple, but each step has nuance that determines output quality.
+
+## Before You Start: Define Your Scope
+
+The most common research mistake isn't bad synthesis — it's running the wrong research in the first place. Before triggering a pipeline run, answer five questions:
+
+1. **What decision does this serve?** A vendor choice, a technical commitment, a one-time curiosity? The decision type sets the rigor bar.
+2. **What would change my mind?** If you can't answer this, the research has no falsification condition — you're gathering, not researching.
+3. **How much time do I have?** 20 minutes gets you directional. 2 hours gets you verified. Don't let a 20-minute question get 2 hours of sunk time.
+4. **What's my confidence floor?** Define this before you start: "I need at least 2 independent sources agreeing on the core claim before I'll act on it." Without a floor, anything looks good enough.
+5. **Where does the answer need to end up?** A Telegram message, a doc, a spreadsheet? Delivery method shapes output length and structure.
+
+These aren't bureaucratic steps — they're the difference between productive research and the query drift trap.
 
 ## Step 1: Search
 
@@ -322,6 +334,34 @@ Before acting on research output, run through this:
 
 The pipeline doesn't eliminate the need for human judgment — it eliminates the tedium of initial information gathering.
 
+## Confidence Calibration Guide
+
+"Medium confidence" means different things depending on what you're researching and what you're planning to do with it. Use this table to calibrate when to act, when to iterate, and when to abandon a line of inquiry.
+
+| Confidence | Good Enough For | Requires Verification | Don't Use For |
+|------------|-----------------|----------------------|---------------|
+| **High** | Budget commitments, technical decisions, vendor selection | Minor claims only | — |
+| **Medium** | Directional guidance, exploration, narrowing options | Core claims still need a second source | Budget commitments, irreversible decisions |
+| **Low** | Leads to follow-up queries | Everything — verify everything | Any decision without external corroboration |
+
+**Why this matters:** The pipeline is optimistic by default. It returns "medium confidence" when it found something plausible — but plausible isn't proven. The table above keeps you from acting on the plausible and calling it the verified.
+
+A "Low confidence" flag isn't a failure — it's a signal to iterate or escalate. The only bad answer is "medium confidence, I'll go ahead anyway."
+
+## Search Engine Limitations: When DuckDuckGo Falls Short
+
+The pipeline uses DuckDuckGo, which is solid for English-language technical research but has real limits:
+
+- **Non-Latin script content** — Chinese, Arabic, Cyrillic, and other non-Latin sources are poorly indexed. If you're researching Chinese open-source projects or Russian infrastructure tooling, supplement with `site:github.com` + target language terms or find the English-language mirror.
+
+- **Regional search engines** — Yandex (Russian), Baidu (Chinese), Naver (Korean) index their local web more thoroughly than DuckDuckGo. For research on China-specific tech, Russian infrastructure, or Korean platforms, DuckDuckGo misses significant content.
+
+- **Very recent events** — DuckDuckGo's index refreshes continuously, but for breaking news or events from the last 24-48 hours, Google News or Perplexity may surface fresher content. DuckDuckGo still works — just verify the date on sources.
+
+- **JavaScript-rendered pages that return empty** — `web_fetch` returns nothing for JS-heavy SPAs. If you keep hitting empty fetches on a source type (a specific SaaS docs site, a Webflow product page), try `site:webcache.googleusercontent.com` or find an archived/AMP version.
+
+These aren't dealbreakers — they're context. Know the edges of your tool so you know when to look elsewhere.
+
 ## Research Traps to Avoid
 
 The pipeline finds information. It can't tell you if the information is trustworthy. Here's where research goes wrong in ways the pipeline won't catch for you:
@@ -340,6 +380,9 @@ These traps aren't failures of the pipeline — they're failures of how research
 
 ![Research quality — separating signal from noise](https://images.unsplash.com/photo-1434626881859-194d67b2b86f?w=1200&auto=format&fit=crop)
 *Good research separates verified facts from confident opinions — the pipeline finds both, but only you can tell which is which.*
+
+![Research strategy — techniques that sharpen results](https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=1200&auto=format&fit=crop)
+*Sharp queries return sharper answers — techniques for every stage of the pipeline.*
 
 ## Advanced Search Techniques
 

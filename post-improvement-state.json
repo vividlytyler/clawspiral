@@ -3,7 +3,7 @@
     "01-smart-home-orchestration": "2026-06-28",
     "04-personal-secretary": "2026-06-29",
     "use-cases-category-pages": "2026-05-02",
-    "02-research-pipeline": "2026-06-17",
+    "02-research-pipeline": "2026-07-01",
     "03-development-assistant": "2026-06-18",
     "05-system-administration": "2026-06-20",
     "06-employee-scheduling": "2026-06-21",
@@ -17,6 +17,17 @@
     "news/index": "2026-06-30"
   },
   "improvementHistory": [
+    {
+      "date": "2026-07-01",
+      "postSlug": "02-research-pipeline",
+      "changes": [
+        "Added 'Before You Start: Define Your Scope' checklist section with 5 pre-research framing questions (decision stakes, falsification condition, time budget, confidence floor, delivery method) — directly addresses the query drift trap root cause by front-loading the planning work",
+        "Added 'Confidence Calibration Guide' table mapping High/Medium/Low confidence to decision readiness: what each level is good enough for, what requires verification, and what it shouldn't be used for — gives readers a practical decision framework instead of treating 'medium confidence' as an abstract label",
+        "Added 'Search Engine Limitations: When DuckDuckGo Falls Short' section covering non-Latin script gaps, regional search engine alternatives (Yandex/Baidu/Naver), freshness caveats for breaking news, and JavaScript SPA fetch workaround via Google cache/AMP — acknowledges the tool's edges so readers know when to look elsewhere",
+        "Added Unsplash strategy/business planning image (photo-1542744173-8e7e53415bb0) before Advanced Search Techniques section — bridges the conceptual framing (scope + confidence) into the practical search execution section",
+        "Added tags: scope-definition, confidence-calibration, search-limitations"
+      ]
+    },
     {
       "date": "2026-06-29",
       "postSlug": "10-financial-pulse",
