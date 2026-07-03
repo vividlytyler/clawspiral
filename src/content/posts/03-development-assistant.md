@@ -3,7 +3,7 @@ title: "OpenClaw as a Development Assistant"
 description: "Using an AI agent with file system access and shell commands to assist with development tasks — code review, repository management, CI/CD monitoring, and automated tooling."
 pubDate: 2026-03-26
 category: development
-tags: ["development", "coding", "ci-cd", "github", "tooling", "code-review", "testing", "pull-requests", "debugging", "production", "logs", "git-bisect", "multi-repo", "dependency-audit", "security", "stale-branches", "vulnerability-scanning", "development-workflow"]
+tags: ["development", "coding", "ci-cd", "github", "tooling", "code-review", "testing", "pull-requests", "debugging", "production", "logs", "git-bisect", "multi-repo", "dependency-audit", "security", "stale-branches", "vulnerability-scanning", "development-workflow", "webhooks", "git-workflow", "code-safety", "gitlab-ci", "post-merge", "deployment"]
 image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1200&auto=format&fit=crop"
 ---
 
@@ -307,6 +307,8 @@ You get a prioritized, context-aware breakdown instead of a raw vulnerability du
 
 **Automated dependency update summaries:** Before a major version upgrade, ask OpenClaw to run `npm view <package> versions` and compare with what's locked in your `package-lock.json`. It can draft a changelog summary of what would change, helping you decide whether to upgrade now or wait.
 
+![Dependency and security monitoring dashboard](https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=1200&auto=format&fit=crop)
+
 ## Triggering Development Assistant Checks via Webhooks
 
 The post mentions CI/CD access but here's what that actually looks like in practice.
@@ -388,7 +390,7 @@ This fires at 3 AM Pacific every night. By morning you have a health report wait
 
 Monday 10 AM, you get a cleanup script for review. Approve what looks right, skip anything you're still using.
 
-![Dependency and security monitoring dashboard](https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=1200&auto=format&fit=crop)
+![Safe code modification workflow — clean desk with code diff](https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=1200&auto=format&fit=crop)
 
 ## Safe Code Modification Workflow
 
@@ -442,6 +444,58 @@ Some edits are safer to delegate than others:
 
 The rule: if you'd want a second pair of eyes for a human's edit, you want one for an AI's edit too.
 
+### Post-Merge Automation
+
+What happens after the PR is merged is often more自动化 than the merge itself. OpenClaw can handle post-merge operational tasks that teams usually either skip or handle manually:
+
+**Deployment triggering:** Configure OpenClaw to watch for merges to `main` and trigger downstream actions:
+
+```yaml
+# GitHub Actions: on merge to main
+on:
+  push:
+    branches: [main]
+
+jobs:
+  notify-openclaw:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger OpenClaw post-merge
+        run: |
+          curl -X POST "$OPENCLAW_WEBHOOK_URL" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "event": "merge_complete",
+              "repo": "${{ github.repository }}",
+              "branch": "main",
+              "commit": "${{ github.sha }}",
+              "author": "${{ github.actor }}",
+              "compare_url": "${{ github.event.compare }}"
+            }'
+```
+
+OpenClaw receives this, reads the merged diff, and can:
+- Run a smoke test against staging
+- Post a deployment summary to Slack or a team channel
+- Update a project board (close the GitHub issue, move the Jira ticket)
+- Trigger a Docker image rebuild if you self-host
+
+**Changelog generation:** After a merge, OpenClaw can read the diff, identify conventional commits, and draft a changelog entry. For teams using squash-merge, it reads the PR body and commits to produce a human-readable summary of what shipped.
+
+**Stale review comment cleanup:** After a PR merges, OpenClaw can scan the closed PR's review comments for unresolved threads and flag them as follow-up issues — so knowledge captured in code review doesn't disappear when the PR closes.
+
+**Concrete example:** Your team merges a feature branch. GitHub webhook fires to OpenClaw:
+
+> OpenClaw receives: `event: merge_complete, repo: backend/api, commit: a4f2c91, author: maria, compare_url: ...`
+>
+> It reads the diff (`git diff a4f2c91^..a4f2c91`), parses the 4 commits squashed into the merge, identifies 2 conventional commits with breaking-change footers, and:
+> - Posts to your Slack `#deployments` channel: "backend/api v2.4.0 shipped by Maria. 2 features, 1 fix. No breaking changes."
+> - Runs `docker pull yourregistry/backend-api && docker-compose up -d` on staging, waits 30s, hits the health endpoint, confirms 200
+> - Creates a GitHub issue: "Consider adding rate limiting to `/api/orders` — this merge increased endpoint exposure"
+> - Updates the project board: moves "Order API v2.4.0" from In Review to Done
+
+You didn't ask for any of this. It happened because the webhook fired.
+
 ### A Concrete Review Exchange
 
 > **You:** I added a backup and want you to refactor the `getUser` function in `src/api/users.ts` to handle the `role === 'support'` case that currently throws. Update the tests too.
@@ -461,12 +515,12 @@ You read the diff. Looks clean. `git add` and merge.
 
 ## Limitations
 
-## Limitations
-
 - **Security is non-negotiable**: File system + shell access is root-level trust. Use a dedicated service account with minimal permissions, not your main user. Consider running OpenClaw inside a container with read-only filesystem where possible.
 - **No native IDE integration**: OpenClaw edits files directly. If you use VS Code's diff view or local Git hooks, you'll need to pull changes manually.
 - **Context windows**: A 50-file refactor won't fit in a single prompt. Work in focused chunks — one module, one PR at a time.
 - **Not a compiler**: It can read test output, parse error messages, and suggest fixes — but it can't replace your local `npm test` loop.
 - **GitHub API rate limits**: Automated monitoring can hit rate limits on free-tier accounts. Fine-grained PATs get higher limits than classic tokens.
+- **LLM code quality variance**: Generated code that passes tests and looks correct can still have subtle logic errors, off-by-one bugs, or subtle race conditions. High-stakes paths (payment processing, auth, data migrations) warrant extra scrutiny before deploying.
+- **Review fatigue doesn't transfer**: OpenClaw doesn't get tired of reviewing the 15th similar PR in a row — but it also doesn't have the institutional memory that a long-tenured team member has. Use it for what it's good at (pattern matching, error log parsing) and preserve human context for architectural decisions.
 
 The sweet spot is operational tasks, code review, and debugging — where the AI can leverage its broad knowledge to complement your specific codebase knowledge.

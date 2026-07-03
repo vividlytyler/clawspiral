@@ -4,7 +4,7 @@
     "04-personal-secretary": "2026-06-29",
     "use-cases-category-pages": "2026-05-02",
     "02-research-pipeline": "2026-07-01",
-    "03-development-assistant": "2026-06-18",
+    "03-development-assistant": "2026-07-02",
     "05-system-administration": "2026-06-20",
     "06-employee-scheduling": "2026-06-21",
     "07-invoice-processing": "2026-06-22",
@@ -18,6 +18,17 @@
     "thoughts/index": "2026-07-02"
   },
   "improvementHistory": [
+    {
+      "date": "2026-07-02",
+      "postSlug": "03-development-assistant",
+      "changes": [
+        "Fixed duplicate Limitations section heading — post had two identical ## Limitations headers causing rendering issues; consolidated into one with 8 items including new LLM code quality variance and review fatigue transfer gap entries",
+        "Added Post-Merge Automation section covering deployment triggering via GitHub Actions webhook, changelog generation from conventional commits, and stale review comment cleanup workflow",
+        "Added Unsplash safe code modification workflow image (photo-1516116216624-53e697fedbea) before Safe Code Modification Workflow section",
+        "Restored dependency/security monitoring dashboard Unsplash image (photo-1614064641938-3bbee52942c7) at end of Dependency and Security Vulnerability Monitoring section where it belonged",
+        "Added tags: webhooks, git-workflow, code-safety, gitlab-ci, post-merge, deployment"
+      ]
+    },
     {
       "date": "2026-07-02",
       "page": "thoughts.astro",
