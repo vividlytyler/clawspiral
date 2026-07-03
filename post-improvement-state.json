@@ -1,5 +1,6 @@
 {
   "lastImproved": {
+    "index": "2026-07-03",
     "01-smart-home-orchestration": "2026-06-28",
     "04-personal-secretary": "2026-06-29",
     "use-cases-category-pages": "2026-05-02",
@@ -18,6 +19,13 @@
     "thoughts/index": "2026-07-02"
   },
   "improvementHistory": [
+    {
+      "date": "2026-07-03",
+      "page": "index.astro",
+      "changes": [
+        "Hero stats cards: increased gap from gap-2 to gap-3 (sm: gap-4), padding from px-2 py-2.5 to px-3 py-3 (sm: px-4 py-4), number text from text-base sm:text-xl to text-lg sm:text-2xl, all elements now have group-hover transitions (glow opacity, text color shift to sky-300) — cards feel more tactile and premium without changing the visual language"
+      ]
+    },
     {
       "date": "2026-07-02",
       "postSlug": "03-development-assistant",
