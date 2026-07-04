@@ -4,10 +4,10 @@ description: "OpenClaw captures the reasoning behind your decisions and follows 
 pubDate: 2026-06-15
 category: productivity
 tags: ["decision-making", "journaling", "self-improvement", "reflection", "patterns", "reasoning", "meta-cognition"]
-image: "https://images.unsplash.com/photo-X90spJyvGi8?w=1200&auto=format&fit=crop"
+image: "https://images.unsplash.com/photo-1517842645767-c639042777db?w=1200&auto=format&fit=crop"
 ---
 
-![Person writing in a notebook with a pen, planning and making decisions](https://images.unsplash.com/photo-X90spJyvGi8?w=1200&auto=format&fit=crop)
+![Person writing in a notebook with a pen, planning and making decisions](https://images.unsplash.com/photo-1517842645767-c639042777db?w=1200&auto=format&fit=crop)
 
 You made a big decision last year. Do you remember why?
 
