@@ -13,12 +13,25 @@
     "09-experimental-edge-cases": "2026-06-23",
     "10-financial-pulse": "2026-06-29",
     "11-daily-macro-logger": "2026-06-30",
-    "12-travel-planner": "2026-06-20",
+    "12-travel-planner": "2026-07-03",
     "13-language-learning-coach": "2026-06-27",
     "news/index": "2026-06-30",
     "thoughts/index": "2026-07-02"
   },
   "improvementHistory": [
+    {
+      "date": "2026-07-03",
+      "postSlug": "12-travel-planner",
+      "changes": [
+        "Added 'Common Travel Mistakes (And How OpenClaw Helps)' section — 6 concrete mistake examples: booking in wrong neighborhoods, zero recovery time, assuming transit works like home, over-packing, no local context file, booking-isn't-planning",
+        "Added Unsplash travel journey/path image before Common Mistakes section (winding road/mountain path)",
+        "Expanded Limitations section: added cross-referencing primary sources guidance, expanded multi-city complexity paragraph, made weather reliability and seasonal lag more actionable",
+        "Added 'Currency and Payments' section covering Tokyo cash/card landscape, where each works, ATM strategy, Charles Schwab tip, and Suica on iPhone recommendation",
+        "Added 'Travel Insurance Research' subsection showing how OpenClaw surfaces coverage gaps vs. actual Japan medical costs",
+        "Rewrote closing from generic summary to 3-paragraph payoff covering trip anxiety, the difference between planned and lived trip, and the practical value proposition",
+        "Added tags: common-mistakes, currency, payments, travel-insurance, jet-lag, recovery-days"
+      ]
+    },
     {
       "date": "2026-07-03",
       "page": "index.astro",

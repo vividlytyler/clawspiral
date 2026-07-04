@@ -3,7 +3,7 @@ title: "Travel Planning: From Research to Itinerary"
 description: "How OpenClaw can handle the full travel planning stack — researching destinations, comparing flights and hotels, building day-by-day itineraries, and delivering everything to your phone."
 pubDate: 2026-03-28
 category: lifestyle-wellness
-tags: ["travel", "planning", "itinerary", "flights", "hotels", "research", "cron", "telegram", "price-alerts", "email-parsing", "destination-research", "itinerary-building", "visa", "documents", "contingency", "real-time-support", "packing-list", "budget-planning", "itinerary-example", "in-transit"]
+tags: ["travel", "planning", "itinerary", "flights", "hotels", "research", "cron", "telegram", "price-alerts", "email-parsing", "destination-research", "itinerary-building", "visa", "documents", "contingency", "real-time-support", "packing-list", "budget-planning", "itinerary-example", "in-transit", "common-mistakes", "currency", "payments", "travel-insurance", "jet-lag", "recovery-days"]
 image: "https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1200&auto=format&fit=crop"
 ---
 
@@ -386,18 +386,98 @@ OpenClaw builds this structure as you forward confirmations. The `reminders.md` 
 
 ## Limitations
 
-OpenClaw can't book anything for you directly — it doesn't have credit card integration or API access to airline or hotel booking systems. Think of it as the research and planning layer, not the transaction layer.
+![Travel planning mistakes — wrong turns and course correction](https://images.unsplash.com/photo-1506012787146-f92b2d7d6d96?w=1200&auto=format&fit=crop)
 
-It also can't visit a physical location and tell you if a hotel room is louder than the reviews suggest. It synthesizes what other people have written, which means it inherits both the wisdom and the bias of those reviews.
+## Common Travel Mistakes (And How OpenClaw Helps)
+
+The difference between a good trip and a frustrating one often comes down to five or six decisions made before you leave. OpenClaw's value isn't just in saving time — it's in catching the mistakes people actually make.
+
+**Mistake 1: Booking accommodations in tourist centers for the wrong reasons.**
+Travellers default to "near the station" without asking which station or what they're actually doing there. Shinjuku is convenient — until you're trying to sleep in a neon-lit high-rise after a red-eye flight. OpenClaw matches neighborhoods to your actual itinerary, so "near the station" becomes "near the station you'll use most" based on where your days actually start and end.
+
+**Mistake 2: Scheduling zero recovery time.**
+The first day of a trip is almost always worse than the last. You've been on planes, the light is different, everything costs more than you expected, and you're not yet calibrated to the city. Yet most itineraries treat Day 1 like any other day. OpenClaw flags when you've scheduled a 7-hour sightseeing marathon on the same day you land at 2pm local time.
+
+**Mistake 3: Assuming transit works like at home.**
+A 15-minute drive in your city might be a 45-minute walk in Tokyo. A train that runs every 5 minutes in London runs every 30 minutes on Sundays in rural Japan. OpenClaw's itinerary building uses actual transit times — not ballpark estimates — and flags days where you're planning more stops than the transit network can handle in the available hours.
+
+**Mistake 4: Over-packing "just in case."**
+Every kilogram in your bag is a decision you'll make again at airport check-in, at customs, and every time you change accommodations. The carry-on only constraint isn't just a budget move — it's a forcing function that makes you think about what you actually need. OpenClaw generates packing lists from the itinerary, not from a generic checklist, so you can see exactly why each item is there.
+
+**Mistake 5: Not building a local context file before departure.**
+The most useful thing on your phone at the airport isn't a screenshot of your hotel confirmation — it's a file that tells you how the city works on your first day: which exit to use at the arrival station, what a transit card costs and where to buy it, how late the convenience store is open, what your hotel's English-level is likely to be. OpenClaw builds this automatically from your research and confirmation emails.
+
+**Mistake 6: Assuming the plan is done when the bookings are done.**
+The confirmation email is not the plan. The plan is the context around the confirmation — what to do if the flight is delayed, which backup restaurant is open on the day your reservation falls through, what your hotel's late-check-in procedure actually is. The contingency folder isn't paranoia — it's the difference between a problem and a crisis.
+
+---
+
+OpenClaw can't book anything for you directly — it doesn't have credit card integration or API access to airline or hotel booking systems. Think of it as the research and planning layer, not the transaction layer. It synthesizes what other people have written, which means it inherits both the wisdom and the bias of those reviews — always cross-reference against current primary sources for time-sensitive details like hours, prices, and entry requirements.
 
 **Weather reliability:** Web search gives you climate averages, not real-time forecasts. "Best time to visit Tokyo" advice based on historical data doesn't account for the heat wave your specific travel dates might hit. Treat weather as directional, not definitive — and check a 10-day forecast the week before you leave.
 
-**Seasonal research lag:** Travel advice has a long half-life on the web. A blog post saying "September is perfect in Barcelona" might be from 2019. Tourist seasons shift, new metro lines open, restaurant closures happen. Always check that source dates are recent.
+**Seasonal research lag:** Travel advice has a long half-life on the web. A blog post saying "September is perfect in Barcelona" might be from 2019. Tourist seasons shift, new metro lines open, restaurant closures happen. Always cross-reference against recent reviews or official sources — Wikivoyage, Lonely Planet, and destination tourism boards tend to update faster than personal blogs.
 
-**Multi-city complexity:** A two-week trip with four cities and three countries generates logistics that are genuinely hard to optimize — transit times between stops, visa windows, jet lag from short hops. OpenClaw can research each leg, but the overall arc still needs a human who understands the tradeoffs.
+**Multi-city complexity:** A two-week trip with four cities and three countries generates logistics that are genuinely hard to optimize — transit times between stops, visa windows, jet lag from short hops. OpenClaw can research each leg and surface the friction points, but the overall arc still needs a human who understands the tradeoffs and has a clear priority (maximizing variety vs. minimizing logistics, covering ground vs. going deep).
 
 **No real-time inventory:** Flight prices and hotel availability change by the minute. The price alert cron catches drops between checks, but it can't guarantee the fare is still available when you click the link. Treat research as directional, booking as a separate action.
 
-But for the hours of research that come before booking — the part that determines whether your trip goes well — it's a significant time saver with actual judgment applied.
+---
+
+## Currency and Payments
+
+Money logistics catch more travellers off guard than any single sightseeing failure. OpenClaw can research the payment landscape before you leave.
+
+**Send:**
+> "What do I need to know about money for a 10-day trip to Tokyo? Should I bring cash, cards, or both? Any pitfalls for Canadians?"
+
+**OpenClaw responds:**
+
+```markdown
+## Money — Tokyo 2026
+
+### The short version
+Tokyo is far more cashless than reputation suggests — but cash is still necessary in ways cards can't handle.
+
+### Where cards work
+- Most hotels, department stores, chain restaurants, convenience stores (7-Eleven, Lawson, FamilyMart)
+- IC card (Suica/Pasmo) reload at convenience store counters and machines
+- Tax-free shopping at participating retailers (look for the tax-free sign)
+
+### Where you need cash
+- Small ramen shops, many izakayas, temple donation boxes, some traditional markets
+- Coin lockers at stations (¥200-600/day)
+- Vending machines (almost all take cards now, but not all)
+- Tip: ¥5,000-10,000/day in cash is usually sufficient
+
+### ATM strategy
+- 7-Eleven ATMS (International ATM sign) accept Canadian cards and have the best rates
+- Don't use airport exchange bureaus unless emergency — terrible rates
+- Charles Schwab debit card = no foreign transaction fees + reimburses ATM fees
+
+### What NOT to do
+- Exchange cash at the airport on arrival (terrible rates)
+- Rely solely on credit card with no backup (chip failures happen)
+- Carry large amounts of cash in your main wallet (pickpocket risk in tourist areas)
+
+### Recommendation for Canadians
+- Primary: Charles Schwab or HSBC debit + Cash Passport platinum prepaid CAD/JPY card
+- Backup: CAD cash exchanged at best rate (check Wise or KnightsbridgeFX before departure)
+- Suica/Pasmo on iPhone (Apple Pay) = best of all worlds for transit
+```
+
+### Travel Insurance Research
+
+Travel insurance is the thing most travellers know they need but research the least. OpenClaw can at least point you at the right questions.
+
+> "I have a $3,500 CAD Tokyo trip. I have basic travel insurance through RBC. What does it actually cover and what should I add?"
+
+OpenClaw surfaces: medical coverage limits vs. Japan's actual medical costs ($5,000-$15,000 CAD for a hospital stay is not unusual), trip cancellation coverage and what qualifies, credit card travel insurance double-coverage rules, and adventure activity exclusions (if you're planning cycling or hiking). It can't replace a broker consultation for complex trips, but it catches the gaps in whatever coverage you already have.
+
+---
+
+The trip you remember isn't the one you planned — it's the one you actually lived. OpenClaw doesn't make travel more magical. It removes the friction that makes good trips forgettable. The 3am anxiety about whether the hotel shuttle runs at midnight, the spreadsheet you built that nobody else can read, the email thread you can't find when you need it — those are the things that OpenClaw handles before they become your trip's defining moments.
+
+Good trip prep means you arrive knowing what you're doing tomorrow. Great trip prep means you never have to think about it.
 
 
