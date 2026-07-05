@@ -4,7 +4,7 @@ description: "Using an AI agent as a always-on system administrator — monitori
 pubDate: 2026-03-26
 category: lifestyle-wellness
 difficulty: intermediate
-tags: ["system-admin", "docker", "server", "monitoring", "linux", "ubuntu", "watchtower", "cron", "self-hosted", "ssh", "portainer", "incident-response", "performance-tuning", "status-page", "security-hardening"]
+tags: ["system-admin", "docker", "server", "monitoring", "linux", "ubuntu", "watchtower", "cron", "self-hosted", "ssh", "portainer", "incident-response", "performance-tuning", "status-page", "security-hardening", "self-healing", "restart-policy", "systemd", "healthchecks"]
 image: "https://images.unsplash.com/photo-1600267204026-85c3cc8e96cd?w=1200&auto=format&fit=crop"
 ---
 
@@ -61,6 +61,93 @@ Here's what an actual failure-and-recovery cycle looks like:
 5. **5:00 AM — Morning brief includes:** *"Sonarr restarted at 4:14 AM after a SQLite lock conflict with Radarr. No data loss. Consider setting up a lock timeout or migrating both to a dedicated PostgreSQL instance if this repeats."*
 
 This is the full loop — detect, diagnose, fix, verify, report — without you touching anything.
+
+### Self-Healing Configuration
+
+OpenClaw can configure Docker restart policies and systemd units to self-heal without any agent involvement — for the things that should fix themselves before you even see an alert.
+
+**Docker restart policies** are the first line of defense for containers:
+
+```yaml
+# docker-compose.yml — restart policy configuration
+services:
+  jellyfin:
+    restart: unless-stopped
+    # Options: no, always, on-failure[:n], unless-stopped
+
+  sonarr:
+    restart: on-failure:3
+    # Restarts up to 3 times on non-zero exit; gives transient failures room to recover
+
+  radarr:
+    restart: on-failure:3
+    # Same policy — but Radarr+Sonarr SQLite conflict needs more than restart policy
+```
+
+The SQLite lock conflict from the Sonarr/Radarr incident above is a case where restart policies alone won't solve it — both containers keep exiting with the same error, so `unless-stopped` just brings them back into the same broken state. That's where OpenClaw's diagnosis and fix (stopping Radarr first, then Sonarr) is necessary. But for simpler crashes — a segfault that doesn't recur, a process OOM-killed under load — restart policies recover silently.
+
+**Systemd watchdog for host-level services** gives you a separate monitoring path:
+
+```bash
+# Create a systemd unit for OpenClaw health monitoring
+sudo nano /etc/systemd/system/openclaw-health-check.service
+```
+
+```
+[Unit]
+Description=OpenClaw Health Cron Watchdog
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/systemctl is-active openclaw
+```
+
+```bash
+# Timer to run the check every 5 minutes
+sudo nano /etc/systemd/system/openclaw-health-check.timer
+```
+
+```
+[Unit]
+Description=Run OpenClaw health check every 5 minutes
+[Timer]
+OnBootSec=1min
+OnUnitActiveSec=5min
+Unit=openclaw-health-check.service
+
+[Install]
+WantedBy=timers.target
+```
+
+```bash
+sudo systemctl enable --now openclaw-health-check.timer
+```
+
+The watchdog runs as a separate systemd service — it can't help OpenClaw fix itself, but it can detect when OpenClaw is down and alert you through a channel OpenClaw isn't running through. For truly critical services (database, reverse proxy), the watchdog should be on a separate system or at least a separate process tree from the service it monitors.
+
+**Custom Docker health checks** — OpenClaw can generate and deploy container-level health checks:
+
+```bash
+# Example: custom health check for a web service
+docker run -d \
+  --name myapp \
+  --health-cmd "curl -f http://localhost:3000/health || exit 1" \
+  --health-interval=30s \
+  --health-timeout=10s \
+  --health-retries=3 \
+  --health-start-period=40s \
+  myapp:latest
+```
+
+OpenClaw generates these based on what the service actually exposes — a `/health` endpoint, a database ping, a meaningful metric. Once configured, `docker ps` shows `healthy`/`unhealthy` status at a glance, and unhealthy containers can trigger automated responses.
+
+**When self-healing is the wrong answer:**
+- A crashing container that's losing data (database corruption, mid-write failure) — restart policy just buries the error
+- A service that's misconfigured and keeps starting in a broken state — fix the config, don't keep restarting
+- Something that requires human judgment to repair — alert and wait
+
+OpenClaw distinguishes these: after the second restart of the same container within an hour, it stops auto-restarting and alerts you instead. That's the `on-failure:3` policy — it gives transient failures room to recover but doesn't mask a persistent problem.
 
 ### Log Analysis
 
@@ -544,9 +631,9 @@ OpenClaw can manage snapshot retention — roll up old snapshots, identify large
 **A real ZFS alert:**
 > *"ZFS pool 'tank' is at 78% capacity — crossed your 80% threshold. Top consumers: tank/docker/volumes at 412GB, tank/media at 1.8TB. Next largest snapshot: tank/docker/volumes@2026-01-15 at 89GB (created 5 months ago). Recommend running `zfs destroy tank/docker/volumes@2026-01-15` to reclaim space, then add a new vdev or drive to the pool before you hit 85%."*
 
-## Disk I/O Monitoring
+![Network-attached storage array — ZFS pool concept](https://images.unsplash.com/photo-1531497865144-0464ef8fb9a9?w=1200&auto=format&fit=crop)
 
-![Hard drive diagnostic showing S.M.A.R.T. data and disk health metrics](https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?w=1200&auto=format&fit=crop)
+## Disk I/O Monitoring
 
 Beyond disk space (which `df -h` covers), I/O bottlenecks can slow down your entire system without showing up as high CPU or memory usage:
 

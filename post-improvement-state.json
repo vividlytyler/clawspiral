@@ -6,7 +6,7 @@
     "use-cases-category-pages": "2026-05-02",
     "02-research-pipeline": "2026-07-01",
     "03-development-assistant": "2026-07-02",
-    "05-system-administration": "2026-06-20",
+    "05-system-administration": "2026-07-04",
     "06-employee-scheduling": "2026-06-21",
     "07-invoice-processing": "2026-06-22",
     "08-creative-brainstorming": "2026-06-24",
@@ -832,6 +832,15 @@
         "Added 'A Real Deficiency Pattern: Caught Over 6 Weeks' section with a concrete Jason/iron example showing 6-week declining iron intake (82mg \u2192 52mg) traced to a January diet shift, OpenClaw's progressive escalation from gentle nudge to explicit alert, the lentils fix, and Week 8 recovery to 89mg \u2014 makes the abstract 'deficiency detection' claim tangible",
         "Added Unsplash health metrics tablet image before Special Diets section, bridging the conceptual pattern-detection section into the practical diet-restrictions content",
         "Added tags: deficiency-detection, iron, micronutrient-tracking, pattern-recognition"
+      ]
+    },
+    {
+      "date": "2026-07-04",
+      "postSlug": "05-system-administration",
+      "changes": [
+        "Added 'Self-Healing Configuration' section covering Docker restart policies (unless-stopped, on-failure:3), systemd watchdog units for host-level service monitoring, custom Docker health checks (--health-cmd, --health-interval, --health-retries), and explicit guidance on when self-healing is the wrong tool vs. when to alert instead",
+        "Added ZFS health monitoring Unsplash image (NAS storage array, photo-1531497865144-0464ef8fb9a9) before the Disk I/O section — fills the visual gap after the ZFS section which previously had no image",
+        "Added restart-policy, systemd, healthchecks, and self-healing tags to frontmatter"
       ]
     },
     {
