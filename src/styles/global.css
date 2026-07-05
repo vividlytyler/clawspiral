@@ -183,6 +183,29 @@ a:hover {
   -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
 }
 
+/* Category card entrance — staggered fade-in-up for the use-cases index grid */
+@keyframes card-enter {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.cat-card-enter {
+  opacity: 0;
+  animation: card-enter 0.5s ease-out forwards;
+}
+.cat-card-enter:nth-child(1) { animation-delay: 50ms; }
+.cat-card-enter:nth-child(2) { animation-delay: 100ms; }
+.cat-card-enter:nth-child(3) { animation-delay: 150ms; }
+.cat-card-enter:nth-child(4) { animation-delay: 200ms; }
+.cat-card-enter:nth-child(5) { animation-delay: 250ms; }
+.cat-card-enter:nth-child(6) { animation-delay: 300ms; }
+.cat-card-enter:nth-child(7) { animation-delay: 350ms; }
+
 /* Hero mesh gradient — layered blurred orbs for depth with ambient animation */
 @keyframes mesh-drift {
   0%, 100% { opacity: 1; transform: translate(0, 0) scale(1); }
