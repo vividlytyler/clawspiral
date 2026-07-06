@@ -226,12 +226,6 @@ Bot: "Noted — max 2 dinner-close shifts per week."
 
 Without split-shift tracking, you'd have to manually check that someone working 10am–3pm and 5pm–10pm isn't being scheduled for a split that violates their availability. OpenClaw handles it automatically.
 
----
-
-Without this holiday layer, managers end up manually tracking which days are special and who asked off before — exactly the kind of spreadsheet drift this system is meant to prevent.
-
----
-
 ![Team shift planning on a whiteboard in a coffee shop](https://images.unsplash.com/photo-1556761175-b72474857d98?w=1200&auto=format&fit=crop)
 
 ### On-Call and Backup Coverage
@@ -507,6 +501,99 @@ Bot: "Got it — you're confirmed. See you Monday."
 Without the confirm loop, there's no way to know if a WhatsApp message was seen or silently swallowed.
 
 ![Team resolving a scheduling conflict on a laptop](https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=1200&auto=format&fit=crop)
+
+### Handling Mid-Week Schedule Changes
+
+Swaps are one thing — one employee trades a known shift with another. But what happens when the business itself changes the schedule mid-week? A supplier delivers on the wrong day, a private event books the space, a piece of equipment breaks and you need fewer staff Thursday afternoon.
+
+OpenClaw handles mid-week changes the same way it handles everything else: it broadcasts the change, waits for responses, and logs the outcome.
+
+**A real mid-week change flow:**
+
+```
+Manager: "We have a private event Friday 4pm-8pm, need to cut the dinner shift from 3 staff to 1"
+Bot: "Acknowledged — Fri 4pm-8pm dinner window reduced from 3 to 1 staff. 
+Broadcasting voluntary reduction requests."
+Bot: "Team — Fri dinner shift (4pm-8pm) needs to drop from 3 to 1 due to a private event. 
+Anyone want to give up their Friday dinner shift this week?"
+Chris: "I'll give up mine"
+Bot: "Chris — confirmed off for Fri 4pm-8pm dinner. Schedule updated."
+Bot: "Maria and Tom — your Fri dinner shifts are unchanged."
+Bot: "@Manager — Chris has dropped Fri dinner. Still need one more reduction to hit min staff of 1."
+Tom: "Actually I can take the event if you need — I was planning to leave at 6 anyway"
+Bot: "Tom — you're confirmed for Fri 4pm-8pm dinner solo. All other staff released."
+```
+
+OpenClaw handles the cascading logic: reducing from 3 to 1 means two people need to drop, not just one. It broadcasts until the target is met, then confirms all affected employees. Without this, the manager is individually texting everyone and keeping a mental tally.
+
+**Involuntary changes** — where no one volunteers — follow a different path:
+
+```
+Bot: "Team — need one volunteer to give up Fri dinner shift. No responses so far."
+Bot: "If no one volunteers by 5pm, the manager will need to assign it."
+Manager: "Assign it to Priya — she has the lightest week"
+Bot: "Manager override — Priya assigned to Fri 4pm-8pm dinner. Notifying team."
+Bot: "Priya — your Fri dinner shift has been updated from 12pm-6pm to 4pm-8pm 
+due to a private event. If this is a problem, let me know within 2 hours."
+```
+
+Involuntary assignments go to the person with the fewest hours that week — the same scoring logic used for swap conflicts. The manager makes the call; OpenClaw implements and notifies. The 2-hour window gives Priya a chance to object before the change becomes final.
+
+**What gets logged:** every mid-week change produces a timestamped entry in `schedule-changes.log`:
+
+```
+2026-03-28 14:32 | fri-dinner | 3→1 staff | event=private-catering | 
+  released: Chris Walsh (voluntary) | assigned: Tom Nguyen (manager-override) | 
+  notified: all affected
+```
+
+This log is the record of what changed and why. For businesses where schedule changes trigger premium pay (California's chaotic scheduling law, for example), this timestamped log is the evidence.
+
+![HR compliance clipboard with employee records](https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=1200&auto=format&fit=crop)
+
+### Audit Trail and Compliance Documentation
+
+For most small businesses, the schedule is just a planning tool. But in certain industries — food service, healthcare, retail with minors on staff — the schedule becomes a legal document. When a labor board audits your time records, or when an employee disputes a missed overtime payment, the question isn't "what did you plan to schedule?" — it's "what actually happened?"
+
+OpenClaw's file-based architecture creates a natural audit trail that most scheduling tools don't provide by default.
+
+**What gets recorded and when:**
+
+| Event | Where it lives | What's stored |
+|---|---|---|
+| Availability submitted | `employees/{name}.json` | date, preferred hours, notes |
+| Schedule published | `schedule-2026-03-30.json` | all shifts, all assignments |
+| Shift swap executed | `swap-log.json` | date, who swapped with whom, who approved |
+| Sick day reported | `sick-day-log.json` | date, reporter, coverage result |
+| Mid-week change | `schedule-changes.log` | date, change description, involuntary flag |
+| Confirmation receipts | `confirm-log.json` | date, employee, message ID (Telegram) |
+
+The confirmation log deserves special attention. Telegram message IDs let you prove exactly which message an employee received and when. If Maria later says "I never got the Saturday schedule," you can pull the Telegram API record showing the message was delivered at 6:04pm on Sunday.
+
+**A compliance-ready weekly export** goes beyond the payroll CSV. OpenClaw can generate a signed summary at pay-period close:
+
+```json
+{
+  "payPeriod": { "start": "2026-03-24", "end": "2026-03-30" },
+  "generated": "2026-03-30T23:00:00-07:00",
+  "scheduledHours": {
+    "Maria Garcia":   { "scheduled": 32, "worked": 32, "discrepancy": 0 },
+    "Chris Walsh":    { "scheduled": 28, "worked": 30, "discrepancy": "+2 (approved OT)" },
+    "Priya Patel":    { "scheduled": 24, "worked": 24, "discrepancy": 0 },
+    "Tom Nguyen":     { "scheduled": 30, "worked": 30, "discrepancy": 0 }
+  },
+  "scheduleChanges": [
+    { "date": "2026-03-26", "type": "involuntary", "reason": "sick-day", "detail": "Maria sick, Tom covered" }
+  ],
+  "sickDays": [
+    { "date": "2026-03-26", "employee": "Maria Garcia", "coverage": "Tom Nguyen (voluntary)" }
+  ]
+}
+```
+
+This JSON — combined with the Telegram confirm receipts and the swap/sick-day logs — gives you a complete, timestamped record of what was scheduled, what changed, and what was actually worked. It's not a legal attestation, but it's the evidence that makes a labor dispute defensible.
+
+**For California ASTCCA employers** (the city's retail/food service ordinance), the "good faith" schedule notice requirement means you need to prove employees received their schedules at least 2 weeks in advance. If OpenClaw sent the Sunday-evening schedule via Telegram 10 days before the week started, that's documented. If Maria acknowledged receipt, that's documented too.
 
 ---
 

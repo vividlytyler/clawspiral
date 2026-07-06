@@ -7,7 +7,7 @@
     "02-research-pipeline": "2026-07-01",
     "03-development-assistant": "2026-07-02",
     "05-system-administration": "2026-07-04",
-    "06-employee-scheduling": "2026-06-21",
+    "06-employee-scheduling": "2026-07-05",
     "07-invoice-processing": "2026-06-22",
     "08-creative-brainstorming": "2026-06-24",
     "09-experimental-edge-cases": "2026-06-23",
@@ -19,6 +19,15 @@
     "thoughts/index": "2026-07-02"
   },
   "improvementHistory": [
+    {
+      "date": "2026-07-05",
+      "postSlug": "06-employee-scheduling",
+      "changes": [
+        "Removed dangling duplicate paragraph 'Without this holiday layer, managers end up manually tracking...' — leftover text that wasn't integrated into the holiday section above it, sitting orphaned between horizontal rules and an image",
+        "Added 'Handling Mid-Week Schedule Changes' section covering voluntary vs involuntary shift reductions (private events, equipment failures), cascading logic when multiple staff need to drop, manager override when no volunteers, involuntary assignment scoring by hours worked, and a real private-event flow with timestamped schedule-changes.log output — fills the gap between 'swap' workflows (employee-initiated) and manager-initiated schedule changes mid-week",
+        "Added 'Audit Trail and Compliance Documentation' section covering all file-based records created by OpenClaw (availability, schedule, swap-log, sick-day-log, schedule-changes.log, confirm-log), a compliance-ready pay-period JSON export structure showing scheduled vs worked hours with discrepancies, Telegram message ID tracking for proof-of-delivery, and specific guidance for California ASTCCA employers on advance schedule notice requirements — directly addresses the labor law compliance gap mentioned in Limitations"
+      ]
+    },
     {
       "date": "2026-07-03",
       "postSlug": "12-travel-planner",
