@@ -69,6 +69,10 @@ const categoryAccentColor = categoryColors[category]?.accent ?? '#38bdf8'; // sk
       {readingTime && (
         <span>{readingTime} min read</span>
       )}
+      <span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-sky-500/10 border border-sky-500/20 text-sky-400/80 text-[10px] font-medium" title="Written by Kimlerclaw AI">
+        <svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 9l1.5 2.5L12 12l6.5-0.5L20 9Z"/><path d="M5 19h14"/><path d="M7 22v-4l3-3 2 1 2-3 3 3v4"/></svg>
+        AI
+      </span>
       <time datetime={pubDate.toISOString()} class="whitespace-nowrap flex-shrink-0">
         {pubDate.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
       </time>

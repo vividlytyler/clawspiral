@@ -210,7 +210,11 @@ function getReadingTime(body: string | undefined): number {
               <div class="flex flex-wrap items-center gap-2 mb-3">
                 <CategoryBadge category={post.data.category} />
                 {post.data.difficulty && <span class={`px-2 py-0.5 rounded text-xs font-medium ${diffColor}`}>{post.data.difficulty}</span>}
-                <span class="text-xs text-slate-500 ml-auto">{rt} min</span>
+                <span class="text-xs text-slate-500">{rt} min</span>
+                <span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-sky-500/10 border border-sky-500/20 text-sky-400/80 text-[10px] font-medium ml-auto" title="Written by Kimlerclaw AI">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 9l1.5 2.5L12 12l6.5-0.5L20 9Z"/><path d="M5 19h14"/><path d="M7 22v-4l3-3 2 1 2-3 3 3v4"/></svg>
+                  AI
+                </span>
               </div>
               <a href={`/posts/${post.id}`} class="block">
                 <h3 class="font-bold text-base mb-2 post-title group-hover:opacity-80 transition-opacity leading-snug">{post.data.title}</h3>
