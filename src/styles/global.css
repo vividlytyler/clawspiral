@@ -206,6 +206,15 @@ a:hover {
 .cat-card-enter:nth-child(6) { animation-delay: 300ms; }
 .cat-card-enter:nth-child(7) { animation-delay: 350ms; }
 
+/* CTA box — subtle pulsing sky glow to draw attention */
+@keyframes cta-glow {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+.cta-glow-bg {
+  animation: cta-glow 3s ease-in-out infinite;
+}
+
 /* Hero mesh gradient — layered blurred orbs for depth with ambient animation */
 @keyframes mesh-drift {
   0%, 100% { opacity: 1; transform: translate(0, 0) scale(1); }
