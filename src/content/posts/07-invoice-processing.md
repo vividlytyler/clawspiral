@@ -4,7 +4,7 @@ description: "How OpenClaw can handle accounts payable and receivable — receiv
 pubDate: 2026-03-26
 category: business-finance
 difficulty: intermediate
-tags: ["invoicing", "accounting", "ocr", "ap", "ar", "automation", "email", "tesseract", "smtp", "reconciliation", "exceptions", "year-end", "tax-prep", "cash-flow", "vendor-onboarding", "ledger-structure", "bank-reconciliation", "cash-flow-forecasting", "payment-terms"]
+tags: ["invoicing", "accounting", "ocr", "ap", "ar", "automation", "email", "tesseract", "smtp", "reconciliation", "exceptions", "year-end", "tax-prep", "cash-flow", "vendor-onboarding", "ledger-structure", "bank-reconciliation", "cash-flow-forecasting", "payment-terms", "multi-currency", "fx-variance", "foreign-currency", "ledger-workflow", "partial-payments"]
 featured: false
 image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1200&auto=format&fit=crop"
 ---
@@ -79,6 +79,8 @@ OpenClaw extracts:
 
 A watched folder on your server (`~/invoices/ap/`). Drop a PDF or image, and OpenClaw processes it immediately. Useful when vendors email a PDF to you directly but you want a consistent drop point.
 
+![AP invoice intake workflow](https://images.unsplash.com/photo-1554224154-22dec7ec8818?w=1200&auto=format&fit=crop)
+
 ### Data Extraction
 
 OpenClaw can:
@@ -124,6 +126,96 @@ If OpenClaw has access to your accounting software's API (QuickBooks, FreshBooks
 
 **Option C: Simple Ledger**
 A single `invoices.csv` that serves as your books for the year. At tax time, export and hand to your accountant.
+
+### A Full AP Workflow: Start to Finish
+
+Here's what the complete flow looks like in practice, from invoice hitting your inbox to payment leaving your account.
+
+**8:47 AM — Invoice arrives**
+
+Your `invoices@yourdomain.com` IMAP watcher (running every 15 minutes) picks up a new message:
+
+```
+From: accounting@linode.com
+Subject: Invoice #LIN-2026-0892 — Due Jun 20, 2026
+Attachment: LIN-2026-0892.pdf
+```
+
+OpenClaw downloads the PDF, runs extraction. Since Linode sends text-based PDFs, no OCR needed:
+
+```
+Extracted:
+  Vendor: Linode
+  Invoice #: LIN-2026-0892
+  Date: 2026-06-01
+  Due: 2026-06-20
+  Amount: $127.41
+  Category: hosting
+```
+
+**8:48 AM — Duplicate and vendor check**
+
+```
+Duplicate check: LIN-2026-0892 from Linode
+  → No prior entry found — clean
+Vendor check: Linode
+  → Found in known-vendors.json (aliases: ["Linode", "Linode LLC"])
+  → Auto-approve threshold: $5,000
+  → Amount $127.41 below threshold — AUTO-PROCESSING
+```
+
+OpenClaw writes directly to the ledger and archives the PDF. No Telegram alert needed — it was predictable and within tolerance.
+
+**9:03 AM — A second invoice arrives**
+
+```
+From: invoices@meridianglassworks.com
+Subject: Invoice #MGW-2026-0044
+Attachment: MGW-2026-0044.pdf (scanned image, 150 DPI — OCR required)
+```
+
+Tesseract runs on the image. Output is borderline — the vendor name parses cleanly but the amount field has a smudge:
+
+```
+OCR raw: "Invoice #MGW-2026-0044 | Meridian Glass | Amount: $4,21"
+                                        ^ smudge makes last digit unclear
+Confidence: MEDIUM
+```
+
+OpenClaw flags it for human review instead of guessing:
+
+```
+→ Telegram: "Scanned invoice MGW-2026-0044 from Meridian Glass.
+  OCR unclear — amount reads as $4,21* (could be $4,210 or $421).
+  File in hold/ for manual check. Reply with correct amount to continue."
+```
+
+You open the hold folder, squint at the scan (it's $4,210 — a large custom order), and reply:
+
+```
+/fixamount MGW-2026-0044 4210.00
+```
+
+OpenClaw updates the extraction, routes for approval since it's over threshold, and you approve via Telegram. Ledger is updated, file archived.
+
+**4:55 PM — Bank reconciliation runs**
+
+Daily cron matches the bank feed against the ledger:
+
+```
+Jun 20 — DR Linode — $127.41
+  Matched: LIN-2026-0892, due Jun 20, $127.41 ✓
+  → Marking PAID. Archive confirmed.
+```
+
+The ledger now shows:
+
+```
+Linode,LIN-2026-0892,2026-06-01,2026-06-20,127.41,hosting,TRUE,2026-06-20,bank transfer,LIN-AUTO-620,
+Meridian Glass Works,MGW-2026-0044,2026-06-01,2026-06-15,4210.00,materials,TRUE,2026-06-15,wire,MGW-WIRE-441,approved via Telegram
+```
+
+Both invoices paid, both reconciled, both logged with payment details. The manual Meridian Glass intervention took you about 30 seconds. Without OpenClaw, you'd have entered both invoices by hand, tracked due dates in a spreadsheet, and manually initiated both payments.
 
 ### Approval Routing
 
@@ -513,6 +605,47 @@ Retry 1/3 in 30 min
 ```
 
 The invoice isn't marked as SENT in the tracking log until the SMTP call succeeds. You don't have a gap where the invoice looks sent but the client never received it.
+
+### Multi-Currency AP: When Vendors Invoice in Foreign Currency
+
+If you pay vendors in USD, EUR, or GBP but your bank account is in CAD, the invoice amount and the payment amount will differ. OpenClaw doesn't fetch live FX rates by default, but you can handle it practically.
+
+**The core problem:** An invoice for €500 arrives when the exchange rate is 1.47 CAD/EUR. Your bank actually charges 1.49 when the payment clears. The ledger entry is in the invoice currency; your bank feed is in CAD. Reconciliation sees a mismatch even though everything is correct.
+
+**The practical approach:**
+
+Store the invoice amount in the currency it arrived in, alongside a `currency` and `exchange_rate_used` field:
+
+```
+vendor,invoice_number,date,due_date,amount,currency,exchange_rate,amount_cad,category,paid
+TechSupply GmbH,TS-2026-0112,2026-06-01,2026-06-20,890.00,EUR,1.47,1308.30,supplies,FALSE
+```
+
+When the bank feed entry arrives, OpenClaw can flag the FX difference separately:
+
+```
+Jun 20 — DR TechSupply GmbH — CAD $1,325.85 (€890 @ 1.49)
+  Ledger entry: €890.00 = CAD $1,308.30 @ 1.47
+  FX difference: CAD $17.55 (rate variance)
+→ Match confirmed. Mark PAID. Log FX variance to notes column.
+```
+
+The FX variance is real — your bank charged more than the rate you used when the invoice arrived. For accounting purposes, record the FX gain/loss in your ledger notes or a separate FX log. At year-end, your accountant reconciles these as foreign exchange adjustments.
+
+**To make this work:** Configure your `known-vendors.json` with each foreign vendor's billing currency:
+
+```json
+{
+  "name": "TechSupply GmbH",
+  "billingCurrency": "EUR",
+  "defaultCategory": "supplies",
+  "notes": "German supplier — wire payments via EUR account"
+}
+```
+
+OpenClaw uses the billing currency to flag the invoice as foreign-currency at intake. On the approval Telegram message, it shows both the original amount and the CAD equivalent so you know what you're actually approving. The exchange rate field gets logged for year-end reconciliation.
+
+For amounts that matter (large invoices, significant FX exposure), update the rate manually before payment using a recent bank rate rather than relying on the intake day's rate.
 
 ## Year-End Close-Out
 

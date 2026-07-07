@@ -8,7 +8,7 @@
     "03-development-assistant": "2026-07-02",
     "05-system-administration": "2026-07-04",
     "06-employee-scheduling": "2026-07-05",
-    "07-invoice-processing": "2026-06-22",
+    "07-invoice-processing": "2026-07-06",
     "08-creative-brainstorming": "2026-06-24",
     "09-experimental-edge-cases": "2026-06-23",
     "10-financial-pulse": "2026-06-29",
@@ -19,6 +19,16 @@
     "thoughts/index": "2026-07-02"
   },
   "improvementHistory": [
+    {
+      "date": "2026-07-06",
+      "postSlug": "07-invoice-processing",
+      "changes": [
+        "Added full end-to-end AP workflow walkthrough: 3-invoice scenario showing Linode auto-processing (below threshold), Meridian Glass scanned invoice with OCR ambiguity and manual fix, and same-day bank reconciliation with explicit match confirmation — makes the abstract AP flow tangible",
+        "Added AP invoice intake Unsplash image (invoice tray/workflow, photo-1554224154-22dec7ec8818) before File Drop section to anchor the AP intake section visually",
+        "Added 'Multi-Currency AP: When Vendors Invoice in Foreign Currency' section covering the CAD/EUR mismatch problem, storing currency + exchange_rate fields in ledger, FX variance logging at reconciliation, known-vendors.json billingCurrency config, and CAD-equivalent display on approval messages",
+        "Added 'multi-currency', 'fx-variance', 'foreign-currency', 'ledger-workflow', and 'partial-payments' tags to frontmatter"
+      ]
+    },
     {
       "date": "2026-07-05",
       "postSlug": "06-employee-scheduling",
