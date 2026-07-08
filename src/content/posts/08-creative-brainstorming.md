@@ -148,29 +148,6 @@ The key move in visual storytelling is figuring out what the camera does that di
 
 
 
-For visual artists, the more useful AI conversation isn't "generate an image" — it's "help me figure out what I'm trying to say." OpenClaw can help you develop the conceptual framework that then drives your actual visual decisions:
-
-```
-User: I'm making a series of paintings about urban loneliness. Not
-the romantic kind — the kind where you're in a crowd and realize
-nobody's looking at you and it doesn't matter. What visual
-language would make that feel true?
-
-OpenClaw: The loneliness of crowds is often about scale inversion —
-small figures in large spaces where the space doesn't care. Consider:
-large-format canvas with figures rendered at 2-3 inches. The space
-isn't hostile, it's indifferent — that's a different quality than
-dark or threatening. Color temperature: mid-range, not high contrast.
-Warm fluorescent instead of golden hour. The loneliness is in the
-evenness, not the darkness.
-
-For the series structure: repeat the same composition across 5
-canvases, changing only the light quality and figure posture.
-The repetition itself becomes part of the statement.
-```
-
-This kind of conversation helps you develop the internal language that makes your visual work coherent — before you touch any medium.
-
 ## Art Direction Beyond Reference Images
 
 For visual artists, the more useful AI conversation isn't "generate an image" — it's "help me figure out what I'm trying to say." OpenClaw can help you develop the conceptual framework that then drives your actual visual decisions:
@@ -327,6 +304,34 @@ Different blocks need different moves. Here's a practical taxonomy:
 
 **The "I can't start because it won't be good enough" block.** This is perfectionism masquerading as standards. The question to ask: "What would the worst possible version of this look like? Write it anyway." Getting the bad version out — even just in a note to yourself — breaks the freeze. The bad version is not the enemy; it's the raw material. OpenClaw can help you diagnose why the bad version is bad, which often points toward what's actually good about your instincts.
 
+## Common AI Brainstorming Failure Modes
+
+Knowing what *not* to do with AI brainstorming is as important as knowing the prompts that work. These are the patterns that eat creative projects alive.
+
+**The prompt stack drift.** You start asking about your screenplay, get a suggestion you half-like, pivot to that, then ask a follow-up that's now three degrees away from your original project. An hour later you've got notes on a different movie entirely. The AI followed you perfectly — you just didn't notice you'd changed directions.
+
+Fix: Before each new message, ask yourself "am I still working on the same thing?" If you pivoted, acknowledge it explicitly: "I've drifted — I'm putting that aside and returning to [original project]."
+
+**The elaboration trap.** You get an idea that's basically good but not quite right. Instead of rejecting it and moving on, you ask the AI to develop it further. After three rounds of elaboration, you've convinced yourself it's better than it is — because you've put so much work into it. The sunk cost fallacy, AI-assisted.
+
+Fix: The quality of an idea should be evaluated before elaboration, not after. "This is good but not quite" is not a signal to develop it — it's a signal it might not be the right idea for this project.
+
+**The competence illusion.** The AI produces something technically competent: good grammar, coherent structure, appropriate tone. You mistake competence for creative validity. The fact that it *could* be a screenplay doesn't mean it's *your* screenplay.
+
+Fix: Ask "does this sound like my project?" rather than "is this good?" The first question is evaluative; the second is generic.
+
+**The 3 AM draft problem.** Late-night sessions with AI tend to produce decisions that feel decisive but aren't. Fatigue lowers your bar for what counts as "good enough to keep." You greenlight things you'd reject in the morning.
+
+Fix: Any significant creative decision made after 10pm should be flagged in your memory file as "pending morning review." Treat it as provisional until you've slept.
+
+**The validation loop.** You use AI to generate, then use AI to evaluate what you generated, then use AI to refine it. The problem: an AI evaluating AI-generated content tends toward positive bias. It's evaluating against its own output distribution, not against your project-specific goals.
+
+Fix: After at least every third AI-assisted creative cycle, evaluate manually — with fresh ears, without the AI in the room. Specifically ask: "does this still need the AI to be interesting, or is it interesting on its own?"
+
+The common thread in all of these: AI is excellent at following direction. The failure modes are almost all cases where the human stopped providing direction and let the AI drive instead.
+
+---
+
 ## Evaluating Creative Directions
 
 Once you've generated a batch of ideas, the harder question is which one to pursue. OpenClaw can help you stress-test options before you commit time to them.
@@ -387,6 +392,48 @@ a feature or a flaw.
 ```
 
 Don't ask "is this good?" — ask "what is this doing and is that what I want?"
+
+---
+
+## Developing Your Audience Sense
+
+AI brainstorming can help you sharpen who you're making work for — without the advicedegenerating into generic "know your audience" platitudes.
+
+The useful move is concrete imagination, not demographic targeting:
+
+```
+User: I'm writing a novel about a concert photographer who discovers
+the lead singer of a famous band has been replaced by a body double.
+Who is this book for?
+
+OpenClaw: The book is for people who are obsessed with the backstage
+reality of creative industries — the gap between the public artifact
+and the private production. Think: music fans who read interviews
+with roadies, film buffs who watch director commentary, foodies who
+read kitchen brigade memoirs. They find the "how it's actually made"
+layer more interesting than the thing itself. Your reader doesn't
+need to be a photographer — they just need to be curious about what
+happens when the lights go down and nobody's watching.
+```
+
+That kind of audience framing tells you something about tone (probably: insider-aware, a little cynical, interested in texture over glamour) and what details to prioritize (the mechanics of the deception, not the glamour of the performance).
+
+```
+User: Same novel. The body double subplot — is it too absurd for
+a mainstream thriller? Or is it exactly the right amount of
+unbelievable?
+
+OpenClaw: The question isn't whether it's believable — it's whether
+it's motivated. Readers will accept almost any premise if they
+understand exactly why someone made the decision. The body double
+exists because of money or ego or control — the reader needs to
+know which one, and the subplot becomes credible in proportion to
+how clearly the motivation is articulated. The absurdity is in the
+execution, not the premise. The Titanic has a body double too —
+a stunt double for the actress. We accept that without thinking.
+```
+
+The exercise is using the AI to think through audience assumptions rather than having the AI make them for you.
 
 ---
 

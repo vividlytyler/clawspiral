@@ -9,7 +9,7 @@
     "05-system-administration": "2026-07-04",
     "06-employee-scheduling": "2026-07-05",
     "07-invoice-processing": "2026-07-06",
-    "08-creative-brainstorming": "2026-06-24",
+    "08-creative-brainstorming": "2026-07-08",
     "09-experimental-edge-cases": "2026-06-23",
     "10-financial-pulse": "2026-06-29",
     "11-daily-macro-logger": "2026-06-30",
@@ -19,6 +19,15 @@
     "thoughts/index": "2026-07-02"
   },
   "improvementHistory": [
+    {
+      "date": "2026-07-08",
+      "postSlug": "08-creative-brainstorming",
+      "changes": [
+        "Removed duplicate 'Art Direction Beyond Reference Images' section — identical urban loneliness painting example appeared twice, immediately back-to-back; the art direction content was already covered by the preceding Music and Art Concepts section and the duplicate served no structural purpose",
+        "Added 'Common AI Brainstorming Failure Modes' section before Evaluating Creative Directions — 5 concrete failure modes: prompt stack drift (letting AI pivot you off your original project), the elaboration trap (developing a half-good idea past its natural endpoint), the competence illusion (mistaking technically correct output for creative validity), the 3 AM draft problem (fatigue-lowered standards), and the validation loop (AI evaluating AI output with positive bias) — gives readers a practical warning system before they hit these patterns",
+        "Added 'Developing Your Audience Sense' section before Limitations covering audience reframing exercises (concrete persona development from premise), motivation credibility test (why a reader accepts absurd premises), and tone/targeting guidance — fills the post's gap in audience-facing creative development without generic marketing advice"
+      ]
+    },
     {
       "date": "2026-07-06",
       "postSlug": "07-invoice-processing",
