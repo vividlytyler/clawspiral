@@ -10,7 +10,7 @@
     "06-employee-scheduling": "2026-07-05",
     "07-invoice-processing": "2026-07-06",
     "08-creative-brainstorming": "2026-07-08",
-    "09-experimental-edge-cases": "2026-06-23",
+    "09-experimental-edge-cases": "2026-07-08",
     "10-financial-pulse": "2026-06-29",
     "11-daily-macro-logger": "2026-06-30",
     "12-travel-planner": "2026-07-03",
@@ -20,6 +20,16 @@
   },
   "improvementHistory": [
     {
+      "date": "2026-07-08",
+      "postSlug": "09-experimental-edge-cases",
+      "changes": [
+        "Added Experiment 6: Context Window Recovery — tests whether OpenClaw can complete an in-progress multi-step task after writing state to file and resuming in a fresh session, with concrete recovery file template that explicitly requires listing unknowns (not just established facts); key finding: partial state files are worse than empty ones because the model fills silence with confident assertions",
+        "Added Quick Reference Card table — all 6 experiments summarized with Best For, Avoid When, and Key Finding columns; designed as a bookmarkable decision aid before delegating any task",
+        "Added scientific experimentation/hypothesis testing Unsplash image (photo-1532094349884-543bc11b234d) before When NOT to Run Experiments section",
+        "Expanded thin 'What's Interesting About These Failures' section into a full Failure Mode Taxonomy with 3 categories (confidence inflation, context sensitivity, implicit assumption accumulation), each with specific mitigation strategies and practical engineering guidance",
+        "Added experiment-design-criteria, decision-flowchart, tool-chain-fidelity, results-log, pattern-analysis, checkpoint, troubleshooting, context-recovery, quick-reference, experiment-summary, confidence-calibration, failure-modes tags"
+      ]
+    },
       "date": "2026-07-08",
       "postSlug": "08-creative-brainstorming",
       "changes": [

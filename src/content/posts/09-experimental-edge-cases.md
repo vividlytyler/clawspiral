@@ -3,7 +3,7 @@ title: "Experimental: Pushing OpenClaw to Its Limits"
 description: "What happens when you try to use OpenClaw for things it wasn't designed for? A documented series of experiments — successes, failures, and everything in between."
 pubDate: 2026-03-27
 category: development
-tags: ["experimental", "edge-cases", "limitations", "failures", "exploration", "methodology", "sub-agents", "state-management", "experiment-design", "boundaries"]
+tags: ["experimental", "edge-cases", "limitations", "failures", "exploration", "methodology", "sub-agents", "state-management", "experiment-design", "boundaries", "experiment-design-criteria", "decision-flowchart", "tool-chain-fidelity", "results-log", "pattern-analysis", "checkpoint", "troubleshooting", "context-recovery", "quick-reference", "experiment-summary", "confidence-calibration", "failure-modes"]
 image: "https://images.unsplash.com/photo-1507413245164-6160d8298b31?w=1200&auto=format&fit=crop"
 ---
 
@@ -141,6 +141,34 @@ The fix: force explicit verification at each step. If you're building a tool cha
 
 **Verdict:** Works reliably for 2-3 step chains with verified outputs. Beyond that, insert explicit checkpoints and don't let the model skip them.
 
+## Experiment 6: Context Window Recovery
+
+**Hypothesis:** When a session's context is near capacity (80%+), OpenClaw can still complete a complex in-progress task by offloading state to files and resuming cleanly.
+
+**Setup:** Run a multi-step research task (define topic → search → synthesize → search → synthesize → draft) and deliberately approach context limits mid-task. Then attempt to recover by writing current state to a file, clearing session context, and resuming from the file.
+
+**What actually happened:**
+Recovery itself worked — writing a state file with current progress, task description, and remaining questions allowed a fresh session to pick up. The parent session had correctly written enough context to orient the child: what had been established, what was still open, what the synthesis gaps were.
+
+What didn't work was *partial* recovery. If the parent session wrote progress but the file was incomplete (missing the specific open threads), the child would confidently fill them in with plausible-but-wrong content rather than flagging the gap. This is the confidence mismatch failure mode again — the model fills silence with assertion.
+
+The key finding: file-based recovery only works if the state file is *exhaustive* about what's unknown, not just what's known. You have to explicitly note "we haven't verified X yet, do not assert it."
+
+**Recovery file template that works:**
+
+```markdown
+# Recovery State
+**Task:** [original goal]
+**Established:** [what we know for certain]
+**Open threads:** [questions still unanswered — do not fill these in]
+**Last action:** [what the previous session was doing when it stopped]
+**Session key:** [so you can reload if needed]
+```
+
+Without the "open threads" section, the recovery session treats assertions as facts.
+
+**Verdict:** File-based recovery works when state files are exhaustive about unknowns. Partial state files are worse than empty ones — they let the model hallucinate continuity.
+
 ## A Structured Results Log
 
 Beyond the per-experiment file, running multiple experiments over time benefits from a cross-experiment results log — a single place where you record verdicts in a scannable format. Here's a structure that works:
@@ -215,6 +243,8 @@ Not all experiments are the same. Knowing what kind you're running helps you des
 
 Design your experiment before you run it. The worst results come from experiments where the methodology wasn't settled in advance.
 
+![Scientific experimentation and hypothesis testing](https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=1200&auto=format&fit=crop)
+
 ## When NOT to Run Experiments
 
 Experiments are useful, but they're not always the right tool:
@@ -257,6 +287,18 @@ The interesting thing isn't that OpenClaw failed these experiments — every too
 
 None of this is a knock on OpenClaw specifically — it's how all LLM-based systems work at the frontier. The answer isn't to avoid these uses; it's to use them with appropriate checkpoints and human oversight.
 
+### The Failure Mode Taxonomy
+
+After running multiple experiments, the failures fall into three buckets with different mitigation strategies:
+
+**Category 1: Confidence inflation** — The model asserts more than it knows. Hallucinated citations, skipped verification steps, invented state. Mitigation: build verification into the workflow as a mandatory step, not an optional one.
+
+**Category 2: Context sensitivity** — Quality degrades with context length, session age, and token budget position in ways that aren't obvious from the outside. A 10-step task that works at step 3 may fail at step 8 not because step 8 is harder, but because the context has filled. Mitigation: keep tasks short, checkpoint state externally, run high-stakes work on fresh budgets.
+
+**Category 3: Implicit assumption accumulation** — After several successful steps, the model starts treating assumptions as facts. It skips verification not out of laziness but out of genuine confidence. Mitigation: force a "verify last output" step at every checkpoint, regardless of how well the previous steps went.
+
+The practical upshot: design your workflows assuming failure is always possible. Not because the tool is unreliable, but because these failure modes are structural — they're inherent to how context windows and confidence calibration work in transformers. Checkpoints aren't paranoia; they're just good engineering.
+
 ## What You Need to Set This Up
 
 Running experiments against OpenClaw doesn't require much beyond standard tooling:
@@ -288,6 +330,19 @@ Running experiments against OpenClaw has its own constraints worth knowing befor
 Document your methodology alongside your findings. Future-you will want to know what the setup actually was, not just what the results were. The experiment log template in the Workflow section is designed to capture this — fill it in before you run, not after.
 
 ![Lab equipment and experimental setup](https://images.unsplash.com/photo-1581093458791-9f3c3900df4b?w=1200&auto=format&fit=crop)
+
+## Quick Reference Card
+
+| # | Experiment | Best For | Avoid When | Key Finding |
+|---|-----------|---------|-----------|-------------|
+| 1 | Long-Running Autonomy | Research drafts, first-pass synthesis | Citation-heavy work, 3+ passes | Cap iterations at 2; citation checking is on you |
+| 2 | Multi-Agent Delegation | Independent sub-topics, parallel research | Tasks with interdependencies | Synthesis degrades when sub-topics cross-reference |
+| 3 | Persistent State | Simple queues, small records | Production-critical state | Beyond ~30 ops, switch to a real database |
+| 4 | Emotional Calibration | Obvious emotional signals | Subtle emotional subtext, high-stakes responses | Err on matching register rather than labeling it |
+| 5 | Tool Chain Fidelity | 2-3 step verified chains | Chains >3 steps without checkpoints | Truncation and assumption drift accumulate; verify every step |
+| 6 | Context Recovery | Long sessions, checkpoint-based workflows | Partial state files with unstated gaps | State files must explicitly list unknowns — silence becomes hallucination |
+
+Bookmark this table. When you're about to delegate a task to OpenClaw, run the "Avoid When" column through mentally first. It's faster than running the experiment.
 
 ## Bottom Line
 
