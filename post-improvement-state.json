@@ -14,11 +14,22 @@
     "10-financial-pulse": "2026-06-29",
     "11-daily-macro-logger": "2026-06-30",
     "12-travel-planner": "2026-07-03",
-    "13-language-learning-coach": "2026-06-27",
+    "13-language-learning-coach": "2026-07-09",
     "news/index": "2026-06-30",
     "thoughts/index": "2026-07-02"
   },
   "improvementHistory": [
+    {
+      "date": "2026-07-09",
+      "postSlug": "13-language-learning-coach",
+      "changes": [
+        "Added 'What to Practice Today: A Decision Framework' section after role-play debrief — structured decision table mapping signals (no specific question, encountered grammar confusion, 30+ min energy, post-break, travel in <2 weeks, mid-book) to practice modes (vocabulary review, targeted grammar, immersion+role-play, light vocab only, context-specific vocab+role-play, post-session extraction) — fills the post's gap in actionable daily prioritization guidance",
+        "Added Unsplash Telegram study session image (phone with vocabulary prompts, calm desk setup) after post-session debrief section — adds visual mid-post anchor where text-heavy role-play section previously had no image",
+        "Added 'The passive vocabulary illusion' to Handling Common Learning Plateaus — explains the recognition vs production gap, OpenClaw's detection of it via production exercise miss rate, and the separate productive-vocabulary queue pattern — addresses a common learner failure mode that textbooks rarely explain",
+        "Expanded Limitations section: added motivation crash failure mode — the specific pattern of doing 200 recognition reviews without production, feeling stalled, and quitting; OpenClaw can flag zero-production streaks but can't force the uncomfortable work; adds a practical 'motivation crash' tag and frames the limitation as a pacing problem rather than a character flaw",
+        "Added tags: practice-framework, productive-vocabulary, telegram-interface"
+      ]
+    },
     {
       "date": "2026-07-08",
       "postSlug": "09-experimental-edge-cases",
