@@ -1,5 +1,7 @@
 {
   "lastImproved": {
+    "404": "2026-07-11",
+    "baseLayout": "2026-07-11",
     "index": "2026-07-03",
     "01-smart-home-orchestration": "2026-06-28",
     "04-personal-secretary": "2026-06-29",
@@ -19,6 +21,14 @@
     "thoughts/index": "2026-07-02"
   },
   "improvementHistory": [
+    {
+      "date": "2026-07-11",
+      "pages": ["404.astro", "BaseLayout.astro"],
+      "changes": [
+        "Replaced generic AI/robotics Unsplash image (photo-1620712943543-bcc4688e7485) with dark code-themed image (photo-1555066931-4365d14bab8c) on 404 page — the colorful robot face was visually competing with the spinning claw animation and clashed with the dark slate aesthetic",
+        "Updated default OG social share image in BaseLayout to match — same dark code-themed Unsplash image ensures consistent branding when pages are shared on Twitter/social"
+      ]
+    },
     {
       "date": "2026-07-09",
       "postSlug": "13-language-learning-coach",
