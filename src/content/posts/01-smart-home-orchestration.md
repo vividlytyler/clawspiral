@@ -3,7 +3,7 @@ title: "Smart Home Orchestration with OpenClaw"
 description: "How OpenClaw can serve as the brain behind a smart home — coordinating devices, automating routines, and providing a natural language interface to your entire setup."
 pubDate: 2026-03-26
 category: home-automation
-tags: ["home-automation", "iot", "routines", "voice", "docker", "homeassistant", "mqtt", "smartthings", "security", "energy-management", "households", "multi-user", "permissions", "occupancy-detection", "pets", "guests", "departure-detection", "arrival-detection", "geofencing", "battery-optimization", "motion-sensor", "presence-detection", "false-positives"]
+tags: ["home-automation", "iot", "routines", "voice", "docker", "homeassistant", "mqtt", "smartthings", "security", "energy-management", "households", "multi-user", "permissions", "occupancy-detection", "pets", "guests", "departure-detection", "arrival-detection", "geofencing", "battery-optimization", "motion-sensor", "presence-detection", "false-positives", "battery-monitoring", "privacy", "multi-property"]
 image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&auto=format&fit=crop"
 ---
 
@@ -234,9 +234,13 @@ A few things OpenClaw can do without custom scripting:
 
 ![Solar panels on a home roof](https://images.unsplash.com/photo-1509391366360-2e9597845e76?w=1200&auto=format&fit=crop)
 
-The energy data exists in HomeAssistant; OpenClaw just makes it queryable in plain English.
+**Battery monitoring for wireless devices.** Wireless motion sensors, door contacts, and smart locks all run on batteries that drain at unpredictable rates. OpenClaw can track HomeAssistant's battery-level entities and alert before they die:
 
-![WiFi router with network connectivity indicator](https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=1200&auto=format&fit=crop)
+> "Your kitchen door sensor is at 8% battery — it was at 34% two weeks ago. Replacing it now will avoid an overnight gap in your door security monitoring. The living room motion sensor has been stationary at 12% for 11 days; it's probably already dead."
+
+OpenClaw learns your replacement cadence and flags devices that drop fast (potential hardware issue) versus slow (normal drain). Low-battery alerts from HomeAssistant tend to get ignored until the device fails; OpenClaw surfaces them proactively before you notice a gap in coverage.
+
+The energy data exists in HomeAssistant; OpenClaw just makes it queryable in plain English.
 
 ## Motion Sensor False Positives: How OpenClaw Learns to Filter
 
@@ -298,6 +302,8 @@ That cancel loop is hard to build natively in most platforms. OpenClaw holds the
 
 **GPS fallback.** If Wi-Fi presence is unreliable (large property, thick walls), HomeAssistant's mobile app provides GPS-based zone detection. Define a home zone radius in HomeAssistant, and arrival/departure fires based on GPS coords instead of Wi-Fi. Trade-off: GPS is slower to update (1-3 minute poll) and kills battery faster.
 
+![WiFi router with network connectivity indicator](https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=1200&auto=format&fit=crop)
+
 ## The Docker Advantage
 
 For users running media servers via Docker (Jellyfin, Sonarr, Radarr, etc.), OpenClaw can:
@@ -333,7 +339,11 @@ Getting OpenClaw talking to your smart home takes a few pieces in place:
 - **MQTT broker** (optional) — If your devices communicate over MQTT, OpenClaw can publish/subscribe directly. Good for custom IoT projects.
 - **Homebridge** (optional) — For HomeKit-only devices. Homebridge exposes these to HomeAssistant or directly to OpenClaw via plugins.
 - **API access** — Whatever platform you use, OpenClaw needs a token or API key with read/write permissions. HomeAssistant Long-Lived Access Tokens work well.
-- **A always-on host** — OpenClaw itself needs to run somewhere that doesn't sleep. A NAS, a mini PC, a Raspberry Pi 5 with SSD — your call.
+- **A always-on host** — OpenClaw itself needs to run somewhere that doesn't sleep. A few tested options:
+  - **Raspberry Pi 5 with SSD** — sufficient for HomeAssistant + a small Docker stack (20-30 containers). Avoid SD card storage for anything serious; use an SSD via USB 3.0. Expect ~5W idle power draw.
+  - **Mini PC (Intel N100 or above)** — better headroom for larger stacks (Plex transcoding, multiple database containers). ~5-10W idle. Dell OptiPlex micro form factors show up used for under $200.
+  - **Synology/QNAP NAS** — if you already have one, HomeAssistant Core can run as a package or in Docker. Performance varies; avoid ARM-based Synology models for anything beyond basic automation.
+  - **Home Assistant Yellow or Green** — purpose-built. Blue has an embedded Blueantin NUC; Green is a plug-and-play option with no Docker overhead. Easier setup, less flexibility.
 
 The setup isn't zero-effort, but it's all standard tooling. No custom drivers, no proprietary bridges.
 
@@ -400,5 +410,7 @@ A few things worth knowing before you commit:
 - **Latency** — API calls to HomeAssistant and back add milliseconds. For a light toggle that's fine. For a complex morning routine firing six devices in sequence, you're looking at 2–5 seconds of total runtime. Don't expect instant response like a physical switch.
 - **State vs. intent mismatch** — OpenClaw queries device state at execution time, but can't observe physical changes instantly (someone flips a switch manually). For truly authoritative state, you need to route all control through HomeAssistant — nothing bypasses it.
 - **Rule conflicts** — If OpenClaw fires a scene and HomeAssistant also has an automation targeting the same devices, you can get double-fires or race conditions. Audit your automation rules before layering OpenClaw on top.
+- **Privacy considerations** — Running OpenClaw as the brain of your smart home means it has read access to your device state (door locks, motion sensors, camera events) and, depending on your Telegram integration, your messaging. This data traverses OpenClaw's session context. If that's a concern, run OpenClaw locally rather than connecting to a cloud-hosted instance, keep OpenClaw's memory files offline-only, and use HomeAssistant's built-in automation for anything you want strictly local without AI involvement. The flexibility to route signals through OpenClaw is a feature; be intentional about what you route.
+- **Scaling beyond one home** — OpenClaw's geofencing and occupancy tracking are designed for a single household. If you have a second property or a small office to manage, you need separate HomeAssistant instances (or separate zones with non-overlapping device trackers) and a way to keep context from bleeding between them. It's tractable but not turnkey.
 
 Once connected, you have an AI that understands your home the way you do — in context, with nuance, and without needing to pre-program every permutation.

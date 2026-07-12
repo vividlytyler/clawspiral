@@ -3,7 +3,7 @@
     "404": "2026-07-11",
     "baseLayout": "2026-07-11",
     "index": "2026-07-03",
-    "01-smart-home-orchestration": "2026-06-28",
+    "01-smart-home-orchestration": "2026-07-11",
     "04-personal-secretary": "2026-06-29",
     "use-cases-category-pages": "2026-05-02",
     "02-research-pipeline": "2026-07-01",
@@ -21,6 +21,18 @@
     "thoughts/index": "2026-07-02"
   },
   "improvementHistory": [
+    {
+      "date": "2026-07-11",
+      "postSlug": "01-smart-home-orchestration",
+      "changes": [
+        "Added Battery Monitoring for wireless devices section — covers tracking HomeAssistant battery-level entities, the proactive replacement alert pattern before devices die, and distinguishing fast drain (hardware issue) vs slow drain (normal) — closes the gap between energy monitoring (plugs/solar) and sensor-level power management",
+        "Moved orphaned WiFi router image from between Energy Monitoring and Motion Sensor sections to Geofencing section where it's contextually appropriate (Wi-Fi scanning is prerequisite for reliable presence detection)",
+        "Expanded What You Need to Set This Up with concrete hardware options: Raspberry Pi 5 with SSD specs (~5W idle), Intel N100 mini PC options (Dell OptiPlex micro), Synology/QNAP guidance with ARM caveats, and Home Assistant Yellow/Green as purpose-built alternatives — replaces vague 'NAS, mini PC, Raspberry Pi' language with actionable hardware recommendations",
+        "Added Privacy considerations to Limitations — covers data traversal through OpenClaw session context, local vs cloud instance implications, HomeAssistant event log footprint, and what to route locally vs through OpenClaw",
+        "Added multi-property limitation note — geofencing/occupancy designed for single household; second property or office requires separate HomeAssistant instances or careful zone separation",
+        "Added battery-monitoring, privacy, and multi-property tags"
+      ]
+    },
     {
       "date": "2026-07-11",
       "pages": ["404.astro", "BaseLayout.astro"],
