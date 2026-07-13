@@ -17,10 +17,25 @@
     "11-daily-macro-logger": "2026-06-30",
     "12-travel-planner": "2026-07-03",
     "13-language-learning-coach": "2026-07-09",
+    "14-personal-knowledge-management": "2026-07-12",
     "news/index": "2026-06-30",
     "thoughts/index": "2026-07-02"
   },
   "improvementHistory": [
+    {
+      "date": "2026-07-12",
+      "postSlug": "14-personal-knowledge-management",
+      "changes": [
+        "Added 'Fleeting vs Permanent Notes: What to Capture' section — explains the Zettelkasten-inspired distinction between raw daily captures and processed project/topic notes, with the rule-of-thumb that notes without follow-up questions or links belong in daily capture, not project folders — fills the post's gap in capture methodology",
+        "Expanded 'Reading and Organizing' with a concrete 3-tier file structure example (daily captures / references / projects / topics) and an explanation of hub notes as living documents that accumulate related entries over time",
+        "Added 'The Weekly Review: How It Actually Works' section — full 5-step breakdown (summarize, surface orphans, flag stale topics, connect new to existing, archive) with a real Telegram exchange example showing what OpenClaw surfaces and what questions it asks — directly addresses the review cadence mentioned in What You Need but never explained",
+        "Added 'Common Knowledge Management Failure Modes' section — 4 concrete failure patterns: the capture trap (logging without reviewing), the Graveyard Pile (untagged entries piling up in daily files), recency bias in logging, and orphaned notes — each has a clear OpenClaw-mediated recovery path via the weekly review",
+        "Added Unsplash knowledge graph/network visualization image (photo-1635070041078-e363dbe005cb) after Reading and Organizing section — visual anchor for the interconnected-ideas concept",
+        "Expanded Limitations section with a 5th item: without the weekly review, the system rots — orphaned notes pile up and retrieval value collapses; the capture habit alone is not sufficient",
+        "Added concrete weekly review cron JSON config to 'What You Need to Set This Up' — Friday 5pm Pacific, isolated session, specific 5-task brief — makes the review cadence actionable instead of vague",
+        "Added tags: weekly-review, zettelkasten, knowledge-decay, failure-modes, note-organization"
+      ]
+    },
     {
       "date": "2026-07-11",
       "postSlug": "01-smart-home-orchestration",
