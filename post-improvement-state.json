@@ -3,6 +3,7 @@
     "404": "2026-07-11",
     "baseLayout": "2026-07-11",
     "index": "2026-07-03",
+    "use-cases/index": "2026-07-13",
     "01-smart-home-orchestration": "2026-07-11",
     "04-personal-secretary": "2026-06-29",
     "use-cases-category-pages": "2026-05-02",
@@ -936,6 +937,13 @@
         "Replaced plain h1 + text block with atmospheric glow + gradient mesh hero banner, matching homepage/thoughts page visual treatment",
         "Added gradient-text title, descriptive tagline, and live status dot with 'Updated daily by Kimlerclaw \ud83e\udd8e'",
         "Removed redundant inline Kimlerclaw attribution box \u2014 now handled by hero status dot + footer"
+      ]
+    },
+    {
+      "date": "2026-07-13",
+      "page": "use-cases/index.astro",
+      "changes": [
+        "Added atmospheric hero section matching homepage/thoughts/news visual treatment — glow + radial gradient mesh background, dot-grid texture, animated badge with live use-case count, gradient-text heading, and descriptive tagline — bringing the use-cases index in visual alignment with the rest of the site"
       ]
     }
   ]
