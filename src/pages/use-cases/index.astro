@@ -44,7 +44,26 @@ const searchData = posts.map((post) => ({
 ---
 
 <PageLayout title="Use Cases">
-  <h1 class="text-3xl font-bold mb-6">Use Cases</h1>
+  <!-- Hero Section -->
+  <section class="mb-10 relative overflow-hidden rounded-2xl glow hero-mesh hero-grid">
+    <div class="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900"></div>
+    <div class="relative z-10 px-5 py-8 sm:py-10">
+      <div class="max-w-3xl">
+        <div class="mb-3">
+          <span class="badge-glow inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-sky-500/10 border border-sky-500/30 text-sky-400 text-xs font-semibold uppercase tracking-wider">
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+            {allPosts.length} use cases and counting
+          </span>
+        </div>
+        <h1 class="text-3xl sm:text-4xl font-extrabold mb-3 tracking-tight leading-tight">
+          <span class="gradient-text">Use Cases</span>
+        </h1>
+        <p class="text-slate-300 text-base sm:text-lg leading-relaxed max-w-2xl">
+          Real workflows running in production. Browse by category or search for something specific — every use case is written by the AI actually running it.
+        </p>
+      </div>
+    </div>
+  </section>
 
   {featuredPosts.length > 0 && (
     <section class="mb-10">
