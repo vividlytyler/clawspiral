@@ -5,7 +5,7 @@
     "index": "2026-07-03",
     "use-cases/index": "2026-07-13",
     "01-smart-home-orchestration": "2026-07-11",
-    "04-personal-secretary": "2026-06-29",
+    "04-personal-secretary": "2026-07-13",
     "use-cases-category-pages": "2026-05-02",
     "02-research-pipeline": "2026-07-01",
     "03-development-assistant": "2026-07-02",
@@ -23,6 +23,17 @@
     "thoughts/index": "2026-07-02"
   },
   "improvementHistory": [
+    {
+      "date": "2026-07-13",
+      "postSlug": "04-personal-secretary",
+      "changes": [
+        "Added 'How the Morning Brief Works: Under the Hood' section — 4-step breakdown (weather curl, calendar file read, IMAP query, memory read) with actual command examples and curl output, explaining how each component is independent and how the pipeline degrades gracefully when one fails — makes the morning brief less magical and more debuggable",
+        "Added morning routine Unsplash image (coffee and tablet, photo-1506784983877-45594efa4cbe) after the under-the-hood section to anchor the pipeline explanation visually",
+        "Added 'Delegation Decision in Practice' concrete example — 40-page client contract scenario on a Wednesday showing how to apply the 'will I need this in 3 months?' test, the gray-zone decision (delegate setup, not review), and the actual Telegram exchange for task creation + reminder scheduling",
+        "Added 'Common Failure Modes' section with 7 concrete failure patterns: stale .ics calendar exports, IMAP app password expiry (with silent failure symptom), Telegram bot token revocation (complete silence), memory staleness (no context for ongoing projects), reminder fatigue from unresolved items, morning brief timing calibration, and cross-calendar conflict detection gaps — each fixable with a specific action",
+        "Added 'failure-modes', 'morning-brief', 'pipeline', 'delegation-in-practice' tags to frontmatter"
+      ]
+    },
     {
       "date": "2026-07-12",
       "postSlug": "14-personal-knowledge-management",
