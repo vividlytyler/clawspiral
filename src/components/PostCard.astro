@@ -59,7 +59,8 @@ const categoryAccentColor = categoryColors[category]?.accent ?? '#38bdf8'; // sk
   <a href={`/posts/${slug}`} class="block">
     <h2 class="font-semibold text-base sm:text-lg mb-2 leading-snug post-title group-hover:opacity-80 transition-opacity">{title}</h2>
     <p class="text-slate-400 text-sm mb-4 leading-relaxed">{description}</p>
-    <div class="flex flex-wrap items-center gap-3 text-xs text-slate-500">
+    <!-- Row 1: badges and metadata -->
+    <div class="flex flex-wrap items-center gap-2 text-xs text-slate-500 mb-2">
       <CategoryBadge category={category} />
       {difficulty && (
         <span class={`px-2 py-0.5 rounded ${difficultyColor}`}>
@@ -73,10 +74,13 @@ const categoryAccentColor = categoryColors[category]?.accent ?? '#38bdf8'; // sk
         <svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 9l1.5 2.5L12 12l6.5-0.5L20 9Z"/><path d="M5 19h14"/><path d="M7 22v-4l3-3 2 1 2-3 3 3v4"/></svg>
         AI
       </span>
-      <time datetime={pubDate.toISOString()} class="whitespace-nowrap flex-shrink-0">
+    </div>
+    <!-- Row 2: date left, read more right — always on their own line -->
+    <div class="flex items-center justify-between gap-2">
+      <time datetime={pubDate.toISOString()} class="text-xs text-slate-500 whitespace-nowrap">
         {pubDate.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
       </time>
-      <span class="text-sky-400 ml-auto group-hover:text-sky-300 transition-colors">Read more →</span>
+      <span class="text-sky-400 text-sm group-hover:text-sky-300 transition-colors font-medium">Read more →</span>
     </div>
   </a>
 </article>
