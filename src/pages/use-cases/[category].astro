@@ -23,16 +23,16 @@ export async function getStaticPaths() {
 const { category } = Astro.params;
 const { label, desc } = Astro.props;
 
-const categoryMeta: Record<string, { color: string; gradient: string; icon: string; image: string }> = {
-  'home-automation':  { color: 'text-emerald-400',   gradient: 'from-emerald-950/80 to-slate-900',  icon: '🏠', image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&h=400&fit=crop' },
-  'research':        { color: 'text-violet-400',    gradient: 'from-violet-950/80 to-slate-900',   icon: '🔬', image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&h=400&fit=crop' },
-  'development':     { color: 'text-blue-400',      gradient: 'from-blue-950/80 to-slate-900',     icon: '💻', image: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1200&h=400&fit=crop' },
-  'business-finance':{ color: 'text-amber-400',     gradient: 'from-amber-950/80 to-slate-900',    icon: '📊', image: 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1200&h=400&fit=crop' },
-  'lifestyle-wellness':{ color: 'text-teal-400',   gradient: 'from-teal-950/80 to-slate-900',     icon: '🌿', image: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1200&h=400&fit=crop' },
-  'creative':        { color: 'text-pink-400',      gradient: 'from-pink-950/80 to-slate-900',     icon: '🎨', image: 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=1200&h=400&fit=crop' },
-  'productivity':    { color: 'text-orange-400',    gradient: 'from-orange-950/80 to-slate-900',   icon: '⚡', image: 'https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=1200&h=400&fit=crop' },
+const categoryMeta: Record<string, { color: string; gradient: string; icon: string; image: string; tagline: string }> = {
+  'home-automation':  { color: 'text-emerald-400',   gradient: 'from-emerald-950/80 to-slate-900',  icon: '🏠', image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&h=400&fit=crop',     tagline: 'From voice-controlled lights to presence-aware routines — automating the physical world around you.' },
+  'research':        { color: 'text-violet-400',    gradient: 'from-violet-950/80 to-slate-900',   icon: '🔬', image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&h=400&fit=crop',    tagline: 'Turning scattered search results into structured knowledge you can act on.' },
+  'development':     { color: 'text-blue-400',      gradient: 'from-blue-950/80 to-slate-900',     icon: '💻', image: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1200&h=400&fit=crop',    tagline: 'Code review, CI/CD triage, dependency monitoring — your AI pair who never forgets the context.' },
+  'business-finance':{ color: 'text-amber-400',     gradient: 'from-amber-950/80 to-slate-900',    icon: '📊', image: 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1200&h=400&fit=crop',  tagline: 'Accounts payable, payroll, financial dashboards — the back-office workflows that actually eat time.' },
+  'lifestyle-wellness':{ color: 'text-teal-400',   gradient: 'from-teal-950/80 to-slate-900',     icon: '🌿', image: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1200&h=400&fit=crop', tagline: 'Health tracking, travel planning, language learning — the personal stuff that compounds.' },
+  'creative':        { color: 'text-pink-400',      gradient: 'from-pink-950/80 to-slate-900',     icon: '🎨', image: 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=1200&h=400&fit=crop',   tagline: 'Breaking through creative blocks, developing a voice, shipping work instead of just starting it.' },
+  'productivity':    { color: 'text-orange-400',    gradient: 'from-orange-950/80 to-slate-900',   icon: '⚡', image: 'https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=1200&h=400&fit=crop', tagline: 'Reminders, scheduling, email triage, knowledge capture — the infrastructure of getting things done.' },
 };
-const meta = categoryMeta[category] ?? { color: 'text-sky-400', gradient: 'from-slate-900 to-slate-900', icon: '📁', image: '' };
+const meta = categoryMeta[category] ?? { color: 'text-sky-400', gradient: 'from-slate-900 to-slate-900', icon: '📁', image: '', tagline: '' };
 
 const allPosts = await getCollection('posts', ({ data }) => !data.draft && data.category === category);
 const posts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
@@ -62,8 +62,9 @@ function getReadingTime(body: string | undefined): number {
       <span class="text-4xl">{meta.icon}</span>
       <div>
         <p class="text-xs uppercase tracking-wider text-slate-400 mb-1 font-semibold">Category</p>
-        <h1 class={`text-2xl sm:text-3xl font-bold mb-2 ${meta.color}`}>{label}</h1>
-        <p class="text-slate-400 text-sm mb-3">{desc}</p>
+        <h1 class={`text-2xl sm:text-3xl font-bold mb-1 ${meta.color}`}>{label}</h1>
+        <p class="text-slate-400 text-sm mb-2">{desc}</p>
+        {meta.tagline && <p class="text-slate-500 text-xs italic max-w-lg">{meta.tagline}</p>}
         <span class="text-xs text-slate-500">{posts.length} use case{posts.length !== 1 ? 's' : ''}</span>
       </div>
     </div>
@@ -74,7 +75,7 @@ function getReadingTime(body: string | undefined): number {
       <div class="text-5xl mb-4">{meta.icon}</div>
       <h3 class="text-lg font-semibold text-slate-300 mb-2">No {label} use cases yet</h3>
       <p class="text-slate-500 text-sm mb-6 max-w-xs mx-auto">
-        Nothing's been published in this category yet. Check back soon — I write new posts throughout the day.
+        Nothing's been published in this category yet. Check back soon — new posts go up regularly.
       </p>
       <a
         href="/use-cases"
@@ -85,23 +86,73 @@ function getReadingTime(body: string | undefined): number {
       </a>
     </div>
   ) : (
-    <div class="grid gap-4">
-      {posts.map((post) => (
-        <PostCard
-          title={post.data.title}
-          description={post.data.description}
-          pubDate={post.data.pubDate}
-          slug={post.id}
-          category={post.data.category}
-          difficulty={post.data.difficulty}
-          readingTime={getReadingTime(post.body)}
-          image={post.data.image}
-        />
-      ))}
-    </div>
+    <>
+      <!-- Sort controls -->
+      <div class="flex items-center gap-3 mb-5 text-xs text-slate-500" id="sort-controls">
+        <span class="text-slate-600">Sort:</span>
+        <button data-sort="date-desc" class="sort-btn px-2.5 py-1 rounded-md border border-slate-700 bg-slate-800 text-slate-300 hover:border-sky-500/50 hover:text-sky-400 transition-colors">Newest first</button>
+        <button data-sort="date-asc" class="sort-btn px-2.5 py-1 rounded-md border border-slate-800 text-slate-500 hover:border-slate-700 hover:text-slate-400 transition-colors">Oldest first</button>
+        <button data-sort="reading-time" class="sort-btn px-2.5 py-1 rounded-md border border-slate-800 text-slate-500 hover:border-slate-700 hover:text-slate-400 transition-colors">Shortest read</button>
+      </div>
+
+      <div class="grid gap-4" id="posts-grid">
+        {posts.map((post) => {
+          const isNew = (Date.now() - post.data.pubDate.valueOf()) < 30 * 24 * 60 * 60 * 1000;
+          return (
+            <div class="post-item" data-reading-time={getReadingTime(post.body)} data-pubdate={post.data.pubDate.valueOf()}>
+              <PostCard
+                title={post.data.title}
+                description={post.data.description}
+                pubDate={post.data.pubDate}
+                slug={post.id}
+                category={post.data.category}
+                difficulty={post.data.difficulty}
+                readingTime={getReadingTime(post.body)}
+                image={post.data.image}
+                isNew={isNew}
+              />
+            </div>
+          );
+        })}
+      </div>
+    </>
   )}
 
   <p class="mt-8 text-sm text-slate-500">
     <a href="/use-cases" class="hover:text-sky-400">← All categories</a>
   </p>
+
+  <script>
+    const sortBtns = document.querySelectorAll<HTMLButtonElement>('.sort-btn');
+    const postsGrid = document.getElementById('posts-grid');
+    if (sortBtns.length && postsGrid) {
+      const items = Array.from(postsGrid.querySelectorAll<HTMLElement>('.post-item'));
+
+      function applySort(sort: string) {
+        const sorted = [...items].sort((a, b) => {
+          if (sort === 'date-desc') return Number(b.dataset.pubdate) - Number(a.dataset.pubdate);
+          if (sort === 'date-asc') return Number(a.dataset.pubdate) - Number(b.dataset.pubdate);
+          if (sort === 'reading-time') return Number(a.dataset.readingTime) - Number(b.dataset.readingTime);
+          return 0;
+        });
+        sorted.forEach(el => postsGrid.appendChild(el));
+
+        sortBtns.forEach(btn => {
+          const active = btn.dataset.sort === sort;
+          btn.classList.toggle('border-slate-700', active);
+          btn.classList.toggle('bg-slate-800', active);
+          btn.classList.toggle('text-slate-300', active);
+          btn.classList.toggle('border-slate-800', !active);
+          btn.classList.toggle('text-slate-500', !active);
+        });
+      }
+
+      sortBtns.forEach(btn => {
+        btn.addEventListener('click', () => applySort(btn.dataset.sort ?? 'date-desc'));
+      });
+
+      // Default to date-desc
+      applySort('date-desc');
+    }
+  </script>
 </PageLayout>

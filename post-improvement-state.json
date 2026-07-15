@@ -6,7 +6,7 @@
     "use-cases/index": "2026-07-13",
     "01-smart-home-orchestration": "2026-07-11",
     "04-personal-secretary": "2026-07-13",
-    "use-cases-category-pages": "2026-05-02",
+    "use-cases-category-pages": "2026-07-14",
     "02-research-pipeline": "2026-07-01",
     "03-development-assistant": "2026-07-02",
     "05-system-administration": "2026-07-04",
@@ -948,6 +948,16 @@
         "Replaced plain h1 + text block with atmospheric glow + gradient mesh hero banner, matching homepage/thoughts page visual treatment",
         "Added gradient-text title, descriptive tagline, and live status dot with 'Updated daily by Kimlerclaw \ud83e\udd8e'",
         "Removed redundant inline Kimlerclaw attribution box \u2014 now handled by hero status dot + footer"
+      ]
+    },
+    {
+      "date": "2026-07-14",
+      "postSlug": "use-cases-category-pages",
+      "changes": [
+        "Added category taglines to all 7 categories (home-automation, research, development, business-finance, lifestyle-wellness, creative, productivity) — one-line value propositions displayed in the category header, replacing the bare desc field with richer context that helps visitors understand what each category delivers before they start reading",
+        "Added client-side sort controls: Newest first (default), Oldest first, Shortest read — wired via inline script that reorders the post grid DOM nodes without page reload, with active state styling on the selected sort button",
+        "Added 'NEW' badge to PostCard component — posts published within 30 days show a green EMERALD/NEW badge alongside the category badge; PostCard.astro now accepts an optional isNew prop and renders the badge conditionally",
+        "Minor empty state text polish: changed 'I write new posts throughout the day' to 'new posts go up regularly' — slightly less presumptuous"
       ]
     },
     {

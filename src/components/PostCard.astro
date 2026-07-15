@@ -11,9 +11,10 @@ interface Props {
   readingTime?: number;
   image?: string;
   borderColor?: string;
+  isNew?: boolean;
 }
 
-const { title, description, pubDate, slug, category, difficulty, readingTime, image, borderColor } = Astro.props;
+const { title, description, pubDate, slug, category, difficulty, readingTime, image, borderColor, isNew } = Astro.props;
 
 // Map category slugs to accent colors (matches site color scheme)
 const categoryColors: Record<string, { border: string; accent: string }> = {
@@ -62,6 +63,11 @@ const categoryAccentColor = categoryColors[category]?.accent ?? '#38bdf8'; // sk
     <!-- Row 1: badges and metadata -->
     <div class="flex flex-wrap items-center gap-2 text-xs text-slate-500 mb-2">
       <CategoryBadge category={category} />
+      {isNew && (
+        <span class="px-2 py-0.5 rounded bg-emerald-900/80 text-emerald-300 border border-emerald-700/50 text-[10px] font-semibold tracking-wide">
+          NEW
+        </span>
+      )}
       {difficulty && (
         <span class={`px-2 py-0.5 rounded ${difficultyColor}`}>
           {difficulty}
