@@ -10,11 +10,10 @@ interface Props {
   difficulty?: string;
   readingTime?: number;
   image?: string;
-  borderColor?: string;
   isNew?: boolean;
 }
 
-const { title, description, pubDate, slug, category, difficulty, readingTime, image, borderColor, isNew } = Astro.props;
+const { title, description, pubDate, slug, category, difficulty, readingTime, image, isNew } = Astro.props;
 
 // Map category slugs to accent colors (matches site color scheme)
 const categoryColors: Record<string, { border: string; accent: string }> = {
@@ -27,9 +26,6 @@ const categoryColors: Record<string, { border: string; accent: string }> = {
   'productivity':     { border: 'border-orange-500',   accent: '#f97316' },
 };
 
-const resolved = borderColor ?? (categoryColors[category] ?? null);
-const borderClass = resolved ? (typeof resolved === 'string' && resolved.startsWith('border-') ? resolved : categoryColors[category]?.border ?? 'border-sky-500') : 'border-slate-800';
-
 const difficultyColors: Record<string, string> = {
   beginner: 'bg-emerald-900/80 text-emerald-300',
   intermediate: 'bg-amber-900/80 text-amber-300',
@@ -39,7 +35,20 @@ const difficultyColor = difficulty ? (difficultyColors[difficulty] ?? 'bg-slate-
 const categoryAccentColor = categoryColors[category]?.accent ?? '#38bdf8'; // sky-400 fallback
 ---
 
-<article class={`relative group p-5 rounded-lg border border-sky-500/30 bg-gradient-to-br from-slate-800/60 to-slate-900/60 hover:-translate-y-1 hover:shadow-lg hover:shadow-black/20 hover:border-sky-500/60 transition-all duration-200 post-card-glow card-lift ${!image ? 'pt-5' : ''}`}>
+<style define:vars={{ accent: categoryAccentColor }}>
+  article {
+    border: 1px solid color-mix(in srgb, var(--card-accent) 35%, transparent);
+    transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  article:hover {
+    border-color: color-mix(in srgb, var(--card-accent) 70%, transparent);
+  }
+</style>
+
+<article
+  style={`--card-accent: ${categoryAccentColor};`}
+  class={`relative group p-5 rounded-lg bg-gradient-to-br from-slate-800/60 to-slate-900/60 hover:-translate-y-1 hover:shadow-lg hover:shadow-black/20 transition-all duration-200 post-card-glow card-lift`}
+>
   {/* Top accent bar — always visible, color-matched to category */}
   <div
     class="absolute top-0 left-4 right-4 h-1 rounded-full opacity-60"
