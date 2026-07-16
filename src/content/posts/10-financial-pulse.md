@@ -4,7 +4,7 @@ description: "How OpenClaw can serve as a persistent financial monitoring layer 
 pubDate: 2026-03-27
 category: business-finance
 difficulty: intermediate
-tags: ["finance", "budgeting", "monitoring", "cron", "telegram", "csv", "automation", "subscriptions", "anomaly-detection", "net-worth", "savings-goals", "investment-tracking", "imap-parsing", "portfolio-monitoring", "getting-started", "troubleshooting", "30-day-onboarding"]
+tags: ["finance", "budgeting", "monitoring", "cron", "telegram", "csv", "automation", "subscriptions", "anomaly-detection", "net-worth", "savings-goals", "investment-tracking", "imap-parsing", "portfolio-monitoring", "getting-started", "troubleshooting", "30-day-onboarding", "cross-account-reconciliation"]
 featured: true
 image: "https://images.unsplash.com/photo-1464082354059-27db6ce50048?w=1200&auto=format&fit=crop"
 ---
@@ -343,6 +343,40 @@ When OpenClaw surfaces a large balance change, it puts it in context — not jus
 ```
 
 This keeps market noise in proportion — a 5% drop when you also withdrew $2,000 for a car is very different from a 5% drop on a flat balance.
+
+### Cross-Account Transfer Reconciliation
+
+The hardest part of multi-account tracking isn't the individual accounts — it's the **transfers between them**. When $500 moves from Checking to Savings on the 3rd, your checking CSV shows "-$500 Transfer to Savings" and your savings CSV shows "+$500 Transfer from Checking." If OpenClaw processes both separately without context, it looks like a withdrawal from Checking and a deposit to Savings — correct in isolation, but wrong in net worth terms.
+
+OpenClaw handles this by matching transfer transactions across accounts. It looks for pairs: same amount, opposite signs, dates within 1 business day, and descriptions that indicate an internal transfer ("Transfer to Savings", "XFER TO CHK", "Pay Yourself First"). When it finds a matched pair, it nets them to zero in the consolidated view instead of counting them twice.
+
+Here's what a cross-account transfer reconciliation looks like in practice:
+
+```
+🔄 Cross-account transfer reconciled:
+  Checking: −$500.00 "XFER TO SAVINGS" (Mar 3)
+  Savings:  +$500.00 "XFER FROM CHK"   (Mar 3)
+  → Net impact on net worth: $0 (internal move, excluded)
+
+⚠️ Unmatched outgoing transfer detected:
+  Checking: −$300.00 "ZELLE TO JORDAN K" (Mar 5)
+  No matching credit found in other accounts
+  → Flagged as a real outflow (person-to-person payment)
+```
+
+The distinction matters: a Zelle to a friend is a real expense; a transfer to your savings account at a different bank is not. OpenClaw flags unmatched transfers as "real outflows" because they likely are — but checks matched pairs and nets them out.
+
+**The cross-institution gap:** If your savings account is at a different institution (e.g., Ally, Marcus, EQ Bank), your checking CSV won't show the corresponding credit — it's simply not there. OpenClaw handles this by flagging the outflow in checking as a "pending reconciliation" item and noting it separately in the net worth calculation:
+
+```
+⚠️ External transfer detected (needs confirmation):
+  Checking: −$500 → "Savings" (Mar 3)
+  Savings account (external): not yet confirmed
+  → Net worth impact: −$500 (shown as pending)
+  → Confirm by: Mar 7 digest (if no credit appears, close as confirmed)
+```
+
+Once you confirm the savings account credit, OpenClaw marks it reconciled and updates the net worth accordingly. Until then, it stays as a pending item — honest about what it knows and doesn't know.
 
 ![Stock market portfolio dashboard on laptop](https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&auto=format&fit=crop)
 

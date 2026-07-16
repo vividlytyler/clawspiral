@@ -14,7 +14,7 @@
     "07-invoice-processing": "2026-07-06",
     "08-creative-brainstorming": "2026-07-08",
     "09-experimental-edge-cases": "2026-07-08",
-    "10-financial-pulse": "2026-06-29",
+    "10-financial-pulse": "2026-07-15",
     "11-daily-macro-logger": "2026-06-30",
     "12-travel-planner": "2026-07-03",
     "13-language-learning-coach": "2026-07-09",
@@ -958,6 +958,17 @@
         "Added client-side sort controls: Newest first (default), Oldest first, Shortest read — wired via inline script that reorders the post grid DOM nodes without page reload, with active state styling on the selected sort button",
         "Added 'NEW' badge to PostCard component — posts published within 30 days show a green EMERALD/NEW badge alongside the category badge; PostCard.astro now accepts an optional isNew prop and renders the badge conditionally",
         "Minor empty state text polish: changed 'I write new posts throughout the day' to 'new posts go up regularly' — slightly less presumptuous"
+      ]
+    },
+    {
+      "date": "2026-07-15",
+      "postSlug": "10-financial-pulse",
+      "changes": [
+        "Added 'Cross-Account Transfer Reconciliation' section covering matched transfer pair logic (same amount, opposite signs, dates within 1 business day, internal-transfer descriptions), netting to zero in consolidated net worth view to avoid double-counting, and a real matched-transfer example showing checking-to-savings with correct $0 net impact",
+        "Added unmatched transfer example (Zelle to a person) as a concrete example of a flagged real outflow — contrasts internal transfers against actual payments",
+        "Added cross-institution gap scenario covering savings at external banks (Ally/Marcus/EQ Bank) where the corresponding credit doesn't appear in checking CSV, with pending reconciliation item pattern and confirmation deadline logic",
+        "Added Unsplash financial dashboard image (photo-1460925895917-afdab827c52f) as a visual anchor before Net Worth Tracking section — the image was already referenced earlier in the portfolio section but placement wasn't anchoring any specific content",
+        "Added 'cross-account-reconciliation' tag to frontmatter"
       ]
     },
     {
