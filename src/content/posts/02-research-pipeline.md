@@ -3,7 +3,7 @@ title: "Research Pipeline: From Question to Report"
 description: "How OpenClaw can research a topic end-to-end — web search, content extraction, synthesis, and delivery. A framework for turning scattered information into coherent reports."
 pubDate: 2026-03-26
 category: research
-tags: ["research", "web-search", "synthesis", "pipeline", "llm", "duckduckgo", "openclaw", "automation", "knowledge-management", "note-taking", "search-techniques", "cross-session", "research-log", "query-optimization", "scope-definition", "confidence-calibration", "search-limitations"]
+tags: ["research", "web-search", "synthesis", "pipeline", "llm", "duckduckgo", "openclaw", "automation", "knowledge-management", "note-taking", "search-techniques", "cross-session", "research-log", "query-optimization", "scope-definition", "confidence-calibration", "search-limitations", "delivery-formats", "scheduled-research", "competitive-monitoring", "output-formats", "research-templates"]
 image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&auto=format&fit=crop"
 imageCaption: "Research Pipeline — from scattered sources to structured synthesis"
 ---
@@ -222,6 +222,86 @@ The cron fires every Monday at 9 AM, OpenClaw runs the research, and you get a b
 
 **Important caveat:** Scheduled research still has the same limitations (paywalls, JS-heavy sites, training cutoff conflation). For news monitoring specifically, complement it with RSS feeds for sources you control — they're more reliable for detecting new content than web search alone.
 
+### Scheduled Research: A Complete End-to-End Example
+
+Here's what a real competitive monitoring setup looks like — from cron to file storage to Telegram delivery:
+
+**Goal:** Track competitor product updates, pricing changes, and new feature launches for a SaaS product in the project management space. Weekly brief every Monday 8 AM Pacific.
+
+**Step 1 — Define the research brief:**
+
+```
+Research the past week's developments for: Linear, Plane, Height, and Craft.
+For each, look for: (1) new feature announcements or releases, (2) pricing changes,
+(3) notable blog posts or case studies, (4) community signals (Reddit, HN mentions).
+Output format: structured list per competitor, then a one-paragraph summary of the
+most significant development this week. Keep the whole brief under 400 words.
+```
+
+**Step 2 — Configure the cron job:**
+
+```json
+{
+  "name": "competitive-monitoring-weekly",
+  "schedule": { "kind": "cron", "expr": "0 8 * * 1", "tz": "America/Vancouver" },
+  "payload": {
+    "kind": "agentTurn",
+    "message": "Run competitive monitoring for the project management SaaS space.\n\nCompetitors to track: Linear, Plane, Height, Craft.\n\nResearch brief: For each competitor, find: (1) new feature announcements or releases from the past 7 days, (2) any pricing changes, (3) notable blog posts or case studies, (4) significant community discussion on Reddit or HN.\n\nOutput: Per-competitor structured list + one-paragraph summary of the most significant development this week. Under 400 words total. Format for Telegram readability — short paragraphs, emoji sparingly for organization.\n\nStore the full structured output to ~/research/competitors/YYYY-WW.md (e.g. ~/research/competitors/2026-29.md) BEFORE sending to Telegram. The file is your audit trail.",
+    "timeoutSeconds": 300
+  },
+  "delivery": { "mode": "announce", "channel": "telegram" },
+  "sessionTarget": "isolated"
+}
+```
+
+**Step 3 — What happens:**
+
+- Every Monday at 8 AM, the cron fires in an isolated session
+- OpenClaw searches for each competitor's recent blog, GitHub, Reddit, and HN activity
+- Synthesis produces the structured weekly brief
+- Full findings are written to `~/research/competitors/2026-WW.md` as an audit file
+- A Telegram-formatted digest is delivered to you
+
+**Step 4 — What the output file looks like:**
+
+```markdown
+# Competitive Monitoring — Week 29 (2026)
+**Generated:** 2026-07-13 08:02 PST
+
+## Linear
+- **Features:** v1.26 released — custom workflow states, cycle time analytics
+- **Pricing:** No changes
+- **Content:** Case study with Vercel engineering team — linear.app/blog/vercel
+- **Community:** HN front page for 6 hours with v1.26 — mostly positive
+
+## Plane
+- **Features:** PDF export for issues (beta), bulk property updates
+- **Pricing:** No changes
+- **Content:** None this week
+- **Community:** r/projectmanagement mention — tooling discussion
+
+## Height
+- **Features:** AI subtask generation — beta, invite-only waitlist
+- **Pricing:** No changes
+- **Content:** Blog post on AI-assisted planning workflows
+- **Community:** Mentioned in HN "alternative to Linear" thread
+
+## Craft
+- **Features:** Mobile app refresh (iOS), real-time collaboration improvements
+- **Pricing:** No changes
+- **Content:** None this week
+- **Community:** Quiet week
+
+## Most Significant Development
+Linear's cycle time analytics is the standout. It's a feature that project managers have requested from Linear for over a year — the kind of thing that locks in teams who rely on velocity metrics. Worth watching whether Height's AI subtask generation closes the gap.
+
+**Confidence:** High on feature announcements (official channels). Medium on community signals (sample bias).
+```
+
+**Why the file matters:** The Telegram brief is what you act on this week. The file is what you look at three months later when you're doing a vendor review. The combination of immediate delivery and persistent storage makes scheduled research actually useful over time — not just a digest that scrolls by and disappears.
+
+**Failure modes to watch for:** Cron misfires (check run history), synthesis getting stale (quarterly review of the brief template), and competitor blind spots (add new entrants to the watch list as you discover them).
+
 ## Real-World Applications
 
 The research pipeline shines for anything that normally requires 20 browser tabs and an hour of reading.
@@ -304,6 +384,9 @@ Each iteration costs one pipeline run (~30-60 seconds). For high-stakes decision
 
 **Tip:** When synthesis flags low confidence or a knowledge gap, that's your cue to iterate. Don't accept "medium confidence" for decisions above a certain threshold.
 
+![Iterative research — question, synthesis, gaps, deeper follow-ups](https://images.unsplash.com/photo-1456324504439-367cee3b3c32?w=1200&auto=format&fit=crop)
+*The research loop — each iteration compounds on the last, sharpening focus as you go.*
+
 ## When It Breaks
 
 Research pipelines fail in predictable ways. Know the failure modes:
@@ -317,6 +400,80 @@ Research pipelines fail in predictable ways. Know the failure modes:
 - **Synthesis picks a "winner" incorrectly** — When two sources conflict, the LLM sometimes picks based on which source sounds more confident, not which is more accurate. Low confidence flags exist precisely for this — take them seriously.
 
 - **Output gets lost in chat history** — Research only has value if it reaches you. Always specify delivery (Telegram, email, file) — not just chat output.
+
+## Research Delivery Formats in Practice
+
+The same research question produces very different outputs depending on where it's headed. Here's the same finding delivered three ways:
+
+**Scenario:** You ran research on "Figma vs. Penpot for a 5-person design team, budget $0, need real-time collaboration."
+
+**Telegram brief (what you get in 60 seconds):**
+> **Bottom line:** Penpot for a $0 team — Figma's free tier limits you to 3 editors and 30 projects, which sounds fine until the whole team is working at once. Penpot is fully open-source with unlimited editors.
+> **Figma:** Real-time collab ✅, Free tier 3 editors ❌, Design systems ✅, $0 for small teams → OK if 3 editors is actually enough
+> **Penpot:** Real-time collab ✅, Unlimited ✅, Self-host option ✅, Design systems (newer) → solid, improving fast
+> **Recommendation:** Penpot unless your team is already in Figma and 3 editors isn't a bottleneck. Self-host if privacy matters.
+> Confidence: Medium — Penpot design system features moved fast in 2025; verify current state before committing.
+
+**Email memo (what a stakeholder gets):**
+> **Subject:** Tool Evaluation — Figma vs. Penpot for [Team Name]
+> **Bottom Line:** Penpot is the right choice for a $0, 5-person team. Figma's free tier will become a bottleneck within weeks.
+>
+> **Background:** Design team needs real-time collaboration without per-seat licensing costs. Evaluated Figma (free tier) and Penpot (open-source, free tier).
+>
+> **Key Findings:**
+> - Figma free tier: 30 projects, 3 simultaneous editors. Fine for casual use; painful for a team of 5 actively designing.
+> - Penpot free tier: unlimited editors, unlimited projects, browser-based. Self-host option available.
+> - Real-time collaboration works in both; Penpot's is newer but functional.
+> - Figma has a deeper plugin ecosystem and design system tooling. Penpot's is catching up.
+>
+> **Recommendation:** Start with Penpot's free tier. If the team hits friction on design system tooling in 60 days, reassess Figma paid tiers.
+>
+> **Confidence:** Medium — Penpot's feature trajectory is positive but the design system tooling gap is real for teams with established systems.
+>
+> **Next step:** I can set up a trial workspace in Penpot and run a 2-week team evaluation if you want to move forward.
+
+**Structured doc (what goes into a decision record):**
+
+```markdown
+# Tool Evaluation: Figma vs. Penpot
+**Date:** 2026-07-17
+**Decision:** Which design tool to adopt for 5-person team at $0 budget
+**Status:** Pending — team trial recommended
+
+## Criteria
+| Criterion | Weight | Figma (Free) | Penpot (Free) |
+|-----------|--------|--------------|---------------|
+| Real-time collaboration | High | ✅ (3 editors max) | ✅ (unlimited) |
+| Project limits | High | 30 projects | Unlimited |
+| Design systems | Medium | ✅ Mature | ✅ Improving |
+| Plugin ecosystem | Medium | ✅ Extensive | ⚠️ Limited |
+| Self-host option | Low | ❌ SaaS only | ✅ Available |
+| Migration cost | Low | N/A | Low (Figma exports .fig) |
+
+## Key Tradeoffs
+- **Figma:** Better design systems tooling, larger community, but 3-editor hard cap makes it unusable for a 5-person team doing concurrent work
+- **Penpot:** Unlimited collaboration, self-host option, younger tool with a growing ecosystem. The design system gap is real but closing.
+
+## Recommendation
+Start with Penpot free tier. Run 2-week team evaluation.
+
+## Confidence
+Medium on both — recommend first-hand trial before committing.
+
+## Sources
+- Figma pricing page (figma.com/pricing) — fetched 2026-07-17
+- Penpot docs (penpot.app) — fetched 2026-07-17
+- Penpot GitHub (github.com/penpot/penpot) — last commit: 2026-07-14
+
+## Follow-Up
+- [ ] Set up Penpot workspace for 5-person trial
+- [ ] Define which existing Figma files need migration
+- [ ] 2-week check-in: is 3-editor limit actually a problem for our team?
+```
+
+The same research, three formats. The Telegram brief is what you act on immediately. The email memo is what you forward to a decision-maker. The structured doc is what you file for auditability — six months later when someone asks "why did we pick Penpot?"
+
+**Tip:** Specify your delivery format at the start of the research query. "Research X and send me a Telegram brief" produces tighter output than "research X" — OpenClaw will optimize for scanability and length accordingly.
 
 ## Output Quality Checklist
 

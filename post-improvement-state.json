@@ -7,7 +7,7 @@
     "01-smart-home-orchestration": "2026-07-11",
     "04-personal-secretary": "2026-07-13",
     "use-cases-category-pages": "2026-07-14",
-    "02-research-pipeline": "2026-07-01",
+    "02-research-pipeline": "2026-07-17",
     "03-development-assistant": "2026-07-02",
     "05-system-administration": "2026-07-04",
     "06-employee-scheduling": "2026-07-05",
@@ -23,6 +23,16 @@
     "thoughts/index": "2026-07-02"
   },
   "improvementHistory": [
+    {
+      "date": "2026-07-17",
+      "postSlug": "02-research-pipeline",
+      "changes": [
+        "Added Unsplash iterative research image (photo-1456324504439-367cee3b3c32) before Iterative Research section — anchors the research loop concept visually and breaks up the text-heavy flow between When It Breaks and Output Quality sections",
+        "Added 'Research Delivery Formats in Practice' section — three-way concrete example showing the same Figma vs. Penpot finding delivered as Telegram brief (60-sec action format), email memo (stakeholder-forward format), and structured doc (decision-record format with criteria table and sources) — makes delivery format implications tangible instead of abstract",
+        "Added 'Scheduled Research: A Complete End-to-End Example' section — full competitive monitoring setup walkthrough: research brief template, complete cron JSON for Monday 8 AM competitor watch (Linear/Plane/Height/Craft), what the isolated agent does (search, synthesize, file-then-deliver pattern), and actual output file format showing per-competitor structured findings + weekly significance summary; includes failure mode notes on cron misfires and blind spot drift",
+        "Added delivery-formats, scheduled-research, competitive-monitoring, output-formats, research-templates tags to frontmatter"
+      ]
+    },
     {
       "date": "2026-07-16",
       "postSlug": "11-daily-macro-logger",
