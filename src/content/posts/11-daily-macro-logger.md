@@ -4,7 +4,7 @@ description: "Most nutrition apps die in a drawer. OpenClaw turns your existing 
 pubDate: 2026-03-28
 category: lifestyle-wellness
 difficulty: intermediate
-tags: ["nutrition", "health", "macros", "image-analysis", "telegram", "whatsapp", "automation", "diet", "micronutrients", "deficiency-detection", "portion-estimation", "goal-adjustment", "meal-analysis", "csv-structure", "special-diets", "correction-learning", "photo-metadata"]
+tags: ["nutrition", "health", "macros", "image-analysis", "telegram", "whatsapp", "automation", "diet", "micronutrients", "deficiency-detection", "portion-estimation", "goal-adjustment", "meal-analysis", "csv-structure", "special-diets", "correction-learning", "photo-metadata", "alcohol-tracking", "drink-logging", "cron-automation"]
 featured: true
 image: "https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=1200&auto=format&fit=crop"
 ---
@@ -199,6 +199,37 @@ A few scenarios worth knowing how the system handles:
 
 **Restaurant where it knows the menu.** If photo metadata gives a GPS location and OpenClaw recognizes the restaurant chain, it looks up the item from the published menu and logs the exact nutrition data — no estimation. If the chain isn't in its database, it falls back to visual estimation and notes "menu match failed, visual estimate used."
 
+## Alcohol and Calorie-Dense Drinks
+
+Nutrition apps treat drinks as an afterthought. Real-world eating doesn't — a dinner with two glasses of wine and an appetizer can add 600–900 calories that never show up in the main course count. OpenClaw treats drinks as a first-class logging concern.
+
+**The wine problem.** A standard 5oz pour of red wine is roughly 125 calories — the equivalent of a small cookie, with no protein, no fiber, no micronutrients to speak of. Two pours at dinner adds 250 calories that most people don't log, and never think about. OpenClaw's photo analysis can see a wine glass in a restaurant photo and flag it, but if you don't send one, it relies on you to mention it.
+
+The system handles this two ways:
+
+- **Text logging:** "2 glasses wine with dinner" — OpenClaw parses it and adds the estimated calories (250 for two glasses of standard red/white). It knows the difference between a "glass" and "a couple glasses" from the language you use.
+- **Pattern flagging:** If your weekly report shows sodium spikes and calorie spikes on the same days, and you haven't been logging drinks, OpenClaw flags it: "Weekend calories consistently run 400–600 above estimate. Likely underlogged drinks — wine or cocktails from restaurant meals?"
+
+**Cocktails and mixed drinks** are harder to estimate. A vodka soda is roughly 100 calories. A vodka cranberry could be 250+. A margarita at a restaurant can be 600 calories before food. OpenClaw logs what you text ("margarita with dinner") with an uncertainty flag, and if you get in the habit of logging drinks with photos, it can often estimate the pour size and mixer volume from the glass in the image.
+
+**Coffee drinks** deserve special mention because they silently accumulate. A small oat milk latte is ~150 calories. A large with an extra shot is ~300. The difference between "a coffee" and "my usual large latte" could be 200 calories a day — that's an extra pound of body fat every two and a half weeks from coffee alone. OpenClaw asks on the first couple of logs ("Small, medium, or large?") and remembers your default after you tell it.
+
+Here's what a real exchange looks like for a drink correction:
+
+> **You:** "Dinner at [GPS-tagged restaurant]" [photo: steak, mashed potatoes, two glasses red wine]
+>
+> **OpenClaw:** 📸 Photo analysis — 7:48 PM
+> Visible: ribeye (~280g), mashed potatoes (~220g), wine glass × 2
+> FOOD TOTALS: 920 cal | 68g protein | 62g carbs | 52g fat
+> DRINK ESTIMATE: 2× red wine = 250 cal
+> **COMBINED: 1,170 cal | 68g protein | 62g carbs | 52g fat**
+>
+> ⚠️ Wine visible but volume unconfirmed — standard pour used. If generous pours, add ~80 cal/glass.
+
+One message, everything logged. The wine doesn't get lost in the food count.
+
+![Bar drinks and cocktail glasses](https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=1200&auto=format&fit=crop)
+
 ### What a Week Actually Looks Like
 
 The system works best when you just text normally. Here's three days of what that actually looks like:
@@ -313,6 +344,22 @@ If you're recomping (same weight, different composition), you might keep calorie
 
 The system treats all three macro targets independently, so you can dial them individually without touching calories at all.
 
+**Automating target shifts with cron.** If you're on a structured program (12-week lifting split, seasonal cut), you can pre-schedule the target updates so OpenClaw adjusts automatically at each phase boundary — no manual intervention needed mid-program when you're focused on training:
+
+```json
+{
+  "name": "Cut Phase Week 9 Target Update",
+  "schedule": { "kind": "at", "at": "2026-04-07T00:00:00-07:00" },
+  "payload": {
+    "kind": "agentTurn",
+    "message": "Update ~/nutrition/targets.yaml:\n- calories: 1900 (down from 2000 for week 9 of cut)\n- protein: 205g (increased slightly during heavy lifting weeks)\n- carbs: 160g\n- fat: 55g\n\nConfirm the updated targets in your next digest."
+  },
+  "sessionTarget": "isolated"
+}
+```
+
+Set it when you start the program, forget it until you're done. The only manual step is telling OpenClaw the phase dates when you plan the program.
+
 **Seasonal or training-cycle adjustments:**
 If you're on a 12-week program with progressive overload, your protein needs change every few weeks:
 ```
@@ -398,6 +445,8 @@ The nutrition app problem isn't the math. It's the engagement loop. You have to 
 **Not medical advice** — OpenClaw can flag patterns and suggest foods, but it's not a dietitian. Deficiency symptoms warrant actual medical attention.
 
 **Weekly data gaps** — if you travel, forget to log, or eat meals without photos, the weekly reports have holes. The model handles missing data gracefully, but the insights are only as good as the data.
+
+**Mental health note** — calorie tracking can become harmful for people with a history of disordered eating. If you find yourself anxious about food logging, dreading the digest, or obsessing over the numbers, this system — like any tracking tool — is not right for you. The goal is awareness, not perfection. Logging is not the same as judging yourself, and a missed meal or an underlogged weekend is just missing data, not a failure.
 
 ## The Real Value
 
