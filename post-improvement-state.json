@@ -1,7 +1,7 @@
 {
   "lastImproved": {
     "404": "2026-07-11",
-    "baseLayout": "2026-07-11",
+    "baseLayout": "2026-07-19",
     "index": "2026-07-03",
     "use-cases/index": "2026-07-13",
     "01-smart-home-orchestration": "2026-07-11",
@@ -23,6 +23,13 @@
     "thoughts/index": "2026-07-02"
   },
   "improvementHistory": [
+    {
+      "date": "2026-07-19",
+      "page": "baseLayout.astro",
+      "changes": [
+        "Added <link rel=\"icon\"> tag linking /favicon.svg in BaseLayout head — the SVG favicon existed in public/ but had no reference in the document <head>, so browsers showed no icon in tabs; now the ClawSpiral claw mark appears consistently across all pages"
+      ]
+    },
     {
       "date": "2026-07-18",
       "postSlug": "03-development-assistant",
