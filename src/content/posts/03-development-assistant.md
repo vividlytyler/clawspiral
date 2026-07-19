@@ -3,7 +3,7 @@ title: "OpenClaw as a Development Assistant"
 description: "Using an AI agent with file system access and shell commands to assist with development tasks — code review, repository management, CI/CD monitoring, and automated tooling."
 pubDate: 2026-03-26
 category: development
-tags: ["development", "coding", "ci-cd", "github", "tooling", "code-review", "testing", "pull-requests", "debugging", "production", "logs", "git-bisect", "multi-repo", "dependency-audit", "security", "stale-branches", "vulnerability-scanning", "development-workflow", "webhooks", "git-workflow", "code-safety", "gitlab-ci", "post-merge", "deployment"]
+tags: ["development", "coding", "ci-cd", "github", "tooling", "code-review", "testing", "pull-requests", "debugging", "production", "logs", "git-bisect", "multi-repo", "dependency-audit", "security", "stale-branches", "vulnerability-scanning", "development-workflow", "webhooks", "git-workflow", "code-safety", "gitlab-ci", "post-merge", "deployment", "architecture-review", "codebase-navigation", "troubleshooting", "dependency-analysis", "circular-dependencies", "dead-code", "coupling-analysis", "incident-response"]
 image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1200&auto=format&fit=crop"
 ---
 
@@ -512,6 +512,105 @@ You confirm. OpenClaw edits, runs the test suite, and reports:
 > "Refactor complete. `getUser` now handles `support` role. Tests added for the new branch and the existing admin/user paths. All 12 tests pass. Here's the diff — review before committing."
 
 You read the diff. Looks clean. `git add` and merge.
+
+![Code architecture and dependency visualization — connected nodes and flow diagram](https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1200&auto=format&fit=crop)
+
+## Codebase Architecture and Dependencies
+
+Beyond individual file edits and bug hunts, OpenClaw can reason about your codebase as a system — mapping dependencies, spotting coupling patterns, and identifying architectural drift before it becomes a maintenance burden.
+
+**Dependency analysis:** Point OpenClaw at a directory and ask it to map imports. It can identify:
+- Which modules your codebase depends on most heavily (import frequency)
+- Packages that are imported everywhere vs. narrowly scoped
+- Missing abstractions — two modules that both depend on the same third module but don't share a common interface for it
+
+**Circular dependency detection:** In large codebases, circular imports cause mysterious runtime errors. OpenClaw can trace import chains and flag cycles:
+
+> "Check `src/` for circular imports. Run `node --trace-deps src/index.js 2>&1 | grep circular` or use a tool like `madge`. Report any cycles found."
+
+**Framework pattern recognition:** If you're working in a framework like Next.js, Django, or Rails, OpenClaw can identify the patterns the codebase uses:
+- How routes are structured (file-based vs. config-based)
+- How data flows from request to response (middleware chain, service layer, ORM)
+- Where side effects live (webhook handlers, cron jobs, event listeners)
+
+This is useful when onboarding to an unfamiliar codebase or when assessing whether a new feature fits the existing patterns.
+
+**Coupling analysis:** When two modules change together more often than they'd useful, OpenClaw can flag them as tightly coupled and suggest what a shared interface or extracted module would look like. You get a concrete refactoring proposal instead of just "this is coupled."
+
+**Concrete example:** Your team has been burned by database schema changes that break multiple services at once. You ask OpenClaw to audit the shared database access patterns:
+
+> "Analyze `src/` for direct SQL queries vs. ORM usage. Flag any services that bypass the data access layer and hit the database directly. List them by file and line number."
+
+It scans the codebase and reports:
+
+> "Found 3 direct SQL queries that bypass the ORM:
+> - `src/reporting/queries.ts:14` — raw SQL in a report generator (legacy, never refactored)
+> - `src/admin/dump.ts:7` — admin export script (acceptable, but should be documented)
+> - `src/api/deprecated/legacy-search.ts:22` — in a deprecated endpoint that should be removed
+
+> All other data access goes through `src/db/orm.ts` or `src/db/models/`. The ORM layer is consistent for 94% of the codebase."
+
+You now know exactly where to focus before the next schema migration.
+
+### Reading Code at Scale
+
+When you inherit a codebase or need to understand a subsystem quickly, reading file by file is slow. OpenClaw can:
+
+- **Build a file inventory** with one-line purpose summaries — `src/` has 80 files, what's each one for?
+- **Trace a feature end-to-end** — "Follow the request path for user authentication from the HTTP handler to the database"
+- **Identify dead code** — files that are imported nowhere and functions that are called by nothing
+- **Map the public API surface** — what does this module actually expose to the rest of the codebase?
+
+> "Inventory all files in `src/` and `src/lib/`. For each file, give me a one-line description of what it does. Group them by functional area."
+
+This produces a mental map you can use to orient yourself in minutes instead of hours.
+
+## Troubleshooting Common Development Assistant Issues
+
+Even a development assistant has its own failure modes. Here's what to watch for and how to recover.
+
+**OpenClaw edits a file but the change doesn't appear / gets lost**
+
+If you run a command that shows a file changed but the change isn't there when you read it, you may be hitting a sandbox filesystem vs. host filesystem disconnect — OpenClaw in a container may be editing a different volume mount than your terminal. Fix: always verify edits in the same environment OpenClaw is running in, and check `pwd` and `ls` early in the session to confirm the working directory.
+
+**Webhook fires but nothing happens**
+
+Start with the basics: verify the webhook URL is reachable from outside your network (use `curl -v` from a phone on cellular), confirm the secret token matches what OpenClaw expects, and check OpenClaw's logs for received payloads. A silent webhook failure is almost always DNS, firewall, or token mismatch — not an OpenClaw bug.
+
+**Context window overflow on large PRs**
+
+If you paste a 40-file diff and OpenClaw starts dropping content mid-analysis, the context window filled. Fix: split the review into focused chunks — "Review the auth changes only" instead of "Review this entire PR." Alternatively, push the branch and give OpenClaw the repo path + specific files to read rather than pasting the diff directly.
+
+**Git auth failures mid-session**
+
+If OpenClaw reports "authentication failed" on a git operation that was working, the token may have expired or been revoked. Fine-grained GitHub PATs can expire or lose permissions if the repository is transferred or renamed. Fix: re-authenticate with a fresh token and verify the token has `repo` scope for private repos.
+
+**Rate limit hits during multi-repo operations**
+
+Running `git fetch` across 10 repos in quick succession will hit GitHub's rate limits on free-tier accounts. Fix: add `--throttle` or introduce a delay between operations, or use a GitHub App token instead of a PAT for higher rate limits. OpenClaw can handle this automatically with a built-in delay:
+
+> "Fetch all 10 repos with a 3-second delay between each to avoid rate limiting."
+
+**CI works locally but fails on the server**
+
+This is the classic environment mismatch problem. OpenClaw can help by comparing the two environments:
+- Node version (`node --version` vs what CI runs)
+- Environment variables (missing `.env` in the Docker image)
+- Platform-specific binaries (native modules built for the wrong OS/architecture)
+
+> "Compare the local `.env` file with what the GitHub Actions workflow injects. List any variables that exist locally but aren't set in CI."
+
+**OpenClaw proposes a fix that introduces a new bug**
+
+This happens. The most common pattern: OpenClaw fixes the symptom (a null reference) without understanding why the value was null, leaving the root cause unaddressed. Always trace back from the proposed fix to the root cause before applying. If you can't explain why the fix works, ask OpenClaw to explain — and if the explanation is thin, dig deeper.
+
+**Large refactor across many files — context window overflow before completion**
+
+Refactor one module at a time, committing between each. Don't ask OpenClaw to rename a function across 50 files in one shot — it will miss some, and you won't know which. The workflow: ask for the refactor in one directory, verify, commit, then move to the next.
+
+**File encoding issues**
+
+If OpenClaw writes files and you get mysterious parser errors (especially with non-ASCII characters), the file may have been written with the wrong encoding. Fix: run `file --mime-encoding <filename>` and `iconv -f UTF-8 -t UTF-8 <filename>` to validate and normalize. Set `LANG=en_US.UTF-8` in the environment to prevent this.
 
 ## Limitations
 

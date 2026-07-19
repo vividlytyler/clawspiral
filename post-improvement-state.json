@@ -8,7 +8,7 @@
     "04-personal-secretary": "2026-07-13",
     "use-cases-category-pages": "2026-07-14",
     "02-research-pipeline": "2026-07-17",
-    "03-development-assistant": "2026-07-02",
+    "03-development-assistant": "2026-07-18",
     "05-system-administration": "2026-07-04",
     "06-employee-scheduling": "2026-07-05",
     "07-invoice-processing": "2026-07-06",
@@ -23,6 +23,17 @@
     "thoughts/index": "2026-07-02"
   },
   "improvementHistory": [
+    {
+      "date": "2026-07-18",
+      "postSlug": "03-development-assistant",
+      "changes": [
+        "Added 'Codebase Architecture and Dependencies' section covering dependency analysis (import frequency mapping), circular dependency detection, framework pattern recognition, coupling analysis with refactoring proposals, and dead code identification — fills the post's gap in system-level codebase reasoning beyond individual file edits",
+        "Added 'Reading Code at Scale' subsection covering file inventory with purpose summaries, end-to-end feature tracing, dead code detection, and public API surface mapping — practical onboarding and orientation workflow for unfamiliar codebases",
+        "Added 'Troubleshooting Common Development Assistant Issues' section with 8 concrete failure modes: filesystem sandbox disconnect, silent webhook failures (DNS/firewall/token mismatch diagnosis), context window overflow on large PRs (chunked review workaround), git auth mid-session expiry, rate limit hits during multi-repo ops (built-in delay pattern), CI/local environment mismatches, proposed fixes that miss root cause, large refactor context overflow (one-module-at-a-time commit pattern), and file encoding issues with `file --mime-encoding` fix",
+        "Added Unsplash architecture/dependency visualization image (photo-1558494949-ef010cbdcc31) before Codebase Architecture section",
+        "Added architecture-review, codebase-navigation, troubleshooting, dependency-analysis, circular-dependencies, dead-code, coupling-analysis, and incident-response tags to frontmatter"
+      ]
+    },
     {
       "date": "2026-07-17",
       "postSlug": "02-research-pipeline",
