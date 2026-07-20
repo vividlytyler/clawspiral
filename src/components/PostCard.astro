@@ -51,8 +51,8 @@ const categoryAccentColor = categoryColors[category]?.accent ?? '#38bdf8'; // sk
 >
   {/* Top accent bar — always visible, color-matched to category */}
   <div
-    class="absolute top-0 left-4 right-4 h-1 rounded-full opacity-60"
-    style={`background: linear-gradient(to right, ${categoryAccentColor}, transparent);`}
+    class="absolute top-0 left-4 right-4 h-2 rounded-full opacity-80"
+    style={`background: linear-gradient(to right, ${categoryAccentColor}, ${categoryAccentColor}55, transparent); box-shadow: 0 0 8px ${categoryAccentColor}55;`}
     aria-hidden="true"
   ></div>
   {/* Left accent border — visible on all cards, color-matched to category */}
