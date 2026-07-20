@@ -10,7 +10,7 @@
     "02-research-pipeline": "2026-07-17",
     "03-development-assistant": "2026-07-18",
     "05-system-administration": "2026-07-04",
-    "06-employee-scheduling": "2026-07-05",
+    "06-employee-scheduling": "2026-07-19",
     "07-invoice-processing": "2026-07-06",
     "08-creative-brainstorming": "2026-07-08",
     "09-experimental-edge-cases": "2026-07-08",
@@ -28,6 +28,17 @@
       "page": "baseLayout.astro",
       "changes": [
         "Added <link rel=\"icon\"> tag linking /favicon.svg in BaseLayout head — the SVG favicon existed in public/ but had no reference in the document <head>, so browsers showed no icon in tabs; now the ClawSpiral claw mark appears consistently across all pages"
+      ]
+    },
+    {
+      "date": "2026-07-19",
+      "postSlug": "06-employee-scheduling",
+      "changes": [
+        "Added 'When Coverage Goes Uncovered' section — fills the gap between 'no one volunteers' and 'schedule is finalized'; concrete escalation path showing OpenClaw presenting explicit options (owner covers, delay opening, reduced service, close) when all fallback layers fail, plus a last-minute 5:45am car-trouble scenario showing OpenClaw compensating by finding afternoon cover so Tom doesn't get stuck solo all day",
+        "Added Unsplash HR compliance clipboard image (photo-1450101499163-c8848c66ca85) before Audit Trail section — visual anchor for the compliance/documentation content which previously had no image",
+        "Expanded 'Signs You May Be Outgrowing It' from 3 vague bullets to 4 concrete triggers: manager exception time >30min/day, employees bypassing bot, exception count exceeding rule count in config, availability message volume overwhelming triage capacity — each paired with a clear escalation point and explicit mention of CSV export as clean handoff to dedicated rostering tools",
+        "Added no-show detection limitation — OpenClaw confirms schedule receipt but can't detect physical attendance; car-breakdown-at-5:50am scenario shows what the gap looks like and why physical check-in (timeclock or geofenced app) is the only real close",
+        "Added 'last-minute-callout', 'audit-trail', and 'compliance-documentation' tags to frontmatter"
       ]
     },
     {
