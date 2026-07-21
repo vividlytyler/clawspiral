@@ -9,7 +9,7 @@
     "use-cases-category-pages": "2026-07-14",
     "02-research-pipeline": "2026-07-17",
     "03-development-assistant": "2026-07-18",
-    "05-system-administration": "2026-07-04",
+    "05-system-administration": "2026-07-20",
     "06-employee-scheduling": "2026-07-19",
     "07-invoice-processing": "2026-07-06",
     "08-creative-brainstorming": "2026-07-08",
@@ -1011,6 +1011,15 @@
       "page": "use-cases/index.astro",
       "changes": [
         "Added atmospheric hero section matching homepage/thoughts/news visual treatment \u2014 glow + radial gradient mesh background, dot-grid texture, animated badge with live use-case count, gradient-text heading, and descriptive tagline \u2014 bringing the use-cases index in visual alignment with the rest of the site"
+      ]
+    },
+    {
+      "date": "2026-07-20",
+      "postSlug": "05-system-administration",
+      "changes": [
+        "Replaced sparse bullet-point Limitations section (6 items) with 7 detailed paragraphs \u2014 each limitation now has concrete context, specific failure scenarios, and actionable mitigation steps; covers polling gaps with Docker Events workaround, hardware failure detection vs resolution distinction, permission blast radius with specific rm command example, log truncation and pre-filtering patterns, self-healing limits for misconfiguration vs transient crashes, the SPOF in the automation layer and watchdog mitigation, and production observability scope guidance",
+        "Added 'First 48 Hours: Getting Oriented' implementation guide after What You Need section \u2014 4-step structured onboarding (establish baselines, first health cron, self-healing layer, backup verification) giving readers a concrete starting sequence instead of a features list",
+        "Added getting-started tag to frontmatter"
       ]
     }
   ]
