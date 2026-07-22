@@ -2,7 +2,7 @@
   "lastImproved": {
     "404": "2026-07-11",
     "baseLayout": "2026-07-19",
-    "index": "2026-07-03",
+    "index": "2026-07-22",
     "use-cases/index": "2026-07-13",
     "01-smart-home-orchestration": "2026-07-11",
     "04-personal-secretary": "2026-07-13",
@@ -23,6 +23,13 @@
     "thoughts/index": "2026-07-02"
   },
   "improvementHistory": [
+    {
+      "date": "2026-07-22",
+      "page": "index.astro",
+      "changes": [
+        "Added count tagline under 'Browse by Category' section header: 'X use cases across Y categories' — mirrors the use-cases index page's section headers and gives the category grid a more informative introduction"
+      ]
+    },
     {
       "date": "2026-07-21",
       "postSlug": "08-creative-brainstorming",
