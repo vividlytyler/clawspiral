@@ -12,7 +12,7 @@
     "05-system-administration": "2026-07-20",
     "06-employee-scheduling": "2026-07-19",
     "07-invoice-processing": "2026-07-06",
-    "08-creative-brainstorming": "2026-07-08",
+    "08-creative-brainstorming": "2026-07-21",
     "09-experimental-edge-cases": "2026-07-08",
     "10-financial-pulse": "2026-07-15",
     "11-daily-macro-logger": "2026-07-16",
@@ -24,20 +24,29 @@
   },
   "improvementHistory": [
     {
+      "date": "2026-07-21",
+      "postSlug": "08-creative-brainstorming",
+      "changes": [
+        "Added artist workspace image (photo-1579762715118-a6f1d4b934f1) between Art Direction Beyond Reference Images and Using AI to Develop Your Creative Voice sections \u2014 fills the visual gap at the art direction section transition",
+        "Added 'A Full Audience Development Arc' subsection to Developing Your Audience Sense \u2014 full 4-exchange concrete podcast/urban-planning example showing how audience sense gets refined progressively (gap identification \u2192 premise challenge \u2192 complication surfacing \u2192 honest reorientation), demonstrating that audience development is iterative not one-shot; audience for refined version is contrasted with audience for naive version",
+        "Added audience-development, podcast, and concept-development tags to frontmatter"
+      ]
+    },
+    {
       "date": "2026-07-19",
       "page": "baseLayout.astro",
       "changes": [
-        "Added <link rel=\"icon\"> tag linking /favicon.svg in BaseLayout head — the SVG favicon existed in public/ but had no reference in the document <head>, so browsers showed no icon in tabs; now the ClawSpiral claw mark appears consistently across all pages"
+        "Added <link rel=\"icon\"> tag linking /favicon.svg in BaseLayout head \u2014 the SVG favicon existed in public/ but had no reference in the document <head>, so browsers showed no icon in tabs; now the ClawSpiral claw mark appears consistently across all pages"
       ]
     },
     {
       "date": "2026-07-19",
       "postSlug": "06-employee-scheduling",
       "changes": [
-        "Added 'When Coverage Goes Uncovered' section — fills the gap between 'no one volunteers' and 'schedule is finalized'; concrete escalation path showing OpenClaw presenting explicit options (owner covers, delay opening, reduced service, close) when all fallback layers fail, plus a last-minute 5:45am car-trouble scenario showing OpenClaw compensating by finding afternoon cover so Tom doesn't get stuck solo all day",
-        "Added Unsplash HR compliance clipboard image (photo-1450101499163-c8848c66ca85) before Audit Trail section — visual anchor for the compliance/documentation content which previously had no image",
-        "Expanded 'Signs You May Be Outgrowing It' from 3 vague bullets to 4 concrete triggers: manager exception time >30min/day, employees bypassing bot, exception count exceeding rule count in config, availability message volume overwhelming triage capacity — each paired with a clear escalation point and explicit mention of CSV export as clean handoff to dedicated rostering tools",
-        "Added no-show detection limitation — OpenClaw confirms schedule receipt but can't detect physical attendance; car-breakdown-at-5:50am scenario shows what the gap looks like and why physical check-in (timeclock or geofenced app) is the only real close",
+        "Added 'When Coverage Goes Uncovered' section \u2014 fills the gap between 'no one volunteers' and 'schedule is finalized'; concrete escalation path showing OpenClaw presenting explicit options (owner covers, delay opening, reduced service, close) when all fallback layers fail, plus a last-minute 5:45am car-trouble scenario showing OpenClaw compensating by finding afternoon cover so Tom doesn't get stuck solo all day",
+        "Added Unsplash HR compliance clipboard image (photo-1450101499163-c8848c66ca85) before Audit Trail section \u2014 visual anchor for the compliance/documentation content which previously had no image",
+        "Expanded 'Signs You May Be Outgrowing It' from 3 vague bullets to 4 concrete triggers: manager exception time >30min/day, employees bypassing bot, exception count exceeding rule count in config, availability message volume overwhelming triage capacity \u2014 each paired with a clear escalation point and explicit mention of CSV export as clean handoff to dedicated rostering tools",
+        "Added no-show detection limitation \u2014 OpenClaw confirms schedule receipt but can't detect physical attendance; car-breakdown-at-5:50am scenario shows what the gap looks like and why physical check-in (timeclock or geofenced app) is the only real close",
         "Added 'last-minute-callout', 'audit-trail', and 'compliance-documentation' tags to frontmatter"
       ]
     },
@@ -45,8 +54,8 @@
       "date": "2026-07-18",
       "postSlug": "03-development-assistant",
       "changes": [
-        "Added 'Codebase Architecture and Dependencies' section covering dependency analysis (import frequency mapping), circular dependency detection, framework pattern recognition, coupling analysis with refactoring proposals, and dead code identification — fills the post's gap in system-level codebase reasoning beyond individual file edits",
-        "Added 'Reading Code at Scale' subsection covering file inventory with purpose summaries, end-to-end feature tracing, dead code detection, and public API surface mapping — practical onboarding and orientation workflow for unfamiliar codebases",
+        "Added 'Codebase Architecture and Dependencies' section covering dependency analysis (import frequency mapping), circular dependency detection, framework pattern recognition, coupling analysis with refactoring proposals, and dead code identification \u2014 fills the post's gap in system-level codebase reasoning beyond individual file edits",
+        "Added 'Reading Code at Scale' subsection covering file inventory with purpose summaries, end-to-end feature tracing, dead code detection, and public API surface mapping \u2014 practical onboarding and orientation workflow for unfamiliar codebases",
         "Added 'Troubleshooting Common Development Assistant Issues' section with 8 concrete failure modes: filesystem sandbox disconnect, silent webhook failures (DNS/firewall/token mismatch diagnosis), context window overflow on large PRs (chunked review workaround), git auth mid-session expiry, rate limit hits during multi-repo ops (built-in delay pattern), CI/local environment mismatches, proposed fixes that miss root cause, large refactor context overflow (one-module-at-a-time commit pattern), and file encoding issues with `file --mime-encoding` fix",
         "Added Unsplash architecture/dependency visualization image (photo-1558494949-ef010cbdcc31) before Codebase Architecture section",
         "Added architecture-review, codebase-navigation, troubleshooting, dependency-analysis, circular-dependencies, dead-code, coupling-analysis, and incident-response tags to frontmatter"
@@ -56,9 +65,9 @@
       "date": "2026-07-17",
       "postSlug": "02-research-pipeline",
       "changes": [
-        "Added Unsplash iterative research image (photo-1456324504439-367cee3b3c32) before Iterative Research section — anchors the research loop concept visually and breaks up the text-heavy flow between When It Breaks and Output Quality sections",
-        "Added 'Research Delivery Formats in Practice' section — three-way concrete example showing the same Figma vs. Penpot finding delivered as Telegram brief (60-sec action format), email memo (stakeholder-forward format), and structured doc (decision-record format with criteria table and sources) — makes delivery format implications tangible instead of abstract",
-        "Added 'Scheduled Research: A Complete End-to-End Example' section — full competitive monitoring setup walkthrough: research brief template, complete cron JSON for Monday 8 AM competitor watch (Linear/Plane/Height/Craft), what the isolated agent does (search, synthesize, file-then-deliver pattern), and actual output file format showing per-competitor structured findings + weekly significance summary; includes failure mode notes on cron misfires and blind spot drift",
+        "Added Unsplash iterative research image (photo-1456324504439-367cee3b3c32) before Iterative Research section \u2014 anchors the research loop concept visually and breaks up the text-heavy flow between When It Breaks and Output Quality sections",
+        "Added 'Research Delivery Formats in Practice' section \u2014 three-way concrete example showing the same Figma vs. Penpot finding delivered as Telegram brief (60-sec action format), email memo (stakeholder-forward format), and structured doc (decision-record format with criteria table and sources) \u2014 makes delivery format implications tangible instead of abstract",
+        "Added 'Scheduled Research: A Complete End-to-End Example' section \u2014 full competitive monitoring setup walkthrough: research brief template, complete cron JSON for Monday 8 AM competitor watch (Linear/Plane/Height/Craft), what the isolated agent does (search, synthesize, file-then-deliver pattern), and actual output file format showing per-competitor structured findings + weekly significance summary; includes failure mode notes on cron misfires and blind spot drift",
         "Added delivery-formats, scheduled-research, competitive-monitoring, output-formats, research-templates tags to frontmatter"
       ]
     },
