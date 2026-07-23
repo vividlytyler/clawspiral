@@ -11,7 +11,7 @@
     "03-development-assistant": "2026-07-18",
     "05-system-administration": "2026-07-20",
     "06-employee-scheduling": "2026-07-19",
-    "07-invoice-processing": "2026-07-06",
+    "07-invoice-processing": "2026-07-22",
     "08-creative-brainstorming": "2026-07-21",
     "09-experimental-edge-cases": "2026-07-08",
     "10-financial-pulse": "2026-07-15",
@@ -23,6 +23,16 @@
     "thoughts/index": "2026-07-02"
   },
   "improvementHistory": [
+    {
+      "date": "2026-07-22",
+      "postSlug": "07-invoice-processing",
+      "changes": [
+        "Added Security & Privacy section covering file permissions (chmod 700/600), vendor details in session context risks, email forwarding surface area, OAuth credential handling, and a practical setup tier (solo vs business)",
+        "Added Unsplash invoice/sending workflow image (photo-1600880292203-757bb62b4baf) before A Real Follow-Up Sequence section — fills the AR flow's visual gap; AP had intake and verification images but generating and sending invoices had none",
+        "Added Quarterly Review section covering AR aging report, AP variance by category, vendor list audit (ledger vs known-vendors.json), recurring bill variance check, and a sample cron JSON config firing every 13 weeks on Monday 9am Pacific",
+        "Added 'security', 'privacy', and 'quarterly-review' tags to frontmatter"
+      ]
+    },
     {
       "date": "2026-07-22",
       "page": "index.astro",
