@@ -4,7 +4,7 @@ description: "How OpenClaw can handle accounts payable and receivable — receiv
 pubDate: 2026-03-26
 category: business-finance
 difficulty: intermediate
-tags: ["invoicing", "accounting", "ocr", "ap", "ar", "automation", "email", "tesseract", "smtp", "reconciliation", "exceptions", "year-end", "tax-prep", "cash-flow", "vendor-onboarding", "ledger-structure", "bank-reconciliation", "cash-flow-forecasting", "payment-terms", "multi-currency", "fx-variance", "foreign-currency", "ledger-workflow", "partial-payments"]
+tags: ["invoicing", "accounting", "ocr", "ap", "ar", "automation", "email", "tesseract", "smtp", "reconciliation", "exceptions", "year-end", "tax-prep", "cash-flow", "vendor-onboarding", "ledger-structure", "bank-reconciliation", "cash-flow-forecasting", "payment-terms", "multi-currency", "fx-variance", "foreign-currency", "ledger-workflow", "partial-payments", "security", "privacy", "quarterly-review"]
 featured: false
 image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1200&auto=format&fit=crop"
 ---
@@ -348,6 +348,8 @@ OpenClaw generates the invoice, outputs it as a PDF, and:
 - **Drops it in `invoices/outbound/`** for manual review before sending
 - **Creates a tracking entry** immediately so nothing falls through the cracks
 
+![Sending invoices workflow](https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=1200&auto=format&fit=crop)
+
 ### A Real Follow-Up Sequence
 
 Chasing late payments is uncomfortable. OpenClaw handles it politely and automatically:
@@ -540,6 +542,28 @@ For payment plans (e.g., Net-60 split into two equal payments), OpenClaw can aut
 - **SMTP access** for sending invoices (for AR)
 - **Telegram or email channel** for approval routing and payment reminders
 
+## Security & Privacy
+
+Invoice data is sensitive. Here's what to think about before setting this up.
+
+**What passes through OpenClaw:** Invoice emails (sender, subject, body, attachment content), extracted fields (vendor, amount, line items), and ledger entries. A Telegram approval message for a $4,210 invoice from Meridian Glass Works passes the vendor name and amount through OpenClaw's session context to reach your phone.
+
+**File permissions:** The `~/invoices/` directory and ledger file should be readable only by your OpenClaw user and yourself. A world-readable ledger defeats the purpose:
+
+```bash
+chmod 700 ~/invoices
+chmod 600 ~/invoices/ledger.csv
+chmod 600 ~/invoices/ar-tracking.json
+```
+
+**Vendor details in memory:** If OpenClaw references vendor payment terms or bank details in conversation context (e.g., "remind me of Meridian's wire instructions"), those details are in session context. Don't discuss sensitive vendor banking info in unrelated Telegram threads — keep financial context in the invoice session only.
+
+**Email forwarding surface area:** Routing invoices from personal vendor email to a shared processing address means any subject-line PII in the original email passes through too. If you're the sole operator, this is fine. If you're processing invoices for a business where vendors email multiple people, consider a dedicated alias rather than personal inbox forwarding.
+
+**APIs and OAuth:** If you connect OpenClaw to QuickBooks or Xero via OAuth, the integration credentials are stored in your OpenClaw config. Treat that config file with the same sensitivity as a password manager entry — it's the keys to your accounting software.
+
+**The practical setup:** For a solo freelancer, the file-permission hardening above is sufficient. For a business with multiple people handling finances, separate the OpenClaw processing account (which has ledger write access) from the human approver (who just receives Telegram messages) — don't give the automation account admin access to the accounting software.
+
 ## Limitations
 
 - Complex multi-page invoices with dense tables are hard to parse reliably — test your specific vendors
@@ -646,6 +670,61 @@ The FX variance is real — your bank charged more than the rate you used when t
 OpenClaw uses the billing currency to flag the invoice as foreign-currency at intake. On the approval Telegram message, it shows both the original amount and the CAD equivalent so you know what you're actually approving. The exchange rate field gets logged for year-end reconciliation.
 
 For amounts that matter (large invoices, significant FX exposure), update the rate manually before payment using a recent bank rate rather than relying on the intake day's rate.
+
+## Quarterly Review: A Mid-Year Check
+
+Year-end gets the most attention, but a quarterly review catches problems before they compound. Four times a year — January, April, July, October — run through this checklist before the numbers get stale.
+
+**Run the AR aging report:**
+
+```
+OpenClaw query: "Show all AR invoices with status and days since due date"
+```
+
+Anything 60+ days overdue at quarter-end needs a decision: chase harder, convert to a payment plan, or write off as bad debt. The longer it sits, the less likely it is to get paid. A quarterly forcing function means you're not discovering a 120-day overdue invoice in April that should have been escalated in January.
+
+**Review AP for unbudgeted variance:**
+
+```
+"Show all AP paid this quarter by category with totals vs last quarter"
+```
+
+If hosting costs jumped 40% but you didn't add any new services, something's off — either a vendor raised prices without notice, or an unexpected renewal hit. Catching it at 90 days means you can renegotiate or switch vendors before the annual renewal locks you in.
+
+**Audit the vendor list:**
+
+```
+"Which vendors in the ledger have no entry in known-vendors.json?"
+```
+
+Unrecognized vendors are new-vendor-flagged on intake, but if you approved and paid one without adding them to the config, they float in limbo. A quarterly sweep catches these and forces the onboarding discipline.
+
+**Confirm recurring bills are still accurate:**
+
+```
+"List all recurring bill entries — flag any amount that differs from last quarter's entry for the same vendor"
+```
+
+Vendor: Linode
+  Last quarter: $120.00
+  This quarter: $127.41 ← rate adjustment, not an error
+
+Rate adjustments are normal. Unexpected jumps are a reason to investigate.
+
+**Sample quarterly cron config** — fire every 13 weeks on a Monday morning:
+
+```json
+{
+  "name": "quarterly-invoice-review",
+  "schedule": { "kind": "cron", "expr": "0 9 * * 1", "tz": "America/Vancouver" },
+  "payload": {
+    "kind": "agentTurn",
+    "message": "Run a quarterly invoice review:\n1. AR aging — show all overdue invoices with days outstanding\n2. AP by category this quarter vs last quarter\n3. Unrecognized vendors (in ledger but not in known-vendors.json)\n4. Recurring bill variance — flag any amount >5% different from prior quarter\nPost summary to Telegram."
+  }
+}
+```
+
+The quarterly review keeps the system honest and gives you a regular touchpoint to clean up vendor rules, adjust approval thresholds, and catch the slow drift that kills a system's usefulness over time.
 
 ## Year-End Close-Out
 
