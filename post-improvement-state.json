@@ -16,13 +16,23 @@
     "09-experimental-edge-cases": "2026-07-08",
     "10-financial-pulse": "2026-07-15",
     "11-daily-macro-logger": "2026-07-16",
-    "12-travel-planner": "2026-07-03",
+    "12-travel-planner": "2026-07-23",
     "13-language-learning-coach": "2026-07-09",
     "14-personal-knowledge-management": "2026-07-12",
     "news/index": "2026-06-30",
     "thoughts/index": "2026-07-02"
   },
   "improvementHistory": [
+    {
+      "date": "2026-07-23",
+      "postSlug": "12-travel-planner",
+      "changes": [
+        "Added 'Jet Lag and Recovery Day Management' section — covers the recovery day principle (deliberately low Day 1 bar), concrete Vancouver→Lisbon arrival itinerary example showing metro route, light orientation activity, early dinner timing, and 10:30pm sleep target; explains why over-scheduling Day 1 compounds disorientation into Day 2",
+        "Added time zone drift management subsection for 3+ week multi-timezone trips — covers full adjustment timeline (~1 day per timezone), 80% functionality threshold at 2-3 days with light exposure and meal timing anchors, and a specific 'light exposure schedule' reminder pattern (bright light 10am-1pm local, no coffee after 2pm, eat at local times)",
+        "Added Unsplash plane window/sunrise image (photo-1524413840807-0c3cb6fa808d) before jet lag section intro — anchors the new section visually and reinforces the long-haul flight context",
+        "Added jet-lag-recovery, light-exposure, circadian-rhythm, and arrival-day tags to frontmatter"
+      ]
+    },
     {
       "date": "2026-07-22",
       "postSlug": "07-invoice-processing",

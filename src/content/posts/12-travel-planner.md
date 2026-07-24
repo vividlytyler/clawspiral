@@ -3,7 +3,7 @@ title: "Travel Planning: From Research to Itinerary"
 description: "How OpenClaw can handle the full travel planning stack — researching destinations, comparing flights and hotels, building day-by-day itineraries, and delivering everything to your phone."
 pubDate: 2026-03-28
 category: lifestyle-wellness
-tags: ["travel", "planning", "itinerary", "flights", "hotels", "research", "cron", "telegram", "price-alerts", "email-parsing", "destination-research", "itinerary-building", "visa", "documents", "contingency", "real-time-support", "packing-list", "budget-planning", "itinerary-example", "in-transit", "common-mistakes", "currency", "payments", "travel-insurance", "jet-lag", "recovery-days"]
+tags: ["travel", "planning", "itinerary", "flights", "hotels", "research", "cron", "telegram", "price-alerts", "email-parsing", "destination-research", "itinerary-building", "visa", "documents", "contingency", "real-time-support", "packing-list", "budget-planning", "itinerary-example", "in-transit", "common-mistakes", "currency", "payments", "travel-insurance", "jet-lag", "recovery-days", "jet-lag-recovery", "light-exposure", "circadian-rhythm", "arrival-day"]
 image: "https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1200&auto=format&fit=crop"
 ---
 
@@ -409,6 +409,58 @@ The most useful thing on your phone at the airport isn't a screenshot of your ho
 
 **Mistake 6: Assuming the plan is done when the bookings are done.**
 The confirmation email is not the plan. The plan is the context around the confirmation — what to do if the flight is delayed, which backup restaurant is open on the day your reservation falls through, what your hotel's late-check-in procedure actually is. The contingency folder isn't paranoia — it's the difference between a problem and a crisis.
+
+---
+
+## Jet Lag and Recovery Day Management
+
+![Plane window with clouds and sunrise — quiet moment before arrival](https://images.unsplash.com/photo-1524413840807-0c3cb6fa808d?w=1200&auto=format&fit=crop)
+
+Jet lag is the most underestimated variable in travel planning. A 12-hour timezone shift doesn't just make you tired — it degrades decision-making, ruins appetite calibration, and turns a well-researched itinerary into a confusing gauntlet of half-understood signage and wrong-turn restaurants. OpenClaw can build the recovery architecture around it.
+
+**The recovery day principle:** Don't schedule anything non-negotiable on Day 1. The goal is to arrive, get oriented, and be functional for Day 2 — not to "maximize" the first day. OpenClaw flags any itinerary that puts a high-density activity day on the same day as a long-haul arrival.
+
+Send:
+> "I'm flying from Vancouver to Lisbon, arriving 2pm local time. My hotel is in Alfama. I want one relaxed activity and one good meal. What does Day 1 look like?"
+
+OpenClaw produces:
+
+```markdown
+## Day 1 — Arrival (Lisbon)
+**Goal:** Light orientation, no decisions required
+
+### Arrival (2:00pm local)
+- metro to Baixa-Chiado (~45min, €1.85 via Viva Viagem card)
+- check-in, leave bag, sit in a café for 30min before doing anything active
+- warning: don't order a coffee after 4pm (you'll be up at 2am)
+
+### Light activity (~4:00pm)
+- **Option A:** Walk from Baixa to Alfama via Elevador de Santa Justa (€5.85) — downhill direction, easy
+- **Option B:** Time Out Market (Mercado da Ribeira) — cover multiple food bases, can eat whenever hunger hits
+- Avoid: Sao Jorge Castle, Jerónimos Monastery, any museum requiring sustained attention
+
+### Dinner (~7:30pm)
+- Table service restaurants don't start real dinner until 8pm in Lisbon
+- Reserved at Taberna da Rua das Flores (casual, English menu, good for first-night calibration)
+- No reservation elsewhere — keep it simple
+
+### By 10pm
+- Target sleep by 10:30pm local (you'll be wrecked, this will happen naturally)
+- Set alarm for 7:30am — not earlier, not later
+```
+
+The recovery day is a deliberate low bar. OpenClaw builds it that way because the cost of an over-scheduled Day 1 isn't just fatigue — it's compounding disorientation that bleeds into Day 2.
+
+**Time zone drift management for long trips.** If you're gone 3+ weeks and crossing multiple time zones repeatedly (say, a Europe trip with a London stop before Paris), OpenClaw can track your sleep debt and suggest when to stop fighting jet lag vs. when to just accept the new local time. The rule of thumb: it takes roughly one day per time zone to fully adjust, but you can function at about 80% effectiveness after 2-3 days if you manage light exposure and meal timing deliberately.
+
+OpenClaw can set up a "light exposure schedule" in your trip reminders:
+- "Seek bright light 10am–1pm local for first 3 days"
+- "Avoid coffee after 2pm local time"
+- "Eat meals at local times even if not hungry"
+
+These aren't dramatic interventions — they're behavioral anchors that shift your circadian rhythm by about 30 minutes per day on top of what the flight schedule already does.
+
+**Travel insurance research** is also here — see below.
 
 ---
 
