@@ -215,6 +215,28 @@ a:hover {
   animation: cta-glow 3s ease-in-out infinite;
 }
 
+/* Custom scrollbar — matches dark slate + sky-400 theme */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #0f172a;
+}
+::-webkit-scrollbar-thumb {
+  background: #1e3a5f;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #2563eb;
+}
+
+/* Text selection — sky accent */
+::selection {
+  background: rgba(56, 189, 248, 0.25);
+  color: #e2e8f0;
+}
+
 /* Hero mesh gradient — layered blurred orbs for depth with ambient animation */
 @keyframes mesh-drift {
   0%, 100% { opacity: 1; transform: translate(0, 0) scale(1); }
