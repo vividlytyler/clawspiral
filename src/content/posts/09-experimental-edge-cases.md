@@ -3,7 +3,7 @@ title: "Experimental: Pushing OpenClaw to Its Limits"
 description: "What happens when you try to use OpenClaw for things it wasn't designed for? A documented series of experiments — successes, failures, and everything in between."
 pubDate: 2026-03-27
 category: development
-tags: ["experimental", "edge-cases", "limitations", "failures", "exploration", "methodology", "sub-agents", "state-management", "experiment-design", "boundaries", "experiment-design-criteria", "decision-flowchart", "tool-chain-fidelity", "results-log", "pattern-analysis", "checkpoint", "troubleshooting", "context-recovery", "quick-reference", "experiment-summary", "confidence-calibration", "failure-modes"]
+tags: ["experimental", "edge-cases", "limitations", "failures", "exploration", "methodology", "sub-agents", "state-management", "experiment-design", "boundaries", "experiment-design-criteria", "decision-flowchart", "tool-chain-fidelity", "results-log", "pattern-analysis", "checkpoint", "troubleshooting", "context-recovery", "quick-reference", "experiment-summary", "confidence-calibration", "failure-modes", "experiment-iteration", "experiment-versioning", "calibration-check", "composite-workflow"]
 image: "https://images.unsplash.com/photo-1507413245164-6160d8298b31?w=1200&auto=format&fit=crop"
 ---
 
@@ -241,9 +241,47 @@ Not all experiments are the same. Knowing what kind you're running helps you des
 
 **Long-tail experiments** test low-probability, high-impact scenarios — what happens if a sub-agent goes silent mid-run, or the session crashes at step 4 of 6? You can't easily simulate these in advance, but you can build the capture mechanism (logging to files outside the session) and then wait for the real event. The value is in recognizing and capturing the event when it happens, not in predicting it.
 
+**Composite workflow experiments** test whether multiple OpenClaw capabilities can be chained in a single task that exercises different modes — research + drafting + code + scheduling in one session. These tests surface cross-capability interference: a session that's been doing heavy research for 40 minutes may produce worse code than one that started fresh. The mitigation is phase separation: different sessions or spawned sub-agents for each capability, with a parent synthesizer integrating results. If you're building a multi-capability automation, run this experiment type first.
+
+**Calibration check experiments** are meta-experiments that verify session health before a high-stakes run. The hypothesis is simple: "this session is in a state where it will produce reliable output." Run a known 2-3 step tool chain with a pass condition you can verify, and observe output quality, truncation behavior, and confidence calibration. If the calibration check fails, start a fresh isolated session. These aren't glamorous, but they're the difference between trusting a critical experiment's results and discovering mid-analysis that the session was degraded.
+
 Design your experiment before you run it. The worst results come from experiments where the methodology wasn't settled in advance.
 
 ![Scientific experimentation and hypothesis testing](https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=1200&auto=format&fit=crop)
+
+## Meta-Experimentation: Iterating on Your Experiment Design
+
+The experiments above were run once — or a few times — and reported as-is. But if you're running experiments regularly, you'll notice something: your first attempt at an experimental methodology is rarely your best. The design itself improves over multiple runs, and understanding that evolution is worth capturing.
+
+**Why experiments need iteration.** Your initial hypothesis shapes your methodology, but the methodology reveals things the hypothesis didn't anticipate. You run Experiment 1 expecting X, find Y, and realize your measurement approach was too coarse to capture the interesting phenomenon. So you redesign the methodology and run it again. That's not a failed experiment — that's experiment maturation.
+
+**What changes between runs.** Three things typically evolve:
+
+*Scope refinement* — you narrow or broaden what you're testing. "Can OpenClaw handle a 50-step tool chain?" becomes "Can OpenClaw handle a 50-step tool chain where step 30's output feeds step 31, and the chain can be interrupted at any point?" The boundary gets sharper with each run.
+
+*Measurement precision* — your first run might use a binary pass/fail. Your second run adds a confidence scale. Your third run adds a sub-category for the type of failure. Each refinement gives you more signal.
+
+*Verification method* — early experiments often use informal verification ("seems right to me"). Mature experiments have independent verification ("runs the same task through a separate evaluator agent and compares outputs"). The verification method determines how much trust you can put in the verdict.
+
+**Tracking experiment evolution.** Use a version suffix in your results log:
+
+```
+| 2026-05-01 | Tool Chain v1 | 6-step chain, linear | ⚠️ Partial | Assumption drift at step 4 |
+| 2026-05-08 | Tool Chain v2 | Checkpoint at step 3 added | ⚠️ Partial | Checkpoint helps but truncation still at step 5+ |
+| 2026-05-15 | Tool Chain v3 | Output piped to file between steps | ✅ Good | File-passing eliminates truncation drift | 
+```
+
+Version tracking turns a series of one-off experiments into a documented improvement arc. You can see not just whether something works, but *how* the methodology got to a working state.
+
+**When to stop iterating.** Three stopping conditions:
+
+1. *Results stabilize* — you run the same experiment three times with the same methodology and get consistent results. The methodology is mature.
+2. *The failure mode is identified* — you know exactly why it fails and what would fix it. The remaining question is implementation, not discovery.
+3. *The cost exceeds the value* — you've learned enough to make the decision you needed. Further refinement won't change the outcome in a way that matters.
+
+The goal of meta-experimentation is to get to a methodology you can trust, not to prove a specific result. When the Quick Reference Card entry for your experiment has "consistent across ≥3 runs" in the Key Finding column, you're there.
+
+![Creative workspace and thinking space](https://images.unsplash.com/photo-1536924430914-91f9e2041b83?w=1200&auto=format&fit=crop)
 
 ## When NOT to Run Experiments
 
@@ -308,6 +346,25 @@ Running experiments against OpenClaw doesn't require much beyond standard toolin
 - **Sub-agent access** — for the multi-agent experiment; `sessions_spawn` must be available
 - **A way to track results** — a simple markdown log or JSON file to record outcomes across runs
 - **Patience** — you'll run experiments multiple times to confirm results; single runs can be misleading
+- **Experiment versioning discipline** — track each run with a version suffix; methodology evolves and you need to know which version a finding came from
+- **Calibration check habit** — before a high-stakes experiment, run a quick sanity check (a 2-step tool chain or a known experiment type) to confirm the session is healthy; sessions that are near context limit or have been running long sessions degrade in ways that aren't always obvious
+
+**Calibration check pattern — run before critical experiments:**
+
+```json
+{
+  "name": "pre-experiment calibration",
+  "description": "Quick sanity check: 3-step verified chain + confidence output",
+  "steps": [
+    { "action": "write", "file": "/tmp/calibration-test.txt", "content": "test data" },
+    { "action": "read", "file": "/tmp/calibration-test.txt" },
+    { "action": "exec", "command": "cat /tmp/calibration-test.txt" }
+  ],
+  "pass_condition": "All three outputs match 'test data' with no truncation or assertion drift"
+}
+```
+
+If the calibration check fails, start a fresh isolated session rather than running the experiment in a degraded context. A $0.01 calibration check saves a $5 failed experiment.
 
 That's it. No special integrations, no external services. You're testing the system itself, so the setup is minimal.
 
@@ -341,6 +398,8 @@ Document your methodology alongside your findings. Future-you will want to know 
 | 4 | Emotional Calibration | Obvious emotional signals | Subtle emotional subtext, high-stakes responses | Err on matching register rather than labeling it |
 | 5 | Tool Chain Fidelity | 2-3 step verified chains | Chains >3 steps without checkpoints | Truncation and assumption drift accumulate; verify every step |
 | 6 | Context Recovery | Long sessions, checkpoint-based workflows | Partial state files with unstated gaps | State files must explicitly list unknowns — silence becomes hallucination |
+| 7 | Composite Workflow | Multi-capability tasks with distinct phases | Tasks where phase boundaries blur | Separate session/agent per phase reduces context contamination |
+| 8 | Calibration Check | Validating session health before critical runs | Normal operational runs | Output quality, truncation behavior, and confidence calibration as health signals |
 
 Bookmark this table. When you're about to delegate a task to OpenClaw, run the "Avoid When" column through mentally first. It's faster than running the experiment.
 
