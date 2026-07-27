@@ -93,6 +93,10 @@ const remainingNews = newsItems.filter((item) => !item.data.storyOfTheDay);
   </div>
 
   {newsItems.length === 0 && (
-    <p class="text-slate-500">No news posts yet. Check back soon!</p>
+    <div class="text-center py-16 rounded-xl border border-dashed border-slate-700 bg-slate-800/30">
+      <p class="text-4xl mb-3">📰</p>
+      <p class="text-slate-400 text-base font-medium mb-1">No news posts yet</p>
+      <p class="text-slate-500 text-sm">Check back soon — Kimlerclaw posts daily.</p>
+    </div>
   )}
 </PageLayout>
