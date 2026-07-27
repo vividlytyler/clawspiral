@@ -3,7 +3,7 @@ title: "Your Personal Language Learning Coach with OpenClaw"
 description: "Vocabulary drills, grammar explanations, conversation practice, and spaced repetition reminders — all automated and personalized to your level, running quietly in the background of your day."
 pubDate: 2026-03-27
 category: lifestyle-wellness
-tags: ["language-learning", "flashcards", "grammar", "spaced-repetition", "tutoring", "vocabulary-tracking", "conversation-practice", "role-play", "pronunciation", "intermediate-plateau", "daily-habit", "telegram", "srs", "immersion", "podcasts", "shadowing", "speaking-practice", "srs-algorithm", "weekly-planner", "practice-framework", "productive-vocabulary", "telegram-interface"]
+tags: ["language-learning", "flashcards", "grammar", "spaced-repetition", "tutoring", "vocabulary-tracking", "conversation-practice", "role-play", "pronunciation", "intermediate-plateau", "daily-habit", "telegram", "srs", "immersion", "podcasts", "shadowing", "speaking-practice", "srs-algorithm", "weekly-planner", "practice-framework", "productive-vocabulary", "telegram-interface", "multi-language-learning", "cross-language-confusion", "language-switch-drill", "separate-vocab-files", "language-prioritization"]
 image: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=1200&auto=format&fit=crop"
 ---
 
@@ -313,6 +313,67 @@ A wrong answer doesn't erase progress entirely — it drops back to the last suc
 > "I'm confusing 'hacer' and 'hacerce' — add a note to the hacer entry: '注意: transitive vs pronominal.'"
 
 ![Study planning and spaced repetition calendar](https://images.unsplash.com/photo-1488190211105-8b0e65b80b4e?w=1200&auto=format&fit=crop)
+
+## Managing Multiple Languages at Once
+
+Many serious learners aren't studying just one language — they're maintaining Japanese from a trip last year while picking up Spanish for an upcoming move, while maybe dabbling in French on the side. OpenClaw handles this, but you need to set it up intentionally.
+
+**The core rule: separate vocabulary files per language.** Each language gets its own `vocabulary-ja.md`, `vocabulary-es.md`, and so on. This isn't just organizational — it matters for the SRS algorithm. If you mix Japanese and Spanish into one file, OpenClaw will surface the wrong language's words at the wrong time, and cross-language confusion gets worse instead of better.
+
+OpenClaw tracks which file belongs to which language in memory:
+
+> "I'm adding Spanish now alongside my Japanese practice. I want separate vocab files. Set up `vocabulary-es.md` with a Spanish header, and add 'Spanish — Beginner (A1)' to my Japanese file's header so you know I'm at different levels."
+
+**Scheduling by priority:** You don't review all languages every day. A practical split:
+
+```json
+{
+  "name": "japanese-daily-review",
+  "schedule": { "kind": "cron", "expr": "0 8 * * *", "tz": "America/Vancouver" },
+  "payload": {
+    "kind": "agentTurn",
+    "message": "Send the daily Japanese vocabulary review. Pull from vocabulary-ja.md — surface the 5 words with the lowest correct/seen ratio that are due today.",
+    "timeoutSeconds": 60
+  },
+  "delivery": { "mode": "announce", "channel": "telegram" },
+  "sessionTarget": "isolated"
+}
+```
+
+```json
+{
+  "name": "spanish-weekly-review",
+  "schedule": { "kind": "cron", "expr": "0 9 * * 1,3,5", "tz": "America/Vancouver" },
+  "payload": {
+    "kind": "agentTurn",
+    "message": "Send the Spanish vocabulary review. Pull from vocabulary-es.md — surface the 5 words with the lowest correct/seen ratio that are due. If fewer than 3 are due, pull in 'risky' words not seen in more than interval×2 days.",
+    "timeoutSeconds": 60
+  },
+  "delivery": { "mode": "announce", "channel": "telegram" },
+  "sessionTarget": "isolated"
+}
+```
+
+Japanese daily, Spanish three times a week, French once a week if you're just maintaining. The crons are independent — OpenClaw manages each language's SRS schedule separately.
+
+**Cross-language confusion is real and systematic.** The most common failure: your Japanese and Spanish vocab start interfering with each other. You write a Japanese sentence but accidentally conjugate a Spanish verb form, or you use Japanese pitch accent patterns on Spanish words. OpenClaw catches this:
+
+> **You:** "I said 'terminé' but meant I finished reading — why did that sound wrong?"
+
+> **OpenClaw:** "Terminé' is correct for Spanish — preterite tense, first person singular. But I notice you may be confusing it with Japanese verb endings. In Japanese, verbs inflect completely differently. Were you thinking of '終わった' (owatta)? That's the Japanese verb for 'finished' or 'ended.' The Spanish 'terminé' sounds wrong in your head because you're mixing two different grammatical systems. That's a good sign, actually — it means both languages are active in your brain. Next time you catch that confusion, flag it: I can add a note to the Spanish 'terminé' entry: 'don't confuse with Japanese verb conjugation patterns.'"
+
+> **You:** "Also I keep accidentally using Spanish word order in Japanese. Is there a way to practice separating them?"
+
+> **OpenClaw:** Yes — try the "language switch" drill. I'll give you a sentence in one language, you translate it into the other, then back. If you can go Japanese → Spanish → Japanese without carrying over structure, the languages are properly separate. Here's the first one:
+>
+> Japanese: "私は毎朝コーヒーを飲みます"
+> Translate to Spanish, then back to Japanese. Don't translate the Spanish back literally — translate the *meaning*, then render it naturally in Japanese. Tell me what you get.
+
+This is also why you want separate vocabulary files. When OpenClaw pulls a review set, it pulls one language at a time, forcing your brain to context-switch cleanly rather than running both languages in parallel.
+
+**Language-learning fatigue** hits differently when you're maintaining multiple languages. If you find yourself skipping reviews across the board, that's a signal to consolidate rather than abandon. Drop the lowest-priority language to maintenance mode (once a week instead of three times) rather than trying to sustain everything at full intensity and burning out.
+
+![Language learning materials for multiple languages on a desk](/media/tool-image-generation/language-books-stack---d22edb55-02dc-420e-b141-ff6c61fc4c17.png)
 
 ## What You Need to Set It Up
 

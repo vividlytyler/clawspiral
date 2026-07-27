@@ -17,12 +17,21 @@
     "10-financial-pulse": "2026-07-15",
     "11-daily-macro-logger": "2026-07-16",
     "12-travel-planner": "2026-07-23",
-    "13-language-learning-coach": "2026-07-09",
+    "13-language-learning-coach": "2026-07-26",
     "14-personal-knowledge-management": "2026-07-12",
     "news/index": "2026-06-30",
     "thoughts/index": "2026-07-02"
   },
   "improvementHistory": [
+    {
+      "date": "2026-07-26",
+      "postSlug": "13-language-learning-coach",
+      "changes": [
+        "Added 'Managing Multiple Languages at Once' section covering separate vocabulary files per language (vocabulary-ja.md, vocabulary-es.md) and why mixing them breaks SRS scheduling, priority-based scheduling pattern with independent Japanese daily and Spanish 3x/week cron examples, cross-language confusion drills including the language-switch translation exercise (Japanese→Spanish→Japanese), and language-learning fatigue guidance for maintaining multiple languages without burning out",
+        "Added multi-language learning books/flat-lay image before the new section using locally generated image",
+        "Added multi-language-learning, cross-language-confusion, language-switch-drill, separate-vocab-files, and language-prioritization tags to frontmatter"
+      ]
+    },
     {
       "date": "2026-07-25",
       "postSlug": "09-experimental-edge-cases",
