@@ -186,6 +186,22 @@ Every Friday at 6pm, OpenClaw delivers a Telegram digest:
 - **Anomalies** worth reviewing
 - **Upcoming bills** from past history (if you've told it about them)
 
+## Using the Digest: What to Actually Look For
+
+The weekly digest is a lot of information. Here's how to read it efficiently — and what to act on versus let go.
+
+**Start at the anomaly flags.** If there are no ⚠️ items, the digest is informational. Read the top-line totals, note anything that deviates from normal, and move on. A clean digest takes 30 seconds.
+
+**When you see a budget alert mid-month:** The alert fires because you've crossed a threshold, not because you've failed. Read it as data, not judgment. The projected month-end number is the useful signal — if it says you'll be $50 over in Dining, that's actionable (skip one restaurant meal) or ignorable (if it's a known special occasion). The alert exists so you have the option to adjust.
+
+**New subscription flags:** Always follow up. Even if you recognize the service, confirm you want it. The CloudStream trap works precisely because the first charge feels too small to investigate. A $0.99 trial becoming a $14.99 recurring charge is the single most preventable subscription mistake — and the only thing that stops it is a 2-minute cancel.
+
+**Anomaly flags for unusual amounts at known vendors:** These are worth a 10-second mental check, not a full investigation. The Whole Foods $183 charge? Could be holiday stocking up. You don't need to call the bank — you just need to know it was you. If you genuinely don't recognize it, that's when you open the banking app.
+
+**Income detection:** If your digest includes an income deposit you weren't expecting (a refund, a reimbursement, a side payment), flag it in your notes. Unrecognized income that's not a refund is often a sign of someone else's deposit error — and banks can claw back mistakenly credited funds.
+
+**Week-over-week comparisons:** The trend matters more than the absolute number. If you're $100 over budget two weeks in a row, that's a pattern. If you're $100 over budget after a one-off (car repair, birthday dinner), it's noise. The digest gives you both numbers — use the context to decide which it is.
+
 ## Example: The Weekly Digest
 
 ```
@@ -378,6 +394,49 @@ The distinction matters: a Zelle to a friend is a real expense; a transfer to yo
 
 Once you confirm the savings account credit, OpenClaw marks it reconciled and updates the net worth accordingly. Until then, it stays as a pending item — honest about what it knows and doesn't know.
 
+## Multi-Currency and International Transactions
+
+If you shop at international websites, travel occasionally, or have accounts in multiple currencies, you need to account for the fact that `transactions.csv` probably stores everything in one base currency — and OpenClaw doesn't have live exchange rate data unless you explicitly give it a source.
+
+**How it works:** When OpenClaw encounters a transaction with a non-base-currency amount (e.g., a charge in EUR on a USD card), it looks for an explicit `fxRate` field in the CSV. If present, it uses that rate. If not, it falls back to the `defaultFXRate` you've stored in `categories.json` — a static rate you set and update manually. This means you need to set a rate you're comfortable treating as "close enough" for the month, not a precise daily rate.
+
+```json
+{
+  "defaultFXRate": 1.36,
+  "currency": "USD",
+  "fxRatesLastUpdated": "2026-03-01",
+  "merchantCurrencyOverride": {
+    "Amazon UK": { "currency": "GBP", "fxRate": 1.27 },
+    "Zara EU": { "currency": "EUR", "fxRate": 1.09 }
+  }
+}
+```
+
+Update `fxRatesLastUpdated` monthly — or whenever you notice a large FX swing. OpenClaw logs a warning if the stored rate is more than 30 days old:
+
+```
+⚠️ FX rate stale — EUR stored at 1.09 (set Feb 1)
+  Current EUR/USD rate: ~1.09 (stable — no action needed)
+  ⚠️ JPY stored at 148 (set Feb 1)
+  Current USD/JPY rate: ~157 (significant drift — update categories.json)
+```
+
+**Credit cards billed in foreign currency:** Some cards charge you in the local currency automatically (foreign transaction invisible), while others bill you in the currency of purchase and convert at their rate — which is almost always worse than your bank's rate. If you see a charge on your statement that looks unusually large in a foreign locale, check whether you were charged in the local currency or converted by the card network. A $120 EUR charge at a 1.08 rate ($129.60) vs. your bank's 1.09 rate ($130.80) looks like a small difference but compounds over several transactions.
+
+**Travel-day strategy:** Before international travel, note the current exchange rate in `categories.json` under `currency` with a `travelNote` field:
+
+```json
+{
+  "currency": "USD",
+  "travelNote": "Japan trip Apr 15-22 — use 148 JPY/USD",
+  "travelWindow": { "start": "2026-04-15", "end": "2026-04-22" }
+}
+```
+
+OpenClaw won't automatically apply a different rate during the window, but it surfaces the note in the digest so you're aware the rates are approximations. For accurate tracking during heavy travel, export transactions more frequently (every 2-3 days) and apply more current rates retroactively.
+
+**What's not covered:** This approach doesn't handle split-tender transactions (part in one currency, part in another), crypto purchases, or currency conversion fees built into the transaction price. Those show up as anomalous and should be reviewed manually — OpenClaw flags amounts that don't match expected ranges, which is often the first sign of a hidden FX markup.
+
 ![Stock market portfolio dashboard on laptop](https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&auto=format&fit=crop)
 
 **Net Worth Tracking:**
@@ -492,6 +551,8 @@ Add your second account (credit card is usually the highest-value add). Set up t
 **Multi-account complexity is non-linear** — tracking two accounts is roughly twice the work of one. Tracking four accounts across three institutions is closer to six times the work because you now have to manage reconciling transfers between accounts, avoid double-counting movements, and keep separate CSV imports in sync. Start with one account, get it clean, then expand.
 
 **Savings goal tracking requires explicit transfer detection** — if your savings account is at a different institution and transfers don't appear in your primary account's export, OpenClaw can't see the money moving and will report $0 contributions. This is a data gap, not a logic failure. Fix it at the source by either consolidating at one institution or adding the savings account export to the finance directory.
+
+![Budget planning notebook with calculator and coffee](https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1200&auto=format&fit=crop)
 
 ## Why This Works
 
