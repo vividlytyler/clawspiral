@@ -8,6 +8,11 @@ const allPosts = await getCollection('posts', ({ data }) => !data.draft);
 const featuredPosts = allPosts.filter((post) => post.data.featured).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 const posts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
+const categoryCounts = allPosts.reduce((acc, post) => {
+  acc[post.data.category] = (acc[post.data.category] ?? 0) + 1;
+  return acc;
+}, {} as Record<string, number>);
+
 function getReadingTime(body: string | undefined): number {
   if (!body) return 1;
   return Math.max(1, Math.ceil(body.split(/\s+/).length / 200));
@@ -103,10 +108,18 @@ const searchData = posts.map((post) => ({
   )}
 
   <section class="mb-8">
-    <h2 class="text-xl font-semibold mb-4">Browse by Category</h2>
-    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+    <div class="flex items-center justify-between mb-4">
+      <h2 class="text-xl font-semibold">Browse by Category</h2>
+      <span class="text-xs text-slate-500">{allPosts.length} use cases across {categories.length} categories</span>
+    </div>
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
       {categories.map(({ slug, label, desc }) => {
-        const c = categoryColors[slug] ?? { border: 'border-slate-700', text: 'text-sky-400', hover: 'hover:border-slate-500', gradient: 'from-slate-900/30' };
+        const accentMap = {
+          'emerald': '#10b981', 'violet': '#8b5cf6', 'blue': '#3b82f6',
+          'amber': '#f59e0b', 'teal': '#14b8a6', 'pink': '#ec4899', 'orange': '#f97316',
+        };
+        const colorKey = categoryColors[slug]?.text?.replace('text-', '').replace('-400', '') ?? 'sky';
+        const hexAccent = accentMap[colorKey] ?? '#38bdf8';
         const catImages = {
           'home-automation': 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&h=300&fit=crop',
           'research': 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=300&fit=crop',
@@ -117,23 +130,40 @@ const searchData = posts.map((post) => ({
           'productivity': 'https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=600&h=300&fit=crop',
         };
         const catImage = catImages[slug];
+        const count = categoryCounts[slug] ?? 0;
         return (
           <a
             href={`/use-cases/${slug}`}
-            class={`cat-card-enter group relative overflow-hidden rounded-xl aspect-[2/1] card-lift ${c.border} border`}
+            class="group relative overflow-hidden rounded-xl aspect-[2/1] card-lift border border-transparent hover:border-sky-500/40 transition-all duration-200"
           >
             {catImage && (
               <img
                 src={catImage}
                 alt={label}
-                class="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                class="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
                 loading="lazy"
               />
             )}
-            <div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/30 to-transparent"></div>
+            <div class="absolute inset-0 opacity-80 group-hover:opacity-100 transition-opacity duration-200" style={`background: linear-gradient(to top, rgba(15,23,42,0.90) 0%, rgba(15,23,42,0.40) 50%, transparent 100%), ${hexAccent}22;`}></div>
+            {/* Icon appears on hover, centered */}
+            <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+              <div class="w-12 h-12 rounded-xl bg-slate-900/80 border border-sky-500/40 flex items-center justify-center text-sky-400 backdrop-blur-sm shadow-lg shadow-black/40">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+              </div>
+            </div>
             <div class="absolute inset-0 flex flex-col justify-end p-4">
-              <h3 class={`font-semibold ${c.text} group-hover:translate-x-1 transition-transform text-sm`}>{label}</h3>
-              <p class="text-slate-400 text-xs mt-0.5">{desc}</p>
+              <div class="flex items-center justify-between mb-0.5">
+                <h3 class="font-semibold text-white text-sm group-hover:translate-x-1 group-hover:text-sky-300 transition-all duration-200 leading-tight">{label}</h3>
+                {count > 0 && (
+                  <span
+                    class="text-xs font-semibold px-2 py-0.5 rounded-full leading-none backdrop-blur-sm"
+                    style={`background: ${hexAccent}33; color: ${hexAccent}; border: 1px solid ${hexAccent}44;`}
+                  >
+                    {count}
+                  </span>
+                )}
+              </div>
+              <p class="text-slate-400 text-xs mt-0.5 leading-tight hidden sm:block group-hover:translate-x-1 transition-transform duration-200">{desc}</p>
             </div>
           </a>
         );
