@@ -4,7 +4,7 @@
     "baseLayout": "2026-07-19",
     "index": "2026-07-22",
     "use-cases/index": "2026-07-13",
-    "01-smart-home-orchestration": "2026-07-11",
+    "01-smart-home-orchestration": "2026-07-28",
     "04-personal-secretary": "2026-07-13",
     "use-cases-category-pages": "2026-07-14",
     "02-research-pipeline": "2026-07-17",
@@ -23,6 +23,16 @@
     "thoughts/index": "2026-07-02"
   },
   "improvementHistory": [
+    {
+      "date": "2026-07-28",
+      "postSlug": "01-smart-home-orchestration",
+      "changes": [
+        "Added Environmental Safety Monitoring section covering water leak detection with auto-shutoff valve (sensor→valve→damage estimate→insurance surface pattern with concrete 2:17 AM laundry failure example), smoke and CO alert escalation (compound action: open windows + HVAC off + gas company escalation with 47ppm threshold example), and room-by-room temperature monitoring (wine cooler alert with August 2025 historical context), plus required hardware overview and sub-30-second valve latency spec",
+        "Added Unsplash leak sensor installation image (photo-1585771724684-38269d6639fd) before Troubleshooting section to anchor the new safety content",
+        "Added water-leak-detection, co-detection, smoke-alarm, environmental-monitoring, shutoff-valve, hvac-zones, and temperature-monitoring tags to frontmatter",
+        "Expanded Limitations section with environmental sensor gap item — leak/CO/freezer sensors only help if installed, framing the install-as-first-week vs install-as-upgrade mindset shift"
+      ]
+    },
     {
       "date": "2026-07-26",
       "postSlug": "13-language-learning-coach",
