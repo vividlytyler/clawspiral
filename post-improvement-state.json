@@ -18,7 +18,7 @@
     "11-daily-macro-logger": "2026-07-16",
     "12-travel-planner": "2026-07-23",
     "13-language-learning-coach": "2026-07-26",
-    "14-personal-knowledge-management": "2026-07-12",
+    "14-personal-knowledge-management": "2026-07-29",
     "news/index": "2026-06-30",
     "thoughts/index": "2026-07-02"
   },
@@ -148,6 +148,16 @@
         "Added 'Delegation Decision in Practice' concrete example — 40-page client contract scenario on a Wednesday showing how to apply the 'will I need this in 3 months?' test, the gray-zone decision (delegate setup, not review), and the actual Telegram exchange for task creation + reminder scheduling",
         "Added 'Common Failure Modes' section with 7 concrete failure patterns: stale .ics calendar exports, IMAP app password expiry (with silent failure symptom), Telegram bot token revocation (complete silence), memory staleness (no context for ongoing projects), reminder fatigue from unresolved items, morning brief timing calibration, and cross-calendar conflict detection gaps — each fixable with a specific action",
         "Added 'failure-modes', 'morning-brief', 'pipeline', 'delegation-in-practice' tags to frontmatter"
+      ]
+    },
+    {
+      "date": "2026-07-29",
+      "postSlug": "14-personal-knowledge-management",
+      "changes": [
+        "Added 'Building the Capture Habit' section — 3 concrete entry points (morning capture ping, reflex capture, end-of-task summary), the 2-week rule for detecting dead systems, and guidance on capturing when unsure ('capture first, filter later')",
+        "Added 'Multi-Project Knowledge: Keeping Streams Separate' section — project-prefixed capture files, domain-level topic hubs vs project folders, the project inbox pattern (inbox.md / processed.md), and what to do with project folders when projects end (archive but keep topic links alive)",
+        "Added concrete retrieval output example to Retrieval section — 3-entry PostgreSQL example showing provenance, relevance signal, and cross-reference to topic hub, demonstrating what retrieval actually looks like vs a raw file dump",
+        "Added capture-habit, multi-project, retrieval, and topic-hubs tags to frontmatter"
       ]
     },
     {

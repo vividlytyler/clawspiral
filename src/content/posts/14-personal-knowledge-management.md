@@ -3,7 +3,7 @@ title: "Personal Knowledge Management: Build a Second Brain"
 description: "Capture ideas, organize notes, and retrieve what you've learned — all through chat. OpenClaw becomes your always-on knowledge manager, reading your files and surfacing what matters."
 pubDate: 2026-03-30
 category: lifestyle-wellness
-tags: [knowledge-management, notes, productivity, memory, telegram, weekly-review, zettelkasten, knowledge-decay, failure-modes, note-organization]
+tags: [knowledge-management, notes, productivity, memory, telegram, weekly-review, zettelkasten, knowledge-decay, failure-modes, note-organization, capture-habit, multi-project, retrieval, topic-hubs]
 image: "https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=1200&auto=format&fit=crop"
 ---
 
@@ -97,6 +97,22 @@ This is where it gets useful. Ask questions like:
 
 OpenClaw searches your knowledge files and returns what it finds, with context about when and where it came from.
 
+**What retrieval actually looks like:**
+
+> You: "What do I have on PostgreSQL indexing?"
+>
+> OpenClaw: "Found 3 relevant entries:
+>
+> 1. **postgres-indexing.md** (references/) — 'B-tree indexes are the default; hash indexes work for equality checks only. Cluster on access patterns, not intuition.' Source: System Design book notes, 2026-03-15
+>
+> 2. **2026-04-02.md** (knowledge/) — 'Query planner misbehaving on a 50M row table. Index on (user_id, created_at) reduced query time from 4s to 80ms. Should have done this 3 months ago.'
+>
+> 3. **distributed-systems.md** (topics/) — linked entry: 'Postgres row-level locking vs. document store write throughput — relevant to the sharding decision'
+>
+> Want me to pull the full files, or search for anything more specific?"
+
+The retrieval answer isn't just a file dump — it includes provenance (where and when), a signal about relevance (the 50M row example is more specific than the textbook definition), and a cross-reference to a related topic hub. That's the difference between "search" and "I actually found what I was looking for."
+
 ### The Weekly Review: How It Actually Works
 
 A weekly review is where the system earns its keep. Here's what OpenClaw actually does during a weekly session:
@@ -136,6 +152,36 @@ When you ask OpenClaw to research something, the results don't vanish into a cha
   "sessionTarget": "isolated"
 }
 ```
+
+## Building the Capture Habit
+
+The hardest part isn't organizing — it's starting. Here's what actually works:
+
+**Three entry points, pick what fits your day:**
+
+1. **Morning capture** — OpenClaw pings you at 8am with "Anything worth remembering from yesterday?" Forces a 2-minute review of what you did, what failed, what you learned. This is where the habit starts for most people.
+2. **Reflex capture** — whenever you think "I should remember this," message OpenClaw instead. Don't edit, don't format. Just dump it. The friction is the enemy; perfection is the trap.
+3. **End-of-task capture** — after any significant work session (code review, client meeting, research session), ask OpenClaw to summarize what happened. It reads your files and produces a summary note you can file directly.
+
+**The 2-week rule:** If you haven't captured anything in 2 weeks, the system is dead. The fix isn't more discipline — it's lowering the bar. One line a day is enough. The goal is a streak, not depth.
+
+**What to capture when you're not sure:**
+
+> "This random detail might matter someday."
+
+That's a valid capture. You don't need a use case yet. OpenClaw tags it, files it, and it sits until a future query makes it relevant. The gravestone for a second brain is "I wasn't sure if it was worth saving." Capture first, filter later.
+
+## Multi-Project Knowledge: Keeping Streams Separate
+
+When you're running multiple projects simultaneously, knowledge files can bleed into each other. Here's how to keep streams clean:
+
+**Project-prefixed capture files** — when you start a new project, create a dedicated capture file: `projects/my-project/captures.md`. OpenClaw routes project-specific captures there automatically when you include the project name in your message ("save this to the API redesign project").
+
+**Domain-level topics** — cross-project concepts (distributed systems, API design, performance optimization) belong in topic hubs, not individual project folders. The distributed-systems hub gets an entry whether it came from the payments project or the storage project. Topic hubs are shared infrastructure.
+
+**The project inbox pattern** — each project has a `inbox.md` for raw captures and a `processed.md` for vetted entries. OpenClaw surfaces the inbox during weekly review and asks: "3 new entries in the API redesign inbox — promote to processed, archive, or link to an existing topic?"
+
+**When projects end** — archive the project folder (move from `projects/active/` to `projects/archived/`) but keep the topic hub links alive. The knowledge doesn't disappear; the active work does. When you return to a similar project 6 months later, the topic hub is still there.
 
 ## Limitations
 
