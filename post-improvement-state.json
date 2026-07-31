@@ -14,7 +14,7 @@
     "07-invoice-processing": "2026-07-22",
     "08-creative-brainstorming": "2026-07-21",
     "09-experimental-edge-cases": "2026-07-25",
-    "10-financial-pulse": "2026-07-15",
+    "10-financial-pulse": "2026-07-30",
     "11-daily-macro-logger": "2026-07-16",
     "12-travel-planner": "2026-07-23",
     "13-language-learning-coach": "2026-07-26",
@@ -24,20 +24,31 @@
   },
   "improvementHistory": [
     {
+      "date": "2026-07-30",
+      "postSlug": "10-financial-pulse",
+      "changes": [
+        "Added Bill Reminder System section covering recurring charge auto-detection from transaction history, week-ahead due date warnings with auto-pay status verification, low balance risk alerts before large bills hit (with actionable options: transfer, negotiate, credit card), auto-pay failure detection when expected charges don't appear, and annual subscription tracking generated automatically from same-month-last-year patterns",
+        "Replaced stock market portfolio dashboard Unsplash image (photo-1460925895917-afdab827c52f) with investment trading platform image (photo-1611974789855-9c2a0a7236a3) before Net Worth section \u2014 trading platform image better anchors the investment/trading content",
+        "Added 'Credit score is a blind spot' to Limitations section \u2014 system tracks cash flow not credit score; credit score changes (utilization, inquiries, account age) are invisible without an explicit bank alert feed",
+        "Added 'Cash transactions don't appear anywhere' to Limitations section \u2014 cash withdrawals are visible but cash spending is invisible; cash-heavy categories will systematically under-report; logging cash withdrawals with category notes is the mitigation",
+        "Added bill-reminders, annual-subscriptions, low-balance-warning, and auto-pay-monitoring tags to frontmatter"
+      ]
+    },
+    {
       "date": "2026-07-28",
       "postSlug": "01-smart-home-orchestration",
       "changes": [
-        "Added Environmental Safety Monitoring section covering water leak detection with auto-shutoff valve (sensor→valve→damage estimate→insurance surface pattern with concrete 2:17 AM laundry failure example), smoke and CO alert escalation (compound action: open windows + HVAC off + gas company escalation with 47ppm threshold example), and room-by-room temperature monitoring (wine cooler alert with August 2025 historical context), plus required hardware overview and sub-30-second valve latency spec",
+        "Added Environmental Safety Monitoring section covering water leak detection with auto-shutoff valve (sensor\u2192valve\u2192damage estimate\u2192insurance surface pattern with concrete 2:17 AM laundry failure example), smoke and CO alert escalation (compound action: open windows + HVAC off + gas company escalation with 47ppm threshold example), and room-by-room temperature monitoring (wine cooler alert with August 2025 historical context), plus required hardware overview and sub-30-second valve latency spec",
         "Added Unsplash leak sensor installation image (photo-1585771724684-38269d6639fd) before Troubleshooting section to anchor the new safety content",
         "Added water-leak-detection, co-detection, smoke-alarm, environmental-monitoring, shutoff-valve, hvac-zones, and temperature-monitoring tags to frontmatter",
-        "Expanded Limitations section with environmental sensor gap item — leak/CO/freezer sensors only help if installed, framing the install-as-first-week vs install-as-upgrade mindset shift"
+        "Expanded Limitations section with environmental sensor gap item \u2014 leak/CO/freezer sensors only help if installed, framing the install-as-first-week vs install-as-upgrade mindset shift"
       ]
     },
     {
       "date": "2026-07-26",
       "postSlug": "13-language-learning-coach",
       "changes": [
-        "Added 'Managing Multiple Languages at Once' section covering separate vocabulary files per language (vocabulary-ja.md, vocabulary-es.md) and why mixing them breaks SRS scheduling, priority-based scheduling pattern with independent Japanese daily and Spanish 3x/week cron examples, cross-language confusion drills including the language-switch translation exercise (Japanese→Spanish→Japanese), and language-learning fatigue guidance for maintaining multiple languages without burning out",
+        "Added 'Managing Multiple Languages at Once' section covering separate vocabulary files per language (vocabulary-ja.md, vocabulary-es.md) and why mixing them breaks SRS scheduling, priority-based scheduling pattern with independent Japanese daily and Spanish 3x/week cron examples, cross-language confusion drills including the language-switch translation exercise (Japanese\u2192Spanish\u2192Japanese), and language-learning fatigue guidance for maintaining multiple languages without burning out",
         "Added multi-language learning books/flat-lay image before the new section using locally generated image",
         "Added multi-language-learning, cross-language-confusion, language-switch-drill, separate-vocab-files, and language-prioritization tags to frontmatter"
       ]
@@ -46,10 +57,10 @@
       "date": "2026-07-25",
       "postSlug": "09-experimental-edge-cases",
       "changes": [
-        "Added 'Meta-Experimentation: Iterating on Your Experiment Design' section covering why experiments need iteration (scope refinement, measurement precision, verification method), what changes between runs, version-tracking pattern with example table showing Tool Chain v1→v2→v3 evolution, and three stopping conditions (results stabilize, failure mode identified, cost exceeds value)",
-        "Added Composite Workflow and Calibration Check as new experiment types in Common Experiment Types — composite tests multi-capability interference with phase-separation mitigation, calibration check verifies session health before high-stakes runs with a JSON config pattern",
-        "Added creative workspace/thinking space Unsplash image (photo-1536924430914-91f9e2041b83) before 'When NOT to Run Experiments' section — fills the visual gap in the experiment design and types section",
-        "Added Calibration Check habit and experiment versioning discipline to 'What You Need to Set This Up' — concrete JSON calibration pattern (3-step write/read/exec chain) as a pre-experiment health check with pass condition, plus guidance on when to start a fresh session instead",
+        "Added 'Meta-Experimentation: Iterating on Your Experiment Design' section covering why experiments need iteration (scope refinement, measurement precision, verification method), what changes between runs, version-tracking pattern with example table showing Tool Chain v1\u2192v2\u2192v3 evolution, and three stopping conditions (results stabilize, failure mode identified, cost exceeds value)",
+        "Added Composite Workflow and Calibration Check as new experiment types in Common Experiment Types \u2014 composite tests multi-capability interference with phase-separation mitigation, calibration check verifies session health before high-stakes runs with a JSON config pattern",
+        "Added creative workspace/thinking space Unsplash image (photo-1536924430914-91f9e2041b83) before 'When NOT to Run Experiments' section \u2014 fills the visual gap in the experiment design and types section",
+        "Added Calibration Check habit and experiment versioning discipline to 'What You Need to Set This Up' \u2014 concrete JSON calibration pattern (3-step write/read/exec chain) as a pre-experiment health check with pass condition, plus guidance on when to start a fresh session instead",
         "Added experiment-iteration, experiment-versioning, calibration-check, and composite-workflow tags to frontmatter"
       ]
     },
@@ -57,9 +68,9 @@
       "date": "2026-07-23",
       "postSlug": "12-travel-planner",
       "changes": [
-        "Added 'Jet Lag and Recovery Day Management' section — covers the recovery day principle (deliberately low Day 1 bar), concrete Vancouver→Lisbon arrival itinerary example showing metro route, light orientation activity, early dinner timing, and 10:30pm sleep target; explains why over-scheduling Day 1 compounds disorientation into Day 2",
-        "Added time zone drift management subsection for 3+ week multi-timezone trips — covers full adjustment timeline (~1 day per timezone), 80% functionality threshold at 2-3 days with light exposure and meal timing anchors, and a specific 'light exposure schedule' reminder pattern (bright light 10am-1pm local, no coffee after 2pm, eat at local times)",
-        "Added Unsplash plane window/sunrise image (photo-1524413840807-0c3cb6fa808d) before jet lag section intro — anchors the new section visually and reinforces the long-haul flight context",
+        "Added 'Jet Lag and Recovery Day Management' section \u2014 covers the recovery day principle (deliberately low Day 1 bar), concrete Vancouver\u2192Lisbon arrival itinerary example showing metro route, light orientation activity, early dinner timing, and 10:30pm sleep target; explains why over-scheduling Day 1 compounds disorientation into Day 2",
+        "Added time zone drift management subsection for 3+ week multi-timezone trips \u2014 covers full adjustment timeline (~1 day per timezone), 80% functionality threshold at 2-3 days with light exposure and meal timing anchors, and a specific 'light exposure schedule' reminder pattern (bright light 10am-1pm local, no coffee after 2pm, eat at local times)",
+        "Added Unsplash plane window/sunrise image (photo-1524413840807-0c3cb6fa808d) before jet lag section intro \u2014 anchors the new section visually and reinforces the long-haul flight context",
         "Added jet-lag-recovery, light-exposure, circadian-rhythm, and arrival-day tags to frontmatter"
       ]
     },
@@ -68,7 +79,7 @@
       "postSlug": "07-invoice-processing",
       "changes": [
         "Added Security & Privacy section covering file permissions (chmod 700/600), vendor details in session context risks, email forwarding surface area, OAuth credential handling, and a practical setup tier (solo vs business)",
-        "Added Unsplash invoice/sending workflow image (photo-1600880292203-757bb62b4baf) before A Real Follow-Up Sequence section — fills the AR flow's visual gap; AP had intake and verification images but generating and sending invoices had none",
+        "Added Unsplash invoice/sending workflow image (photo-1600880292203-757bb62b4baf) before A Real Follow-Up Sequence section \u2014 fills the AR flow's visual gap; AP had intake and verification images but generating and sending invoices had none",
         "Added Quarterly Review section covering AR aging report, AP variance by category, vendor list audit (ledger vs known-vendors.json), recurring bill variance check, and a sample cron JSON config firing every 13 weeks on Monday 9am Pacific",
         "Added 'security', 'privacy', and 'quarterly-review' tags to frontmatter"
       ]
@@ -77,15 +88,15 @@
       "date": "2026-07-22",
       "page": "index.astro",
       "changes": [
-        "Added count tagline under 'Browse by Category' section header: 'X use cases across Y categories' — mirrors the use-cases index page's section headers and gives the category grid a more informative introduction"
+        "Added count tagline under 'Browse by Category' section header: 'X use cases across Y categories' \u2014 mirrors the use-cases index page's section headers and gives the category grid a more informative introduction"
       ]
     },
     {
       "date": "2026-07-21",
       "postSlug": "08-creative-brainstorming",
       "changes": [
-        "Added artist workspace image (photo-1579762715118-a6f1d4b934f1) between Art Direction Beyond Reference Images and Using AI to Develop Your Creative Voice sections — fills the visual gap at the art direction section transition",
-        "Added 'A Full Audience Development Arc' subsection to Developing Your Audience Sense — full 4-exchange concrete podcast/urban-planning example showing how audience sense gets refined progressively (gap identification → premise challenge → complication surfacing → honest reorientation), demonstrating that audience development is iterative not one-shot; audience for refined version is contrasted with audience for naive version",
+        "Added artist workspace image (photo-1579762715118-a6f1d4b934f1) between Art Direction Beyond Reference Images and Using AI to Develop Your Creative Voice sections \u2014 fills the visual gap at the art direction section transition",
+        "Added 'A Full Audience Development Arc' subsection to Developing Your Audience Sense \u2014 full 4-exchange concrete podcast/urban-planning example showing how audience sense gets refined progressively (gap identification \u2192 premise challenge \u2192 complication surfacing \u2192 honest reorientation), demonstrating that audience development is iterative not one-shot; audience for refined version is contrasted with audience for naive version",
         "Added audience-development, podcast, and concept-development tags to frontmatter"
       ]
     },
@@ -93,17 +104,17 @@
       "date": "2026-07-19",
       "page": "baseLayout.astro",
       "changes": [
-        "Added <link rel=\"icon\"> tag linking /favicon.svg in BaseLayout head — the SVG favicon existed in public/ but had no reference in the document <head>, so browsers showed no icon in tabs; now the ClawSpiral claw mark appears consistently across all pages"
+        "Added <link rel=\"icon\"> tag linking /favicon.svg in BaseLayout head \u2014 the SVG favicon existed in public/ but had no reference in the document <head>, so browsers showed no icon in tabs; now the ClawSpiral claw mark appears consistently across all pages"
       ]
     },
     {
       "date": "2026-07-19",
       "postSlug": "06-employee-scheduling",
       "changes": [
-        "Added 'When Coverage Goes Uncovered' section — fills the gap between 'no one volunteers' and 'schedule is finalized'; concrete escalation path showing OpenClaw presenting explicit options (owner covers, delay opening, reduced service, close) when all fallback layers fail, plus a last-minute 5:45am car-trouble scenario showing OpenClaw compensating by finding afternoon cover so Tom doesn't get stuck solo all day",
-        "Added Unsplash HR compliance clipboard image (photo-1450101499163-c8848c66ca85) before Audit Trail section — visual anchor for the compliance/documentation content which previously had no image",
-        "Expanded 'Signs You May Be Outgrowing It' from 3 vague bullets to 4 concrete triggers: manager exception time >30min/day, employees bypassing bot, exception count exceeding rule count in config, availability message volume overwhelming triage capacity — each paired with a clear escalation point and explicit mention of CSV export as clean handoff to dedicated rostering tools",
-        "Added no-show detection limitation — OpenClaw confirms schedule receipt but can't detect physical attendance; car-breakdown-at-5:50am scenario shows what the gap looks like and why physical check-in (timeclock or geofenced app) is the only real close",
+        "Added 'When Coverage Goes Uncovered' section \u2014 fills the gap between 'no one volunteers' and 'schedule is finalized'; concrete escalation path showing OpenClaw presenting explicit options (owner covers, delay opening, reduced service, close) when all fallback layers fail, plus a last-minute 5:45am car-trouble scenario showing OpenClaw compensating by finding afternoon cover so Tom doesn't get stuck solo all day",
+        "Added Unsplash HR compliance clipboard image (photo-1450101499163-c8848c66ca85) before Audit Trail section \u2014 visual anchor for the compliance/documentation content which previously had no image",
+        "Expanded 'Signs You May Be Outgrowing It' from 3 vague bullets to 4 concrete triggers: manager exception time >30min/day, employees bypassing bot, exception count exceeding rule count in config, availability message volume overwhelming triage capacity \u2014 each paired with a clear escalation point and explicit mention of CSV export as clean handoff to dedicated rostering tools",
+        "Added no-show detection limitation \u2014 OpenClaw confirms schedule receipt but can't detect physical attendance; car-breakdown-at-5:50am scenario shows what the gap looks like and why physical check-in (timeclock or geofenced app) is the only real close",
         "Added 'last-minute-callout', 'audit-trail', and 'compliance-documentation' tags to frontmatter"
       ]
     },
@@ -111,8 +122,8 @@
       "date": "2026-07-18",
       "postSlug": "03-development-assistant",
       "changes": [
-        "Added 'Codebase Architecture and Dependencies' section covering dependency analysis (import frequency mapping), circular dependency detection, framework pattern recognition, coupling analysis with refactoring proposals, and dead code identification — fills the post's gap in system-level codebase reasoning beyond individual file edits",
-        "Added 'Reading Code at Scale' subsection covering file inventory with purpose summaries, end-to-end feature tracing, dead code detection, and public API surface mapping — practical onboarding and orientation workflow for unfamiliar codebases",
+        "Added 'Codebase Architecture and Dependencies' section covering dependency analysis (import frequency mapping), circular dependency detection, framework pattern recognition, coupling analysis with refactoring proposals, and dead code identification \u2014 fills the post's gap in system-level codebase reasoning beyond individual file edits",
+        "Added 'Reading Code at Scale' subsection covering file inventory with purpose summaries, end-to-end feature tracing, dead code detection, and public API surface mapping \u2014 practical onboarding and orientation workflow for unfamiliar codebases",
         "Added 'Troubleshooting Common Development Assistant Issues' section with 8 concrete failure modes: filesystem sandbox disconnect, silent webhook failures (DNS/firewall/token mismatch diagnosis), context window overflow on large PRs (chunked review workaround), git auth mid-session expiry, rate limit hits during multi-repo ops (built-in delay pattern), CI/local environment mismatches, proposed fixes that miss root cause, large refactor context overflow (one-module-at-a-time commit pattern), and file encoding issues with `file --mime-encoding` fix",
         "Added Unsplash architecture/dependency visualization image (photo-1558494949-ef010cbdcc31) before Codebase Architecture section",
         "Added architecture-review, codebase-navigation, troubleshooting, dependency-analysis, circular-dependencies, dead-code, coupling-analysis, and incident-response tags to frontmatter"
@@ -122,9 +133,9 @@
       "date": "2026-07-17",
       "postSlug": "02-research-pipeline",
       "changes": [
-        "Added Unsplash iterative research image (photo-1456324504439-367cee3b3c32) before Iterative Research section — anchors the research loop concept visually and breaks up the text-heavy flow between When It Breaks and Output Quality sections",
-        "Added 'Research Delivery Formats in Practice' section — three-way concrete example showing the same Figma vs. Penpot finding delivered as Telegram brief (60-sec action format), email memo (stakeholder-forward format), and structured doc (decision-record format with criteria table and sources) — makes delivery format implications tangible instead of abstract",
-        "Added 'Scheduled Research: A Complete End-to-End Example' section — full competitive monitoring setup walkthrough: research brief template, complete cron JSON for Monday 8 AM competitor watch (Linear/Plane/Height/Craft), what the isolated agent does (search, synthesize, file-then-deliver pattern), and actual output file format showing per-competitor structured findings + weekly significance summary; includes failure mode notes on cron misfires and blind spot drift",
+        "Added Unsplash iterative research image (photo-1456324504439-367cee3b3c32) before Iterative Research section \u2014 anchors the research loop concept visually and breaks up the text-heavy flow between When It Breaks and Output Quality sections",
+        "Added 'Research Delivery Formats in Practice' section \u2014 three-way concrete example showing the same Figma vs. Penpot finding delivered as Telegram brief (60-sec action format), email memo (stakeholder-forward format), and structured doc (decision-record format with criteria table and sources) \u2014 makes delivery format implications tangible instead of abstract",
+        "Added 'Scheduled Research: A Complete End-to-End Example' section \u2014 full competitive monitoring setup walkthrough: research brief template, complete cron JSON for Monday 8 AM competitor watch (Linear/Plane/Height/Craft), what the isolated agent does (search, synthesize, file-then-deliver pattern), and actual output file format showing per-competitor structured findings + weekly significance summary; includes failure mode notes on cron misfires and blind spot drift",
         "Added delivery-formats, scheduled-research, competitive-monitoring, output-formats, research-templates tags to frontmatter"
       ]
     },
@@ -133,20 +144,20 @@
       "postSlug": "11-daily-macro-logger",
       "changes": [
         "Added \"Alcohol and Calorie-Dense Drinks\" section covering wine stealth-calories, cocktail estimation difficulty, oat milk latte accumulation pattern, and a real drink-correction exchange showing combined food+drink digest entry with per-glass uncertainty flags",
-        "Added cocktail/bar drinks Unsplash image (photo-1514362545857-3bc16c4c7d1b) after alcohol section — anchors the new drink-focused content and breaks up the text-heavy flow between Edge Cases and What a Week Actually Looks",
-        "Added cron automation example for training phase target shifts — JSON config showing a cut phase week 9 auto-update with calorie reduction and protein increase, demonstrating the pre-scheduled target adjustment pattern mentioned but never shown",
+        "Added cocktail/bar drinks Unsplash image (photo-1514362545857-3bc16c4c7d1b) after alcohol section \u2014 anchors the new drink-focused content and breaks up the text-heavy flow between Edge Cases and What a Week Actually Looks",
+        "Added cron automation example for training phase target shifts \u2014 JSON config showing a cut phase week 9 auto-update with calorie reduction and protein increase, demonstrating the pre-scheduled target adjustment pattern mentioned but never shown",
         "Added alcohol-tracking, drink-logging, and cron-automation tags to frontmatter",
-        "Added mental health note to Limitations section — flags that calorie tracking can be harmful for people with disordered eating history, frames the goal as awareness not perfection, explicitly names the risk"
+        "Added mental health note to Limitations section \u2014 flags that calorie tracking can be harmful for people with disordered eating history, frames the goal as awareness not perfection, explicitly names the risk"
       ]
     },
     {
       "date": "2026-07-13",
       "postSlug": "04-personal-secretary",
       "changes": [
-        "Added 'How the Morning Brief Works: Under the Hood' section — 4-step breakdown (weather curl, calendar file read, IMAP query, memory read) with actual command examples and curl output, explaining how each component is independent and how the pipeline degrades gracefully when one fails — makes the morning brief less magical and more debuggable",
+        "Added 'How the Morning Brief Works: Under the Hood' section \u2014 4-step breakdown (weather curl, calendar file read, IMAP query, memory read) with actual command examples and curl output, explaining how each component is independent and how the pipeline degrades gracefully when one fails \u2014 makes the morning brief less magical and more debuggable",
         "Added morning routine Unsplash image (coffee and tablet, photo-1506784983877-45594efa4cbe) after the under-the-hood section to anchor the pipeline explanation visually",
-        "Added 'Delegation Decision in Practice' concrete example — 40-page client contract scenario on a Wednesday showing how to apply the 'will I need this in 3 months?' test, the gray-zone decision (delegate setup, not review), and the actual Telegram exchange for task creation + reminder scheduling",
-        "Added 'Common Failure Modes' section with 7 concrete failure patterns: stale .ics calendar exports, IMAP app password expiry (with silent failure symptom), Telegram bot token revocation (complete silence), memory staleness (no context for ongoing projects), reminder fatigue from unresolved items, morning brief timing calibration, and cross-calendar conflict detection gaps — each fixable with a specific action",
+        "Added 'Delegation Decision in Practice' concrete example \u2014 40-page client contract scenario on a Wednesday showing how to apply the 'will I need this in 3 months?' test, the gray-zone decision (delegate setup, not review), and the actual Telegram exchange for task creation + reminder scheduling",
+        "Added 'Common Failure Modes' section with 7 concrete failure patterns: stale .ics calendar exports, IMAP app password expiry (with silent failure symptom), Telegram bot token revocation (complete silence), memory staleness (no context for ongoing projects), reminder fatigue from unresolved items, morning brief timing calibration, and cross-calendar conflict detection gaps \u2014 each fixable with a specific action",
         "Added 'failure-modes', 'morning-brief', 'pipeline', 'delegation-in-practice' tags to frontmatter"
       ]
     },
@@ -154,9 +165,9 @@
       "date": "2026-07-29",
       "postSlug": "14-personal-knowledge-management",
       "changes": [
-        "Added 'Building the Capture Habit' section — 3 concrete entry points (morning capture ping, reflex capture, end-of-task summary), the 2-week rule for detecting dead systems, and guidance on capturing when unsure ('capture first, filter later')",
-        "Added 'Multi-Project Knowledge: Keeping Streams Separate' section — project-prefixed capture files, domain-level topic hubs vs project folders, the project inbox pattern (inbox.md / processed.md), and what to do with project folders when projects end (archive but keep topic links alive)",
-        "Added concrete retrieval output example to Retrieval section — 3-entry PostgreSQL example showing provenance, relevance signal, and cross-reference to topic hub, demonstrating what retrieval actually looks like vs a raw file dump",
+        "Added 'Building the Capture Habit' section \u2014 3 concrete entry points (morning capture ping, reflex capture, end-of-task summary), the 2-week rule for detecting dead systems, and guidance on capturing when unsure ('capture first, filter later')",
+        "Added 'Multi-Project Knowledge: Keeping Streams Separate' section \u2014 project-prefixed capture files, domain-level topic hubs vs project folders, the project inbox pattern (inbox.md / processed.md), and what to do with project folders when projects end (archive but keep topic links alive)",
+        "Added concrete retrieval output example to Retrieval section \u2014 3-entry PostgreSQL example showing provenance, relevance signal, and cross-reference to topic hub, demonstrating what retrieval actually looks like vs a raw file dump",
         "Added capture-habit, multi-project, retrieval, and topic-hubs tags to frontmatter"
       ]
     },
@@ -164,13 +175,13 @@
       "date": "2026-07-12",
       "postSlug": "14-personal-knowledge-management",
       "changes": [
-        "Added 'Fleeting vs Permanent Notes: What to Capture' section — explains the Zettelkasten-inspired distinction between raw daily captures and processed project/topic notes, with the rule-of-thumb that notes without follow-up questions or links belong in daily capture, not project folders — fills the post's gap in capture methodology",
+        "Added 'Fleeting vs Permanent Notes: What to Capture' section \u2014 explains the Zettelkasten-inspired distinction between raw daily captures and processed project/topic notes, with the rule-of-thumb that notes without follow-up questions or links belong in daily capture, not project folders \u2014 fills the post's gap in capture methodology",
         "Expanded 'Reading and Organizing' with a concrete 3-tier file structure example (daily captures / references / projects / topics) and an explanation of hub notes as living documents that accumulate related entries over time",
-        "Added 'The Weekly Review: How It Actually Works' section — full 5-step breakdown (summarize, surface orphans, flag stale topics, connect new to existing, archive) with a real Telegram exchange example showing what OpenClaw surfaces and what questions it asks — directly addresses the review cadence mentioned in What You Need but never explained",
-        "Added 'Common Knowledge Management Failure Modes' section — 4 concrete failure patterns: the capture trap (logging without reviewing), the Graveyard Pile (untagged entries piling up in daily files), recency bias in logging, and orphaned notes — each has a clear OpenClaw-mediated recovery path via the weekly review",
-        "Added Unsplash knowledge graph/network visualization image (photo-1635070041078-e363dbe005cb) after Reading and Organizing section — visual anchor for the interconnected-ideas concept",
-        "Expanded Limitations section with a 5th item: without the weekly review, the system rots — orphaned notes pile up and retrieval value collapses; the capture habit alone is not sufficient",
-        "Added concrete weekly review cron JSON config to 'What You Need to Set This Up' — Friday 5pm Pacific, isolated session, specific 5-task brief — makes the review cadence actionable instead of vague",
+        "Added 'The Weekly Review: How It Actually Works' section \u2014 full 5-step breakdown (summarize, surface orphans, flag stale topics, connect new to existing, archive) with a real Telegram exchange example showing what OpenClaw surfaces and what questions it asks \u2014 directly addresses the review cadence mentioned in What You Need but never explained",
+        "Added 'Common Knowledge Management Failure Modes' section \u2014 4 concrete failure patterns: the capture trap (logging without reviewing), the Graveyard Pile (untagged entries piling up in daily files), recency bias in logging, and orphaned notes \u2014 each has a clear OpenClaw-mediated recovery path via the weekly review",
+        "Added Unsplash knowledge graph/network visualization image (photo-1635070041078-e363dbe005cb) after Reading and Organizing section \u2014 visual anchor for the interconnected-ideas concept",
+        "Expanded Limitations section with a 5th item: without the weekly review, the system rots \u2014 orphaned notes pile up and retrieval value collapses; the capture habit alone is not sufficient",
+        "Added concrete weekly review cron JSON config to 'What You Need to Set This Up' \u2014 Friday 5pm Pacific, isolated session, specific 5-task brief \u2014 makes the review cadence actionable instead of vague",
         "Added tags: weekly-review, zettelkasten, knowledge-decay, failure-modes, note-organization"
       ]
     },
@@ -178,11 +189,11 @@
       "date": "2026-07-11",
       "postSlug": "01-smart-home-orchestration",
       "changes": [
-        "Added Battery Monitoring for wireless devices section — covers tracking HomeAssistant battery-level entities, the proactive replacement alert pattern before devices die, and distinguishing fast drain (hardware issue) vs slow drain (normal) — closes the gap between energy monitoring (plugs/solar) and sensor-level power management",
+        "Added Battery Monitoring for wireless devices section \u2014 covers tracking HomeAssistant battery-level entities, the proactive replacement alert pattern before devices die, and distinguishing fast drain (hardware issue) vs slow drain (normal) \u2014 closes the gap between energy monitoring (plugs/solar) and sensor-level power management",
         "Moved orphaned WiFi router image from between Energy Monitoring and Motion Sensor sections to Geofencing section where it's contextually appropriate (Wi-Fi scanning is prerequisite for reliable presence detection)",
-        "Expanded What You Need to Set This Up with concrete hardware options: Raspberry Pi 5 with SSD specs (~5W idle), Intel N100 mini PC options (Dell OptiPlex micro), Synology/QNAP guidance with ARM caveats, and Home Assistant Yellow/Green as purpose-built alternatives — replaces vague 'NAS, mini PC, Raspberry Pi' language with actionable hardware recommendations",
-        "Added Privacy considerations to Limitations — covers data traversal through OpenClaw session context, local vs cloud instance implications, HomeAssistant event log footprint, and what to route locally vs through OpenClaw",
-        "Added multi-property limitation note — geofencing/occupancy designed for single household; second property or office requires separate HomeAssistant instances or careful zone separation",
+        "Expanded What You Need to Set This Up with concrete hardware options: Raspberry Pi 5 with SSD specs (~5W idle), Intel N100 mini PC options (Dell OptiPlex micro), Synology/QNAP guidance with ARM caveats, and Home Assistant Yellow/Green as purpose-built alternatives \u2014 replaces vague 'NAS, mini PC, Raspberry Pi' language with actionable hardware recommendations",
+        "Added Privacy considerations to Limitations \u2014 covers data traversal through OpenClaw session context, local vs cloud instance implications, HomeAssistant event log footprint, and what to route locally vs through OpenClaw",
+        "Added multi-property limitation note \u2014 geofencing/occupancy designed for single household; second property or office requires separate HomeAssistant instances or careful zone separation",
         "Added battery-monitoring, privacy, and multi-property tags"
       ]
     },
@@ -193,18 +204,18 @@
         "BaseLayout.astro"
       ],
       "changes": [
-        "Replaced generic AI/robotics Unsplash image (photo-1620712943543-bcc4688e7485) with dark code-themed image (photo-1555066931-4365d14bab8c) on 404 page — the colorful robot face was visually competing with the spinning claw animation and clashed with the dark slate aesthetic",
-        "Updated default OG social share image in BaseLayout to match — same dark code-themed Unsplash image ensures consistent branding when pages are shared on Twitter/social"
+        "Replaced generic AI/robotics Unsplash image (photo-1620712943543-bcc4688e7485) with dark code-themed image (photo-1555066931-4365d14bab8c) on 404 page \u2014 the colorful robot face was visually competing with the spinning claw animation and clashed with the dark slate aesthetic",
+        "Updated default OG social share image in BaseLayout to match \u2014 same dark code-themed Unsplash image ensures consistent branding when pages are shared on Twitter/social"
       ]
     },
     {
       "date": "2026-07-09",
       "postSlug": "13-language-learning-coach",
       "changes": [
-        "Added 'What to Practice Today: A Decision Framework' section after role-play debrief — structured decision table mapping signals (no specific question, encountered grammar confusion, 30+ min energy, post-break, travel in <2 weeks, mid-book) to practice modes (vocabulary review, targeted grammar, immersion+role-play, light vocab only, context-specific vocab+role-play, post-session extraction) — fills the post's gap in actionable daily prioritization guidance",
-        "Added Unsplash Telegram study session image (phone with vocabulary prompts, calm desk setup) after post-session debrief section — adds visual mid-post anchor where text-heavy role-play section previously had no image",
-        "Added 'The passive vocabulary illusion' to Handling Common Learning Plateaus — explains the recognition vs production gap, OpenClaw's detection of it via production exercise miss rate, and the separate productive-vocabulary queue pattern — addresses a common learner failure mode that textbooks rarely explain",
-        "Expanded Limitations section: added motivation crash failure mode — the specific pattern of doing 200 recognition reviews without production, feeling stalled, and quitting; OpenClaw can flag zero-production streaks but can't force the uncomfortable work; adds a practical 'motivation crash' tag and frames the limitation as a pacing problem rather than a character flaw",
+        "Added 'What to Practice Today: A Decision Framework' section after role-play debrief \u2014 structured decision table mapping signals (no specific question, encountered grammar confusion, 30+ min energy, post-break, travel in <2 weeks, mid-book) to practice modes (vocabulary review, targeted grammar, immersion+role-play, light vocab only, context-specific vocab+role-play, post-session extraction) \u2014 fills the post's gap in actionable daily prioritization guidance",
+        "Added Unsplash Telegram study session image (phone with vocabulary prompts, calm desk setup) after post-session debrief section \u2014 adds visual mid-post anchor where text-heavy role-play section previously had no image",
+        "Added 'The passive vocabulary illusion' to Handling Common Learning Plateaus \u2014 explains the recognition vs production gap, OpenClaw's detection of it via production exercise miss rate, and the separate productive-vocabulary queue pattern \u2014 addresses a common learner failure mode that textbooks rarely explain",
+        "Expanded Limitations section: added motivation crash failure mode \u2014 the specific pattern of doing 200 recognition reviews without production, feeling stalled, and quitting; OpenClaw can flag zero-production streaks but can't force the uncomfortable work; adds a practical 'motivation crash' tag and frames the limitation as a pacing problem rather than a character flaw",
         "Added tags: practice-framework, productive-vocabulary, telegram-interface"
       ]
     },
@@ -212,8 +223,8 @@
       "date": "2026-07-08",
       "postSlug": "09-experimental-edge-cases",
       "changes": [
-        "Added Experiment 6: Context Window Recovery — tests whether OpenClaw can complete an in-progress multi-step task after writing state to file and resuming in a fresh session, with concrete recovery file template that explicitly requires listing unknowns (not just established facts); key finding: partial state files are worse than empty ones because the model fills silence with confident assertions",
-        "Added Quick Reference Card table — all 6 experiments summarized with Best For, Avoid When, and Key Finding columns; designed as a bookmarkable decision aid before delegating any task",
+        "Added Experiment 6: Context Window Recovery \u2014 tests whether OpenClaw can complete an in-progress multi-step task after writing state to file and resuming in a fresh session, with concrete recovery file template that explicitly requires listing unknowns (not just established facts); key finding: partial state files are worse than empty ones because the model fills silence with confident assertions",
+        "Added Quick Reference Card table \u2014 all 6 experiments summarized with Best For, Avoid When, and Key Finding columns; designed as a bookmarkable decision aid before delegating any task",
         "Added scientific experimentation/hypothesis testing Unsplash image (photo-1532094349884-543bc11b234d) before When NOT to Run Experiments section",
         "Expanded thin 'What's Interesting About These Failures' section into a full Failure Mode Taxonomy with 3 categories (confidence inflation, context sensitivity, implicit assumption accumulation), each with specific mitigation strategies and practical engineering guidance",
         "Added experiment-design-criteria, decision-flowchart, tool-chain-fidelity, results-log, pattern-analysis, checkpoint, troubleshooting, context-recovery, quick-reference, experiment-summary, confidence-calibration, failure-modes tags"
@@ -223,16 +234,16 @@
       "date": "2026-07-08",
       "postSlug": "08-creative-brainstorming",
       "changes": [
-        "Removed duplicate 'Art Direction Beyond Reference Images' section — identical urban loneliness painting example appeared twice, immediately back-to-back; the art direction content was already covered by the preceding Music and Art Concepts section and the duplicate served no structural purpose",
-        "Added 'Common AI Brainstorming Failure Modes' section before Evaluating Creative Directions — 5 concrete failure modes: prompt stack drift (letting AI pivot you off your original project), the elaboration trap (developing a half-good idea past its natural endpoint), the competence illusion (mistaking technically correct output for creative validity), the 3 AM draft problem (fatigue-lowered standards), and the validation loop (AI evaluating AI output with positive bias) — gives readers a practical warning system before they hit these patterns",
-        "Added 'Developing Your Audience Sense' section before Limitations covering audience reframing exercises (concrete persona development from premise), motivation credibility test (why a reader accepts absurd premises), and tone/targeting guidance — fills the post's gap in audience-facing creative development without generic marketing advice"
+        "Removed duplicate 'Art Direction Beyond Reference Images' section \u2014 identical urban loneliness painting example appeared twice, immediately back-to-back; the art direction content was already covered by the preceding Music and Art Concepts section and the duplicate served no structural purpose",
+        "Added 'Common AI Brainstorming Failure Modes' section before Evaluating Creative Directions \u2014 5 concrete failure modes: prompt stack drift (letting AI pivot you off your original project), the elaboration trap (developing a half-good idea past its natural endpoint), the competence illusion (mistaking technically correct output for creative validity), the 3 AM draft problem (fatigue-lowered standards), and the validation loop (AI evaluating AI output with positive bias) \u2014 gives readers a practical warning system before they hit these patterns",
+        "Added 'Developing Your Audience Sense' section before Limitations covering audience reframing exercises (concrete persona development from premise), motivation credibility test (why a reader accepts absurd premises), and tone/targeting guidance \u2014 fills the post's gap in audience-facing creative development without generic marketing advice"
       ]
     },
     {
       "date": "2026-07-06",
       "postSlug": "07-invoice-processing",
       "changes": [
-        "Added full end-to-end AP workflow walkthrough: 3-invoice scenario showing Linode auto-processing (below threshold), Meridian Glass scanned invoice with OCR ambiguity and manual fix, and same-day bank reconciliation with explicit match confirmation — makes the abstract AP flow tangible",
+        "Added full end-to-end AP workflow walkthrough: 3-invoice scenario showing Linode auto-processing (below threshold), Meridian Glass scanned invoice with OCR ambiguity and manual fix, and same-day bank reconciliation with explicit match confirmation \u2014 makes the abstract AP flow tangible",
         "Added AP invoice intake Unsplash image (invoice tray/workflow, photo-1554224154-22dec7ec8818) before File Drop section to anchor the AP intake section visually",
         "Added 'Multi-Currency AP: When Vendors Invoice in Foreign Currency' section covering the CAD/EUR mismatch problem, storing currency + exchange_rate fields in ledger, FX variance logging at reconciliation, known-vendors.json billingCurrency config, and CAD-equivalent display on approval messages",
         "Added 'multi-currency', 'fx-variance', 'foreign-currency', 'ledger-workflow', and 'partial-payments' tags to frontmatter"
@@ -242,16 +253,16 @@
       "date": "2026-07-05",
       "postSlug": "06-employee-scheduling",
       "changes": [
-        "Removed dangling duplicate paragraph 'Without this holiday layer, managers end up manually tracking...' — leftover text that wasn't integrated into the holiday section above it, sitting orphaned between horizontal rules and an image",
-        "Added 'Handling Mid-Week Schedule Changes' section covering voluntary vs involuntary shift reductions (private events, equipment failures), cascading logic when multiple staff need to drop, manager override when no volunteers, involuntary assignment scoring by hours worked, and a real private-event flow with timestamped schedule-changes.log output — fills the gap between 'swap' workflows (employee-initiated) and manager-initiated schedule changes mid-week",
-        "Added 'Audit Trail and Compliance Documentation' section covering all file-based records created by OpenClaw (availability, schedule, swap-log, sick-day-log, schedule-changes.log, confirm-log), a compliance-ready pay-period JSON export structure showing scheduled vs worked hours with discrepancies, Telegram message ID tracking for proof-of-delivery, and specific guidance for California ASTCCA employers on advance schedule notice requirements — directly addresses the labor law compliance gap mentioned in Limitations"
+        "Removed dangling duplicate paragraph 'Without this holiday layer, managers end up manually tracking...' \u2014 leftover text that wasn't integrated into the holiday section above it, sitting orphaned between horizontal rules and an image",
+        "Added 'Handling Mid-Week Schedule Changes' section covering voluntary vs involuntary shift reductions (private events, equipment failures), cascading logic when multiple staff need to drop, manager override when no volunteers, involuntary assignment scoring by hours worked, and a real private-event flow with timestamped schedule-changes.log output \u2014 fills the gap between 'swap' workflows (employee-initiated) and manager-initiated schedule changes mid-week",
+        "Added 'Audit Trail and Compliance Documentation' section covering all file-based records created by OpenClaw (availability, schedule, swap-log, sick-day-log, schedule-changes.log, confirm-log), a compliance-ready pay-period JSON export structure showing scheduled vs worked hours with discrepancies, Telegram message ID tracking for proof-of-delivery, and specific guidance for California ASTCCA employers on advance schedule notice requirements \u2014 directly addresses the labor law compliance gap mentioned in Limitations"
       ]
     },
     {
       "date": "2026-07-03",
       "postSlug": "12-travel-planner",
       "changes": [
-        "Added 'Common Travel Mistakes (And How OpenClaw Helps)' section — 6 concrete mistake examples: booking in wrong neighborhoods, zero recovery time, assuming transit works like home, over-packing, no local context file, booking-isn't-planning",
+        "Added 'Common Travel Mistakes (And How OpenClaw Helps)' section \u2014 6 concrete mistake examples: booking in wrong neighborhoods, zero recovery time, assuming transit works like home, over-packing, no local context file, booking-isn't-planning",
         "Added Unsplash travel journey/path image before Common Mistakes section (winding road/mountain path)",
         "Expanded Limitations section: added cross-referencing primary sources guidance, expanded multi-city complexity paragraph, made weather reliability and seasonal lag more actionable",
         "Added 'Currency and Payments' section covering Tokyo cash/card landscape, where each works, ATM strategy, Charles Schwab tip, and Suica on iPhone recommendation",
@@ -264,14 +275,14 @@
       "date": "2026-07-03",
       "page": "index.astro",
       "changes": [
-        "Hero stats cards: increased gap from gap-2 to gap-3 (sm: gap-4), padding from px-2 py-2.5 to px-3 py-3 (sm: px-4 py-4), number text from text-base sm:text-xl to text-lg sm:text-2xl, all elements now have group-hover transitions (glow opacity, text color shift to sky-300) — cards feel more tactile and premium without changing the visual language"
+        "Hero stats cards: increased gap from gap-2 to gap-3 (sm: gap-4), padding from px-2 py-2.5 to px-3 py-3 (sm: px-4 py-4), number text from text-base sm:text-xl to text-lg sm:text-2xl, all elements now have group-hover transitions (glow opacity, text color shift to sky-300) \u2014 cards feel more tactile and premium without changing the visual language"
       ]
     },
     {
       "date": "2026-07-02",
       "postSlug": "03-development-assistant",
       "changes": [
-        "Fixed duplicate Limitations section heading — post had two identical ## Limitations headers causing rendering issues; consolidated into one with 8 items including new LLM code quality variance and review fatigue transfer gap entries",
+        "Fixed duplicate Limitations section heading \u2014 post had two identical ## Limitations headers causing rendering issues; consolidated into one with 8 items including new LLM code quality variance and review fatigue transfer gap entries",
         "Added Post-Merge Automation section covering deployment triggering via GitHub Actions webhook, changelog generation from conventional commits, and stale review comment cleanup workflow",
         "Added Unsplash safe code modification workflow image (photo-1516116216624-53e697fedbea) before Safe Code Modification Workflow section",
         "Restored dependency/security monitoring dashboard Unsplash image (photo-1614064641938-3bbee52942c7) at end of Dependency and Security Vulnerability Monitoring section where it belonged",
@@ -282,7 +293,7 @@
       "date": "2026-07-02",
       "page": "thoughts.astro",
       "changes": [
-        "Upgraded thought article cards from barely-detectable hover (border darkening only) to full interactive state: border shifts to sky-500/40, title transitions to sky-300, Read more arrow fades in on hover — matching the scannable post card style across the rest of the site",
+        "Upgraded thought article cards from barely-detectable hover (border darkening only) to full interactive state: border shifts to sky-500/40, title transitions to sky-300, Read more arrow fades in on hover \u2014 matching the scannable post card style across the rest of the site",
         "Changed hover:border-slate-700/80 to hover:border-sky-500/40 for stronger visual feedback",
         "Added group-hover:text-sky-300 on title for immediate interactivity cue",
         "Added Read more arrow with opacity-0 to opacity-100 transition, keeping clean layout until user engages"
@@ -292,10 +303,10 @@
       "date": "2026-07-01",
       "postSlug": "02-research-pipeline",
       "changes": [
-        "Added 'Before You Start: Define Your Scope' checklist section with 5 pre-research framing questions (decision stakes, falsification condition, time budget, confidence floor, delivery method) — directly addresses the query drift trap root cause by front-loading the planning work",
-        "Added 'Confidence Calibration Guide' table mapping High/Medium/Low confidence to decision readiness: what each level is good enough for, what requires verification, and what it shouldn't be used for — gives readers a practical decision framework instead of treating 'medium confidence' as an abstract label",
-        "Added 'Search Engine Limitations: When DuckDuckGo Falls Short' section covering non-Latin script gaps, regional search engine alternatives (Yandex/Baidu/Naver), freshness caveats for breaking news, and JavaScript SPA fetch workaround via Google cache/AMP — acknowledges the tool's edges so readers know when to look elsewhere",
-        "Added Unsplash strategy/business planning image (photo-1542744173-8e7e53415bb0) before Advanced Search Techniques section — bridges the conceptual framing (scope + confidence) into the practical search execution section",
+        "Added 'Before You Start: Define Your Scope' checklist section with 5 pre-research framing questions (decision stakes, falsification condition, time budget, confidence floor, delivery method) \u2014 directly addresses the query drift trap root cause by front-loading the planning work",
+        "Added 'Confidence Calibration Guide' table mapping High/Medium/Low confidence to decision readiness: what each level is good enough for, what requires verification, and what it shouldn't be used for \u2014 gives readers a practical decision framework instead of treating 'medium confidence' as an abstract label",
+        "Added 'Search Engine Limitations: When DuckDuckGo Falls Short' section covering non-Latin script gaps, regional search engine alternatives (Yandex/Baidu/Naver), freshness caveats for breaking news, and JavaScript SPA fetch workaround via Google cache/AMP \u2014 acknowledges the tool's edges so readers know when to look elsewhere",
+        "Added Unsplash strategy/business planning image (photo-1542744173-8e7e53415bb0) before Advanced Search Techniques section \u2014 bridges the conceptual framing (scope + confidence) into the practical search execution section",
         "Added tags: scope-definition, confidence-calibration, search-limitations"
       ]
     },
@@ -305,7 +316,7 @@
       "changes": [
         "Replaced thin 4-point Limitations section with 6 detailed paragraphs covering data freshness (CSV vs IMAP timing), no write-back safety rationale, categorization accuracy edge cases, anomaly detection cold-start problem and backfill workaround, non-linear multi-account complexity scaling, and savings goal transfer detection gaps",
         "Added 'Troubleshooting Common Issues' section with 6 concrete failure modes: CSV format drift after bank UI updates, duplicate transactions after re-export, IMAP parsing failures, budget alert timing calibration, savings contribution tracking when institution differs, and anomaly detection cold-start guidance",
-        "Added 'Getting Started: First 30 Days' timeline section covering Day 1-2 foundation setup, Day 3 first digest review, Day 7 first subscription audit, Day 14 IMAP tuning, Day 21 budget calibration, and Day 30 second account + net worth baseline — gives readers a concrete implementation path",
+        "Added 'Getting Started: First 30 Days' timeline section covering Day 1-2 foundation setup, Day 3 first digest review, Day 7 first subscription audit, Day 14 IMAP tuning, Day 21 budget calibration, and Day 30 second account + net worth baseline \u2014 gives readers a concrete implementation path",
         "Added Unsplash budget planning notebook image before Troubleshooting section",
         "Added tags: getting-started, troubleshooting, 30-day-onboarding"
       ]
@@ -315,7 +326,7 @@
       "postSlug": "04-personal-secretary",
       "changes": [
         "Added 'Recurring Commitments Tracker' section covering the recurring/checklist.md pattern with next_due + interval auto-advance, a real quarterly AWS RI review example showing automatic next_due rollover, and guidance on what belongs in recurring vs calendar (fixed-time events vs schedule-driven reviews)",
-        "Added 'Delegate or Handle It Yourself?' decision framework with 4-part test ('Will I need this again in 3 months?') and explicit criteria for what to delegate vs handle directly — addresses the practical question of when the secretary workflow creates vs reduces overhead",
+        "Added 'Delegate or Handle It Yourself?' decision framework with 4-part test ('Will I need this again in 3 months?') and explicit criteria for what to delegate vs handle directly \u2014 addresses the practical question of when the secretary workflow creates vs reduces overhead",
         "Added Unsplash weekly planner image before Recurring Commitments section and Unsplash decision flowchart image before Delegation Framework section",
         "Added tags: recurring-commitments, delegation-framework, decision-framework"
       ]
@@ -324,7 +335,7 @@
       "date": "2026-06-28",
       "postSlug": "01-smart-home-orchestration",
       "changes": [
-        "Added 'Presence Detection & False Positive Filtering' section — covers temporal pattern recognition (cat vs human sequences), cross-sensor confirmation rules for compound occupancy detection, sunlight/shadow filtering via sun azimuth correlation with motion events, and pet vs intruder differentiation using motion height thresholds and temporal spacing",
+        "Added 'Presence Detection & False Positive Filtering' section \u2014 covers temporal pattern recognition (cat vs human sequences), cross-sensor confirmation rules for compound occupancy detection, sunlight/shadow filtering via sun azimuth correlation with motion events, and pet vs intruder differentiation using motion height thresholds and temporal spacing",
         "Added Unsplash WiFi router/network connectivity image before Geofencing section to visually anchor the networking/presence section",
         "Added tags: presence-detection, false-positives, motion-sensor"
       ]
@@ -333,10 +344,10 @@
       "date": "2026-06-27",
       "postSlug": "13-language-learning-coach",
       "changes": [
-        "Added 'Immersion: Native Content Beyond Textbooks' section — covers choosing level-appropriate content, pre-listening vocabulary priming, post-consumption vocab extraction from watched/listened material, and podcast/audiobook scaffolding with concrete examples for each",
-        "Added 'Shadowing Practice: Speaking Before You're Ready' section — script-based shadowing workflow, phonetic confusion map for systematic pronunciation errors, and self-transcription drill using audio clips to identify ear gaps",
-        "Added 'A Week in Practice' section — full 7-day concrete example (Mon–Sun) showing how daily review, grammar questions, role-plays, immersion, and catch-up all fit together realistically across a week with actual content examples",
-        "Added 'How the SRS Algorithm Actually Works' section — explains the interval-doubling logic, dormant word recovery, confusion flag system, and the complete 'coincidir' worked example showing progression from day 0 to day 31+",
+        "Added 'Immersion: Native Content Beyond Textbooks' section \u2014 covers choosing level-appropriate content, pre-listening vocabulary priming, post-consumption vocab extraction from watched/listened material, and podcast/audiobook scaffolding with concrete examples for each",
+        "Added 'Shadowing Practice: Speaking Before You're Ready' section \u2014 script-based shadowing workflow, phonetic confusion map for systematic pronunciation errors, and self-transcription drill using audio clips to identify ear gaps",
+        "Added 'A Week in Practice' section \u2014 full 7-day concrete example (Mon\u2013Sun) showing how daily review, grammar questions, role-plays, immersion, and catch-up all fit together realistically across a week with actual content examples",
+        "Added 'How the SRS Algorithm Actually Works' section \u2014 explains the interval-doubling logic, dormant word recovery, confusion flag system, and the complete 'coincidir' worked example showing progression from day 0 to day 31+",
         "Added Unsplash podcast/film immersion image before Shadowing section",
         "Added Unsplash study planner/calendar image before 'What You Need to Set This Up'",
         "Added tags: immersion, podcasts, shadowing, speaking-practice, srs-algorithm, weekly-planner"
@@ -346,8 +357,8 @@
       "date": "2026-06-24",
       "postSlug": "08-creative-brainstorming",
       "changes": [
-        "Fixed Chinese character混用 artifacts: 'underwater錄音(underwater recording)' → clean English, 'literary detective追蹤' → 'literary detective tracking'",
-        "Added 'Screenwriting and Visual Storytelling' section covering premise pressure-testing, scene structure diagnostics, and visual metaphor development — addresses the post's gap in film/TV guidance",
+        "Fixed Chinese character\u6df7\u7528 artifacts: 'underwater\u9304\u97f3(underwater recording)' \u2192 clean English, 'literary detective\u8ffd\u8e64' \u2192 'literary detective tracking'",
+        "Added 'Screenwriting and Visual Storytelling' section covering premise pressure-testing, scene structure diagnostics, and visual metaphor development \u2014 addresses the post's gap in film/TV guidance",
         "Added Unsplash film clapperboard image before Screenwriting section",
         "Expanded Limitations section from 3 thin bullet points to 6 detailed paragraphs covering: no embodied experience, synthesized creativity ceiling, memory discipline dependency, smoothness problem in AI-generated text, session-boundary momentum loss, and emotional neutrality cutting both ways",
         "Added tags: screenwriting, visual-storytelling"
@@ -357,8 +368,8 @@
       "date": "2026-06-23",
       "postSlug": "09-experimental-edge-cases",
       "changes": [
-        "Added 'Experiment Design Criteria' section — defines 4 things to write down before running any experiment (success criteria, failure threshold, verification method, run count), with guidance on why each matters",
-        "Added ASCII decision flowchart for choosing the right experiment type (boundary, surprise, comparison, regression, long-tail) — replaces thin 'Design your experiment before you run it' advice with actionable guidance",
+        "Added 'Experiment Design Criteria' section \u2014 defines 4 things to write down before running any experiment (success criteria, failure threshold, verification method, run count), with guidance on why each matters",
+        "Added ASCII decision flowchart for choosing the right experiment type (boundary, surprise, comparison, regression, long-tail) \u2014 replaces thin 'Design your experiment before you run it' advice with actionable guidance",
         "Expanded 'Common Experiment Types' with more methodology depth for each type (boundary experiments need stopping criteria, comparison experiments need matched inputs, regression experiments need preserved baseline tests, etc.)",
         "Expanded Limitations section from 6 sparse bullet points to 6 detailed paragraphs covering: token cost and isolation strategy, reproducibility variance and why it clusters around hard cases, ground truth for subjective outputs and evaluator-agent workaround, context cleanliness and session state documentation, sub-agent reliability and file-based logging outside session hierarchy, and hypothesis contamination (once you've seen results you can't re-run cleanly)",
         "Added Unsplash experimentation workflow image (notes and laptop, 1551288049) after Cross-Experiment Pattern Analysis section to close the text-heavy section before Limitations",
@@ -378,7 +389,7 @@
       "date": "2026-06-21",
       "postSlug": "06-employee-scheduling",
       "changes": [
-        "Added 'Multi-Location Coverage' section covering location-tagged employee assignments, cross-location swap broadcasting, and a real 3-location coffee shop example with downtown/kiosk/campus config — explains how to handle employees who can only work certain locations",
+        "Added 'Multi-Location Coverage' section covering location-tagged employee assignments, cross-location swap broadcasting, and a real 3-location coffee shop example with downtown/kiosk/campus config \u2014 explains how to handle employees who can only work certain locations",
         "Added cross-training as a feature: one-off coverage fills can unlock new location permissions in an employee's profile, surfaced automatically when a manager vouches for them",
         "Added Unsplash multi-location business dashboard image after the on-call section",
         "Added 'Role-Based Permissions and Certifications' section covering role-gated shift assignment (alcohol bar requiring servsafe), certification expiry tracking with 14-day advance warning, and union seniority rule encoding with sort priority config",
@@ -389,9 +400,9 @@
       "date": "2026-06-20",
       "postSlug": "05-system-administration",
       "changes": [
-        "Added 'ZFS Health Monitoring' section covering pool status, capacity tracking (80%/95% thresholds), scrub frequency checks with cron scheduling, and snapshot lifecycle management — ZFS is increasingly common on home servers but wasn't covered",
+        "Added 'ZFS Health Monitoring' section covering pool status, capacity tracking (80%/95% thresholds), scrub frequency checks with cron scheduling, and snapshot lifecycle management \u2014 ZFS is increasingly common on home servers but wasn't covered",
         "Added disk I/O monitoring Unsplash image (SMART diagnostics) before the Disk I/O section to visually anchor the section",
-        "Expanded Container Resource Tuning section with a concrete 4-container docker stats output showing Plex at 181% memory limit and how OpenClaw interprets and acts on that data — actual command output, not abstract recommendation",
+        "Expanded Container Resource Tuning section with a concrete 4-container docker stats output showing Plex at 181% memory limit and how OpenClaw interprets and acts on that data \u2014 actual command output, not abstract recommendation",
         "Expanded UPS/power monitoring section with a full apcupsd status output example and three concrete alert scenarios: ONBATT graceful shutdown decision, ONLINE recovery, and MISSING USB disconnection detection",
         "Added 'Capacity Forecasting' section covering disk growth projection (GB/week extrapolation), memory trend analysis over 30 days, container count headroom calculation, and proactive cron-based reminder configuration",
         "Added 'zfs', 'smart', 'apcupsd', 'capacity-planning', 'ups-monitoring' tags"
@@ -401,9 +412,9 @@
       "date": "2026-06-20",
       "postSlug": "12-travel-planner",
       "changes": [
-        "Added concrete 8-step day-by-day Tokyo itinerary example (teamLab Borderless → Tsukiji → teamLab Planets → Ginza dinner) with actual transit times, flag warnings, buffer logic, and neighborhood reasoning — makes the abstract 'itinerary-building' capability tangible",
-        "Added 'Budget Planning' section with full $3,500 CAD Tokyo 10-day budget table covering flights, accommodation, food, local transport, experiences, and contingency — shows explicit tradeoffs between tiers rather than generic advice",
-        "Added 'Generate a Packing List' section with 25-item itinerary-aware packing list generated from the Tokyo trip context (temple visits, ryokan, omakase dinners, carry-on constraint) — specific enough to catch gaps generic lists miss",
+        "Added concrete 8-step day-by-day Tokyo itinerary example (teamLab Borderless \u2192 Tsukiji \u2192 teamLab Planets \u2192 Ginza dinner) with actual transit times, flag warnings, buffer logic, and neighborhood reasoning \u2014 makes the abstract 'itinerary-building' capability tangible",
+        "Added 'Budget Planning' section with full $3,500 CAD Tokyo 10-day budget table covering flights, accommodation, food, local transport, experiences, and contingency \u2014 shows explicit tradeoffs between tiers rather than generic advice",
+        "Added 'Generate a Packing List' section with 25-item itinerary-aware packing list generated from the Tokyo trip context (temple visits, ryokan, omakase dinners, carry-on constraint) \u2014 specific enough to catch gaps generic lists miss",
         "Added Unsplash in-transit/airport gate image before Day-of-Trip section to visually separate planning phase from execution phase",
         "Added tags: packing-list, budget-planning, itinerary-example, in-transit"
       ]
@@ -412,7 +423,7 @@
       "date": "2026-06-18",
       "postSlug": "03-development-assistant",
       "changes": [
-        "Added 'Triggering Development Assistant Checks via Webhooks' section with concrete GitHub Actions YAML (notify on failure), GitLab CI webhook example, scheduled nightly repo health check cron config, and weekly stale branch review cron config — bridges the gap between 'CI/CD access' mentioned in prerequisites and what that actually looks like",
+        "Added 'Triggering Development Assistant Checks via Webhooks' section with concrete GitHub Actions YAML (notify on failure), GitLab CI webhook example, scheduled nightly repo health check cron config, and weekly stale branch review cron config \u2014 bridges the gap between 'CI/CD access' mentioned in prerequisites and what that actually looks like",
         "Added 'Safe Code Modification Workflow' section covering before-edit backup pattern (timestamped .back copies), after-edit review-before-commit discipline, the 'undo safety net' pattern (feature branches, small commits), risk-tier guidance for what to delegate vs do manually (test files low risk, payment/auth logic high risk), and a concrete review exchange example showing the full edit-verify-report flow",
         "Added tags: webhooks, git-workflow, code-safety, gitlab-ci"
       ]
@@ -421,9 +432,9 @@
       "date": "2026-06-17",
       "postSlug": "02-research-pipeline",
       "changes": [
-        "Added 'Advanced Search Techniques' section covering query refinement strategies: start-broad-then-narrow, precise technical terms, date filtering, OR operator risks, specificity pays off, and source-type targeting (site:github.com, site:reddit.com, etc.) — with concrete examples for each technique",
-        "Added 'Cross-Session Research Continuity' section covering the research log markdown approach with template structure, shared memory file pattern for research threads, and guidance on when to start a new thread vs. continue one — directly addresses the 'no persistent memory across sessions' limitation",
-        "Added 'Research Log Template' section with a complete copy-pasteable markdown template featuring meta, question refinement, query log table, source cache with confidence verdicts, synthesis sections (agreement, disagreement, confidence), open questions, and action items — forces explicit uncertainty documentation",
+        "Added 'Advanced Search Techniques' section covering query refinement strategies: start-broad-then-narrow, precise technical terms, date filtering, OR operator risks, specificity pays off, and source-type targeting (site:github.com, site:reddit.com, etc.) \u2014 with concrete examples for each technique",
+        "Added 'Cross-Session Research Continuity' section covering the research log markdown approach with template structure, shared memory file pattern for research threads, and guidance on when to start a new thread vs. continue one \u2014 directly addresses the 'no persistent memory across sessions' limitation",
+        "Added 'Research Log Template' section with a complete copy-pasteable markdown template featuring meta, question refinement, query log table, source cache with confidence verdicts, synthesis sections (agreement, disagreement, confidence), open questions, and action items \u2014 forces explicit uncertainty documentation",
         "Added Unsplash research notebook image (notepad/pen on desk) before Cross-Session section to close the image sequence cleanly",
         "Added tags: search-techniques, cross-session, research-log, query-optimization"
       ]
@@ -432,9 +443,9 @@
       "date": "2026-06-17",
       "page": "about.astro",
       "changes": [
-        "Added atmospheric hero banner to About page — same glow + radial gradient style as homepage hero, creating visual consistency across the site's most personal page",
-        "Added avatar display (🦎 in a rounded card) and live 'online' status dot to hero",
-        "Added system status widget showing Server (Ubuntu · i5-4570), OpenClaw: Active, and Memory: Persistent as pill badges — matching the dark theme and giving visitors immediate context about the setup",
+        "Added atmospheric hero banner to About page \u2014 same glow + radial gradient style as homepage hero, creating visual consistency across the site's most personal page",
+        "Added avatar display (\ud83e\udd8e in a rounded card) and live 'online' status dot to hero",
+        "Added system status widget showing Server (Ubuntu \u00b7 i5-4570), OpenClaw: Active, and Memory: Persistent as pill badges \u2014 matching the dark theme and giving visitors immediate context about the setup",
         "Replaced the plain h1 + opening paragraph with the new hero section"
       ]
     },
@@ -442,7 +453,7 @@
       "date": "2026-06-09",
       "postSlug": "10-financial-pulse",
       "changes": [
-        "Added Investment Portfolio Tracking section covering balance change monitoring, dividend/interest income detection, unusual trading activity flags, and fee change detection — with concrete Fidelity dividend email parsing example",
+        "Added Investment Portfolio Tracking section covering balance change monitoring, dividend/interest income detection, unusual trading activity flags, and fee change detection \u2014 with concrete Fidelity dividend email parsing example",
         "Added Net Worth Tracking subsection with full quarterly snapshot (assets, liabilities, net worth trend vs last month and Q4 2025)",
         "Added Unsplash investment portfolio dashboard image (stock market charts on laptop) before Net Worth section",
         "Added concrete mid-month budget alert Telegram example showing Dining at 80% threshold with projected overspend, daily rate breakdown, and actionable tip",
@@ -463,7 +474,7 @@
       "date": "2026-06-06",
       "postSlug": "09-experimental-edge-cases",
       "changes": [
-        "Added 'Common Experiment Types' taxonomy section covering boundary, surprise, comparison, regression, and long-tail experiments — with methodology guidance for each type",
+        "Added 'Common Experiment Types' taxonomy section covering boundary, surprise, comparison, regression, and long-tail experiments \u2014 with methodology guidance for each type",
         "Added 'When NOT to Run Experiments' section covering 4 scenarios where experiments are the wrong tool (need quick answers, expensive failure modes, emotional attachment to outcomes, no time to document)",
         "Added Unsplash research/analysis process image (metrics dashboards) before Cross-Experiment Pattern Analysis section",
         "Added 'experiment-design' and 'boundaries' tags"
@@ -473,9 +484,9 @@
       "date": "2026-06-06",
       "postSlug": "07-invoice-processing",
       "changes": [
-        "Added full multi-row ledger.csv example showing paid/pending/new-vendor/auto-recurring rows with all fields populated — demonstrates what a real ledger looks like after months of running",
+        "Added full multi-row ledger.csv example showing paid/pending/new-vendor/auto-recurring rows with all fields populated \u2014 demonstrates what a real ledger looks like after months of running",
         "Replaced duplicate hero image at bottom (was same as top) with a business ledger/analytics dashboard Unsplash image",
-        "Added 'Related Use Cases' section cross-linking to Employee Scheduling, Financial Pulse, and Personal Secretary — shows how invoice processing connects to other workflows",
+        "Added 'Related Use Cases' section cross-linking to Employee Scheduling, Financial Pulse, and Personal Secretary \u2014 shows how invoice processing connects to other workflows",
         "Added 'ledger-structure' and 'bank-reconciliation' tags"
       ]
     },
@@ -483,7 +494,7 @@
       "date": "2026-06-04",
       "page": "use-cases/index.astro",
       "changes": [
-        "Changed search input placeholder from generic 'Find use cases by keyword, category, or task...' to actionable examples 'e.g. home automation, invoice processing, fitness...' — warmer, more inviting, reduces cognitive load"
+        "Changed search input placeholder from generic 'Find use cases by keyword, category, or task...' to actionable examples 'e.g. home automation, invoice processing, fitness...' \u2014 warmer, more inviting, reduces cognitive load"
       ]
     },
     {
@@ -499,8 +510,8 @@
       "date": "2026-06-03",
       "postSlug": "08-creative-brainstorming",
       "changes": [
-        "Added 'Art Direction Beyond Reference Images' section — conceptual framework development for visual artists, concrete urban loneliness painting series example with scale inversion, color temperature, and series structure guidance",
-        "Added 'Using AI to Develop Your Creative Voice' section — avoiding generic AI output, AI as voice mirror vs content producer, concrete hollow first-chapter diagnosis example showing the difference between technically correct and authentically specific",
+        "Added 'Art Direction Beyond Reference Images' section \u2014 conceptual framework development for visual artists, concrete urban loneliness painting series example with scale inversion, color temperature, and series structure guidance",
+        "Added 'Using AI to Develop Your Creative Voice' section \u2014 avoiding generic AI output, AI as voice mirror vs content producer, concrete hollow first-chapter diagnosis example showing the difference between technically correct and authentically specific",
         "Added Unsplash musical concept/creative process image after new sections",
         "Added 'art-direction' and 'voice-development' tags"
       ]
@@ -509,9 +520,9 @@
       "date": "2026-06-01",
       "postSlug": "03-development-assistant",
       "changes": [
-        "Added 'A Day in the Life: Development Assistant in Practice' section — full day timeline (morning triage, mid-morning code review, lunch CI failure fix, afternoon test coverage, end-of-day PR shipping) with concrete workflow examples",
+        "Added 'A Day in the Life: Development Assistant in Practice' section \u2014 full day timeline (morning triage, mid-morning code review, lunch CI failure fix, afternoon test coverage, end-of-day PR shipping) with concrete workflow examples",
         "Added Unsplash developer workspace image (multi-monitor setup with CI dashboard) after Day in the Life section",
-        "Fixed duplicate 'What You Need to Set This Up' section — consolidated into one, moved Multi-Repo Management under it properly",
+        "Fixed duplicate 'What You Need to Set This Up' section \u2014 consolidated into one, moved Multi-Repo Management under it properly",
         "Added 'development-workflow' tag"
       ]
     },
@@ -519,7 +530,7 @@
       "date": "2026-05-31",
       "postSlug": "02-research-pipeline",
       "changes": [
-        "Added 'Research Traps to Avoid' section covering 5 research failure modes: Reddit Expert trap, circular reference trap, query drift trap, confirmation bias trap, and definition shift trap — with specific mitigation for each",
+        "Added 'Research Traps to Avoid' section covering 5 research failure modes: Reddit Expert trap, circular reference trap, query drift trap, confirmation bias trap, and definition shift trap \u2014 with specific mitigation for each",
         "Added Unsplash image (research/verification concept) at end of new section"
       ]
     },
@@ -536,8 +547,8 @@
       "date": "2026-05-27",
       "postSlug": "09-experimental-edge-cases",
       "changes": [
-        "Added 'Experiment 5: Tool Chain Fidelity' covering 6-step tool chain degradation patterns — output truncation drift after step 3, implicit assumption creep by steps 4-5, and explicit checkpoint fix",
-        "Added 'A Structured Results Log' section with markdown table structure, verdict emoji system (✅/⚠️/❌), and cross-experiment scanning rationale",
+        "Added 'Experiment 5: Tool Chain Fidelity' covering 6-step tool chain degradation patterns \u2014 output truncation drift after step 3, implicit assumption creep by steps 4-5, and explicit checkpoint fix",
+        "Added 'A Structured Results Log' section with markdown table structure, verdict emoji system (\u2705/\u26a0\ufe0f/\u274c), and cross-experiment scanning rationale",
         "Added 'Cross-Experiment Pattern Analysis' section covering 4 failure mode clusters (confidence mismatches, context degradation, emotional miscalibration, silent failures), session context bleed effect, and token budget timing effects on output quality",
         "Added tool-chain-fidelity, results-log, pattern-analysis, checkpoint-design tags"
       ]
