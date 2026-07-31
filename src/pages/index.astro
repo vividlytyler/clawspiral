@@ -152,6 +152,24 @@ function getReadingTime(body: string | undefined): number {
           </div>
         </div>
 
+        <!-- Scroll cue — animated down arrow, fades out on scroll -->
+        <div id="hero-scroll-cue" class="absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 text-slate-500 opacity-60 animate-fade-in-up" style="animation-delay: 800ms;">
+          <span class="text-[10px] uppercase tracking-widest font-medium">scroll</span>
+          <div class="w-5 h-5 rounded-full border border-slate-600 flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+          </div>
+        </div>
+        <script>
+          const cue = document.getElementById('hero-scroll-cue');
+          if (cue) {
+            const onScroll = () => {
+              cue.style.opacity = window.scrollY > 60 ? '0' : '0.6';
+            };
+            window.addEventListener('scroll', onScroll, { passive: true });
+            onScroll();
+          }
+        </script>
+
         <!-- Floating workflow preview terminal (desktop only) -->
         <div class="hidden md:block flex-shrink-0 w-72 animate-fade-in-up" style="animation-delay: 600ms;">
           <div class="glass rounded-xl overflow-hidden shadow-xl shadow-black/30 hero-terminal">
