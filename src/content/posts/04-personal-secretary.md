@@ -529,6 +529,35 @@ Getting this running requires a bit of upfront configuration:
 - **Weather data** — `wttr.in` requires no key and is free. If you want more control, Open-Meteo is a free alternative with an API.
 - **File system access** — OpenClaw needs read/write access to a memory directory where it stores `.ics` files, daily logs, and your MEMORY.md.
 
+## Onboarding: Your First Week
+
+The setup sections tell you what to configure. This section tells you what to expect while you're doing it — and what to prioritize when you're starting from zero.
+
+**Day 1: Foundation**
+Set up the four inputs in order of impact:
+
+1. **Memory file** (`MEMORY.md`) — write 10–15 lines about yourself, your work, your current projects, and anyone you interact with regularly (names, roles, context). This is the substrate for every other feature. Without it, meeting prep and email triage have no context to work with.
+2. **Calendar file** — export your `.ics`, drop it in your workspace, point OpenClaw at it. Verify it reads correctly by asking "what's on my calendar tomorrow?" via Telegram.
+3. **IMAP access** — test with a simple query: "any emails from [someone you know] this week?" Confirm the response matches what you'd see in your email client.
+4. **Telegram bot** — send a test message via the bot. Confirm delivery.
+
+Don't configure weather until the first three are working. Weather is the easiest piece to debug and the least critical.
+
+**Day 2–3: Morning brief**
+Set up the cron job for the morning brief. Fire it manually a few times during the day first to see what the output looks like. Calibrate the timing — aim for 30 minutes after you actually wake up, not 30 minutes before you wish you had. Check the email filter rules: are they capturing what matters? Adjust IMAP search criteria until the morning brief reflects what you'd actually act on.
+
+**Day 4–5: Follow-up system**
+Create your first `follow-ups/` file. Add two or three real items — something due this week, something due next month. Run a follow-up check via Telegram. The goal isn't to populate the system; it's to verify the write-mark-done cycle works end-to-end.
+
+**Day 6–7: Delegation habits**
+Pick one category of email you want OpenClaw to handle going forward (e.g., invoices, vendor contracts, scheduling requests). Configure the IMAP filter for it. The first week isn't about automating everything — it's about proving the mechanism works for one real use case.
+
+**The 2-week rule:** If you haven't touched the system in two weeks by day 14, the friction is too high. Revisit the setup: is the Telegram delivery working? Are the morning brief times realistic? Is the MEMORY.md too blank to be useful? The system is only as good as the inputs — a blank memory file produces a blank morning brief.
+
+**What "done" looks like after 30 days:** You receive a coherent morning brief at 7:30 AM that reflects your actual day. Follow-up reminders fire reliably. Email triage on demand works. Meeting prep surfaces relevant context. The system fades into the background because it's not breaking.
+
+![Newspaper and morning coffee on a desk — representing the first days of building a new information habit](https://images.unsplash.com/photo-1506784983877-45594efa4cbe?w=1200&auto=format&fit=crop&q=80)
+
 ## A Real Morning Brief
 
 Here's what the output actually looks like. At 7:30 AM, OpenClaw checks everything and sends you one message:

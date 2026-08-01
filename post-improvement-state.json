@@ -5,7 +5,7 @@
     "index": "2026-07-31",
     "use-cases/index": "2026-07-13",
     "01-smart-home-orchestration": "2026-07-28",
-    "04-personal-secretary": "2026-07-13",
+    "04-personal-secretary": "2026-07-31",
     "use-cases-category-pages": "2026-07-14",
     "02-research-pipeline": "2026-07-17",
     "03-development-assistant": "2026-07-18",
@@ -23,6 +23,15 @@
     "thoughts/index": "2026-07-02"
   },
   "improvementHistory": [
+    {
+      "date": "2026-07-31",
+      "postSlug": "04-personal-secretary",
+      "changes": [
+        "Added 'Onboarding: Your First Week' section — 5-part day-by-day setup guide (Day 1 foundation, Day 2-3 morning brief calibration, Day 4-5 follow-up system verification, Day 6-7 delegation habits) with concrete action items and the 2-week rule for catching setup friction before it becomes abandonment",
+        "Added concrete 'done after 30 days' success criteria — what working infrastructure looks like when the system fades into the background",
+        "Added Unsplash newspaper and coffee desk image (photo-1506784983877-45594efa4cbe) before the onboarding section"
+      ]
+    },
     {
       "date": "2026-07-31",
       "page": "index.astro",
