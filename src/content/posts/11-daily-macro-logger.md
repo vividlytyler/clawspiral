@@ -4,7 +4,7 @@ description: "Most nutrition apps die in a drawer. OpenClaw turns your existing 
 pubDate: 2026-03-28
 category: lifestyle-wellness
 difficulty: intermediate
-tags: ["nutrition", "health", "macros", "image-analysis", "telegram", "whatsapp", "automation", "diet", "micronutrients", "deficiency-detection", "portion-estimation", "goal-adjustment", "meal-analysis", "csv-structure", "special-diets", "correction-learning", "photo-metadata", "alcohol-tracking", "drink-logging", "cron-automation"]
+tags: ["nutrition", "health", "macros", "image-analysis", "telegram", "whatsapp", "automation", "diet", "micronutrients", "deficiency-detection", "portion-estimation", "goal-adjustment", "meal-analysis", "csv-structure", "special-diets", "correction-learning", "photo-metadata", "alcohol-tracking", "drink-logging", "cron-automation", "protein-timing", "meal-frequency", "correction-memory", "biometric-integration", "troubleshooting"]
 featured: true
 image: "https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=1200&auto=format&fit=crop"
 ---
@@ -435,6 +435,57 @@ When OpenClaw spots a flagged ingredient in a photo, it sends a Telegram alert: 
 - **Proactive** — it tells you what to fix, you don't have to check the app
 
 The nutrition app problem isn't the math. It's the engagement loop. You have to remember to open it, search for things, and manually enter everything. This approach removes every one of those steps except the one thing you're already doing: eating.
+
+## Protein Timing and Meal Distribution
+
+Macros get enough attention. Distribution — *when* you eat what — gets almost none. OpenClaw can track this too, and the patterns are worth knowing.
+
+**Pre- and post-workout windows.** If you're training, OpenClaw can flag when your protein is back-loaded (most of it at dinner) rather than spread across the day. A 180g protein target hit entirely at dinner means you likely missed the muscle protein synthesis window at breakfast and lunch. The digest doesn't judge — it just shows you the distribution:
+
+```
+Protein distribution today:
+  Breakfast: 22g  ████████░░░░░░░░░░░ 12%
+  Lunch:     38g  █████████████░░░░░░ 21%
+  Dinner:   120g  ████████████████████ 67%
+
+Note: 67% of daily protein at dinner. For a 180g target,
+spread of ~60g per meal is ideal for muscle protein synthesis.
+```
+
+**Meal frequency.** If you're doing 2 meals a day (OMAD or 16:8), 3 meals, or 5 smaller meals, the digest adapts to your window. You configure the meal count expectation, and it flags when your logging pattern diverges — if you're doing OMAD but logging 4 entries one day, it might be logging snacks you're not aware of.
+
+**Night eating windows.** For those doing late-night eating (shift workers, athletes with late training), the digest timestamps matter. OpenClaw can flag when calories cluster after 10pm and whether that matches your intended window, without moralizing about "eating before bed."
+
+**Practical example — the lunch deficit problem.** A common pattern: breakfast is logged accurately (routine), lunch is often a rushed sandwich or salad eaten at a desk and underlogged because it's not "a real meal," and dinner compensates. The weekly report shows it:
+
+```
+Lunch protein average: 18g/day — consistently lowest meal
+Dinner protein average: 89g/day — consistently highest
+
+Pattern suggests lunch is underlogged or genuinely protein-light.
+Consider: Greek yogurt (15g protein), a can of tuna (25g),
+or adding a protein side to your usual lunch.
+```
+
+Knowing this means you can fix it. Just adding a protein shake at lunch closes the gap without changing anything else.
+
+## Troubleshooting Common Issues
+
+**The daily digest didn't fire.** If you don't get your 9pm digest, check: (1) did you text anything today? If the log is empty, OpenClaw may skip the digest to avoid sending an empty report. (2) Is the cron job still active? Run `openclaw cron list` and check the nutrition digest job. (3) Was today a rest day with no logging? It will send a "No data today" note if you have any logging at all, even just text.
+
+**OpenClaw keeps estimating the same meal wrong.** If it's consistently misreading a meal you eat often (e.g., your standard gym shake), correct it once with specifics: "Actually it's 30g protein powder, 1 banana, 1 cup oat milk, 1 tbsp peanut butter — logged as 520 cal, 30g protein." OpenClaw remembers food entries with their descriptions. Future logs of "gym shake" will use your last logged version as the reference, not the generic estimate.
+
+**Photo analysis keeps failing or timing out.** Vision model calls can be slow on large images. If analysis takes more than 30 seconds, OpenClaw logs the photo with a "pending analysis" flag and follows up when it's done. For consistently slow analysis, try sending slightly cropped photos — smaller file sizes process faster without meaningfully reducing accuracy.
+
+**The weekly vitamin report seems off.** If your micronutrient estimates don't match what you'd expect, check the `source` column in your meal log. Text-only entries are estimates, not photo-verified. The vitamin report weights photo-verified entries more heavily, but if most of your week is text-only, the estimates compound. The fix: take photos of meals where you don't know the exact contents.
+
+**I want to stop the weekly vitamin reports.** Just tell OpenClaw: "Turn off weekly vitamin reports, just do daily digest." It updates the cron job and stops generating the Sunday report. You can re-enable anytime.
+
+**The digest is too long.** If your eating is consistent and you don't need the full breakdown every day, you can set it to "minimal mode": just the totals vs. target and one flag. "Full digest" and "one-line summary" are both configurable.
+
+**Corrections not sticking.** If you correct an entry and it reverts, you may be correcting a photo-generated entry that was later re-analyzed. To lock an entry: after correcting, say "lock this entry" and OpenClaw marks it as verified in the CSV — future re-analysis skips it.
+
+![Person using a phone to track meals at a restaurant](https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1200&auto=format&fit=crop)
 
 ## Limitations
 

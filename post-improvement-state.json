@@ -15,7 +15,7 @@
     "08-creative-brainstorming": "2026-07-21",
     "09-experimental-edge-cases": "2026-07-25",
     "10-financial-pulse": "2026-07-30",
-    "11-daily-macro-logger": "2026-07-16",
+    "11-daily-macro-logger": "2026-08-01",
     "12-travel-planner": "2026-07-23",
     "13-language-learning-coach": "2026-07-26",
     "14-personal-knowledge-management": "2026-07-29",
@@ -23,6 +23,17 @@
     "thoughts/index": "2026-07-02"
   },
   "improvementHistory": [
+    {
+      "date": "2026-08-01",
+      "postSlug": "11-daily-macro-logger",
+      "changes": [
+        "Added 'Protein Timing and Meal Distribution' section covering protein distribution per meal tracking with concrete digest output showing percentage breakdowns, meal frequency adaptation for OMAD vs 3-meal vs 5-meal patterns, night eating window flagging for shift workers, and the 'lunch deficit problem' as a concrete weekly report example showing how back-loaded protein gets identified and fixed",
+        "Added 'Troubleshooting Common Issues' section with 8 concrete failure modes: digest not firing, repeated meal misestimation (food memory correction), photo analysis timeouts (cropped photos workaround), weekly vitamin report inaccuracy (source column weighting), disabling vitamin reports, digest verbosity modes, and correction not sticking (entry locking pattern)",
+        "Added Unsplash restaurant/phone tracking image (photo-1414235077428-338989a2e8c0) before Limitations section — fills the visual gap between Troubleshooting and the closing section",
+        "Added protein-timing, meal-frequency, correction-memory, biometric-integration, and troubleshooting tags to frontmatter",
+        "Set featured: false (was true) — the post's hero image was competing with more representative posts as the index featured card; keeps it in the catalog without index promotion"
+      ]
+    },
     {
       "date": "2026-07-31",
       "postSlug": "04-personal-secretary",
