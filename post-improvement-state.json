@@ -7,7 +7,7 @@
     "01-smart-home-orchestration": "2026-07-28",
     "04-personal-secretary": "2026-07-31",
     "use-cases-category-pages": "2026-07-14",
-    "02-research-pipeline": "2026-07-17",
+    "02-research-pipeline": "2026-08-02",
     "03-development-assistant": "2026-07-18",
     "05-system-administration": "2026-07-20",
     "06-employee-scheduling": "2026-07-19",
@@ -23,6 +23,16 @@
     "thoughts/index": "2026-07-02"
   },
   "improvementHistory": [
+    {
+      "date": "2026-08-02",
+      "postSlug": "02-research-pipeline",
+      "changes": [
+        "Added 'Source Quality Assessment: Weighing What You've Found' section after Step 3: Synthesis — 5-tier authority table (Authoritative / Experiential / Anecdotal / Marketing / Aggregator) with default trust levels and source type examples, plus concrete recency/bias guidelines and a worked 3-source PgBouncer example showing how synthesis should weight an official doc, consultancy blog, and Reddit thread differently rather than treating them equally",
+        "Added 'When to Stop: Research Diminishing Returns' section before Output Quality Checklist — addresses the over-researching failure mode the cheap pipeline enables, with diminishing returns table (Run 1 high value, Run 4+ low value), concrete 'stop' signals (recycled sources, restated findings, tangential queries), token budget framing (~5-15k tokens per run, decision-class budgets by stakes), the 'what would this next run tell me?' test, and per-decision-class iteration budgets",
+        "Fixed duplicate 'Iterative research' image — same photo-1456324504439 URL appeared twice (after Iterative Research section AND inside Output Quality Checklist); replaced the second instance with photo-1450101499163 (verification/checklist themed) since the surrounding content is the Output Quality Checklist, and updated the caption from 'iterative' to 'verifying claims against sources' to match the new visual",
+        "Added source-evaluation, research-budget, citation-verification, and diminishing-returns tags to frontmatter"
+      ]
+    },
     {
       "date": "2026-08-01",
       "postSlug": "11-daily-macro-logger",

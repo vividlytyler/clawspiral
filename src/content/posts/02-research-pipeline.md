@@ -3,7 +3,7 @@ title: "Research Pipeline: From Question to Report"
 description: "How OpenClaw can research a topic end-to-end — web search, content extraction, synthesis, and delivery. A framework for turning scattered information into coherent reports."
 pubDate: 2026-03-26
 category: research
-tags: ["research", "web-search", "synthesis", "pipeline", "llm", "duckduckgo", "openclaw", "automation", "knowledge-management", "note-taking", "search-techniques", "cross-session", "research-log", "query-optimization", "scope-definition", "confidence-calibration", "search-limitations", "delivery-formats", "scheduled-research", "competitive-monitoring", "output-formats", "research-templates"]
+tags: ["research", "web-search", "synthesis", "pipeline", "llm", "duckduckgo", "openclaw", "automation", "knowledge-management", "note-taking", "search-techniques", "cross-session", "research-log", "query-optimization", "scope-definition", "confidence-calibration", "search-limitations", "delivery-formats", "scheduled-research", "competitive-monitoring", "output-formats", "research-templates", "source-evaluation", "research-budget", "citation-verification", "diminishing-returns"]
 image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&auto=format&fit=crop"
 imageCaption: "Research Pipeline — from scattered sources to structured synthesis"
 ---
@@ -124,6 +124,38 @@ That full synthesis took about 90 seconds of compute and would have taken a huma
 
 ![Research synthesis — from raw data to structured insight](https://images.unsplash.com/photo-1507925921958-8a62f3d1a50d?w=1200&auto=format&fit=crop)
 *Systematic research beats intuition — here's the workflow that makes it repeatable.*
+
+## Source Quality Assessment: Weighing What You've Found
+
+The pipeline returns a mix of source types in every fetch — official docs, marketing pages, Reddit threads, GitHub issues, blog posts from named authors and anonymous ones. The LLM treats them with roughly equal weight by default. You shouldn't.
+
+Before synthesis, rate each source. Three axes matter:
+
+**Authority** — Who wrote this and what are their incentives?
+
+| Tier | Source Types | Default Trust | Examples |
+|------|--------------|---------------|----------|
+| **Authoritative** | Official docs, spec sheets, primary source code, named research papers | High | PostgreSQL docs, RFC documents, ACM papers with named authors, GitHub release notes from the project owner |
+| **Experiential** | Engineer blogs, conference talks, detailed forum posts with reproducible details | Medium-High | Blog post by a working engineer describing their actual production setup, conference talk with real metrics |
+| **Anecdotal** | Reddit comments, HN threads, Twitter/X posts, single-person reviews | Medium | Reddit thread from someone who "tried it last weekend," HN comment from anonymous account |
+| **Marketing** | Vendor blogs, landing pages, sponsored content | Low | "Why [Product X] is the future of [category]" posts, comparison pages that don't name the comparison criteria |
+| **Aggregator** | Listicle sites, "best of" roundups, SEO content farms | Very Low | "Top 10 X for 2026" articles with no original testing, generic comparison pages |
+
+**Recency** — When was this written? Software and APIs move fast. A 2024 guide to a service that has since changed its pricing is worse than no guide at all, because it confidently suggests things that may no longer work. Flag sources older than 18 months for technical topics, older than 5 years for foundational concepts.
+
+**Bias check** — Does the source have skin in the outcome? A vendor's blog post about why their product beats the competition isn't the same as a third-party review. A Reddit post from someone asking for help (no product recommendation yet) is closer to neutral. Stack Overflow answers about libraries sometimes have implicit bias toward whichever library the answerer happens to use.
+
+**Concrete example — evaluating three sources on "Postgres connection pooling":**
+
+- **PgBouncer official docs (pgbouncer.org):** Authoritative + Recent (last updated 2025) + No bias → Use as ground truth for config syntax and pooling modes.
+- **"PgBouncer vs. pgpool: Which is Better?" blog post by a Postgres consultancy:** Anecdotal-leaning + Recent + Has bias (they sell Postgres consulting, more relevant if they win clients with whichever tool) → Use for direct feature comparison, but verify any specific claim against docs.
+- **Reddit thread "PgBouncer killed our production":** Anecdotal + Older (2023) + No vendor bias but high sample-of-one risk → Use as a lead on failure modes to investigate, not as evidence that PgBouncer is unsafe.
+
+Synthesis should weight these differently. If you asked the pipeline "is PgBouncer production-safe?" and it returned these three sources, the synthesis should be: **High confidence in basic config and pooling modes (official docs). Medium confidence in tradeoff specifics (consultancy blog — verify claims). The production failure case from Reddit needs context — what was their config? What was their workload? — before drawing conclusions.**
+
+This isn't about distrusting the LLM. It's about giving it explicit weights instead of letting it figure out weights implicitly. The result: synthesis that's right more often because it privileges authoritative sources over plausibility-sounds-like-truth.
+
+**Practical tip:** Ask OpenClaw to surface source URLs and dates alongside each claim in the synthesis output. If you can't see the source for a specific claim, you can't rate it — and that's a problem.
 
 ## Step 4: Delivery
 
@@ -475,10 +507,43 @@ The same research, three formats. The Telegram brief is what you act on immediat
 
 **Tip:** Specify your delivery format at the start of the research query. "Research X and send me a Telegram brief" produces tighter output than "research X" — OpenClaw will optimize for scanability and length accordingly.
 
+## When to Stop: Research Diminishing Returns
+
+Iterative research is powerful, but it has a cost — every pipeline run spends tokens, and the marginal value of iteration drops sharply after a few cycles. Knowing when to stop is as important as knowing how to start.
+
+**The diminishing returns curve looks like this:**
+
+| Iteration | Typical Value Add | Common Use |
+|-----------|-------------------|------------|
+| **Run 1** | High — maps the landscape, surfaces the main options | Almost always worth it |
+| **Run 2** | Medium-High — fills gaps from Run 1, sharpens specific claims | Worth it for high-stakes decisions |
+| **Run 3** | Medium — surfaces edge cases or recent changes | Worth it if Run 2 surfaced a contradiction or recent development |
+| **Run 4+** | Low — same territory, slightly different framing, same sources recycled | Almost never worth it |
+
+**Concrete signal you've hit diminishing returns:**
+
+- New searches are returning sources you've already fetched
+- The synthesis is restating earlier findings with different wording
+- You're researching a tangential question that emerged from the original, not the original itself (query drift trap, again)
+- Confidence is no longer increasing between runs
+- You've spent more time on research than the decision justifies
+
+**Token budget framing:** A typical research run costs roughly 5,000-15,000 tokens depending on number of sources fetched and synthesis length. If you're running 4+ iterations on a single research question, you've spent the equivalent of a small blog post's worth of compute — and you're still iterating because the answer isn't clear. Often that means the question itself isn't answerable with public web sources, and the right move is to ask a human expert or change the decision being made.
+
+**The "good enough" test:** Before each iteration past Run 2, ask "what would this next run tell me that I don't already know?" If you can't answer that specifically, you're researching for comfort, not for clarity. Comfort-research feels productive but doesn't move decisions forward.
+
+**Practical rule of thumb:**
+- **Vendor evaluation, minor purchase (<$200):** 1 run is usually enough
+- **Vendor evaluation, significant commitment ($1k+/year or migration cost):** 2-3 runs
+- **Technical architecture decision, hard to reverse:** 3-4 runs, with each focused on a specific gap
+- **Career or major life decision:** Research helps, but talk to humans who've done it. Don't pipeline your way through decisions that other people have hard-won experience with.
+
+**Why this matters:** The pipeline makes research cheap enough that over-researching is now the failure mode. Spending an hour and 60,000 tokens "researching" what a 5-minute conversation with a knowledgeable friend would resolve isn't productivity — it's procrastination wearing a lab coat.
+
 ## Output Quality Checklist
 
-![Iterative research — question, synthesis, gaps, deeper follow-ups](https://images.unsplash.com/photo-1456324504439-367cee3b3c32?w=1200&auto=format&fit=crop)
-*Real research is iterative — each cycle surfaces new gaps that lead to sharper follow-up questions.*
+![Output verification — checking claims against sources](https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=1200&auto=format&fit=crop)
+*The final step before acting — verify what the synthesis says against what the sources actually contain.*
 
 Before acting on research output, run through this:
 
