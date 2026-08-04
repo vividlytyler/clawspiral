@@ -8,7 +8,7 @@
     "04-personal-secretary": "2026-07-31",
     "use-cases-category-pages": "2026-07-14",
     "02-research-pipeline": "2026-08-02",
-    "03-development-assistant": "2026-07-18",
+    "03-development-assistant": "2026-08-03",
     "05-system-administration": "2026-07-20",
     "06-employee-scheduling": "2026-07-19",
     "07-invoice-processing": "2026-07-22",
@@ -23,6 +23,18 @@
     "thoughts/index": "2026-07-02"
   },
   "improvementHistory": [
+    {
+      "date": "2026-08-03",
+      "postSlug": "03-development-assistant",
+      "changes": [
+        "Added 'Production Incident Response: A Complete Walkthrough' section before Limitations — full Friday 4:47 PM payment-API 500 scenario showing webhook-driven detection, root cause identification (commit b7e3a21 added required Stripe idempotencyKey param without updating config), 3 mitigation options with tradeoffs (rollback/hotfix/forward-fix), step-by-step resolution via Option 2 with uuidgen key generation and docker-compose restart, post-mortem auto-creation with full timeline metadata (detection 4:47, resolution 4:52, 5 min total); demonstrates how OpenClaw compresses what would be 30+ minutes of context-switching into a single investigation pass",
+        "Added 'Why This Works' subsection identifying the 3 enabling patterns (webhook-driven detection, codebase context in one place, concrete options not just diagnosis) so readers know which incident patterns benefit vs which don't",
+        "Added 'Incidents Where the Workflow Breaks Down' subsection covering cascading multi-service failures, silent failures without discrete errors, and customer-facing urgency requiring human judgment — sets realistic expectations about the on-call model",
+        "Added Unsplash production monitoring dashboard image (photo-1551288049-bebda4e38f71) before the Decision Framework section — visually anchors the incident response flow with alerts/response-time graphs",
+        "Added 'Decision Framework: When to Delegate vs Handle Manually' section after Production Incident Response — addresses the post's gap in triage guidance by providing a 2x2 risk/reversibility matrix (4 quadrants: easy-to-undo-low-impact/freely delegatable through hard-to-undo-high-impact/manual only) with concrete examples per quadrant, task categories by delegation suitability (excellent delegations / good with review / use cautiously / do manually), the 'can you explain it?' self-check, and a human-in-the-loop escalation pattern where OpenClaw does recon and implementation while the user provides judgment",
+        "Added pager-workflow, rollback-decision, and delegation-framework tags to frontmatter"
+      ]
+    },
     {
       "date": "2026-08-02",
       "postSlug": "02-research-pipeline",
