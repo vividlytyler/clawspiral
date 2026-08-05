@@ -3,7 +3,7 @@
     "404": "2026-07-11",
     "baseLayout": "2026-07-19",
     "index": "2026-07-31",
-    "use-cases/index": "2026-07-13",
+    "use-cases/index": "2026-08-05",
     "01-smart-home-orchestration": "2026-07-28",
     "04-personal-secretary": "2026-07-31",
     "use-cases-category-pages": "2026-07-14",
@@ -23,6 +23,13 @@
     "thoughts/index": "2026-07-02"
   },
   "improvementHistory": [
+    {
+      "date": "2026-08-05",
+      "page": "use-cases/index.astro",
+      "changes": [
+        "Added category-specific SVG icons (home, search, code, dollar, heart, art, checklist) to category card hover overlays on use-cases index — matching the homepage category grid which already had per-category icons; use-cases index previously used a generic arrow on all cards"
+      ]
+    },
     {
       "date": "2026-08-04",
       "postSlug": "05-system-administration",
