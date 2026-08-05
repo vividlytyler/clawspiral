@@ -4,7 +4,7 @@ description: "Using an AI agent as a always-on system administrator — monitori
 pubDate: 2026-03-26
 category: lifestyle-wellness
 difficulty: intermediate
-tags: ["system-admin", "docker", "server", "monitoring", "linux", "ubuntu", "watchtower", "cron", "self-hosted", "ssh", "portainer", "incident-response", "performance-tuning", "status-page", "security-hardening", "self-healing", "restart-policy", "systemd", "healthchecks", "getting-started", "zfs", "smart", "apcupsd", "capacity-planning", "ups-monitoring"]
+tags: ["system-admin", "docker", "server", "monitoring", "linux", "ubuntu", "watchtower", "cron", "self-hosted", "ssh", "portainer", "incident-response", "performance-tuning", "status-page", "security-hardening", "self-healing", "restart-policy", "systemd", "healthchecks", "getting-started", "zfs", "smart", "apcupsd", "capacity-planning", "ups-monitoring", "database-monitoring", "postgresql", "mariadb", "sqlite", "dns-monitoring", "ddclient", "dynamic-dns", "pi-hole", "home-lab", "log-rotation", "permission-drift", "cert-expiry", "common-failure-modes"]
 image: "https://images.unsplash.com/photo-1600267204026-85c3cc8e96cd?w=1200&auto=format&fit=crop"
 ---
 
@@ -550,6 +550,53 @@ OpenClaw can update the tunnel config, check status via `cloudflared tunnel list
 
 For all remote access methods: keep the SSH key on your client machine, not on the server itself. If OpenClaw needs to run commands remotely, use `ssh -i /path/to/key user@host 'command'` from the server.
 
+## DNS and Dynamic Update Monitoring
+
+Home servers often depend on DNS — either running a local resolver (Pi-hole, AdGuard, Unbound) or maintaining a dynamic DNS hostname for remote access. OpenClaw can monitor both.
+
+**Local DNS resolver health (Pi-hole/AdGuard):**
+```bash
+# Pi-hole: check query count and block rate
+curl -s http://pi.hole/admin/api.php | jq .
+# AdGuard: check query log
+curl -s -u "admin:password" "http://localhost:3000/control/stats" | jq .
+```
+OpenClaw watches the block rate — a sudden drop to 0% means the blocklist stopped updating or the upstream DNS is bypassing your resolver. A spike in query count (10x normal) might indicate DNS amplification or an infected device on your network.
+
+**Dynamic DNS (ddclient, Cloudflare, No-IP):**
+```bash
+# Check ddclient last update
+cat /var/log/syslog | grep ddclient | tail -5
+# Check Cloudflare DNS record current IP
+dig +short my-subdomain.example.com
+# Verify it matches your external IP
+curl -s ifconfig.me
+```
+OpenClaw verifies that the IP in your DNS record matches your actual external IP. If they diverge, your dynamic DNS provider's update failed — ddclient may be using an outdated API (Cloudflare changed their API in 2024 from v4 to v1), or your ISP changed the external IP without triggering ddclient's check interval. OpenClaw can also force a manual update:
+```bash
+# Force ddclient refresh
+sudo systemctl restart ddclient
+# Or update Cloudflare directly
+curl -X PUT "https://api.cloudflare.com/client/v4/zones/$ZONE_ID/dns_records/$RECORD_ID" \
+  -H "Authorization: Bearer $CF_TOKEN" \
+  -H "Content-Type: application/json" \
+  --data '{"type":"A","name":"my-subdomain","content":"'$(curl -s ifconfig.me)'","ttl":120,"proxied":false}'
+```
+
+**Local DNS resolution failures:**
+```bash
+# Test local DNS resolution
+nslookup homeassistant.local
+# Check mDNS/Avahi
+avahi-resolve -n homeassistant.local
+# Check if a service is broadcasting correctly
+dns-sd -B _home-assistant._tcp local
+```
+OpenClaw can diagnose why `homeassistant.local` resolves for some devices but not others — usually a multicast DNS (mDNS) scope issue or a device not advertising on the right interface. This is particularly useful for Jellyfin, Sonarr, and Radarr instances that rely on local discovery.
+
+**A real DNS alert:**
+> *"Your external IP changed from 96.45.x.x to 73.21.x.x 4 hours ago. Your Cloudflare DNS 'home.example.com' A record still points to the old IP — ddclient hasn't successfully updated since the change. Manually triggering update now. After: try `dig home.example.com +short` to confirm it resolves to 73.21.x.x. Remote access (SWAG reverse proxy, Tailscale) may have been failing for devices that cached the old IP."*
+
 ## Performance Tuning
 
 Beyond monitoring, OpenClaw can actively tune your system based on observed behavior:
@@ -608,6 +655,56 @@ throttled=$(vcgencmd get_throttled)
 echo $throttled
 ```
 On Raspberry Pi or systems with `vcgencmd`, OpenClaw can detect if the CPU has been throttled due to heat and suggest cooling improvements.
+
+## Database Administration
+
+Home servers often run databases — PostgreSQL for酿, MySQL/MariaDB for HomeAssistant's recorder, or SQLite for lightweight apps. Each has its own failure modes, and OpenClaw can monitor all of them.
+
+**PostgreSQL health:**
+```bash
+psql -U postgres -c "SELECT pg_database.datname, pg_size_pretty(pg_database_size(pg_database.datname)) AS size FROM pg_database ORDER BY pg_database_size(pg_database.datname) DESC;"
+# Check connection count
+psql -U postgres -c "SELECT count(*) FROM pg_stat_activity WHERE state = 'active';"
+# Check for long-running queries
+psql -U postgres -c "SELECT pid, now() - pg_stat_activity.query_start AS duration, query FROM pg_stat_activity WHERE state = 'active' AND query != '<IDLE>' AND now() - pg_stat_activity.query_start > interval '5 minutes' ORDER BY duration DESC;"
+```
+OpenClaw parses the output and flags: connection count approaching `max_connections`, long-running queries holding locks, and database bloat (autovacuum not keeping up). For a HomeAssistant PostgreSQL addon's 30-day retention policy, the size query tells you if the recorder db is growing faster than retention is cleaning it up.
+
+**MySQL/MariaDB health:**
+```bash
+mysql -e "SHOW STATUS LIKE 'Uptime';"
+mysql -e "SHOW STATUS LIKE 'Threads_connected';"
+mysql -e "SHOW STATUS LIKE 'Aborted_connects';"
+# InnoDB buffer pool hit ratio
+mysql -e "SHOW STATUS LIKE 'Innodb_buffer_pool_read_%';"
+# Table lock contention
+mysql -e "SHOW STATUS LIKE 'Table_locks_waited';"
+```
+OpenClaw flags connection spikes, aborted connects (often misconfigured client credentials), and InnoDB buffer pool efficiency. A low hit ratio means queries are spilling to disk instead of cache — time to increase `innodb_buffer_pool_size`.
+
+**SQLite health (for Sonarr, Radarr, Plex, etc.):**
+```bash
+# Check for lock contention
+sqlite3 /config/sonarr/sonarr.db "PRAGMA integrity_check;"
+# WAL file size indicates heavy write load
+ls -lh /config/sonarr/sonarr.db-wal
+```
+The Sonarr/Radarr SQLite lock conflict from the incident earlier is the classic failure mode: both containers trying to write the same `.db` file. OpenClaw's `PRAGMA integrity_check` detects corruption before it becomes unrecoverable, and monitoring WAL file size catches write-heavy workloads before locks become contention.
+
+**A real database alert:**
+> *"MariaDB has 847 open connections — normal baseline is under 50. `SHOW PROCESSLIST` shows 780 connections in 'Sleep' state from `homeassistant` user, most idle for 4+ hours. These are leaked connections from a HomeAssistant restart at 14:23 that didn't close properly. Recommend running `mysqladmin flush-hosts` to clear, then checking the HomeAssistant MariaDB connection pool settings (max_overflow and pool_size in the MariaDB addon config)."*
+
+**Backup verification for databases:**
+```bash
+# PostgreSQL: verify latest backup exists and isn't empty
+pg_dump -U postgres -Fc -f /backups/postgres-$(date +%Y%m%d).pgdump
+# MariaDB: verify last backup and check binlog position
+mysqladmin -u root -p flush-logs
+mysql -e "SHOW MASTER STATUS;"
+```
+OpenClaw includes backup verification in the weekly maintenance cron. It logs the backup size, verifies the file is non-zero, and for PostgreSQL runs `pg_restore --list` to confirm the dump is valid without actually restoring it.
+
+![Database server storage array — NAS with database concept](https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=1200&auto=format&fit=crop)
 
 ## ZFS Health Monitoring
 
@@ -704,6 +801,28 @@ OpenClaw can schedule a reminder cron for when capacity projections cross thresh
   "payload": { "kind": "agentTurn", "message": "Check disk growth rate on your media drive. If projected time-to-full is under 8 weeks, message Tyler: 'Storage reminder: [drive] at [X]% with [N] weeks of headroom. Top consumers: [list]. Suggest: [action].'" }
 }
 ```
+
+## Common Sysadmin Failure Modes
+
+These are the patterns OpenClaw helps you catch — and the specific failure modes home server administrators run into most often:
+
+**The silent log rotation failure.** A service writes to `/var/log/myapp.log`, but `logrotate` is misconfigured — it compresses the file but doesn't send `kill -HUP` to the process. The service keeps writing to the compressed file descriptor. Eventually the log file is a 50GB `.log.gz` and the actual writable log is `/var/log/myapp.log` (empty). OpenClaw catches this by tracking `ls -lh /var/log/myapp.log` over time and alerting when the file size doesn't grow despite expected service activity.
+
+**The cron misfire that goes undetected for weeks.** A cron job that fires `docker image prune -a` monthly — but it runs at 3 AM on the first of the month, and you never check the logs. OpenClaw can verify cron output: if `docker image prune` ran successfully, it logs the result. If it silently failed (Docker daemon not responding), OpenClaw notices the missing confirmation and alerts. The fix: always log cron output to a file and verify it in the next health check.
+
+**The swap death spiral.** Memory fills up, some container starts swapping, swap thrashing causes CPU to spike, OOM killer terminates the container, it restarts (consuming more memory), and the cycle repeats. OpenClaw detects the early warning: `free -m` showing swap used > 0 when swap used was historically 0, or `docker stats` showing any container at >95% memory limit. The preemptive alert: "Plex at 94% of memory limit (7.6G/8G). History shows steady growth from 72% over 3 weeks. Recommend increasing limit to 12G before OOM."
+
+**The upstream DNS hijack.** Your ISP or VPN provider starts returning a search page (or a bogus IP) for NXDOMAIN responses instead of returning empty. Your containers can't pull images because `docker.io` appears to resolve to an ad server. OpenClaw's check: resolve a known-bad domain and verify it returns an NXDOMAIN, not an A record pointing to a captive portal or DNS sinkhole. If it does, alert and switch to a DoH provider (Cloudflare 1.1.1.1, Google 8.8.8.8).
+
+**The backup that ran but wasn't restorable.** You have a cron that runs `borg create` every night. It exits 0 (success). Three months later your drive fails, you go to restore, and the backup is corrupt — a race condition between `borg create` and a simultaneous database write produced an inconsistent snapshot. OpenClaw's mitigation: before declaring backup success, run `borg check --verify-data tank` weekly (expensive, but validates integrity) and `borg list --last 1` to confirm the archive exists and isn't suspiciously small.
+
+**The self-signed cert that expired on a holiday.** Your internal CA signed a cert for `homeassistant.local`, valid for 1 year. It expired on December 24th while you were visiting family. OpenClaw tracks certificate expiration: `openssl s_client -connect homeassistant.local:8123 -showcerts 2>/dev/null | openssl x509 -noout -dates`. At 30 days before expiration, alert. At 7 days, escalate. At 1 day, send an urgent notification. The cert check can be part of the weekly maintenance cron — by the time you're getting paged at midnight, it's too late to renew it calmly.
+
+**The "I thought that was on" failure.** You configured a service months ago, haven't touched it, and it stopped working after a Docker Compose update or a server reboot. OpenClaw's baseline comparison catches this: if a service was listening on port 8123 in the initial baseline and is no longer listening, it alerts even if you haven't asked about it. The fix is usually a `docker compose up -d` and a few minutes — but only if you know it stopped.
+
+**The permission drift.** You set up a directory as `chmod 600` and added the right users to the right groups. Six months later, an application update resets permissions to `644` and the service won't start. OpenClaw can track key permission sets: `stat -c '%a' /path/to/critical/file` stored in a baseline, compared against current state in the weekly health check. The drift alert: "/etc/docker/daemon.json is 644, was 600 in baseline — dockerd may have reset it on update."
+
+![Server maintenance checklist — ops workflow concept](https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200&auto=format&fit=crop)
 
 ## Limitations
 

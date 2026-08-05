@@ -9,7 +9,7 @@
     "use-cases-category-pages": "2026-07-14",
     "02-research-pipeline": "2026-08-02",
     "03-development-assistant": "2026-08-03",
-    "05-system-administration": "2026-07-20",
+    "05-system-administration": "2026-08-04",
     "06-employee-scheduling": "2026-07-19",
     "07-invoice-processing": "2026-07-22",
     "08-creative-brainstorming": "2026-07-21",
@@ -23,6 +23,18 @@
     "thoughts/index": "2026-07-02"
   },
   "improvementHistory": [
+    {
+      "date": "2026-08-04",
+      "postSlug": "05-system-administration",
+      "changes": [
+        "Added Database Administration section covering PostgreSQL health (connection count, long-running queries, size/bloat), MySQL/MariaDB health (InnoDB buffer pool, table lock contention), SQLite health (PRAGMA integrity_check, WAL file size for Sonarr/Radarr write contention), and a real MariaDB leaked connection alert showing HomeAssistant restart as root cause",
+        "Added DNS and Dynamic Update Monitoring section covering Pi-hole/AdGuard block rate monitoring, ddclient status verification and Cloudflare API update commands, local DNS resolution failure diagnosis via nslookup/avahi/dns-sd, and a real dynamic DNS alert showing external IP change not propagating through ddclient",
+        "Added Common Sysadmin Failure Modes section with 8 specific patterns: silent log rotation failure (compressed fd still writing), cron misfire going undetected, swap death spiral (early warning detection), upstream DNS hijack (ISP captive portal NXDOMAIN spoofing), backup that ran but is corrupt (borg verify-data workaround), self-signed cert expiry (openssl date tracking), 'I thought that was on' failure (baseline comparison), and permission drift from application updates",
+        "Added database server storage Unsplash image (photo-1544197150-b99a580bb7a8) before ZFS section",
+        "Added server maintenance checklist Unsplash image (photo-1518770660439-4636190af475) before Limitations section",
+        "Added 13 new tags: database-monitoring, postgresql, mariadb, sqlite, dns-monitoring, ddclient, dynamic-dns, pi-hole, home-lab, log-rotation, permission-drift, cert-expiry, common-failure-modes"
+      ]
+    },
     {
       "date": "2026-08-03",
       "postSlug": "03-development-assistant",
