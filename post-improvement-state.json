@@ -12,7 +12,7 @@
     "05-system-administration": "2026-08-04",
     "06-employee-scheduling": "2026-07-19",
     "07-invoice-processing": "2026-07-22",
-    "08-creative-brainstorming": "2026-07-21",
+    "08-creative-brainstorming": "2026-08-05",
     "09-experimental-edge-cases": "2026-07-25",
     "10-financial-pulse": "2026-07-30",
     "11-daily-macro-logger": "2026-08-01",
@@ -28,6 +28,15 @@
       "page": "use-cases/index.astro",
       "changes": [
         "Added category-specific SVG icons (home, search, code, dollar, heart, art, checklist) to category card hover overlays on use-cases index — matching the homepage category grid which already had per-category icons; use-cases index previously used a generic arrow on all cards"
+      ]
+    },
+    {
+      "date": "2026-08-05",
+      "postSlug": "08-creative-brainstorming",
+      "changes": [
+        "Added concrete evaluation exchange to 'Evaluating Your Own Work' section — full back-and-forth showing AI diagnosing a structural pattern (backstory front-loading killing pace) vs. surface-level line edits, with specific guidance on replacing explanation with physical detail so readers reconstruct emotional context rather than receive it; demonstrates the difference between structural and line-level evaluation",
+        "Added genre cross-pollination failure mode to Limitations — AI's tendency to import conventions across domains in ways that feel mixed rather than hybrid (documentary pacing in novels, podcast structure in film treatments), with mitigation strategy of explicitly naming which genre's conventions you're borrowing vs. rejecting",
+        "Added abstract blue creative workspace Unsplash image (photo-1618005182384) before Breaking Through Mental Blocks section — anchors the new evaluation and mental blocks content with a visual transition from the heavy audience development section"
       ]
     },
     {

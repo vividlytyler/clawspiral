@@ -265,6 +265,8 @@ OpenClaw with memory enabled and a dedicated project memory file. That's it — 
 
 The memory file is your creative brief. The more you put in, the better the AI can spar with your actual intent rather than a vague description of it.
 
+![Creative workspace with sketchbook and focused work - creative process](https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1200&auto=format&fit=crop)
+
 ## Breaking Through Mental Blocks
 
 The blank page problem is real. When you're stuck, the useful move isn't to wait for inspiration — it's to generate bad options on purpose and use them as raw material.
@@ -375,6 +377,52 @@ Creative judgment gets harder when you're close to something. OpenClaw can act a
 - "Where does this lose energy?" — pinpointing sagging middle sections
 - "What does this remind you of?" — if the answer is a specific other work, that's a comparison you'll have to either earn or deliberately subvert
 - "What is it NOT doing that it could?" — finds the gaps in your approach
+
+**A concrete evaluation exchange:**
+
+```
+User: Here's the opening of my short story. Give me a structural read —
+not line edits, just what the structure is doing.
+
+[First three paragraphs of story pasted]
+
+OpenClaw: Structure is doing three things simultaneously: establishing
+the narrator's voice (working), introducing the central relationship
+(working), and front-loading backstory about the setting (working too
+hard — it's doing 40% of the word count but only 15% of the structural
+work). The backstory could be cut by two-thirds and the scene would
+actually be stronger — the reader learns more from what the narrator
+NOTICES than from what she EXPLAINS. Specific issue: paragraph 2 is
+pure exposition. The narrator would never think that in the moment
+she's describing — she'd notice a physical detail first, then maybe
+the explanation comes later.
+
+User: So I should cut all the backstory?
+
+OpenClaw: No. Cut the explanation in paragraph 2 and replace it with
+a physical detail. The reader can infer the same information from the
+detail — they'll feel like they figured it out instead of being told.
+The story's pace would pick up immediately and the narrator's voice
+would come through more clearly.
+
+User: The backstory explains why the setting matters emotionally.
+Without it the ending won't land.
+
+OpenClaw: That's probably true — but if the ending depends on context
+the reader gets in paragraph 2, and paragraph 2 is also the place
+where readers most often stop reading, then the backstory is killing
+your ending's chance to land by making the reader quit before they
+get there. The emotional context needs to arrive differently — not as
+explanation but as discovered information.
+
+OpenClaw: Try: keep paragraph 1. Delete paragraph 2 entirely. Replace
+it with three lines of physical description — something the narrator
+would actually notice in the moment that implies the history without
+stating it. Let the reader reconstruct the emotional context from
+what the narrator notices, not from what she explains.
+```
+
+This kind of structural back-and-forth — where the AI diagnoses a pattern rather than offering line-level fixes — is the highest-value creative evaluation use case.
 
 ```
 User: Here's the first chapter of my novel. [paste 3000 words]
@@ -508,5 +556,7 @@ This is what audience development actually looks like: not identifying a demogra
 **Long projects lose momentum at session boundaries.** Every time you resume a project after a gap, there's a re-entry cost — you need to re-engage with where you were, and OpenClaw needs to re-establish the project's state. For projects longer than a few weeks, this can compound. The fix is thorough session-end notes and aggressive distillation of the memory file, but it's real overhead that shorter projects avoid.
 
 **Emotional neutrality cuts both ways.** OpenClaw's ability to stay neutral is useful for not shutting down ideas prematurely. But creative work sometimes needs a partisan advocate — someone who says "this is worth fighting for" rather than "here are the problems." The AI can play that role if you ask it to, but it won't volunteer emotional investment you haven't explicitly requested.
+
+**Genre cross-pollination can dilute rather than enrich.** When you use AI to brainstorm across genres or media, there's a real risk of importing conventions from one form into another in ways that feel mixed rather than hybrid. A novel that uses documentary pacing, or a film script structured like a podcast episode, can feel like genre confusion rather than innovation. AI is particularly susceptible to this because it optimizes for plausible next-moves in a given domain — it won't flag that your film treatment is structurally a podcast outline unless you specifically ask. The mitigation: when working cross-genre, explicitly name which genre's conventions you're borrowing from and which you're rejecting, so the AI has clear constraints rather than a vague "make it interesting."
 
 The best creative use is as a sparring partner for concept development, structural thinking, and pushing past the obvious — not as a replacement for the actual making. It excels at helping you think more clearly about what you're trying to do; it can't do the making for you, and it shouldn't try.
