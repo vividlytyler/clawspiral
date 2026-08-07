@@ -19,10 +19,25 @@
     "12-travel-planner": "2026-07-23",
     "13-language-learning-coach": "2026-07-26",
     "14-personal-knowledge-management": "2026-07-29",
+    "15-automated-code-review": "2026-08-06",
     "news/index": "2026-06-30",
     "thoughts/index": "2026-07-02"
   },
   "improvementHistory": [
+    {
+      "date": "2026-08-06",
+      "postSlug": "15-automated-code-review",
+      "changes": [
+        "Added 'A Code Review Checklist: What to Ask For' section — 6-category table (Security, Error Handling, Performance, Testing Gaps, Type Safety, Consistency) with specific prompts for each; generic requests produce generic output, specific requests produce actionable results; run one category at a time for focused output",
+        "Added 'A Real Review Example' section — full concrete webhook handler code snippet with actual OpenClaw review output showing SQL injection flag, missing auth detection, unhandled error path, and KeyError risk, with specific file/line references and parameterized query fix; demonstrates the granularity the checklist table produces",
+        "Added 'How to pass a diff to OpenClaw' subsection — concrete bash examples for last commit review, uncommitted changes review, specific file review, and gh CLI diff capture pattern; addresses the practical 'how do I get the diff in front of it?' question that was only implied",
+        "Added pre-commit hook setup section with .pre-commit-config.yaml example — local hook entry, staged diff capture, always_run flag, and guidance on noisy output as a signal to fix before committing",
+        "Added 'Common Failure Modes' section covering 5 specific patterns: noisy false-positive flood (start one file/category at a time fix), style issues drowning substance (exclude style from scope fix), missing context producing wrong suggestions (reference existing code in prompt fix), generated tests wrong in subtle ways (run against broken impl to verify), and CI auto-posting attribution problem (tune prompts manually before automating)",
+        "Expanded Limitations section from 4 sparse bullets to 5 detailed paragraphs — added 'no awareness of business logic' item covering the price-source problem, expanded runtime context note to mention memory leak example explicitly",
+        "Added Unsplash code review checklist dashboard image (photo-1551288049-bebda4e38f71) before Code Review Checklist section",
+        "Added security, error-handling, pre-commit, diff, and pull-requests tags to frontmatter"
+      ]
+    },
     {
       "date": "2026-08-05",
       "page": "use-cases/index.astro",

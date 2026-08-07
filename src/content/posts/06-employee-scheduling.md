@@ -3,7 +3,7 @@ title: "Employee Scheduling for Small Businesses"
 description: "How OpenClaw can automate weekly scheduling — collecting availability, building schedules based on business rules, and delivering shift assignments via Telegram or WhatsApp."
 pubDate: 2026-03-26
 category: business-finance
-tags: ["scheduling", "small-business", "telegram", "whatsapp", "automation", "hr", "cron", "sick-day", "troubleshooting", "split-shifts", "on-call", "payroll-export", "availability-management", "last-minute-callout", "audit-trail", "compliance-documentation"]
+tags: ["scheduling", "small-business", "telegram", "whatsapp", "automation", "hr", "cron", "sick-day", "troubleshooting", "split-shifts", "on-call", "payroll-export", "availability-management", "last-minute-callout", "audit-trail", "compliance-documentation", "new-hire-onboarding", "employee-lifecycle"]
 image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&auto=format&fit=crop"
 featured: true
 ---
@@ -502,6 +502,77 @@ Without the confirm loop, there's no way to know if a WhatsApp message was seen 
 
 ![Team resolving a scheduling conflict on a laptop](https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=1200&auto=format&fit=crop)
 
+### New Employee Onboarding
+
+The system works smoothly once it's running, but every business hires someone new. The gap between "you're hired" and "you're in the schedule" is the friction point most onboarding plans ignore — and it's exactly where OpenClaw's chat interface pays off.
+
+**A concrete onboarding flow for a new barista:**
+
+```
+Manager: "Adding Sofia Reyes to the system starting Monday"
+Bot: "Got it — creating Sofia's profile. What's her contact info?"
+Manager: "+1-555-0142, Telegram @sofia_r"
+Bot: "Profile created. What's her availability pattern for week 1?"
+Manager: "Same as James — Mon-Fri mornings, alternating weekends"
+Bot: "Noted. Initial availability set. Adding Sofia to the next schedule run."
+
+Bot: "@Sofia — welcome to the team! You're set up for Mon-Fri mornings starting this week.
+Every Sunday at 6pm I'll message your schedule. Just reply with any availability updates as they come up.
+Quick test — what days can you work next week?"
+Sofia: "All weekdays, no weekends"
+Bot: "Perfect — that's stored. You're all set."
+```
+
+The chat interface means there's no separate app to install, no training session required, no "where do I check my schedule?" question. Sofia learns the bot by using it.
+
+**The first-schedule checklist.** When a new employee is added, OpenClaw walks through a pre-flight check before their first published schedule:
+
+```
+Bot: "Sofia — pre-flight for your first week (Mar 30 - Apr 5):
+✓ Profile created with contact + Telegram handle
+✓ Initial availability stored
+✓ Locations: downtown (no kiosk or campus yet)
+✓ Certifications: servsafe pending — manager to confirm
+⚠ Alcohol bar shifts excluded until certification is verified
+✓ Added to next schedule run
+
+You'll get your first schedule Sunday at 6pm. Reply HELP any time."
+```
+
+The pending certification flag is critical — it prevents the system from scheduling Sofia for shifts she's not yet cleared for, even if the schedule generator would otherwise place her there.
+
+**Adding to the employee database.** OpenClaw updates the config file automatically when a new hire is added:
+
+```json
+{
+  "Sofia Reyes": {
+    "contact": "+1-555-0142",
+    "telegram": "@sofia_r",
+    "startDate": "2026-03-30",
+    "locations": ["downtown"],
+    "roles": { "downtown": ["barista"] },
+    "certifications": [],
+    "pendingCertifications": ["servsafe"],
+    "status": "active"
+  }
+}
+```
+
+When `servsafe` is confirmed later, the manager updates the certifications array and OpenClaw automatically expands Sofia's eligible shifts. No schedule rebuild needed.
+
+**Offboarding is symmetric.** When someone leaves, the flow is just as simple:
+
+```
+Manager: "Removing Chris Walsh — last day Friday"
+Bot: "Got it. Marking Chris inactive after Apr 4. 
+Final schedule export will include all of Chris's shifts through that date."
+Bot: "Should I archive Chris's availability file or delete it?"
+Manager: "Archive"
+Bot: "Archived to employees/_archive/chris-walsh-2026.json. Profile marked inactive."
+```
+
+Archived files preserve historical audit data (what shifts Chris worked, when swaps happened) without affecting the active schedule generator.
+
 ### Handling Mid-Week Schedule Changes
 
 Swaps are one thing — one employee trades a known shift with another. But what happens when the business itself changes the schedule mid-week? A supplier delivers on the wrong day, a private event books the space, a piece of equipment breaks and you need fewer staff Thursday afternoon.
@@ -649,6 +720,7 @@ This JSON — combined with the Telegram confirm receipts and the swap/sick-day 
 - **No shift differential** — the CSV export shows hours worked, but overtime rate calculations or weekend/night shift differential pay need to be handled in your payroll tool
 - **Availability drift** — if employees repeatedly message availability that doesn't match what they actually accept, the system keeps storing what they said, not what they meant. A monthly reset of availability files prevents stale preferences from quietly distorting the schedule
 - **No-show detection** — OpenClaw can confirm that an employee received their schedule, but it can't detect whether they actually showed up unless someone reports the no-show. If Maria's car breaks down at 5:50am and she never clocks in, OpenClaw doesn't know unless Tom texts "Maria didn't show." Physical check-in (a timeclock, a geofenced app, a manager on site) is the only way to close this gap
+- **Seasonal staffing transitions need manual coordination** — when summer staff leave for school in August or holiday season hires join in November, the system doesn't auto-adjust. The manager needs to update statuses (`active` / `seasonal` / `on-leave`), availability patterns, and rebalance minimum-staff rules. OpenClaw handles the steady-state scheduling well but treats seasonal transitions as manual config work — there's no "school's back, halve Sarah's hours" shortcut unless you build it
 
 ## The Real Value
 
