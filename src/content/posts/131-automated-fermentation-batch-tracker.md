@@ -2,7 +2,7 @@
 title: "Your Personal Fermentation Batch Tracker: Never Lose a Batch Again"
 description: "OpenClaw monitors your sourdough starters, kombucha scobys, beer ferments, and kimchi crocks — logging check-ins, tracking temperatures, and alerting you when it's time to feed, bottle, or troubleshoot."
 pubDate: 2026-07-31
-category: experimental
+category: lifestyle-wellness
 tags: ["fermentation", "brewing", "sourdough", "kombucha", "beer", "kimchi", "food", "cron", "maker", "home-kitchen"]
 image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&auto=format&fit=crop"
 ---

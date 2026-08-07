@@ -148,7 +148,7 @@ const searchData = posts.map((post) => ({
       <span class="text-xs text-slate-500">{allPosts.length} use cases across {categories.length} categories</span>
     </div>
     <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
-      {categories.map(({ slug, label, desc }) => {
+      {categories.map(({ slug, label, desc, icon }) => {
         const accentMap = {
           'emerald': '#10b981', 'violet': '#8b5cf6', 'blue': '#3b82f6',
           'amber': '#f59e0b', 'teal': '#14b8a6', 'pink': '#ec4899', 'orange': '#f97316',
