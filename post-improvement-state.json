@@ -10,7 +10,7 @@
     "02-research-pipeline": "2026-08-02",
     "03-development-assistant": "2026-08-03",
     "05-system-administration": "2026-08-04",
-    "06-employee-scheduling": "2026-07-19",
+    "06-employee-scheduling": "2026-08-07",
     "07-invoice-processing": "2026-07-22",
     "08-creative-brainstorming": "2026-08-05",
     "09-experimental-edge-cases": "2026-07-25",
@@ -24,6 +24,18 @@
     "thoughts/index": "2026-07-02"
   },
   "improvementHistory": [
+    {
+      "date": "2026-08-07",
+      "postSlug": "06-employee-scheduling",
+      "changes": [
+        "Added 'Labor Cost Forecasting and Budget Tracking' section after Payroll Integration — covers the basic per-shift labor cost math (hours × hourly rate summed per draft), concrete draft-summary Telegram message showing $3,488 weekly cost at 37.9% labor-to-revenue ratio against an industry target of 28-32%, top-contributor breakdown with redraft savings estimate, forward-looking projection for slow weeks ($7,800 revenue → 43.8% ratio vs $2,184 minimum coverage at 28.0%), holiday revenue multiplier config (Christmas 0.0x, NYE 1.5x, Jan 1 0.5x), and the slow-Tuesday discovery use case showing how cross-referencing schedule with POS revenue surfaces persistent overstaffing patterns invisible without ratio tracking",
+        "Added 'Fairness and Burnout Tracking' section after Labor Cost Forecasting — addresses the post's gap on equity and turnover by covering what gets measured beyond raw hours (closing shifts, opening shifts, weekend distribution, holiday coverage, preferred-shift hit rate, time-off approval rate), explicit employee preferences config (preferredShifts, avoidShifts, preferredDays, weekendsPerMonth, holidayWillingness), the per-pay-period fairness report with concrete closing-shift distribution flagging Maria's 3 closers against her stated avoidance, the unstated-volunteer problem (Tom taking 22 of 24 Saturdays because he's the most responsive, with 5x peers' weekend load), burnout indicator multi-signal detection (trending hours 42→47, response time drift 6h→18h, clopening pattern, narrowing availability), the fairness-vs-coverage conflict with concrete Sunday-closer single-point-of-failure example and three options (differential, hire, reduced hours)",
+        "Added coffee shop counter/espresso bar Unsplash image (photo-1453614512568) before the 'What You Need to Set This Up' section transition — visual anchor for the new labor cost and fairness content where there was previously only a multi-location dashboard image",
+        "Added 7 new tags to frontmatter: labor-cost-forecasting, labor-budget, revenue-tracking, fairness-tracking, burnout-detection, shift-equity, preferred-shift-matching",
+        "Added 3 new items to Limitations: 'Fairness signals are data, not decisions' (system reads the schedule pattern but humans read the person — use the data to know which conversations to have), 'Labor cost forecasts depend on revenue data quality' (POS integration makes the ratio meaningful, hand-backfilled revenue produces confidently wrong projections), 'Stated preferences aren't guarantees' (tracks stated preferences vs actual acceptance patterns but can't tell you who'll quietly burn out vs who genuinely enjoys the schedule)",
+        "Added 3 new prerequisites to 'What You Need to Set This Up': hourly rates per employee for labor cost forecasting, revenue data source (POS export or daily feed) for labor-to-revenue ratio, employee shift preferences for fairness tracking to be useful — closes the gap where the new sections referenced config concepts but the setup section didn't list them as required inputs"
+      ]
+    },
     {
       "date": "2026-08-06",
       "postSlug": "15-automated-code-review",
