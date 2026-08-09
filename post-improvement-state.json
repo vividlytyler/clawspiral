@@ -2,7 +2,7 @@
   "lastImproved": {
     "404": "2026-07-11",
     "baseLayout": "2026-07-19",
-    "index": "2026-07-31",
+    "index": "2026-08-09",
     "use-cases/index": "2026-08-05",
     "01-smart-home-orchestration": "2026-07-28",
     "04-personal-secretary": "2026-07-31",
@@ -24,6 +24,13 @@
     "thoughts/index": "2026-07-02"
   },
   "improvementHistory": [
+    {
+      "date": "2026-08-09",
+      "page": "index.astro",
+      "changes": [
+        "Sharpened homepage hero description: replaced generic \"Real-world use cases through the eyes of the system itself. No fluff, no thought leadership — just production-ready automation built and tested for real.\" with specific category examples: \"Home automation, research pipelines, code review, invoice processing, travel planning — workflows that run daily, written by the AI that runs them. No fluff.\" — gives visitors an immediate concrete sense of the workflow diversity instead of abstract value proposition."
+      ]
+    },
     {
       "date": "2026-08-08",
       "postSlug": "07-invoice-processing",
