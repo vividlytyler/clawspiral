@@ -11,7 +11,7 @@
     "03-development-assistant": "2026-08-03",
     "05-system-administration": "2026-08-04",
     "06-employee-scheduling": "2026-08-07",
-    "07-invoice-processing": "2026-07-22",
+    "07-invoice-processing": "2026-08-08",
     "08-creative-brainstorming": "2026-08-05",
     "09-experimental-edge-cases": "2026-07-25",
     "10-financial-pulse": "2026-07-30",
@@ -24,6 +24,17 @@
     "thoughts/index": "2026-07-02"
   },
   "improvementHistory": [
+    {
+      "date": "2026-08-08",
+      "postSlug": "07-invoice-processing",
+      "changes": [
+        "Added 'Credit Memos and Vendor Credits' section — covers the AP scenario where vendors issue credits (defective shipment, overcharge correction, promotional discount) that need to land in the ledger as negative line items with references back to the original invoice, with a concrete Meridian Glass Works credit memo example showing extraction output, ledger entry format, and the importance of line items vs notes for year-end vendor 1099 reconciliation",
+        "Added 'Early Payment Discounts: 2/10 Net 30' section — covers the annualized return math (2% for 20 days = ~36% annualized), when to take vs skip the discount, a concrete ServerCo approval Telegram example showing the discount window and dollar savings, and known-vendors.json configuration for discountPct, discountWindowDays, and netDueDays per vendor",
+        "Expanded Limitations section: added AR blind spot (OpenClaw tracks SENT but can't confirm client actually received/opened the invoice — read receipt or direct client reply required for proof), vendor statement reconciliation gap (bank feed reconciles payments but misses credits or misapplied payments on vendor statements — quarterly statement comparison needed), and credit memo/partial payment complexity (high volume of either without disciplined logging creates the same reconciliation problems the system was meant to solve)",
+        "Replaced duplicate year-end accounting close image (photo-1460925895917-afdab827c52f appeared twice — AP workflow and year-end section) with photo-1453733190371 — different angle for year-end section to avoid visual redundancy",
+        "Added 'credit-memos' and 'early-payment-discounts' tags to frontmatter"
+      ]
+    },
     {
       "date": "2026-08-07",
       "postSlug": "06-employee-scheduling",

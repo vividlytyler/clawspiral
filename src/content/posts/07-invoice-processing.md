@@ -4,7 +4,7 @@ description: "How OpenClaw can handle accounts payable and receivable — receiv
 pubDate: 2026-03-26
 category: business-finance
 difficulty: intermediate
-tags: ["invoicing", "accounting", "ocr", "ap", "ar", "automation", "email", "tesseract", "smtp", "reconciliation", "exceptions", "year-end", "tax-prep", "cash-flow", "vendor-onboarding", "ledger-structure", "bank-reconciliation", "cash-flow-forecasting", "payment-terms", "multi-currency", "fx-variance", "foreign-currency", "ledger-workflow", "partial-payments", "security", "privacy", "quarterly-review"]
+tags: ["invoicing", "accounting", "ocr", "ap", "ar", "automation", "email", "tesseract", "smtp", "reconciliation", "exceptions", "year-end", "tax-prep", "cash-flow", "vendor-onboarding", "ledger-structure", "bank-reconciliation", "cash-flow-forecasting", "payment-terms", "multi-currency", "fx-variance", "foreign-currency", "ledger-workflow", "partial-payments", "security", "privacy", "quarterly-review", "credit-memos", "early-payment-discounts"]
 featured: false
 image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1200&auto=format&fit=crop"
 ---
@@ -532,6 +532,78 @@ INV-2024-0892 | Acme Supplies | $1,247.50 | PAID IN FULL ✓
 
 For payment plans (e.g., Net-60 split into two equal payments), OpenClaw can auto-generate the schedule on invoice entry and send reminders at each milestone.
 
+### Credit Memos and Vendor Credits
+
+Vendors sometimes issue credits — a defective shipment credited back, an overcharge corrected, a promotional discount applied retroactively. These need to land in your ledger alongside regular invoices, or your accounts payable will never reconcile to the vendor's statements.
+
+**What a credit memo looks like in practice:**
+
+```
+From: accounting@meridianglassworks.com
+Subject: Credit Memo #CM-2026-0011 — Return #RET-2026-0099
+Attachment: CM-2026-0011.pdf
+
+OpenClaw extracts:
+- Type: CREDIT MEMO
+- Original Invoice: MGW-2026-0044
+- Credit Amount: $420.00
+- Reason: Broken glass in shipment — 3 units returned
+```
+
+The credit memo gets logged as a negative line item in the ledger:
+
+```
+vendor,invoice_number,date,due_date,amount,category,paid,paid_date,method,ref,notes
+Meridian Glass Works,MGW-2026-0044,2026-06-01,2026-06-15,4210.00,materials,TRUE,2026-06-15,wire,MGW-WIRE-441,
+Meridian Glass Works,CM-2026-0011,2026-06-18,,,-420.00,materials,TRUE,,,,credit memo — return #RET-2026-0099
+```
+
+Note the negative amount and the reference back to the original invoice. Credit memos reduce what you owe, not just your ledger balance — they need to appear as line items, not notes, so year-end reconciliation against vendor 1099s or equivalent forms works correctly.
+
+**Configuration for credit memos:** If your vendor sends credit memos to the same `invoices@yourdomain.com` address, OpenClaw can detect the "CREDIT" or "CM-" pattern in the subject line and route accordingly — positive amount = invoice, negative amount = credit. Link the credit to the original invoice number when the vendor includes it, so the relationship is explicit in your ledger.
+
+If the vendor doesn't include the original invoice number on the credit memo, log it separately and match it manually when the vendor's next statement arrives.
+
+### Early Payment Discounts: 2/10 Net 30
+
+Some vendors offer a discount for paying early — typically expressed as "2/10 Net 30" meaning 2% off if paid within 10 days, otherwise the full amount is due in 30 days. Whether to take the discount depends on your cash position and the effective annualized return.
+
+**The math:** 2% for 20 days extra (paying on day 10 instead of day 30) works out to roughly 36% annualized. Most businesses can't borrow at 36%, so taking the discount is usually correct — unless you're stretching cash intentionally.
+
+OpenClaw can surface these automatically when the discount window opens:
+
+```
+Invoice #INV-2024-0901 from ServerCo
+Amount: $3,840.00 — Due Apr 20, 2024
+EARLY PAY DISCOUNT AVAILABLE: 2% ($76.80) if paid by Apr 10
+  Effective cost of not taking: ~36% annualized
+
+→ Telegram: "ServerCo invoice $3,840 — 2% discount ($76.80) expires Apr 10. Approve early payment?"
+```
+
+Configure vendor-specific discount terms in `known-vendors.json`:
+
+```json
+{
+  "name": "ServerCo",
+  "aliases": ["ServerCo", "ServerCo LLC"],
+  "paymentTerms": "2/10 Net 30",
+  "earlyDiscountPct": 2,
+  "discountWindowDays": 10,
+  "netDueDays": 30,
+  "defaultCategory": "server hosting"
+}
+```
+
+When OpenClaw receives an invoice from ServerCo, it knows the discount window closes 10 days from invoice date. If you have the cash, the early payment effectively earns you 36% — worth a Telegram ping. If cash is tight, you skip it and pay on normal terms.
+
+**When to skip the discount:**
+- If paying early ties up cash you need for payroll or critical vendors
+- If the vendor is a chronic late-payer anyway (they won't notice or care either way)
+- If the invoice amount is small and the savings in absolute dollars don't justify the attention
+
+OpenClaw presents the opportunity; you decide whether the cash is worth it.
+
 ## What You Need to Set This Up
 
 - **Email inbox** monitored via IMAP (for AP intake)
@@ -573,6 +645,9 @@ chmod 600 ~/invoices/ar-tracking.json
 - Recurring bill detection is rule-based — unusual charges won't auto-flag without explicit rules
 - Multi-currency invoices need manual exchange rate handling or a configured rate source; OpenClaw doesn't fetch live FX rates by default
 - Invoice number collisions across different vendors can cause false duplicate alerts if you use invoice number alone as the dedup key — vendor+invoice number together is more reliable
+- On the AR side, OpenClaw tracks when invoices are *sent* but has no way to confirm the client actually received or opened them — a client claiming "I never got it" requires human judgment and proof of delivery (read receipt, direct reply), not just the ledger log showing SENT
+- OpenClaw reconciles your ledger to your bank feed, but it doesn't reconcile to vendor *statements* — a vendor may have issued a credit that appears on their statement but not in your intake, or a payment may have been misapplied on their end; quarterly statement comparison against the ledger catches these gaps that pure bank reconciliation misses
+- Credit memos and partial payments compound ledger complexity — each installment and each credit needs to be tracked separately with links back to the originating invoice; a high volume of either without disciplined logging creates the same reconciliation headaches the system was meant to solve
 
 ## Exception Handling: When Processing Goes Wrong
 
@@ -784,7 +859,7 @@ Create `ledger-2026.csv` (or whatever your accounting software prefers) and carr
 
 ---
 
-![Year-end accounting close](https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&auto=format&fit=crop)
+![Year-end accounting close](https://images.unsplash.com/photo-1453733190371-0a9bedd82893?w=1200&auto=format&fit=crop)
 
 ## Related Use Cases
 
