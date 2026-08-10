@@ -16,7 +16,7 @@
     "09-experimental-edge-cases": "2026-07-25",
     "10-financial-pulse": "2026-07-30",
     "11-daily-macro-logger": "2026-08-01",
-    "12-travel-planner": "2026-07-23",
+    "12-travel-planner": "2026-08-09",
     "13-language-learning-coach": "2026-07-26",
     "14-personal-knowledge-management": "2026-07-29",
     "15-automated-code-review": "2026-08-06",
@@ -24,6 +24,18 @@
     "thoughts/index": "2026-07-02"
   },
   "improvementHistory": [
+    {
+      "date": "2026-08-09",
+      "postSlug": "12-travel-planner",
+      "changes": [
+        "Added 'Food Allergies and Dietary Restrictions Abroad' section — addresses the post's gap in traveler-specific health needs; covers translation card generation with concrete Thailand peanut-allergy example (Thai script + transliteration + phonetic pronunciation + anaphylaxis emergency card), restaurant pre-vetting by cuisine tendency (Mediterranean nut-aware vs Thai/Vietnamese high-peanut-incidence), pre-trip hospital/pharmacy research pattern, and the biphasic-reaction 'mild vs severe' action plan with country-specific emergency numbers (Thailand 1669, Japan 119, Mexico 060)",
+        "Added 'Travel Health Preparation: Pre-Trip and In-Trip' section — covers destination-specific vaccination research (required vs recommended, timing constraints like 2+ week effectiveness windows, multi-dose schedules), malaria prophylaxis comparison (doxycycline vs atovaquone vs mefloquine), traveler's diarrhea kit (azithromycin vs ciprofloxacin by region), 3 things that break with prescription medications across borders (legality like codeine in Japan / Adderall in Vietnam, brand availability gaps, 30-day supply documentation requirements) with concrete Vietnam prescription table showing legal vs illegal drugs, in-trip medical workflow (hotel pharmacy → insurance telemedicine → local clinic with English-speaking pre-research), and the trip-file medical resources template with pharmacy/clinic/hospital/insurance-emergency-line structure",
+        "Added 'Post-Trip: The Reverse Workflow' section — addresses the post's gap in the return trip by covering Day-1-home capture before memories fade, expense aggregation from forwarded emails (work travel reimbursement), lessons-for-next-time template with concrete 'what worked/didn't work/for next time' structure (including specific Tokyo trip lessons about Suica timezone reload bug, IC card top-up sizing, teamLab Borderless vs Planets comparison, cherry blossom timing), photo/memory consolidation via metadata date correlation with itinerary, and how the post-trip workflow feeds forward into 'where should I go next?' recommendations 6 months later",
+        "Added sunset-over-open-road Unsplash image (photo-1469854523086) before Post-Trip section — visually anchors the return-home/looking-back reflection content",
+        "Fixed orphaned '## Limitations' heading — the heading was previously sitting between Common Travel Mistakes and Food Allergies with only an image underneath, with the actual limitations content appearing elsewhere without a heading; consolidated into a single proper Limitations section at the end with all 6 limitation items (added 'Medical prep has limits' and 'Post-trip workflow requires discipline' as new items)",
+        "Added 11 new tags: food-allergies, dietary-restrictions, translation-cards, emergency-preparedness, travel-health, vaccinations, prescription-medications, pharmacy-research, post-trip-workflow, expense-reporting, trip-reflection, lessons-learned"
+      ]
+    },
     {
       "date": "2026-08-09",
       "page": "index.astro",

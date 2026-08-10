@@ -3,7 +3,7 @@ title: "Travel Planning: From Research to Itinerary"
 description: "How OpenClaw can handle the full travel planning stack — researching destinations, comparing flights and hotels, building day-by-day itineraries, and delivering everything to your phone."
 pubDate: 2026-03-28
 category: lifestyle-wellness
-tags: ["travel", "planning", "itinerary", "flights", "hotels", "research", "cron", "telegram", "price-alerts", "email-parsing", "destination-research", "itinerary-building", "visa", "documents", "contingency", "real-time-support", "packing-list", "budget-planning", "itinerary-example", "in-transit", "common-mistakes", "currency", "payments", "travel-insurance", "jet-lag", "recovery-days", "jet-lag-recovery", "light-exposure", "circadian-rhythm", "arrival-day"]
+tags: ["travel", "planning", "itinerary", "flights", "hotels", "research", "cron", "telegram", "price-alerts", "email-parsing", "destination-research", "itinerary-building", "visa", "documents", "contingency", "real-time-support", "packing-list", "budget-planning", "itinerary-example", "in-transit", "common-mistakes", "currency", "payments", "travel-insurance", "jet-lag", "recovery-days", "jet-lag-recovery", "light-exposure", "circadian-rhythm", "arrival-day", "food-allergies", "dietary-restrictions", "translation-cards", "emergency-preparedness", "travel-health", "vaccinations", "prescription-medications", "pharmacy-research", "post-trip-workflow", "expense-reporting", "trip-reflection", "lessons-learned"]
 image: "https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1200&auto=format&fit=crop"
 ---
 
@@ -384,9 +384,69 @@ OpenClaw builds this structure as you forward confirmations. The `reminders.md` 
 ![Trip planning — maps and routes](https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=1200&auto=format&fit=crop)
 *A good itinerary isn't a list of places — it's a story about how to move through a city.*
 
-## Limitations
-
 ![Travel planning mistakes — wrong turns and course correction](https://images.unsplash.com/photo-1506012787146-f92b2d7d6d96?w=1200&auto=format&fit=crop)
+
+## Food Allergies and Dietary Restrictions Abroad
+
+The single most anxiety-inducing meal of any trip with dietary restrictions is the first one in a new country. Will someone understand "I'm allergic to peanuts" in rural Portugal? Can you trust a Thai kitchen to keep shellfish separate from your pad see ew? OpenClaw can pre-load translation cards, vet restaurants, and prep you for the worst-case scenario before you board.
+
+**Build translation cards for your specific needs.** Send:
+
+> "I have a severe peanut allergy and I'm lactose intolerant. I'm traveling to Thailand for 2 weeks. Make me a translation card I can show at restaurants — in Thai script, English transliteration, and phonetic pronunciation. Include the symptoms of anaphylaxis and instructions to call an ambulance."
+
+OpenClaw produces:
+
+```markdown
+## Allergy Card — Thailand 2026
+*(Show this to restaurant staff before ordering)*
+
+### English
+"I have a severe allergy to peanuts and tree nuts. Even small amounts can cause a life-threatening reaction (anaphylaxis). I cannot eat: peanuts, peanut oil, peanut sauce, cashews, almonds, or any food cooked in peanut oil. I also cannot have dairy products (milk, butter, cheese, cream).
+
+Cross-contamination is dangerous. Please confirm no peanuts, peanut oil, or dairy are used in my dish or in the cooking surface."
+
+### Thai (transliteration)
+"Phom pen phu phit thi thuk thit lae thuk phut. Khwam phit chab klap du phit khao thuk. Khun dai duan thuk mai hai phom kin thit, nam-man thit, nam-phrik thit, mamuang thuk, or sutthai mai? Phom kin nom-khu-mot dai duan yang."
+
+### Thai (phonetic)
+"Pom pen poo pit tee took tit lae took poot. Kwam pit chup klap doo pit kao took. Koon dye doon took mai hai pom gin tit, nahm-man tit, nahm-prik tit, mah-muang took, or soot-thai mai? Pom gin nahm-koo-mot dye doon yahng."
+
+### Emergency
+"If I have a reaction: lay me flat, do not let me stand up. Call 1669 (Thai ambulance). The hospital I need is Bangkok Hospital Phuket, +66 76 254 425."
+```
+
+Print four copies — wallet, day bag, hotel safe, partner's bag. The transliteration matters more than the script because most restaurant staff will read it aloud to confirm pronunciation. The emergency card matters because the friend who speaks some Thai isn't necessarily the friend who knows how to describe anaphylaxis symptoms.
+
+**Pre-vet restaurants by cuisine, not by review.** Italian restaurants in Rome don't all use the same olive oil; Japanese restaurants in Tokyo don't all share the same dashi stock. OpenClaw can research which cuisines in your destination tend to accommodate your specific restriction (Mediterranean food is generally nut-aware, Japanese kaiseki kitchens understand ingredient separation, Thai and Vietnamese cuisines have the highest peanut incidence), then prioritize restaurant research within those cuisines.
+
+**For severe allergies, know the hospital before you need it.** Add to your trip research:
+- Nearest hospital with English-speaking staff and an emergency department
+- Allergy-specific clinics if you're traveling somewhere with a reputation for the issue (e.g., dermatology clinics in Bangkok)
+- Pharmacy chains that stock EpiPens or equivalent (in some countries they're prescription-only and sold under different brand names)
+- The local equivalent of 911 (in Thailand it's 1669, in Japan it's 119, in Mexico it's 060 or 911 in tourist areas)
+
+**The "I think I had a reaction" plan.** OpenClaw can pre-load this into your trip reminders so it's not something you have to research at 11pm feeling your throat tighten:
+
+```markdown
+## If I have an allergic reaction
+
+### Mild symptoms (hives, itching, GI upset)
+- Stop eating immediately
+- Take antihistamine (carry in day bag)
+- Ask hotel front desk for nearest pharmacy
+- Monitor for 2 hours — symptoms progressing = escalate to below
+
+### Severe symptoms (throat tightness, difficulty breathing, swelling)
+- Use EpiPen immediately (carry two)
+- Call [country emergency number]
+- Show translation card to first responder
+- Get to hospital even if symptoms improve — biphasic reactions happen 4-12 hours later
+- Call insurance emergency line from hospital
+```
+
+**Vegetarian, vegan, halal, kosher, gluten-free — same workflow, different card.** The translation card pattern works for any restriction where the word "no" needs to be said clearly and the ingredient list understood. OpenClaw builds the card with your specific phrasing in the local language, and you carry it everywhere.
+
+---
 
 ## Common Travel Mistakes (And How OpenClaw Helps)
 
@@ -464,15 +524,124 @@ These aren't dramatic interventions — they're behavioral anchors that shift yo
 
 ---
 
-OpenClaw can't book anything for you directly — it doesn't have credit card integration or API access to airline or hotel booking systems. Think of it as the research and planning layer, not the transaction layer. It synthesizes what other people have written, which means it inherits both the wisdom and the bias of those reviews — always cross-reference against current primary sources for time-sensitive details like hours, prices, and entry requirements.
+## Travel Health Preparation: Pre-Trip and In-Trip
 
-**Weather reliability:** Web search gives you climate averages, not real-time forecasts. "Best time to visit Tokyo" advice based on historical data doesn't account for the heat wave your specific travel dates might hit. Treat weather as directional, not definitive — and check a 10-day forecast the week before you leave.
+Most travelers think about health once something goes wrong. OpenClaw can build the prep layer before you leave and the in-trip response layer for when you actually need it.
 
-**Seasonal research lag:** Travel advice has a long half-life on the web. A blog post saying "September is perfect in Barcelona" might be from 2019. Tourist seasons shift, new metro lines open, restaurant closures happen. Always cross-reference against recent reviews or official sources — Wikivoyage, Lonely Planet, and destination tourism boards tend to update faster than personal blogs.
+**Pre-trip: vaccinations and prescriptions.** Some countries require proof of yellow fever vaccination, others strongly recommend hepatitis A/typhoid, and some have medication prophylaxes you'll want to start before departure. OpenClaw can research destination-specific requirements based on your itinerary length and activities.
 
-**Multi-city complexity:** A two-week trip with four cities and three countries generates logistics that are genuinely hard to optimize — transit times between stops, visa windows, jet lag from short hops. OpenClaw can research each leg and surface the friction points, but the overall arc still needs a human who understands the tradeoffs and has a clear priority (maximizing variety vs. minimizing logistics, covering ground vs. going deep).
+Send:
+> "I'm going to Vietnam for 3 weeks. I'll be in Ho Chi Minh City, Hanoi, and doing a 4-day trek in Sapa. What vaccines should I have and do I need malaria prophylaxis?"
 
-**No real-time inventory:** Flight prices and hotel availability change by the minute. The price alert cron catches drops between checks, but it can't guarantee the fare is still available when you click the link. Treat research as directional, booking as a separate action.
+OpenClaw returns:
+- Required vs recommended vaccinations (often different from CDC's traveler page because activities and rural exposure change the calculus)
+- Timing constraints (some vaccines need 2+ weeks to take effect, others need multiple doses months apart)
+- Malaria prophylaxis options (doxycycline vs atovaquone vs mefloquine — side effect profiles differ, and the choice often depends on which you're already tolerant of)
+- Traveler's diarrhea kit recommendation (azithromycin vs ciprofloxacin depending on region, plus oral rehydration salts)
+- Altitude considerations if trekking (Sapa is high enough to matter)
+
+**Prescription medications across borders.** Three things break:
+1. Some medications legal at home are illegal abroad (codeine in Japan, ADHD stimulants in many Asian countries, opioids nearly everywhere)
+3. Some medications you assume are universally available aren't (specific brands, dosages, formulations)
+5. Carrying more than 30 days' supply requires documentation in many countries
+
+OpenClaw can pre-research what's legal at your destination and what requires a doctor's letter. The practical output:
+
+```markdown
+## Prescription medications — Vietnam 2026
+
+### Carry with you (in original pharmacy packaging, with prescription copy)
+- Lisinopril 10mg — legal, no restrictions, 90-day supply OK with documentation
+- Adderall XR 20mg — ⚠️ ILLEGAL in Vietnam. Switch to non-stimulant 2 weeks before departure OR plan to manage without.
+
+### Pre-trip tasks
+- [ ] Doctor's letter on letterhead listing all medications, doses, and medical necessity (bring 3 copies)
+- [ ] Translate prescription documentation to Vietnamese for any controlled substances (only if taking them)
+- [ ] Verify pharmacy chains at destination carry equivalents of OTC meds you assume are universal
+- [ ] Buy travel-sized medication kit: antihistamines, anti-nausea, anti-diarrheal, pain reliever, melatonin
+
+### Don't rely on being able to find
+- Specific Western brand names (often unavailable)
+- ADHD medications (illegal/controlled, will get you detained)
+- Specific dosages (e.g., 20mg might be standard at home but only 10mg or 40mg manufactured locally)
+```
+
+**In-trip: when you actually get sick.** The workflow that works:
+1. Hotel front desk or local pharmacy for minor issues (pharmacists in Europe and Asia often have more prescribing authority than at home)
+2. Insurance company's telemedicine line for "do I need a doctor?" triage — most travel policies include this
+3. Local clinic or hospital for actual care — OpenClaw pre-researched which facilities speak English and accept foreign insurance
+
+Add a "medical resources" section to your trip file:
+
+```markdown
+## Medical — Tokyo 2026
+
+### Pharmacies nearby
+- Matsumoto Kiyoshi (Yoyogi station) — 9am-9pm daily, English speakers usually available
+- Sugi Pharmacy (Shibuya Mark City) — multilingual staff, OTC medication familiar to Western travelers
+
+### Clinics (English-speaking)
+- Tokyo Medical and Surgical Clinic — +81-3-3432-9481, no appointment needed for urgent care
+- St. Luke's International Hospital — 24/7 emergency department, accepts most foreign insurance with upfront billing
+
+### Insurance emergency line
+- World Nomads: +1-800-555-0199 (collect call OK)
+- Pre-authorization required for hospital admission — call BEFORE treatment if possible
+```
+
+The pattern: don't make the medical decisions when you're already sick. Make the medical decisions when you're healthy and the answer is just an email away from your doctor.
+
+---
+
+## Post-Trip: The Reverse Workflow
+
+![Sunset over open road — looking back, planning the next trip](https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=1200&auto=format&fit=crop)
+
+The post-trip window is when most travel planning value evaporates. Receipts scatter across email threads, you forget which neighborhoods you loved, and the next trip starts from scratch instead of building on what you learned. OpenClaw can hold the reverse workflow.
+
+**Day 1 home: capture before the memories fade.** Forward any emailed receipts (hotels, restaurants, transit) to OpenClaw and ask it to organize them into a trip expense file. Then send a one-shot reflection:
+
+> "I just got back from a 10-day Tokyo trip. Here's what I want to remember: [list 3-5 things]. Can you write a post-trip summary I can refer to next time I plan a Japan trip?"
+
+OpenClaw produces a `trips/tokyo-2026/recap.md` with the highlights and the friction points.
+
+**Expense aggregation for reimbursement or taxes.** If you're claiming work travel, send:
+> "Pull all the flight, hotel, and meal receipts from my inbox tagged 'tokyo-2026' and produce an expense report by category."
+
+OpenClaw parses the forwarded emails, structures them by date and category, and outputs something you can paste into Concur, Expensify, or your accountant's spreadsheet.
+
+**Lessons for next time.** The most valuable post-trip output is "what would I do differently?"
+
+```markdown
+## Tokyo 2026 — Lessons for next time
+
+### What worked
+- 5 days in Tokyo + 2 days Kyoto + 3 days Tokyo was better than 10 days straight Tokyo
+- TeamLab Planets was better than expected; Borderless was a ticketed disappointment (reopen queue 45min)
+- Nakameguro was the right neighborhood (calm, walkable, great ramen within 5min)
+- One omakase splurge was right; two would have been diminishing returns
+
+### What didn't work
+- Day 1 over-scheduling. Should have made it a recovery day even though we arrived at 11am
+- Pre-booking every meal was overkill. Book 1-2 signature meals, leave room for spontaneous discovery
+- Buying Suica on iPhone was fine but reloading via the app after midnight Japan time failed (timezone bug?)
+- IC card top-up of ¥5,000 ran out by Day 6 — should have loaded ¥10,000
+
+### For the next Japan trip
+- Skip teamLab Borderless, do only Planets
+- Add a day trip to Kamakura (only 1hr from Tokyo, completely different vibe)
+- Try Hotel Ryumeikan Tokyo for the location and service
+- Don't go in cherry blossom season unless the timing is exact (we missed peak by 4 days)
+```
+
+**Photo and memory consolidation.** OpenClaw doesn't manage your camera roll directly, but it can:
+- Cross-reference your photo metadata dates against the itinerary to build a "trip timeline"
+- Generate prompts for writing a trip journal entry by reading your calendar entries ("you were in Hakone on Day 6 — what happened that day?")
+- Build a "things we liked" list you can search later ("best ramen in Tokyo — we said was Nakameguro")
+
+**Updating your travel knowledge.** The most valuable thing a post-trip workflow does is feed forward. When you ask "where should I go next summer?" six months later, OpenClaw can reference every trip you've taken, what worked, what didn't, and what you keep saying you want to do but haven't yet.
+
+The post-trip window is short. The receipts get thrown out, the memories get foggy, and the lessons evaporate. Capturing them within the first week of being home turns a vacation into the foundation of better future trips.
 
 ---
 
@@ -525,6 +694,24 @@ Travel insurance is the thing most travellers know they need but research the le
 > "I have a $3,500 CAD Tokyo trip. I have basic travel insurance through RBC. What does it actually cover and what should I add?"
 
 OpenClaw surfaces: medical coverage limits vs. Japan's actual medical costs ($5,000-$15,000 CAD for a hospital stay is not unusual), trip cancellation coverage and what qualifies, credit card travel insurance double-coverage rules, and adventure activity exclusions (if you're planning cycling or hiking). It can't replace a broker consultation for complex trips, but it catches the gaps in whatever coverage you already have.
+
+---
+
+## Limitations
+
+OpenClaw can't book anything for you directly — it doesn't have credit card integration or API access to airline or hotel booking systems. Think of it as the research and planning layer, not the transaction layer. It synthesizes what other people have written, which means it inherits both the wisdom and the bias of those reviews — always cross-reference against current primary sources for time-sensitive details like hours, prices, and entry requirements.
+
+**Weather reliability:** Web search gives you climate averages, not real-time forecasts. "Best time to visit Tokyo" advice based on historical data doesn't account for the heat wave your specific travel dates might hit. Treat weather as directional, not definitive — and check a 10-day forecast the week before you leave.
+
+**Seasonal research lag:** Travel advice has a long half-life on the web. A blog post saying "September is perfect in Barcelona" might be from 2019. Tourist seasons shift, new metro lines open, restaurant closures happen. Always cross-reference against recent reviews or official sources — Wikivoyage, Lonely Planet, and destination tourism boards tend to update faster than personal blogs.
+
+**Multi-city complexity:** A two-week trip with four cities and three countries generates logistics that are genuinely hard to optimize — transit times between stops, visa windows, jet lag from short hops. OpenClaw can research each leg and surface the friction points, but the overall arc still needs a human who understands the tradeoffs and has a clear priority (maximizing variety vs. minimizing logistics, covering ground vs. going deep).
+
+**No real-time inventory:** Flight prices and hotel availability change by the minute. The price alert cron catches drops between checks, but it can't guarantee the fare is still available when you click the link. Treat research as directional, booking as a separate action.
+
+**Medical prep has limits.** OpenClaw can research vaccines, prescription legality, and hospital locations, but it can't replace a travel medicine consultation for complex cases (immunocompromised travelers, pregnancy, chronic conditions requiring medication abroad). The CDC's traveler page and a travel medicine clinic are still authoritative sources — OpenClaw is a research consolidation layer, not a substitute for professional medical advice.
+
+**Post-trip workflow requires discipline.** The reverse workflow only works if you actually do it within the first week of being home. Receipts get thrown out, memories fade, and trip folders get buried under the next pre-trip planning. The system is useful in proportion to how consistently you engage with it after each trip.
 
 ---
 
