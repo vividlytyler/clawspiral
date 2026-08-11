@@ -2,8 +2,8 @@
   "lastImproved": {
     "404": "2026-07-11",
     "baseLayout": "2026-07-19",
-    "index": "2026-08-09",
-    "use-cases/index": "2026-08-05",
+    "index": "2026-08-11",
+    "use-cases/index": "2026-08-11",
     "01-smart-home-orchestration": "2026-07-28",
     "04-personal-secretary": "2026-07-31",
     "use-cases-category-pages": "2026-07-14",
@@ -24,6 +24,13 @@
     "thoughts/index": "2026-07-02"
   },
   "improvementHistory": [
+    {
+      "date": "2026-08-11",
+      "page": "index.astro & use-cases/index.astro",
+      "changes": [
+        "Replaced lifestyle-wellness category image from generic forest photo to food/cooking preparation image (photo-1504674900247) — the forest photo had no connection to \"personal habits, health, travel, daily routines\"; food/wellness imagery better represents the daily routines and health focus of the category"
+      ]
+    },
     {
       "date": "2026-08-10",
       "postSlug": "09-experimental-edge-cases",
