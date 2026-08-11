@@ -13,7 +13,7 @@
     "06-employee-scheduling": "2026-08-07",
     "07-invoice-processing": "2026-08-08",
     "08-creative-brainstorming": "2026-08-05",
-    "09-experimental-edge-cases": "2026-07-25",
+    "09-experimental-edge-cases": "2026-08-10",
     "10-financial-pulse": "2026-07-30",
     "11-daily-macro-logger": "2026-08-01",
     "12-travel-planner": "2026-08-09",
@@ -24,6 +24,15 @@
     "thoughts/index": "2026-07-02"
   },
   "improvementHistory": [
+    {
+      "date": "2026-08-10",
+      "postSlug": "09-experimental-edge-cases",
+      "changes": [
+        "Added 'Ethics and Responsible Experimentation' section covering 4 categories of experiments that shouldn't run: affecting other people's data without consent, production environments with real consequences, security boundary probes of shared systems, and consequential automated decisions at scale without oversight; includes the 'who else is affected and did they agree' test as the decision heuristic",
+        "Added 'Should You Run This Experiment? A Cost-Benefit Check' section before Experiment Design Criteria with 5-question cost check (token cost estimate, actionability of result, whether casual observation would suffice, cost of NOT knowing, community documentation check) and the one-sentence decision heuristic: if you can't say what you'd do differently, don't run it",
+        "Added lab notebook/experimental documentation Unsplash image (photo-1456324504439) before Experiment 5: Tool Chain Fidelity — anchors the Troubleshooting section which previously had no visual, plus gives the tool chain experiment a visual transition from the state management section"
+      ]
+    },
     {
       "date": "2026-08-09",
       "postSlug": "12-travel-planner",

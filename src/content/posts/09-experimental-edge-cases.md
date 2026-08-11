@@ -124,6 +124,8 @@ When experiments go wrong in ways that aren't the point of the experiment:
 
 Document failures in the experiment log too. What didn't work is often more informative than what did.
 
+![Lab notebook and experimental documentation](https://images.unsplash.com/photo-1456324504439-367cee3b3c32?w=1200&auto=format&fit=crop)
+
 ## Experiment 5: Tool Chain Fidelity
 
 **Hypothesis:** OpenClaw can execute a complex multi-step tool chain (write → exec → read → exec → write) and maintain fidelity through all intermediate steps without dropping or mangling outputs from earlier steps.
@@ -186,6 +188,24 @@ Beyond the per-experiment file, running multiple experiments over time benefits 
 Verdicts in this format (`✅`, `⚠️`, `❌`) make it easy to scan your findings at a glance. Update the log after each experiment and review it monthly — patterns emerge that individual experiment files don't show.
 
 ![Research and analysis process](https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&auto=format&fit=crop)
+
+## Should You Run This Experiment? A Cost-Benefit Check
+
+Before designing the methodology, ask whether the experiment is worth running at all. Not every boundary is worth mapping — some cost more to discover than the knowledge is worth.
+
+**The 5-question cost check:**
+
+1. *What's the token cost of a definitive answer?* Estimate: single run × number of runs to confirm × cost per token. A 3-run experiment at 50k tokens per run is a $0.25–$1.00 question. A 5-run composite workflow test could be $5–$10. Know the budget before you're surprised by it.
+
+2. *How actionable is the result?* Knowing "OpenClaw handles 47-step tool chains but fails at 48" is precise but rarely actionable — you were never going to run a 47-step chain anyway. Knowing "multi-agent synthesis breaks when sub-topics cross-reference" is actionable — it tells you to keep sub-topics independent. Actionability justifies the cost.
+
+3. *Can you get the same signal from observation?* If you're already using OpenClaw for a related real task, you may get the same data point incidentally. Running a dedicated "tool chain fidelity" experiment to find out what you could learn by running one real task carefully is poor ROI. Run the experiment when you need a controlled answer, not when casual observation would do.
+
+4. *What's the cost of NOT knowing?* If you're about to build a production workflow that depends on a capability, and you're unsure whether it works, the cost of wrong is "I built something that breaks." That's often worth a $2 experiment. If the workflow is low-stakes and failure is cheap, you can skip the experiment and just build it.
+
+5. *Is someone else going to run this and publish first?* Some boundaries are obvious enough that the community has already mapped them. Before designing an experiment, scan existing experiment logs and ClawSpiral posts — you may find the answer is already documented, or that someone already hit the failure mode you're about to probe.
+
+**The quick heuristic:** If you can't articulate in one sentence what you'd *do differently* if the experiment confirms your hypothesis, don't run it. Experiments that change decisions are worth running. Experiments that just satisfy curiosity should be treated as recreation — valid, but time-boxed and budgeted accordingly.
 
 ## Experiment Design Criteria
 
@@ -294,6 +314,22 @@ Experiments are useful, but they're not always the right tool:
 **When you're emotionally attached to a specific outcome.** If you already "know" what the experiment should show, you'll unconsciously design it to show that. Run experiments to find out, not to confirm. If you can't hold the hypothesis loosely, get someone else to run it.
 
 **When you don't have time to document.** An undocumented experiment is just a guess with extra steps. If you can't write up the methodology and findings, the experiment time is mostly wasted.
+
+## Ethics and Responsible Experimentation
+
+This post is about pushing boundaries — but some boundaries exist for good reasons. A few categories of experiments carry risks that go beyond "the results may not be useful" into territory where the downside is real and the experiment shouldn't happen at all.
+
+**Experiments that affect other people's data without their knowledge.** If your OpenClaw instance has access to someone else's email, messages, files, or accounts, running experiments on those integrations isn't just a data quality risk — it's a consent issue. Reading a partner's email to see if OpenClaw can extract calendar events is an experiment on someone who didn't agree to be part of one. The research-pipeline and invoice-processing use cases involve real vendors and real money; running edge-case experiments against those integrations can create real consequences for people outside your experiment.
+
+**Experiments in production environments with real consequences.** Testing "what happens if the automation sends 1,000 emails" against a live mailing list isn't a controlled experiment — it's a live fire exercise with blast radius. Run stress tests against staging environments or test accounts. The feedback-loop speed advantage of OpenClaw is real, but it's only an advantage if the domain is safe enough to fail in.
+
+**Experiments that probe security boundaries of shared systems.** If your OpenClaw instance has access to systems shared with others (a family server, a co-worker's files, an organizational calendar), experiments that test access controls or permission boundaries are experiments on people who rely on those controls. The "what if I try to access X even though I'm not supposed to" experiment has a different character when X belongs to someone else.
+
+**Experiments that automate consequential decisions at scale without oversight.** A boundary test that says "can OpenClaw handle approving expense reports up to $10,000 without human review" is testing a production policy, not a technical boundary. The consequence of "yes" is automated $10,000 approvals. That's not an edge-case experiment — that's a policy deployment with an experiment's risk profile. Keep the consequence boundary separate from the technical one.
+
+The thread that runs through all of these: **if the failure mode of the experiment lands on someone other than you, the experiment needs a higher bar for justification.** Informed consent, staging environments, real-time monitoring, and abort conditions aren't optional — they're the minimum responsible practice.
+
+When in doubt, ask: "If this experiment goes wrong in the most plausible bad way, who else is affected, and did they agree to be?" If you can't answer that clearly, don't run it in that form.
 
 ## Cross-Experiment Pattern Analysis
 
