@@ -17,13 +17,24 @@
     "10-financial-pulse": "2026-07-30",
     "11-daily-macro-logger": "2026-08-01",
     "12-travel-planner": "2026-08-09",
-    "13-language-learning-coach": "2026-07-26",
+    "13-language-learning-coach": "2026-08-11",
     "14-personal-knowledge-management": "2026-07-29",
     "15-automated-code-review": "2026-08-06",
     "news/index": "2026-06-30",
     "thoughts/index": "2026-07-02"
   },
   "improvementHistory": [
+    {
+      "date": "2026-08-11",
+      "postSlug": "13-language-learning-coach",
+      "changes": [
+        "Added 'Extensive Reading Practice' section between Shadowing and Writing Practice — fills the post's largest practice-mode gap; covers graded readers (Yomu Yomu / Japanese Graded Readers / Leer en Español / Lectures CLE recommendations by language), the i+1 input-comprehension principle with 80-90% sweet spot, finding native content at level (children's/YA, news, Wikipedia, fan translations, subtitles), the 'don't look up every word' failure mode and 15-20 minute uninterrupted reading pattern, reading-log.md structure with concrete Spanish and Japanese examples, reading-vs-listening 70/30 split guidance, and the 20-minutes-per-day compounding math (~120k words/year, 30-40 books at B1)",
+        "Added Unsplash image (photo-1481627834876, stack of books in a library) before the Writing Practice section transition — gives the new reading content a visual anchor and breaks up the text-heavy flow between Shadowing and Writing",
+        "Added 'Understanding Keigo: The Three Systems of Japanese Politeness' subsection within Writing Practice — keigo was mentioned in role-play debriefs and email drafting but never explained as a system; covers the three keigo types (sonkeigo/kenjogo/teineigo) with concrete verb-form examples for each (食べる→召し上がる/いただく, 言う→おっしゃる/申す, 行く→いらっしゃる/参る), the context-vs-form decision tree in table form, two realistic OpenClaw error corrections (sonkeigo-required scenario, 受け取る vs いただく relationship-signal distinction), and a 6-row quick reference table mapping casual/polite/honorific verb forms for business Japanese",
+        "Expanded pronunciation limitation with specific named tools — Forvo (300+ languages), Rhinospike (free audio exchange), Speechling (native feedback), ELSA Speak (English-specific), OJAD for Japanese pitch accent — turns vague 'look at other tools' into actionable recommendations with use-case context",
+        "Added 8 new tags: extensive-reading, graded-readers, reading-log, input-comprehension, sonkeigo, kenjogo, teineigo, business-japanese, register-shifts, honorifics"
+      ]
+    },
     {
       "date": "2026-08-11",
       "page": "index.astro & use-cases/index.astro",

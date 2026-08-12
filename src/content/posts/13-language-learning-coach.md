@@ -3,7 +3,7 @@ title: "Your Personal Language Learning Coach with OpenClaw"
 description: "Vocabulary drills, grammar explanations, conversation practice, and spaced repetition reminders — all automated and personalized to your level, running quietly in the background of your day."
 pubDate: 2026-03-27
 category: lifestyle-wellness
-tags: ["language-learning", "flashcards", "grammar", "spaced-repetition", "tutoring", "vocabulary-tracking", "conversation-practice", "role-play", "pronunciation", "intermediate-plateau", "daily-habit", "telegram", "srs", "immersion", "podcasts", "shadowing", "speaking-practice", "srs-algorithm", "weekly-planner", "practice-framework", "productive-vocabulary", "telegram-interface", "multi-language-learning", "cross-language-confusion", "language-switch-drill", "separate-vocab-files", "language-prioritization"]
+tags: ["language-learning", "flashcards", "grammar", "spaced-repetition", "tutoring", "vocabulary-tracking", "conversation-practice", "role-play", "pronunciation", "intermediate-plateau", "daily-habit", "telegram", "srs", "immersion", "podcasts", "shadowing", "speaking-practice", "srs-algorithm", "weekly-planner", "practice-framework", "productive-vocabulary", "telegram-interface", "multi-language-learning", "cross-language-confusion", "language-switch-drill", "separate-vocab-files", "language-prioritization", "writing-practice", "composition-feedback", "journaling", "email-drafting", "vocabulary-gaps", "keigo", "extensive-reading", "graded-readers", "reading-log", "input-comprehension", "sonkeigo", "kenjogo", "teineigo", "business-japanese", "register-shifts", "honorifics"]
 image: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=1200&auto=format&fit=crop"
 ---
 
@@ -166,7 +166,7 @@ That's the level of explanation a tutor gives — not just "that's wrong" but "h
 **Midday (lunch break) — You encounter a new word:**
 > "The Japanese phrase for 'to get wind of something' — what's that? Use it in a sentence."
 >
-> OpenClaw: "你先んじた" (さきさきが替你) — to get wind of something, to hear about it before others. Example: "彼が先んじてことを知りった" (He got wind of the deal before anyone else.)
+> OpenClaw: "先んじる" (さきんじる) — to get ahead of, to forestall. Closest English sense: to learn of something before others do. Example: "彼が先んじてそのことを知った" — *Kare ga sakinjite sono koto o shitta* — "He found out about it before anyone else."
 
 **Evening (9:00 PM) — Grammar question:**
 > "What's the difference between ～てよかった and ～てよかったです in Japanese?"
@@ -247,6 +247,178 @@ Listen to a short audio clip (30–60 seconds) and transcribe it in writing. The
 > "Here's my transcription of the 45-second weather report clip. I got most of it but I'm unsure about the part about the weekend."
 
 OpenClaw compares your transcription against the actual content, identifies what you missed or misheard, and explains why — was it a vocabulary gap, a speed issue, or a sound distinction your ear isn't calibrated for yet?
+
+## Extensive Reading Practice
+
+Immersion covers audio and video. Shadowing covers speaking. Writing covers production. But reading is its own practice mode, and it has unique benefits the others don't replicate: it's the lowest-friction way to encounter massive amounts of vocabulary in context, you control the pace completely, and it builds the recognition speed that makes native-speed listening feel slower.
+
+**Graded readers are the on-ramp.** They're books written specifically for language learners — simplified vocabulary, controlled grammar, and length-appropriate chapters at each CEFR level. For Japanese, the *Yomu Yomu* series and *Japanese Graded Readers* from ASK Publishing cover A1 through B1 with full audio. For Spanish, the *Leer en Español* graded reader series covers the same range. For French, *Lectures CLE en français facile* is the standard. The principle is the same across languages: don't start with native novels, start with content written at your level.
+
+> "Find me a graded reader at A2 in Japanese. I want something longer than 30 pages — something with a story I'll actually want to finish."
+
+OpenClaw can search for available graded readers at your level, identify the genre you'd most enjoy (mystery, romance, slice-of-life), and recommend a starting point. The key is finishing — a 60-page mystery you finish teaches more than a 300-page literary novel you abandon at page 40.
+
+**Reading native content at your level is different from graded readers.** Once you're past the graded reader stage, you want to read content written for native speakers but at a complexity you can handle. The "i+1" principle (input slightly above your current level) applies here: if you understand 95%+ of what you read, it's too easy; if you understand less than 70%, it's too hard. The sweet spot is 80-90% comprehension with some friction.
+
+How to find it:
+- **Children's and young adult books** — surprisingly rich vocabulary, simpler sentence structure than adult fiction
+- **News articles on topics you already understand** — if you know the topic in English, you can infer a lot in Spanish
+- **Wikipedia in the target language** — encyclopedic prose is denser than fiction but the structure is familiar
+- **Fan translations and web novels** — large bodies of content at varying levels, often free
+- **Subtitles on shows you've already watched** — you know the story, so you can focus on the language
+
+**Don't look up every word.** This is the most common reading-practice failure. Looking up every unknown word turns reading into vocabulary homework and kills the flow. The better approach:
+
+- Read for 15-20 minutes without stopping
+- Mark words that appear repeatedly (3+ times in the same passage)
+- Look up only those high-frequency unknowns after the session
+- Note the rest as context-guessed words and move on
+
+The goal of reading practice is building recognition speed and pattern intuition, not exhaustive vocabulary acquisition. You'll encounter the same word 20 times across a book — the first time you see it, you might need context. By the fifth time, you've inferred the meaning. By the tenth, it's yours.
+
+**Tracking what you've read.** OpenClaw can maintain a simple reading log — title, author, language, level, completion date, and any new vocabulary extracted:
+
+```markdown
+## reading-log.md
+
+### Spanish (B1)
+- "El desorden que dejas" — Carlos Montero — finished 2026-06-15
+  - New words: esclarecer (to clarify), percatarse (to notice), sospechar (to suspect)
+- "La casa de los espíritus" — Isabel Allende — in progress, page 142/448
+  - Reading pace: ~25 pages per session, 3 sessions per week
+
+### Japanese (A2→B1)
+- "Yomu Yomu: Tokyo Tales" — finished 2026-05-22
+  - New words: 覗く (のぞく, to peek), 尋ねる (たずねる, to ask/visit), 差し出す (さしだす, to hand over)
+```
+
+The log serves two purposes: it shows you progress (the list grows over months, which is motivating), and it gives OpenClaw material for "what should I read next?" recommendations based on what you've already finished and enjoyed.
+
+**Reading vs. listening — when to prioritize which.** Reading is higher-friction but more controllable. You can pause, re-read, look things up without losing the thread. Listening is lower-friction but more chaotic — you miss things and they're gone. If you're trying to build vocabulary breadth, read more. If you're trying to build listening comprehension for a real-world situation (job interview, travel, phone calls), listen more. Most learners benefit from a 70/30 split favoring reading, then shifting toward listening as a specific event approaches.
+
+**The reading habit that compounds:** 20 minutes of reading per day in your target language adds up to about 120,000 words read per year. At B1, that's roughly 30-40 books. The vocabulary exposure and pattern recognition from that volume of reading is what actually moves you past the intermediate plateau — not any single book, but the cumulative effect of sustained input over months.
+
+![Stack of books in a library or reading nook](https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=1200&auto=format&fit=crop)
+
+## Writing Practice and Composition Feedback
+
+Reading, listening, and speaking get most of the attention in language learning — but writing is the practice mode that gives you the most feedback per minute spent. You produce a complete artifact, OpenClaw reviews it as a whole, and you can iterate on the same piece until it's right. That's harder to replicate with speech.
+
+**Daily journal entries are the most practical habit.** One paragraph (3–5 sentences) per day is enough. You write about what you did, what you ate, what you read — anything low-stakes. The value isn't the topic; it's the production. OpenClaw reviews the entry and surfaces the patterns you actually make, not isolated grammar rules:
+
+> **You:** "Here's my Spanish journal entry for today: 'Hoy fui al supermercado y compré muchas cosas. El mercado estaba muy lleno porque era sábado. Encontré unas manzanas muy bonitas pero estaban caras. Decidí no comprar y volví a casa. Mi esposa estaba en la cocina preparando la cena.'"
+>
+> **OpenClaw review:**
+>
+> ```
+> Spanish journal — daily composition review
+>
+> Overall: clear and natural. A2+ level, readable.
+>
+> Grammar:
+> - ✓ Preterite vs imperfect used correctly (fui/compré vs estaba/estaban)
+> - ⚠️ "muchas cosas" works, but try "bastantes cosas" or specify (frutas, verduras)
+>   for more precision — vague quantifiers are a sign you're avoiding vocabulary you
+>   don't know yet
+> - ⚠️ "estaban caras" — natural. Alternative: "eran caras" (characteristic) vs
+>   "estaban caras" (state). Both work; "estaban" is the everyday choice.
+>
+> Vocabulary gaps surfaced:
+> - "groceries" → used "cosas" instead of "comestibles" or "víveres"
+> - "wife" → "esposa" is correct (Latin America); in Spain, "mujer" is more common
+>
+> Style note: short sentences are fine at A2, but you could combine two of these
+> into one with a connector to start working on flow. Example:
+> "Encontré unas manzanas muy bonitas pero estaban caras, así que decidí volver
+> a casa sin comprarlas."
+>
+> New words to add: comestibles, víveres, así que (connector), sin comprarlas
+> (without buying them)
+> ```
+
+The review surfaces **vocabulary gaps you don't know you have**. You knew "manzanas" but didn't know "groceries" as a category — so you wrote "cosas." Without the review, that gap stays invisible. With it, you have a concrete item to learn next.
+
+**Prompted writing with constraints** is stronger than open-ended journaling when you want to push level. Ask OpenClaw for a specific challenge:
+
+> "Give me a 5-sentence B1 writing prompt about a time I got lost in a city. I'll write it, then you review."
+
+OpenClaw gives you the prompt, you write, it reviews. The constraint (5 sentences, B1 level, specific scenario) forces you to attempt constructions you wouldn't try in casual journaling.
+
+**Email and message drafting** is where writing practice pays off in real life. If you need to write a Japanese email to a colleague, don't just translate with a dictionary and send it. Use OpenClaw as a draft reviewer:
+
+> **You:** "Draft me a polite Japanese email declining a meeting invitation on Thursday. Tell them I'm traveling and would like to reschedule for next week."
+>
+> OpenClaw drafts it in business Japanese with appropriate keigo. You review, ask for adjustments ("make it less formal, this person is a peer not a client"), and send.
+
+That's practice with immediate real-world use — you're learning to write *because* you need to write, not as a separate exercise.
+
+### Understanding Keigo: The Three Systems of Japanese Politeness
+
+Keigo gets mentioned in the role-play debrief and the email-drafting section, but it's worth understanding the system explicitly — because keigo is where even intermediate learners break down, and it's the difference between sounding competent and sounding rude in professional contexts.
+
+There are three keigo systems, and they answer different questions:
+
+**1. Sonkeigo (尊敬語) —尊敬 the other person.** Used when the subject of your sentence is socially above you — your boss, a client, a customer's company. You elevate *their* actions:
+- 食べる (taberu, to eat) → 召し上がる (meshiagaru, [honored person] eats)
+- 言う (iu, to say) → おっしゃる (ossharu, [honored person] says)
+- する (suru, to do) → なさる (nasaru, [honored person] does)
+
+**2. Kenjōgo (謙譲語) — humble yourself.** Used when *you* (or your in-group) are the subject and the other person is above you. You lower *your own* actions:
+- 食べる → いただく (itadaku, [humble me] eat/receive)
+- 言う → 申す (mōsu, [humble me] say) / 申し上げる (mōshiageru)
+- する → いたす (itasu, [humble me] do)
+- 行く (iku, to go) → 参る (mairu, [humble me] go/visit)
+
+**3. Teineigo (丁寧語) — general politeness.** The です/ます forms. Doesn't elevate or humble — just makes the sentence polite. This is the baseline politeness you use with strangers, customers, and most professional contexts:
+- 食べる → 食べます (tabemasu)
+- 言った → 言いました (iimashita)
+
+The trap learners fall into: trying to use sonkeigo and kenjōgo everywhere because they sound polite, when in fact mixing them incorrectly sounds worse than just using teineigo cleanly. The actual decision tree:
+
+| Context | System | Example |
+|---------|--------|---------|
+| Speaking to a customer about what *they* did | Sonkeigo | 部長がおっしゃいました (The general manager said) |
+| Speaking to a customer about what *you* did | Kenjōgo | 私が参りました (I came/visited) |
+| Speaking to a customer about neutral facts | Teineigo | 会議は3時でございます (The meeting is at 3) |
+| Speaking to a peer casually | Plain form | 会議は3時だよ |
+
+**Common learner errors OpenClaw catches:**
+
+> **You (attempting business Japanese):** "田中部長が食べました"
+>
+> **OpenClaw:** "This mixes registers in a way that sounds off in business Japanese. You're talking about Tanaka-buchō (a manager, socially above you) eating — the verb 'to eat' should be sonkeigo here, not the plain past form. It should be: 田中部長が召し上がりました. The plain '食べました' would be correct only if Tanaka were at your level or below. When you're talking about someone senior's actions, use sonkeigo or teineigo, not the plain form."
+
+> **You:** "I want to say 'I received the documents' to a client. Is 受け取りました correct?"
+>
+> **OpenClaw:** "It depends on the relationship. If the client is at your level or below, 受け取りました (uketorimashita) — teineigo — is correct. If the client is senior (a client company representative, your boss's boss, etc.), you want kenjōgo: 書類をいただきました (shorui o itadakimashita). The verb いただく humbles your receiving, which is appropriate when acknowledging something from someone above you. 'Received' is one of those verbs where the choice between 受け取る and いただく is a relationship signal, not just a politeness level."
+
+This is the kind of correction that doesn't show up in textbooks because it's contextual and depends on workplace hierarchy that the textbook can't represent. OpenClaw can handle it because it knows who you're writing to, what your role is, and what register is appropriate — the same contextual awareness that makes the role-play scenarios useful makes the keigo feedback useful.
+
+**Quick reference patterns for business Japanese:**
+
+| Casual (友達) | Polite (丁寧語) | Honorific (尊敬語/謙譲語) |
+|---|---|---|
+| 食べる | 食べます | 召し上がる (other) / いただく (self) |
+| 言う | 言います | おっしゃる (other) / 申す (self) |
+| 行く | 行きます | いらっしゃる (other) / 参る (self) |
+| 見る | 見ます | ご覧になる (other) / 拝見する (self) |
+| 知っている | 知っています | ご存じです (other) / 存じております (self) |
+| する | します | なさる (other) / いたす (self) |
+
+Memorize the teineigo (polite) column first. Use that for 90% of professional interactions. Add the sonkeigo/kenjōgo columns as you encounter situations where plain teineigo feels insufficient — usually with significantly senior people, or in customer-facing contexts where over-formality is safer than under-formality.
+
+**The return-on-effort ranking for writing practice:**
+
+| Format | Effort | Feedback Quality | Best For |
+|--------|--------|------------------|----------|
+| Daily journal (3–5 sentences) | Low | High — full review of every sentence | Building production habit, vocabulary gap detection |
+| Prompted composition (5–10 sentences with constraints) | Medium | High — targeted to a level/scenario | Pushing to the next level, practicing specific constructions |
+| Email/message drafting | Variable | Medium — focused on naturalness, not grammar drills | Real-world use, keigo/register practice |
+| Long-form writing (500+ words) | High | Diminishing — review gets generic | Only when you have a specific goal (blog post, application essay) |
+
+For most learners, daily journal entries plus occasional prompted compositions cover the writing practice spectrum. Long-form writing is only worth the effort when there's a concrete deliverable.
+
+**One failure mode to watch for:** treating writing practice as a one-off ("I wrote a paragraph once, I can write now"). Writing improves with repetition, not breakthroughs. Three sentences a day for a month produces more progress than one 500-word essay once.
 
 ## A Week in Practice: What the System Actually Looks Like
 
@@ -430,7 +602,7 @@ Fires every Friday at 7pm. The session runs for about 20 minutes. You can also t
 
 ## Limitations
 
-**Pronunciation feedback is out of scope.** OpenClaw works on text. It can transcribe and correct written work, explain pronunciation rules, and model what words should sound like — but it can't actually hear you speak. For pronunciation coaching, look at tools like Forvo, Rhinospike, or a tutor session. OpenClaw is the daily workhorse; pronunciation practice needs a different channel.
+**Pronunciation feedback is out of scope.** OpenClaw works on text. It can transcribe and correct written work, explain pronunciation rules, and model what words should sound like — but it can't actually hear you speak. For pronunciation coaching, look at tools like Forvo (native speaker audio recordings by word, covers 300+ languages), Rhinospike (audio exchange with native speakers, free for short texts), Speechling (speech recording with native speaker feedback), or ELSA Speak for English specifically. For Japanese pitch accent specifically, OJAD (Online Japanese Accent Dictionary) shows pitch patterns visually. OpenClaw is the daily workhorse; pronunciation practice needs a different channel.
 
 **Grammar explanations have a ceiling.** For A1–B2 learners, OpenClaw's grammar explanations are excellent — clear, contextual, with enough examples to build intuition. At C2 level, you're often dealing in nuance rather than rule application, and that's harder to get right from a model. It still works well for vocabulary expansion and idiom review at any level.
 
